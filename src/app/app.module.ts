@@ -1,28 +1,21 @@
-// TODO: IMPLETENT SHARED LIB
-/*import { AppMissingTranslationHandler, HttpLoaderFactory } from 'shared-kuailian-lib/dist/shared-kuailian-lib/';*/
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {MissingTranslationHandler, MissingTranslationHandlerParams, TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {environment} from '../environments/environment';
+import {
+  AppMissingTranslationHandler,
+  AssetsAuthInterceptor,
+  ENVIRONMENT,
+  HttpErrorsInterceptor,
+  HttpLoaderFactory,
+  I18nSharedService,
+  IEnvironment,
+  JwtInterceptor
+} from 'shared-kuailian-lib';
+import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient, '/assets/i18n/', `.json?v=${ environment.filesHashStamp }`);
-}
-
-
-export class AppMissingTranslationHandler implements MissingTranslationHandler {
-  handle(params: MissingTranslationHandlerParams) {
-    console.log(`%c Missing translation ${params.key}`, 'background: #bada55; color: red');
-    return '';
-  }
-}
 
 @NgModule({
   declarations: [
@@ -31,6 +24,7 @@ export class AppMissingTranslationHandler implements MissingTranslationHandler {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
@@ -44,7 +38,9 @@ export class AppMissingTranslationHandler implements MissingTranslationHandler {
       }
     }),
   ],
-  providers: [],
+  providers: [
+    I18nSharedService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
