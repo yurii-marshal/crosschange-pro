@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import {
+  ENVIRONMENT,
+  IEnvironment,
   AcceptLanguageInterceptor,
   AppMissingTranslationHandler,
   AssetsAuthInterceptor,
@@ -14,8 +16,8 @@ import {
   I18nSharedService,
   JwtInterceptor
 } from 'shared-kuailian-lib';
-import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
-
+import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -40,10 +42,10 @@ import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-
   ],
   providers: [
     I18nSharedService,
-    /*{
+    {
       provide: ENVIRONMENT,
       useValue: environment as IEnvironment
-    },*/
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

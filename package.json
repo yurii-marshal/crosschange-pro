@@ -15,7 +15,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run extract-i18n"
+      "pre-commit": "npm run extract-i18n",
+      "pre-push": "npm run lint"
     }
   },
   "private": true,

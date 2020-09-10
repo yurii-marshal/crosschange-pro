@@ -1,6 +1,21 @@
 export const environment = {
   production: false,
-  locales: ['en'],
+  apiUrl: 'https://dev-app-back.kuailiandp.net',
+  projectApiUrl: 'https://dev-app-back.kuailiandp.net',
+  kuailianBankUrl: 'https://dev-crosschange.kuailiandp.net',
+  kuailianLandingPageUrl: 'https://dev.kuailiandp.net',
+  kuailianMarketplaceUrl: 'https://dev-market.kuailiandp.net',
+  kuailianAcademyUrl: 'https://dev-academy.kuailiandp.net',
+  kuailianPurposeUrl: 'https://dev-purpose.kuailiandp.net',
+  zendeskUrl: 'https://kuailian.zendesk.com/',
+  recaptchaKey: '6LdfE5gUAAAAANkTBbWl1FHLVjQBoQeBiWu8QIjV',
+  centrifugeUrl: 'wss://dev-websocket.kuailiandp.net',
+  poolMonitoringUrl: 'https://stage-mn.kuailiandp.net',
+  realTimeMonitoringUrl: 'https://stage-pool.kuailiandp.net',
+  locales: ['en', 'ru', 'es', 'de', 'uk', 'chi'],
   defaultLocale: 'en',
+  filesHashStamp: new Date().getTime(),
+  kuailianPlatformUrl: '',
+  refreshUrl: '',
   assetsAuth: ''
 };
