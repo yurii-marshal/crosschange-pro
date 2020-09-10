@@ -20,3 +20,4 @@ export const environment = {
   refreshUrl: '',
   assetsAuth: ''
 };
+// keep assetsAuth last item due to changing it's value during build process

@@ -1,1 +1,8 @@
-{}
+{
+  "header": {
+    "markets": "Markets",
+    "wallet": "Wallet",
+    "exchange": "Exchange",
+    "history": "History"
+  }
+}
