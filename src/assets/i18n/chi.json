@@ -4,5 +4,12 @@
     "Wallet": "Wallet",
     "Exchange": "Exchange",
     "History": "History"
+  },
+  "footer": {
+    "copyright": "© Crosschange Pro",
+    "member_of_alliance": "Member of Enterprise Ethereum Alliance",
+    "terms": "Terms and Conditions",
+    "privacy": "Privacy Policy",
+    "gdpr": "GDPR"
   }
 }

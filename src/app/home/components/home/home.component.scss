@@ -1,0 +1,253 @@
+:host {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.wave-container {
+  height: 669px;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), #060B1F;
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  .wave-content {
+    padding-top: 60px;
+    color: #FFFFFF;
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      line-height: 56px;
+      margin-bottom: 16px;
+    }
+    span {
+      display: block;
+      font-size: 16px;
+      line-height: 28px;
+      margin-bottom: 36px;
+      text-align: center;
+    }
+    .button {
+      display: flex;
+      justify-content: center;
+    }
+    button {
+      padding-top: 6px;
+      padding-bottom: 6px;
+      background-color: #1515F0;
+      border-radius: 4px;
+      color: #FFFFFF;
+      min-width: 211px;
+    }
+  }
+  .wave {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 315px;
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.charts-container {
+  padding-top: 441px;
+  position: relative;
+  .charts {
+    border: 0.5px solid #DEE1E6;
+    border-radius: 4px;
+    left: 12%;
+    width: 80.27%;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: -21%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 4px 0 rgba(145, 149, 158, 0.25);
+  }
+  .table {
+    display: table;
+    margin-bottom: 0;
+  }
+  .table-row {
+    display: table-row;
+
+    &:last-of-type {
+      border-bottom: 0;
+      .table-cell {
+        border-bottom: 1px solid #F2F4F8;
+      }
+    }
+    .table-cell {
+      border-bottom: 1px solid #F2F4F8;
+    }
+
+  }
+  .table-cell {
+    padding: 8px 0 8px 12px;
+    display: table-cell;
+    vertical-align: middle;
+    &.image {
+      padding: 0;
+    }
+    &.available, &.total, &.image, &.button {
+      text-align: right;
+    }
+    &.button {
+      padding-right: 12px;
+    }
+  }
+  .table-icon-container {
+    display: flex;
+    mat-icon {
+      margin-right: 13px;
+    }
+    align-items: center;
+  }
+  .title-container {
+    display: flex;
+    flex-direction: column;
+    .title {
+      color: #131619;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .subtitle {
+      font-size: 12px;
+      line-height: 16px;
+      color: #6A7076;
+    }
+  }
+  button {
+    border: 1px solid #1515F0;
+    color: #1515F0;
+    min-width: 89px;
+  }
+}
+
+.how-to {
+  padding-left: 6.9%;
+  padding-right: 6.9%;
+  padding-bottom: 168px;
+  display: flex;
+  .item {
+    padding-right: 3%;
+    &:last-of-type {
+      padding-right: 0;
+    }
+    .shield, .title, .text {
+      display: block;
+    }
+    .shield {
+      margin-bottom: 8px;
+    }
+    .title {
+      font-size: 20px;
+      line-height: 28px;
+      color: #131619;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+    .text {
+      font-size: 16px;
+      line-height: 28px;
+      color: #353A3E;
+      margin-bottom: 16px;
+    }
+    a {
+      color: #1515F0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  }
+
+}
+
+.regulation {
+  padding: 160px 6.9% 160px 6.9%;
+  display: flex;
+  background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
+  .left {
+    margin-right: 8%;
+    flex-basis: 42%;
+    & > .title {
+      font-size: 28px;
+      line-height: 40px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: block;
+      color: #FFFFFF;
+    }
+    & > .subtitle {
+      font-size: 16px;
+      line-height: 28px;
+      color: #C2C7CC;
+      display: block;
+      margin-bottom: 32px;
+    }
+  }
+  .right {
+    flex-basis: 50%;
+    img {
+      max-width: 100%;
+      width: 100%;
+      position: relative;
+      top: -12px;
+    }
+  }
+  .section {
+    display: flex;
+    margin-bottom: 32px;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+    .shield-container {
+      margin-right: 35px;
+      min-width: 70px;
+      img {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+    .title {
+      font-size: 20px;
+      line-height: 32px;
+      color: #FAFBFC;
+      display: block;
+    }
+    .text {
+      font-size: 14px;
+      line-height: 20px;
+      color: #C2C7CC;
+    }
+  }
+}
+@media all and (max-width: 826px) {
+  .charts-container {
+    padding-top: 100px;
+  }
+  .wave-container .wave {
+    height: 221px;
+  }
+  .charts-container .charts {
+    overflow: auto;
+    max-width: 100%;
+    position: static;
+    width: 100%;
+    margin-bottom: 100px;
+    display: block;
+    .table {
+      min-width: 726px;
+    }
+  }
+  .how-to {
+    flex-wrap: wrap;
+    .item {
+      margin-bottom: 50px;
+    }
+  }
+  .regulation {
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+  }
+}

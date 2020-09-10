@@ -1,0 +1,64 @@
+@import "../../../../assets/styles/variables";
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #FAFBFC;
+  padding: 25px 52px 25px 40px;
+  background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
+  font-family: 'IBM Plex Sans', sans-serif;
+  .left, .right {
+    display: flex;
+    align-items: center;
+  }
+  .right.mobile {
+    display: none;
+  }
+  ul {
+    display: flex;
+    list-style-type: none;
+    li {
+      margin-right: 32px;
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+  .logo {
+    margin-right: 40px;
+  }
+  a {
+    &:hover {
+      outline: none;
+      text-decoration: none;
+    }
+    color: #FAFBFC;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}
+
+mat-icon {
+  svg path {
+    fill: #FAFBFC;
+  }
+  margin-right: 30px;
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+
+@media all and (max-width: $media-small-tablet) {
+ header {
+   .right {
+     display: none;
+   }
+   .right.mobile {
+     display: block;
+   }
+   .left ul {
+     display: none;
+   }
+ }
+}

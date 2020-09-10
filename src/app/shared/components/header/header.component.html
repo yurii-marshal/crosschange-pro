@@ -1,22 +1,30 @@
-<header class="desktop">
+<header>
   <div class="left">
     <div class="logo">
-      <img src="" alt="logo">
+      <!--<img src="" alt="logo">-->
+      <!-- TODO: DELETE -->
+      <span style="font-weight: 500; font-size: 16px; line-height: 24px;">LOGO</span>
     </div>
     <ul>
       <li>
-        {{'header.markets' | translate}}
+        <a href="">{{'header.markets' | translate}}</a>
       </li>
       <li>
-        {{'header.wallet' | translate}}
+        <a href="">{{'header.wallet' | translate}}</a>
       </li>
       <li>
-        {{'header.exchange' | translate}}
+        <a href="">{{'header.exchange' | translate}}</a>
       </li>
       <li>
-        {{'header.history' | translate}}
+        <a href="">{{'header.history' | translate}}</a>
       </li>
     </ul>
   </div>
-  <div class="right"></div>
+  <div class="right">
+    <mat-icon svgIcon="icon_notification"></mat-icon>
+    <mat-icon svgIcon="icon_user"></mat-icon>
+  </div>
+  <div class="right mobile">
+    <mat-icon svgIcon="icon_menu"></mat-icon>
+  </div>
 </header>

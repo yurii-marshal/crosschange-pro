@@ -1,0 +1,27 @@
+:host {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.switcher {
+  max-width: 148px;
+  border: 1px solid #A3A9AF;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px 8px 12px;
+  color: #FFFFFF;
+  .language {
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+    display: block;
+    margin-right: 30px;
+  }
+  .flag {
+    margin-right: 8px;
+  }
+  mat-icon {
+    max-height: 20px;
+    cursor: pointer;
+  }
+}

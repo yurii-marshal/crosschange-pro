@@ -5,16 +5,21 @@ import {
 } from 'shared-kuailian-lib';
 import { TranslateService } from '@ngx-translate/core';
 import { I18nSharedService } from './shared/services/i18n-shared.service';
+import { IconService } from './core/services/icon.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements AfterViewInit {
-
+  /**
+   * Keep icon service to register material icons
+   */
   constructor(
-              private i18nService: I18nSharedService,
-              private translateService: TranslateService
+    private iconService: IconService,
+    private i18nService: I18nSharedService,
+    private translateService: TranslateService
   ) {
     const {locales, defaultLocale} = environment;
     this.i18nService.i18nBootstrap(locales, defaultLocale);
