@@ -1,0 +1,112 @@
+pipelines:             
+  branches:
+    develop:
+      - step:
+          name: Build pro-frontend develop
+          deployment: build-dev
+          image: node:14.10.0
+          caches:
+            - node          
+          script:
+            - make config-basic-auth BASIC_AUTH=$BASIC_AUTH ENV=develop
+            # build dev and notify
+            - if make build-pro-frontend ENV=develop; then
+              make slack-notification MESSAGE="build was SUCCESSFULL.";
+              else
+              make slack-notification MESSAGE="build was FAILED.";
+              exit 1;
+              fi
+            # gzip all css, js, json, html files
+            - for f in $(find ./dist -name '*.css' -or -name '*.js' -or -name '*.json' -or -name '*.html'); do echo $f && gzip -9 $f; done
+            # rename gzip files
+            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done                     
+          artifacts:
+            - dist/**
+      - step:
+          name: Auto-deploy to develop
+          deployment: deploy-dev
+          image: python:3.6
+          caches:
+            - pip
+          script:
+            - pip install awscli --upgrade
+            # deploy to dev and notify to slack
+            - if make deploy-pro-frontend; then
+              make slack-notification MESSAGE="deploy to dev-pro.crosschange.net was SUCCESSFULL.";
+              else
+              make slack-notification MESSAGE="deploy to dev-pro.crosschange.net was FAILED.";
+              exit 1;
+              fi
+    staging:
+      - step:
+          name: Build pro-frontend stage
+          deployment: build-stage
+          image: node:14.10.0
+          caches:
+           - node          
+          script:
+            - make config-basic-auth BASIC_AUTH=$BASIC_AUTH ENV=stage
+            # build dev and notify
+            - if make build-pro-frontend ENV=stage; then
+              make slack-notification MESSAGE="build was SUCCESSFULL.";
+              else
+              make slack-notification MESSAGE="build was FAILED.";
+              exit 1;
+              fi
+            # gzip all css, js, json, html files
+            - for f in $(find ./dist -name '*.css' -or -name '*.js' -or -name '*.json' -or -name '*.html'); do echo $f && gzip -9 $f; done
+            # rename gzip files
+            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done                       
+          artifacts:
+            - dist/**
+      - step:
+          name: Auto-deploy to stage
+          deployment: deploy-stage
+          image: python:3.6
+          caches:
+            - pip
+          script:
+            - pip install awscli --upgrade
+            # deploy app to stage and notify to slack
+            - if make deploy-pro-frontend; then
+              make slack-notification MESSAGE="deploy to stage-pro.crosschange.net was SUCCESSFULL.";
+              else
+              make slack-notification MESSAGE="deploy to stage-pro.crosschange.net was FAILED.";
+              exit 1;
+              fi
+    master:
+      - step:
+          name: Build pro-frontend prod
+          deployment: build-prod
+          image: node:14.10.0
+          caches:
+            - node          
+          script:
+            # build dev and notify
+            - if make build-pro-frontend ENV=production; then
+              make slack-notification MESSAGE="build was SUCCESSFULL.";
+              else
+              make slack-notification MESSAGE="build was FAILED.";
+              exit 1;
+              fi
+            # gzip all css, js, json, html files
+            - for f in $(find ./dist -name '*.css' -or -name '*.js' -or -name '*.json' -or -name '*.html'); do echo $f && gzip -9 $f; done
+            # rename gzip files
+            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done                        
+          artifacts:
+            - dist/**
+      - step:
+          name: Auto-deploy to production
+          deployment: deploy-prod
+          image: python:3.6
+          caches:
+            - pip
+          script:
+            - pip install awscli --upgrade
+            # deploy app to prod and notify to slack
+            - if make deploy-pro-frontend; then
+              make slack-notification MESSAGE="deploy to pro.crosschange.exchange was SUCCESSFULL.";
+              else
+              make slack-notification MESSAGE="deploy to pro.crosschange.exchange was FAILED.";
+              exit 1;
+              fi
