@@ -12,7 +12,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: #FAFBFC;
+  color: $color-grey-5;
   padding: 25px 52px 25px 40px;
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
   font-family: 'IBM Plex Sans', sans-serif;
@@ -42,7 +42,7 @@ header {
       outline: none;
       text-decoration: none;
     }
-    color: #FAFBFC;
+    color: $color-grey-5;
     font-size: 14px;
     line-height: 20px;
   }
@@ -50,7 +50,7 @@ header {
 
 mat-icon {
   svg path {
-    fill: #FAFBFC;
+    fill: $color-grey-5;
   }
   margin-right: 30px;
   &:last-of-type {

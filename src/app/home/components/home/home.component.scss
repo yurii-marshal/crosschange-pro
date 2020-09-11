@@ -1,3 +1,4 @@
+@import "../../../../assets/styles/variables";
 :host {
   font-family: 'IBM Plex Sans', sans-serif;
 }
@@ -12,7 +13,7 @@
 
   .wave-content {
     padding-top: 60px;
-    color: #FFFFFF;
+    color: $color-white-100;
     h1 {
       text-align: center;
       font-size: 48px;
@@ -33,9 +34,9 @@
     button {
       padding-top: 12px;
       padding-bottom: 12px;
-      background-color: #1515F0;
+      background-color: $color-brand;
       border-radius: 4px;
-      color: #FFFFFF;
+      color: $color-white-100;
       min-width: 211px;
       font-weight: 500;
       font-size: 16px;
@@ -58,12 +59,12 @@
   padding-top: 385px;
   position: relative;
   .charts {
-    border: 0.5px solid #DEE1E6;
+    border: 0.5px solid $color-grey-20;
     border-radius: 4px;
     left: 12%;
     width: 80.27%;
     margin: 0 auto;
-    background-color: #FFFFFF;
+    background-color: $color-white-100;
     position: absolute;
     top: -21%;
     display: flex;
@@ -80,11 +81,11 @@
     &:last-of-type {
       border-bottom: 0;
       .table-cell {
-        border-bottom: 1px solid #F2F4F8;
+        border-bottom: 1px solid $color-grey-10;
       }
     }
     .table-cell {
-      border-bottom: 1px solid #F2F4F8;
+      border-bottom: 1px solid $color-grey-10;
     }
 
   }
@@ -94,12 +95,12 @@
     vertical-align: middle;
     font-size: 14px;
     line-height: 20px;
-    color: #131619;
+    color: $color-grey-100;
     &.caption {
       font-weight: 500;
       font-size: 16px;
       line-height: 24px;
-      color: #131619;
+      color: $color-grey-100;
     }
     &.image {
       padding: 0;
@@ -122,19 +123,19 @@
     display: flex;
     flex-direction: column;
     .title {
-      color: #131619;
+      color: $color-grey-100;
       font-size: 14px;
       line-height: 20px;
     }
     .subtitle {
       font-size: 12px;
       line-height: 16px;
-      color: #6A7076;
+      color: $color-grey-60;
     }
   }
   button {
-    border: 1px solid #1515F0;
-    color: #1515F0;
+    border: 1px solid $color-brand;
+    color: $color-brand;
     min-width: 89px;
     font-size: 14px;
     line-height: 20px;
@@ -162,18 +163,18 @@
     .title {
       font-size: 20px;
       line-height: 28px;
-      color: #131619;
+      color: $color-grey-100;
       margin-bottom: 12px;
       font-weight: bold;
     }
     .text {
       font-size: 16px;
       line-height: 28px;
-      color: #353A3E;
+      color: $color-grey-80;
       margin-bottom: 16px;
     }
     a {
-      color: #1515F0;
+      color: $color-brand;
       text-decoration: none;
       font-weight: 500;
       font-size: 16px;
@@ -196,12 +197,12 @@
       font-weight: bold;
       margin-bottom: 12px;
       display: block;
-      color: #FFFFFF;
+      color: $color-white-100;
     }
     & > .subtitle {
       font-size: 16px;
       line-height: 28px;
-      color: #C2C7CC;
+      color: $color-grey-30;
       display: block;
       margin-bottom: 32px;
     }
@@ -232,13 +233,13 @@
     .title {
       font-size: 20px;
       line-height: 32px;
-      color: #FAFBFC;
+      color: $color-grey-5;
       display: block;
     }
     .text {
       font-size: 14px;
       line-height: 20px;
-      color: #C2C7CC;
+      color: $color-grey-30;
     }
   }
 }

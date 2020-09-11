@@ -1,19 +1,20 @@
+@import "../../../../assets/styles/variables";
 :host {
   font-family: 'IBM Plex Sans', sans-serif;
 }
 .switcher {
   max-width: 148px;
-  border: 1px solid #A3A9AF;
+  border: 1px solid $color-grey-40;
   box-sizing: border-box;
   border-radius: 4px;
   display: flex;
   align-items: center;
   padding: 8px 12px 8px 12px;
-  color: #FFFFFF;
+  color: $color-white-100;
   .language {
     font-size: 14px;
     line-height: 20px;
-    color: #FFFFFF;
+    color: $color-white-100;
     display: block;
     margin-right: 30px;
   }
@@ -24,4 +25,7 @@
     max-height: 20px;
     cursor: pointer;
   }
+}
+.menu-item {
+  display: block;
 }

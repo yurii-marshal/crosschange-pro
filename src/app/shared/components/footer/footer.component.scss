@@ -4,7 +4,7 @@ footer {
 }
 .top {
   padding: 62px 40px 72px 40px;
-  background-color: #03050D;
+  background-color: $color-footer-background;
   display: flex;
   .left {
     margin-right: 24.09%;
@@ -19,14 +19,14 @@ footer {
     display: none;
   }
   a {
-    color: #FFFFFF;
+    color: $color-white-100;
   }
   .title {
     font-size: 16px;
     line-height: 24px;
     text-transform: uppercase;
     font-weight: bold;
-    color: #FFFFFF;
+    color: $color-white-100;
     letter-spacing: 0.04em;
     margin-bottom: 20px;
     display: block;
@@ -59,7 +59,7 @@ footer {
         padding: 0;
         font-size: 16px;
         line-height: 28px;
-        color: #FAFBFC;
+        color: $color-grey-5;
         margin-bottom: 8px;
       }
     }
@@ -69,8 +69,8 @@ footer {
   display: flex;
   justify-content: space-between;
   padding: 16px 40px 16px 40px;
-  background-color: #1515F0;
-  color: #FFFFFF;
+  background-color: $color-brand;
+  color: $color-white-100;
   .left, .right {
     font-family: 'IBM Plex Sans', sans-serif;
     display: flex;
@@ -89,7 +89,7 @@ footer {
     list-style-type: none;
     display: flex;
     a {
-      color: #FFFFFF;
+      color: $color-white-100;
       &:hover {
         outline: none;
         text-decoration: none;
@@ -99,13 +99,13 @@ footer {
   .right {
     ul li {
       padding-right: 20px;
-      border-right: 1px solid #FFFFFF;
+      border-right: 1px solid $color-white-100;
       margin-right: 15px;
       &:after {
         content: ' ';
         height: 16px;
         width: 1px;
-        background-color: #FFFFFF;
+        background-color: $color-white-100;
       }
       &:last-of-type {
         padding-right: 0;
