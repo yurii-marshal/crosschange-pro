@@ -17,4 +17,6 @@ export const environment = {
   filesHashStamp: new Date().getTime(),
   kuailianPlatformUrl: '',
   refreshUrl: '',
+  assetsAuth: ''
 };
+// keep assetsAuth last item due to changing it's value during build process
