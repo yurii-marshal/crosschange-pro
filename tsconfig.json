@@ -17,7 +17,7 @@
       "dom"
     ],
     "paths": {
-      "shared-kuailian-lib": ["./node_modules/shared-kuailian-lib/dist/shared-kuailian-lib"]
+      "shared-kuailian-lib": ["node_modules/shared-kuailian-lib/dist/shared-kuailian-lib"]
     }
   }
 }
