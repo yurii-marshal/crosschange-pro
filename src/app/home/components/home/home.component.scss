@@ -1,12 +1,9 @@
 @import "../../../../assets/styles/variables";
-:host {
-  font-family: 'IBM Plex Sans', sans-serif;
-}
 .wave-container {
   height: 741px;
   background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), #060B1F;
   position: relative;
-  top: -72px;
+  top: -75px;
   padding-top: 72px;
   display: flex;
   justify-content: center;

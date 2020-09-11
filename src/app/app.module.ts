@@ -13,19 +13,12 @@ import {
   AssetsAuthInterceptor,
   HttpErrorsInterceptor,
   HttpLoaderFactory,
-  I18nSharedService,
   SharedKuailianLibModule,
   JwtInterceptor
 } from 'shared-kuailian-lib';
-import { MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
+import { MissingTranslationHandler, TranslateLoader, TranslateModule  } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { SharedModule } from './shared/shared.module';
-
-
-const heroServiceFactory = (translateService: TranslateService): I18nSharedService => {
-  return new I18nSharedService(translateService);
-};
-
 
 @NgModule({
   declarations: [
