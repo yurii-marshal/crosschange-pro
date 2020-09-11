@@ -1,4 +1,13 @@
 @import "../../../../assets/styles/variables";
+:host {
+ &.transparent {
+   header {
+     background: transparent;
+     position: relative;
+     z-index: 2;
+   }
+ }
+}
 header {
   display: flex;
   align-items: center;
@@ -7,6 +16,7 @@ header {
   padding: 25px 52px 25px 40px;
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
   font-family: 'IBM Plex Sans', sans-serif;
+
   .left, .right {
     display: flex;
     align-items: center;

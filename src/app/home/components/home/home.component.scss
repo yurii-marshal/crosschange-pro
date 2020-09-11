@@ -2,9 +2,11 @@
   font-family: 'IBM Plex Sans', sans-serif;
 }
 .wave-container {
-  height: 669px;
+  height: 741px;
   background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), #060B1F;
   position: relative;
+  top: -72px;
+  padding-top: 72px;
   display: flex;
   justify-content: center;
 
@@ -29,12 +31,15 @@
       justify-content: center;
     }
     button {
-      padding-top: 6px;
-      padding-bottom: 6px;
+      padding-top: 12px;
+      padding-bottom: 12px;
       background-color: #1515F0;
       border-radius: 4px;
       color: #FFFFFF;
       min-width: 211px;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
     }
   }
   .wave {
@@ -50,7 +55,7 @@
 }
 
 .charts-container {
-  padding-top: 441px;
+  padding-top: 385px;
   position: relative;
   .charts {
     border: 0.5px solid #DEE1E6;
@@ -87,6 +92,15 @@
     padding: 8px 0 8px 12px;
     display: table-cell;
     vertical-align: middle;
+    font-size: 14px;
+    line-height: 20px;
+    color: #131619;
+    &.caption {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #131619;
+    }
     &.image {
       padding: 0;
     }
@@ -122,6 +136,10 @@
     border: 1px solid #1515F0;
     color: #1515F0;
     min-width: 89px;
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 }
 
@@ -158,6 +176,8 @@
       color: #1515F0;
       text-decoration: none;
       font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 
