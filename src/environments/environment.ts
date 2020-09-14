@@ -12,7 +12,7 @@ export const environment = {
   centrifugeUrl: 'wss://dev-websocket.kuailiandp.net',
   poolMonitoringUrl: 'https://stage-mn.kuailiandp.net',
   realTimeMonitoringUrl: 'https://stage-pool.kuailiandp.net',
-  locales: ['en', 'ru', 'es', 'de', 'uk', 'chi'],
+  locales: ['en', 'ru', 'es', 'de', 'uk', 'chi', 'fr'],
   defaultLocale: 'en',
   filesHashStamp: '',
   kuailianPlatformUrl: '',
