@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://stage-app-back.kuailiandp.net',
+  apiUrl: 'https://stage-pro.crosschange.net',
+  bankUrl: 'https://stage-crosschange-back.kuailiandp.net',
   projectApiUrl: 'https://stage-app-back.kuailiandp.net',
   kuailianBankUrl: 'https://stage-crosschange.kuailiandp.net',
   kuailianAcademyUrl: 'https://stage-academy.kuailiandp.net',

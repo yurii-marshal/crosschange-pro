@@ -19,6 +19,7 @@ import {
 import { MissingTranslationHandler, TranslateLoader, TranslateModule  } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { SharedModule } from './shared/shared.module';
         useClass: AppMissingTranslationHandler
       }
     }),
+    CoreModule,
     SharedKuailianLibModule,
     SharedModule
   ],

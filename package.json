@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port=4204",
     "build": "ng build --prod",
     "build:develop": "ng build --configuration=develop",
     "build:stage": "ng build --prod --configuration=stage",
@@ -36,7 +36,7 @@
     "@ngx-translate/core": "^12.1.2",
     "@ngx-translate/http-loader": "^4.0.0",
     "rxjs": "~6.5.4",
-    "shared-kuailian-lib": "git+ssh@bitbucket.org:ouadreams/kuailian-shared-lib.git#v0.0.12",
+    "shared-kuailian-lib": "git+ssh@bitbucket.org:ouadreams/kuailian-shared-lib.git#v0.0.14",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
