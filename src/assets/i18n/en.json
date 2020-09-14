@@ -3,7 +3,8 @@
     "markets": "Markets",
     "wallet": "Wallet",
     "exchange": "Exchange",
-    "history": "History"
+    "history": "History",
+    "spot_wallet": "Spot wallet"
   },
   "footer": {
     "copyright": "© Crosschange Pro",

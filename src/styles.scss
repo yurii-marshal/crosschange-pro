@@ -6,3 +6,16 @@
 body * {
   font-family: 'IBM Plex Sans', sans-serif;
 }
+
+@font-face {
+  font-family: 'SF UI Display Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SF UI Display Light'), url('assets/fonts/SFUIDisplay-Regular.otf');
+}
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
