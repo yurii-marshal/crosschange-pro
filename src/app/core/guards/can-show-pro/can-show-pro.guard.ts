@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SsoService, ISwitches } from 'shared-kuailian-lib';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
@@ -26,11 +26,9 @@ export class CanShowProGuard implements CanActivate {
     return this.ssoService.getSwitches().pipe(
       mergeMap((v: ISwitches) => {
         if ((v as UpdatedISwitches).show_crosschange_pro) {
-          return of(true);
-        } else {
-          window.location.href = environment.kuailianBankUrl;
-          return of(false);
+          return true;
         }
+        window.location.href = environment.kuailianBankUrl;
       })
     );
   }
