@@ -62,5 +62,12 @@
     "regulation_title": "We are regulated and licensed",
     "welcome_1": "Welcome to ",
     "welcome_2": "Crosschange Bank Pro!"
+  },
+  "markets_page": {
+    "tab_atls_markets": "ATLS Markets",
+    "tab_btc_markets": "BTC Markets",
+    "tab_favorite": "Favorite",
+    "tab_history": "History",
+    "tab_profit": "Profit"
   }
 }

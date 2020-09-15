@@ -1,0 +1,23 @@
+@import "../../../../assets/styles/variables";
+
+.wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.tabs-container {
+  padding: 68px 0 80px;
+
+  .mat-tab-group {
+    margin-bottom: 16px;
+  }
+}
+
+::ng-deep .mat-tab-list .mat-tab-label {
+  color: #000000;
+  opacity: 1;
+}
+
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color: $color-brand;
+}
