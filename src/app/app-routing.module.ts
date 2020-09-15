@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './shared/components/base/base.component';
-import { MeResolverService } from './core/services/me-resolver/me-resolver.service';
+import { CanShowProGuard } from './core/guards/can-show-pro/can-show-pro.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
-    resolve: {
-      me: MeResolverService
-    },
+    canActivate: [CanShowProGuard],
     children: [
       {
         path: '',
