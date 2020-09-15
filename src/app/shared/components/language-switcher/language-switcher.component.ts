@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 @Component({
   selector: 'app-language-switcher',
   templateUrl: './language-switcher.component.html',
@@ -27,5 +27,13 @@ export class LanguageSwitcherComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
 }
+_([
+  'languages.chi',
+  'languages.en',
+  'languages.ru',
+  'languages.uk',
+  'languages.de',
+  'languages.fr',
+  'languages.es',
+]);

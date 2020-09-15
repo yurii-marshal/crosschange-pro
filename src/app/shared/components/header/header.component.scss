@@ -13,7 +13,7 @@ header {
   align-items: center;
   justify-content: space-between;
   color: $color-grey-5;
-  padding: 25px 52px 25px 40px;
+  padding: 24px 52px 24px 40px;
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
 
   .left, .right {
@@ -45,6 +45,9 @@ header {
     font-size: 14px;
     line-height: 20px;
   }
+  .menu-trigger {
+    cursor: pointer;
+  }
 }
 
 mat-icon {
@@ -54,6 +57,27 @@ mat-icon {
   margin-right: 30px;
   &:last-of-type {
     margin-right: 0;
+  }
+}
+
+::ng-deep .header-menu-dropdown.mat-menu-panel {
+  overflow: visible;
+  position: relative;
+  left: 31%;
+  top: 19px;
+  .mat-menu-content {
+    position: relative;
+    &::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 10px 10px 10px;
+      border-color: transparent transparent white transparent;
+      position: absolute;
+      left: 42%;
+      top: -10px
+    }
   }
 }
 

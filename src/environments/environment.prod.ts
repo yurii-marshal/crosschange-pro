@@ -13,7 +13,7 @@ export const environment = {
   centrifugeUrl: 'wss://websocket.kuailiandp.com',
   poolMonitoringUrl: 'https://mn.kuailiandp.com',
   realTimeMonitoringUrl: 'https://pool.kuailiandp.com',
-  locales: ['en', 'ru', 'es', 'de', 'uk', 'chi'],
+  locales: ['en', 'ru', 'es', 'de', 'uk', 'chi', 'fr'],
   defaultLocale: 'en',
   filesHashStamp: new Date().getTime(),
   kuailianPlatformUrl: '',
