@@ -1,0 +1,44 @@
+@import '~@angular/material/theming';
+@import "variables";
+
+@include mat-core();
+
+$cross-pro-brand: (
+  50 : #e3e3fd,
+  100 : #b9b9fb,
+  200 : #8a8af8,
+  300 : #5b5bf5,
+  400 : #3838f2,
+  500 : #1515f0,
+  600 : #1212ee,
+  700 : #0f0fec,
+  800 : #0c0ce9,
+  900 : #0606e5,
+  A100 : #ffffff,
+  A200 : #dadaff,
+  A400 : #a7a7ff,
+  A700 : #8d8dff,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
+);
+
+$cross-pro-primary: mat-palette($cross-pro-brand);
+$cross-pro-accent: mat-palette($cross-pro-brand);
+
+$cross-pro-theme: mat-light-theme($cross-pro-primary, $cross-pro-accent);
+
+@include angular-material-theme($cross-pro-theme);
