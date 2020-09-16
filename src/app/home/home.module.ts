@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { MarketsComponent } from './components/markets/markets.component';
-import { AngularMaterialModule } from "src/app/angular-material.module";
+import { AngularMaterialModule } from 'src/app/angular-material.module';
 
 export const routes: Routes = [
   {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from "rxjs";
-import { IWidget } from "src/app/shared/interfaces/widget.interface";
-import { HttpClient } from "@angular/common/http";
+import { Observable, of } from 'rxjs';
+import { IWidget } from 'src/app/shared/interfaces/widget.interface';
+import { HttpClient } from '@angular/common/http';
 
 const mockData: IWidget[] = [
   {
@@ -36,7 +36,7 @@ const mockData: IWidget[] = [
     volume: '70,219,049.03 USDT',
     color: 'linear-gradient(109.38deg, #5DBD61 0%, #38993C 100%), #1B202D'
   }
-]
+];
 
 @Injectable({
   providedIn: 'root'

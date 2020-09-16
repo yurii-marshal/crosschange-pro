@@ -1,4 +1,7 @@
 {
+  "crypto_widget": {
+    "volume": "Volume"
+  },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
     "about": "About",

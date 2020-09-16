@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WidgetComponent } from './widget.component';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { FakeMatIconRegistry } from '@angular/material/icon/testing';
 
 describe('WidgetComponent', () => {
   let component: WidgetComponent;
@@ -8,7 +10,13 @@ describe('WidgetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WidgetComponent ]
+      imports: [
+        MatIconModule
+      ],
+      declarations: [ WidgetComponent ],
+      providers: [
+        { provide: MatIconRegistry, useClass: FakeMatIconRegistry }
+      ]
     })
     .compileComponents();
   }));
@@ -16,6 +24,14 @@ describe('WidgetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetComponent);
     component = fixture.componentInstance;
+    component.widgetInfo = {
+      icon: '',
+      currencyType: '',
+      amount: '',
+      change: '',
+      volume: '',
+      color: '',
+    };
     fixture.detectChanges();
   });
 

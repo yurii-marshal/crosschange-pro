@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { IWidget } from "src/app/shared/interfaces/widget.interface";
+import { IWidget } from 'src/app/shared/interfaces/widget.interface';
 
 @Component({
   selector: 'app-widget',

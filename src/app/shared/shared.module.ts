@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { WidgetComponent } from './components/widget/widget.component';
-import { AngularMaterialModule } from "src/app/angular-material.module";
+import { AngularMaterialModule } from 'src/app/angular-material.module';
 
 @NgModule({
   declarations: [
