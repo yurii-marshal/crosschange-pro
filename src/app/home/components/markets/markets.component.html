@@ -1,11 +1,23 @@
-<div class="wrapper">
-  <div class="tabs-container">
-    <mat-tab-group class="mat-tab-group">
-      <mat-tab label="{{ 'markets_page.tab_favorite' | translate }}" class="mat-tab-label"></mat-tab>
-      <mat-tab label="{{ 'markets_page.tab_btc_markets' | translate }}"></mat-tab>
-      <mat-tab label="{{ 'markets_page.tab_atls_markets' | translate }}"></mat-tab>
-      <mat-tab label="{{ 'markets_page.tab_history' | translate }}"></mat-tab>
-      <mat-tab label="{{ 'markets_page.tab_profit' | translate }}"></mat-tab>
-    </mat-tab-group>
+<div class="widgets-container">
+  <div class="wrapper">
+    <div class="widgets-content">
+      <ng-container *ngFor="let widget of (widgets | async)">
+        <app-widget class="widget" [widgetInfo]="widget"></app-widget>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<div class="tabs-container">
+  <div class="wrapper">
+    <div class="tabs-content">
+      <mat-tab-group class="mat-tab-group">
+        <mat-tab label="{{ 'markets_page.tab_favorite' | translate }}" class="mat-tab-label"></mat-tab>
+        <mat-tab label="{{ 'markets_page.tab_btc_markets' | translate }}"></mat-tab>
+        <mat-tab label="{{ 'markets_page.tab_atls_markets' | translate }}"></mat-tab>
+        <mat-tab label="{{ 'markets_page.tab_history' | translate }}"></mat-tab>
+        <mat-tab label="{{ 'markets_page.tab_profit' | translate }}"></mat-tab>
+      </mat-tab-group>
+    </div>
   </div>
 </div>

@@ -5,25 +5,23 @@ import { FooterComponent } from './components/footer/footer.component';
 import { BaseComponent } from './components/base/base.component';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
-import { MatMenuModule } from '@angular/material/menu';
+import { WidgetComponent } from './components/widget/widget.component';
+import { AngularMaterialModule } from "src/app/angular-material.module";
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     BaseComponent,
-    LanguageSwitcherComponent
+    LanguageSwitcherComponent,
+    WidgetComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule
+    AngularMaterialModule,
   ],
   exports: [
     BaseComponent,
@@ -32,9 +30,7 @@ import { MatMenuModule } from '@angular/material/menu';
     CommonModule,
     RouterModule,
     TranslateModule,
-    MatIconModule,
-    MatButtonModule,
-    MatMenuModule
+    WidgetComponent
   ]
 })
 export class SharedModule { }
