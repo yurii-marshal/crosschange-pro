@@ -17,7 +17,11 @@ const icons: string[] = [
   'icon_instagram',
   'icon_linkedin',
   'icon_youtube',
-  'icon_menu'
+  'icon_menu',
+  'icon_bitcoin_widget',
+  'icon_bitcoin_cash_widget',
+  'icon_eth_widget',
+  'icon_ark_widget',
 ];
 
 @Injectable({

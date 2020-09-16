@@ -2,10 +2,34 @@
 
 .wrapper {
   max-width: 1240px;
+  height: 100%;
   margin: 0 auto;
 }
 
-.tabs-container {
+.widgets-container {
+  position: relative;
+  top: -75px;
+  padding-top: 72px;
+  height: 260px;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
+              linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+
+  .widgets-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .widget {
+      width: 295px;
+      height: 116px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 4px;
+    }
+  }
+}
+
+.tabs-content {
   padding: 68px 0 80px;
 
   .mat-tab-group {
