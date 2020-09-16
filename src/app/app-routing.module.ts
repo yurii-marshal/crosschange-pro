@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './shared/components/base/base.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: BaseComponent,

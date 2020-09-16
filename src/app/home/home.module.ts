@@ -6,7 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MarketsComponent } from './components/markets/markets.component';
 import { AngularMaterialModule } from "src/app/angular-material.module";
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
