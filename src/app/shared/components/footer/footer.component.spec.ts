@@ -11,7 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
-
+  let compiled: HTMLElement;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -34,10 +34,16 @@ describe('FooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
+    compiled = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should have copyright', () => {
+    const copyright = compiled.querySelector('.copyright');
+    expect(copyright.textContent).toEqual('footer.copyright');
   });
 });
