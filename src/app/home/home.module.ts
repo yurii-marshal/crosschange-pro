@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { MarketsComponent } from './components/markets/markets.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const routes: Routes = [
   {
@@ -19,7 +20,7 @@ export const routes: Routes = [
     component: MarketsComponent,
     children: [],
     data: {
-      headerClass: 'transparent'
+      headerClass: 'widget'
     }
   }
 ];
@@ -33,6 +34,7 @@ export const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
+    ReactiveFormsModule,
     AngularMaterialModule,
   ]
 })

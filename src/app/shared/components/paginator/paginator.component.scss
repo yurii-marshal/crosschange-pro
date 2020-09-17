@@ -1,0 +1,35 @@
+@import "../../../../assets/styles/variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background-color: $color-white-100;
+  border-top: 1px solid $color-grey-20;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 28px;
+  color: $color-grey-60;
+
+  .page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    cursor: pointer;
+  }
+
+  .active-page {
+    color: $color-brand;
+  }
+
+  .previous-page,
+  .next-page {
+    cursor: pointer;
+  }
+}
