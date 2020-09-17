@@ -28,7 +28,7 @@ export class CanShowProGuard implements CanActivate {
         if (!(v as UpdatedISwitches).show_crosschange_pro) {
           window.location.href = environment.kuailianBankUrl;
         }
-        return !(v as UpdatedISwitches).show_crosschange_pro;
+        return (v as UpdatedISwitches).show_crosschange_pro;
       })
     );
   }
