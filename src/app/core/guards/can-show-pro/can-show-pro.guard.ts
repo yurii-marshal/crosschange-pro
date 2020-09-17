@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SsoService, ISwitches } from 'shared-kuailian-lib';
-import { mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
 // TODO: move to lib
@@ -24,11 +24,11 @@ export class CanShowProGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.ssoService.getSwitches().pipe(
-      mergeMap((v: ISwitches) => {
-        if ((v as UpdatedISwitches).show_crosschange_pro) {
-          return true;
+      map((v: ISwitches) => {
+        if ((!v as UpdatedISwitches).show_crosschange_pro) {
+          window.location.href = environment.kuailianBankUrl;
         }
-        window.location.href = environment.kuailianBankUrl;
+        return (!v as UpdatedISwitches).show_crosschange_pro;
       })
     );
   }
