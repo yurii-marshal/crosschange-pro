@@ -26,7 +26,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.notifications$ = this.notificationsService.getNotifications();
   }
 
-  setCategory(type: string) {
+  setCategory(type: string): void {
     this.currentType = type;
     this.notifications$ = this.notificationsService.getNotifications({type});
   }
