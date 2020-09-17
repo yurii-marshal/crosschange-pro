@@ -1,4 +1,4 @@
-pipelines:             
+pipelines:
   branches:
     develop:
       - step:
@@ -6,9 +6,9 @@ pipelines:
           deployment: build-dev
           image: node:14.10.0
           caches:
-            - node          
+            - node
           script:
-            - make config-basic-auth BASIC_AUTH=$BASIC_AUTH ENV=develop
+            - make config-basic-guards BASIC_AUTH=$BASIC_AUTH ENV=develop
             # build dev and notify
             - if make build-pro-frontend ENV=develop; then
               make slack-notification MESSAGE="build was SUCCESSFULL.";
@@ -19,7 +19,7 @@ pipelines:
             # gzip all css, js, json, html files
             - for f in $(find ./dist -name '*.css' -or -name '*.js' -or -name '*.json' -or -name '*.html'); do echo $f && gzip -9 $f; done
             # rename gzip files
-            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done                     
+            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done
           artifacts:
             - dist/**
       - step:
@@ -43,9 +43,9 @@ pipelines:
           deployment: build-stage
           image: node:14.10.0
           caches:
-           - node          
+           - node
           script:
-            - make config-basic-auth BASIC_AUTH=$BASIC_AUTH ENV=stage
+            - make config-basic-guards BASIC_AUTH=$BASIC_AUTH ENV=stage
             # build dev and notify
             - if make build-pro-frontend ENV=stage; then
               make slack-notification MESSAGE="build was SUCCESSFULL.";
@@ -56,7 +56,7 @@ pipelines:
             # gzip all css, js, json, html files
             - for f in $(find ./dist -name '*.css' -or -name '*.js' -or -name '*.json' -or -name '*.html'); do echo $f && gzip -9 $f; done
             # rename gzip files
-            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done                       
+            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done
           artifacts:
             - dist/**
       - step:
@@ -80,7 +80,7 @@ pipelines:
           deployment: build-prod
           image: node:14.10.0
           caches:
-            - node          
+            - node
           script:
             # build dev and notify
             - if make build-pro-frontend ENV=production; then
@@ -92,7 +92,7 @@ pipelines:
             # gzip all css, js, json, html files
             - for f in $(find ./dist -name '*.css' -or -name '*.js' -or -name '*.json' -or -name '*.html'); do echo $f && gzip -9 $f; done
             # rename gzip files
-            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done                        
+            - for f in $(find ./dist -name '*.gz'); do echo $f && mv $f ${f%.*}; done
           artifacts:
             - dist/**
       - step:

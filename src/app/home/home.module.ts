@@ -4,9 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { MarketsComponent } from './components/markets/markets.component';
-import { AngularMaterialModule } from "src/app/angular-material.module";
+import { AngularMaterialModule } from 'src/app/angular-material.module';
+import { JwtResolver } from 'shared-kuailian-lib';
+import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
 
 export const routes: Routes = [
+  {
+    path: 'auth',
+    resolve: { redirect: JwtResolver },
+    children: []
+  },
   {
     path: '',
     component: HomeComponent,
@@ -14,8 +21,10 @@ export const routes: Routes = [
     data: {
       headerClass: 'transparent'
     }
-  }, {
+  },
+  {
     path: 'markets',
+    canActivate: [ AuthGuard ],
     component: MarketsComponent,
     children: [],
     data: {
