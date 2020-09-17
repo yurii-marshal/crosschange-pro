@@ -25,10 +25,10 @@ export class CanShowProGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.ssoService.getSwitches().pipe(
       map((v: ISwitches) => {
-        if ((!v as UpdatedISwitches).show_crosschange_pro) {
+        if (!(v as UpdatedISwitches).show_crosschange_pro) {
           window.location.href = environment.kuailianBankUrl;
         }
-        return (!v as UpdatedISwitches).show_crosschange_pro;
+        return !(v as UpdatedISwitches).show_crosschange_pro;
       })
     );
   }
