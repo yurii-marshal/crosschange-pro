@@ -1,0 +1,28 @@
+.notifications-shell {
+  .notifications-sidebar {
+    .header {
+      text-transform: uppercase;
+    }
+    .category {
+      &.active {
+
+      }
+    }
+  }
+  .notifications-list {
+    .notification {
+      .active-label {
+
+      }
+      .header {
+
+      }
+      .message {
+
+      }
+      .time {
+
+      }
+    }
+  }
+}

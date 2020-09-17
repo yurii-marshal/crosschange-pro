@@ -1,0 +1,24 @@
+<app-base>
+  <div class="notifications-shell flex">
+
+    <div class="notifications-sidebar">
+      <div class="header">Notifications</div>
+      <div class="category"
+           *ngFor="let category of categories; let i = index"
+           [class.active]="currentType === category[i].value"
+           (click)="setCategory(category.value)">
+        {{category?.label}}
+      </div>
+    </div>
+
+    <div class="notifications-list">
+      <div class="notification flex" *ngFor="let item of notifications$ | async">
+        <div class="active-label">{{item?.active}}</div>
+        <div class="header">{{item?.header}}</div>
+        <div class="message">{{item?.message}}</div>
+        <div class="time">{{item?.date | timeBefore}}</div>
+      </div>
+    </div>
+
+  </div>
+</app-base>

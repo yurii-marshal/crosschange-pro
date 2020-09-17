@@ -12,7 +12,11 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
-      }
+      },
+      {
+        path: 'notifications',
+        loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule),
+      },
     ]
   }
 ];
