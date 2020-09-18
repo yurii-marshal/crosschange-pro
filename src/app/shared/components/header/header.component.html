@@ -26,7 +26,22 @@
     </ul>
   </div>
   <div class="right">
-    <mat-icon svgIcon="icon_notification"></mat-icon>
+    <button class="notifications-btn" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="notificationsPopup">
+      <mat-icon svgIcon="icon_notification"></mat-icon>
+    </button>
+
+    <mat-menu #notificationsPopup="matMenu" xPosition="before" class="notifications-popup">
+      <div class="popup-header fx-row fx-h-align-space-between" (click)="$event.stopPropagation()">
+        <div class="header">{{'notifications.title' | translate}}</div>
+        <a class="link" (click)="menuTrigger.closeMenu()">View all</a>
+      </div>
+      <div class="notifications" (click)="$event.stopPropagation()">
+        <div class="notification fx-row" *ngFor="let item of notifications$ | async">
+          <app-notification-item [notification]="item" [short]="true"></app-notification-item>
+        </div>
+      </div>
+    </mat-menu>
+
     <mat-icon svgIcon="icon_user"></mat-icon>
   </div>
   <div class="right mobile">

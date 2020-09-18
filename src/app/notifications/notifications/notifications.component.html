@@ -14,14 +14,7 @@
 
   <div class="notifications-list">
     <div class="notification fx-row" *ngFor="let item of notifications$ | async">
-      <div class="text-block">
-        <div class="fx-row fx-v-align-center">
-          <div class="active-label" [class.active]="item?.active"></div>
-          <div class="header">{{item?.header}}</div>
-        </div>
-        <div class="message">{{item?.message}}</div>
-      </div>
-      <div class="time fx-row fx-v-align-center">{{item?.date | timeBefore | translate: { minutes: 22, hours: 2, days: 3, months: 2, years: 0 } }}</div>
+      <app-notification-item [notification]="item"></app-notification-item>
     </div>
   </div>
 

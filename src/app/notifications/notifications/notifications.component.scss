@@ -35,44 +35,5 @@
     overflow-y: auto;
     background-color: #F8FAFB;
     padding: 50px 22px;
-
-    .notification {
-      color: $color-grey-60;
-      font-size: 14px;
-      line-height: 143%;
-      border-bottom: 1px solid $color-grey-20;
-
-      .text-block {
-        padding-top: 12px;
-      }
-
-      .active-label {
-        margin-right: 12px;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: $color-grey-60;
-
-        &.active {
-          background-color: $color-green-100;
-        }
-      }
-
-      .header {
-        max-width: 414px;
-        font-size: 16px;
-        line-height: 150%;
-        color: $color-grey-100;
-
-        @include text-overflow();
-      }
-
-      .message {
-        padding: 4px 40px 12px 20px;
-      }
-
-      .time {
-      }
-    }
   }
 }

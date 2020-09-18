@@ -9,12 +9,15 @@ import { LanguageSwitcherComponent } from './components/language-switcher/langua
 import { WidgetComponent } from './components/widget/widget.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { TimeBeforePipe } from './pipes/time-before.pipe';
+import { NotificationItemComponent } from './components/notification-item/notification-item.component';
 
 const components = [
   HeaderComponent,
   FooterComponent,
   BaseComponent,
   WidgetComponent,
+  LanguageSwitcherComponent,
+  NotificationItemComponent,
 
   TimeBeforePipe,
 ];
@@ -22,7 +25,6 @@ const components = [
 @NgModule({
   declarations: [
     ...components,
-    LanguageSwitcherComponent,
   ],
   imports: [
     CommonModule,

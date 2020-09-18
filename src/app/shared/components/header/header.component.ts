@@ -1,4 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { NotificationsService } from '../../../notifications/services/notifications.service';
+import { Observable } from 'rxjs';
+import { Notification } from '../../../core/interfaces/notification.interface';
 
 @Component({
   selector: 'app-header',
@@ -7,10 +10,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
+  notifications$: Observable<Notification[]>;
 
-  constructor() { }
+  constructor(private notificationsService: NotificationsService) { }
 
   ngOnInit(): void {
+    this.notifications$ = this.notificationsService.getNotifications();
   }
 
 }
