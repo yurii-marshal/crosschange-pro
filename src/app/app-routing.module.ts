@@ -18,6 +18,10 @@ export const routes: Routes = [
         loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule),
       },
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '/error/404'
   }
 ];
 

@@ -1,24 +1,26 @@
-<app-base>
-  <div class="notifications-shell flex">
+<div class="notifications-shell fx-row">
 
-    <div class="notifications-sidebar">
-      <div class="header">Notifications</div>
-      <div class="category"
-           *ngFor="let category of categories; let i = index"
-           [class.active]="currentType === category[i].value"
-           (click)="setCategory(category.value)">
-        {{category?.label}}
-      </div>
+  <div class="notifications-sidebar">
+    <div class="header">Notifications</div>
+    <div class="category"
+         *ngFor="let category of categories"
+         [class.active]="currentType === category.value"
+         (click)="setCategory(category.value)">
+      {{category?.label}}
     </div>
-
-    <div class="notifications-list">
-      <div class="notification flex" *ngFor="let item of notifications$ | async">
-        <div class="active-label">{{item?.active}}</div>
-        <div class="header">{{item?.header}}</div>
-        <div class="message">{{item?.message}}</div>
-        <div class="time">{{item?.date | timeBefore}}</div>
-      </div>
-    </div>
-
   </div>
-</app-base>
+
+  <div class="notifications-list">
+    <div class="notification fx-row" *ngFor="let item of notifications$ | async">
+      <div class="text-block">
+        <div class="fx-row fx-v-align-center">
+          <div class="active-label" [class.active]="item?.active"></div>
+          <div class="header">{{item?.header}}</div>
+        </div>
+        <div class="message">{{item?.message}}</div>
+      </div>
+      <div class="time fx-row fx-v-align-center">{{item?.date | timeBefore}}</div>
+    </div>
+  </div>
+
+</div>

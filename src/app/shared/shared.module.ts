@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BaseComponent } from './components/base/base.component';
@@ -10,14 +10,19 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { TimeBeforePipe } from './pipes/time-before.pipe';
 
+const components = [
+  HeaderComponent,
+  FooterComponent,
+  BaseComponent,
+  WidgetComponent,
+
+  TimeBeforePipe,
+];
+
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent,
-    BaseComponent,
+    ...components,
     LanguageSwitcherComponent,
-    WidgetComponent,
-    TimeBeforePipe,
   ],
   imports: [
     CommonModule,
@@ -26,13 +31,11 @@ import { TimeBeforePipe } from './pipes/time-before.pipe';
     AngularMaterialModule,
   ],
   exports: [
-    BaseComponent,
-    FooterComponent,
-    HeaderComponent,
+    ...components,
     CommonModule,
     RouterModule,
     TranslateModule,
-    WidgetComponent,
-  ]
+  ],
+  providers: [DatePipe]
 })
 export class SharedModule { }

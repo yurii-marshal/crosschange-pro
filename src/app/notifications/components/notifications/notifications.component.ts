@@ -3,6 +3,7 @@ import { NotificationsService } from '../../services/notifications.service';
 import { Observable, Subject } from 'rxjs';
 import { Notification } from '../../../core/interfaces/notification.interface';
 import { NotificationCategory } from '../../../core/interfaces/notification-category.interface';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-notifications',
@@ -12,8 +13,9 @@ import { NotificationCategory } from '../../../core/interfaces/notification-cate
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
   categories: NotificationCategory[] = [];
-  currentType: string;
+  currentType: string = '';
   notifications$: Observable<Notification[]>;
+
   private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -23,12 +25,18 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.categories = this.notificationsService.notificationCategories;
     this.notifications$ = this.notificationsService.getNotifications();
   }
 
   setCategory(type: string): void {
-    this.currentType = type;
-    this.notifications$ = this.notificationsService.getNotifications({type});
+    if (type !== this.currentType) {
+      this.notifications$ =
+        this.notificationsService.getNotifications(type ? {type} : null)
+          .pipe(tap(() => {
+            this.currentType = type;
+          }));
+    }
   }
 
   ngOnDestroy(): void {

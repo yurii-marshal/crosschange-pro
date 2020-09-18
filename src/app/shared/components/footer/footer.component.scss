@@ -1,4 +1,13 @@
 @import "../../../../assets/styles/variables";
+
+:host {
+  &.hide {
+    footer {
+      display: none;
+    }
+  }
+}
+
 footer {
 
 }

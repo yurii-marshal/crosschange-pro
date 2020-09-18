@@ -1,27 +1,76 @@
-.notifications-shell {
-  .notifications-sidebar {
-    .header {
-      text-transform: uppercase;
-    }
-    .category {
-      &.active {
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
 
+.notifications-shell {
+  font-family: IBM Plex Sans;
+  height: calc(100vh - #{$header-height});
+
+  .notifications-sidebar {
+    min-width: 240px;
+    padding: 32px 40px;
+
+    .header {
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 133%;
+      align-items: center;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: $color-grey-100;
+    }
+
+    .category {
+      cursor: pointer;
+      color: $color-grey-60;
+      margin-top: 8px;
+
+      &.active {
+        color: $color-grey-100;
       }
     }
   }
+
   .notifications-list {
+    overflow-y: auto;
+    background-color: #F8FAFB;
+    padding: 50px 22px;
+
     .notification {
+      color: $color-grey-60;
+      font-size: 14px;
+      line-height: 143%;
+      border-bottom: 1px solid $color-grey-20;
+
+      .text-block {
+        padding-top: 12px;
+      }
+
       .active-label {
+        margin-right: 12px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: $color-grey-60;
 
+        &.active {
+          background-color: $color-green-100;
+        }
       }
+
       .header {
+        max-width: 414px;
+        font-size: 16px;
+        line-height: 150%;
+        color: $color-grey-100;
 
+        @include text-overflow();
       }
+
       .message {
-
+        padding: 4px 40px 12px 20px;
       }
-      .time {
 
+      .time {
       }
     }
   }

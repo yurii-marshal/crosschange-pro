@@ -1,13 +1,15 @@
 @import "../../../../assets/styles/variables";
+
 :host {
- &.transparent {
-   header {
-     background: transparent;
-     position: relative;
-     z-index: 2;
-   }
- }
+  &.transparent {
+    header {
+      background: transparent;
+      position: relative;
+      z-index: 2;
+    }
+  }
 }
+
 header {
   display: flex;
   align-items: center;
@@ -81,17 +83,16 @@ mat-icon {
   }
 }
 
-
 @media all and (max-width: $media-small-tablet) {
- header {
-   .right {
-     display: none;
-   }
-   .right.mobile {
-     display: block;
-   }
-   .left ul {
-     display: none;
-   }
- }
+  header {
+    .right {
+      display: none;
+    }
+    .right.mobile {
+      display: block;
+    }
+    .left ul {
+      display: none;
+    }
+  }
 }
