@@ -81,6 +81,6 @@ export class NotificationsService {
   constructor() { }
 
   getNotifications(params?): Observable<Notification[]> {
-    return of(params ? this.notifications.filter(item => item.category === params.type): this.notifications);
+    return of(params ? this.notifications.filter(item => item.category === params.type) : this.notifications);
   }
 }

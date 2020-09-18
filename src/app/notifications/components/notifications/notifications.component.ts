@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
   categories: NotificationCategory[] = [];
-  currentType: string = '';
+  currentType = '';
   notifications$: Observable<Notification[]>;
 
   private onDestroy$: Subject<void> = new Subject<void>();
