@@ -1,12 +1,14 @@
 <div class="notifications-shell fx-row">
 
   <div class="notifications-sidebar">
-    <div class="header">Notifications</div>
+    <div class="header">{{'notifications.title' | translate}}</div>
     <div class="category"
          *ngFor="let category of categories"
          [class.active]="currentType === category.value"
-         (click)="setCategory(category.value)">
-      {{category?.label}}
+         [routerLink]="['/notifications']"
+         [queryParams]="{type: category.value}"
+    >
+      {{category.label}}
     </div>
   </div>
 

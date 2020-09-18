@@ -61,9 +61,13 @@ table {
   box-sizing: border-box;
 }
 
-input:focus, li:focus {
+*:focus {
   outline: none;
 }
+
+//input:focus, li:focus {
+//  outline: none;
+//}
 
 a {
   text-decoration: none;
