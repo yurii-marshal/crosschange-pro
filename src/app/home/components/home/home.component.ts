@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -65,3 +65,16 @@ export class HomeComponent implements OnInit {
   }
 
 }
+
+
+_([
+  'main_page.howto_title_1',
+  'main_page.howto_text_1',
+  'main_page.howto_link_1',
+  'main_page.howto_title_2',
+  'main_page.howto_text_2',
+  'main_page.howto_link_2',
+  'main_page.howto_title_3',
+  'main_page.howto_text_3',
+  'main_page.howto_link_3',
+]);
