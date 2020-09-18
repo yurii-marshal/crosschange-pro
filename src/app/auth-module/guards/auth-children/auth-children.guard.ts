@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Route, UrlSegment } from '@angular/router';
 import { SessionService } from 'shared-kuailian-lib';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -17,6 +17,6 @@ export class AuthChildrenGuard implements CanLoad {
       this.sessionService.forceLoginRedirect();
     }
 
-    return of(this.sessionService.isAuthenticated);
+    return this.sessionService.isAuthenticated;
   }
 }

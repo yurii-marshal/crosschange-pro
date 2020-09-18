@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { SessionService } from 'shared-kuailian-lib';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +14,7 @@ export class AuthGuard implements CanActivate {
     if (!this.sessionService.isAuthenticated) {
       this.sessionService.forceLoginRedirect();
     }
-
-    return of(this.sessionService.isAuthenticated);
+    return this.sessionService.isAuthenticated;
   }
 
 }
