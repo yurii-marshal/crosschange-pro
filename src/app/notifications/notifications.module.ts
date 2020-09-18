@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 import { SharedModule } from '../shared/shared.module';
 import { AngularMaterialModule } from '../angular-material.module';
 

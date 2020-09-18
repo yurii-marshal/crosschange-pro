@@ -66,5 +66,10 @@
   },
   "notifications": {
     "title": "notifications"
+  },
+  "time_ago": {
+    "few_seconds_before": "a few seconds ago",
+    "minute_ago": "a minute ago",
+    "minutes_before": "{{days}} minutes ago"
   }
 }

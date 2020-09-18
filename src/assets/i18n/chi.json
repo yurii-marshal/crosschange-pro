@@ -66,5 +66,10 @@
   },
   "notifications": {
     "title": "Notifications"
+  },
+  "time_ago": {
+    "few_seconds_before": "",
+    "minute_ago": "",
+    "minutes_before": ""
   }
 }
