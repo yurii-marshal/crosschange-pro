@@ -53,6 +53,9 @@ export class NotificationsService {
     },
   ];
 
+  constructor() {
+  }
+
   get notificationCategories(): NotificationCategory[] {
     return [
       {
@@ -78,9 +81,19 @@ export class NotificationsService {
     ];
   }
 
-  constructor() { }
-
   getNotifications(params?): Observable<Notification[]> {
-    return of(params ? this.notifications.filter(item => item.category === params.type) : this.notifications);
+    let notes = this.notifications;
+
+    if (params) {
+      if (params.type) {
+        notes = this.notifications.filter(item => item.category === params.type);
+      }
+
+      if (params.limit) {
+        notes = this.notifications.slice(0, params.limit);
+      }
+    }
+
+    return of(notes);
   }
 }

@@ -31,7 +31,7 @@
     <mat-menu #notificationsPopup="matMenu" xPosition="before" class="notifications-popup">
       <div class="popup-header fx-row fx-h-align-space-between" (click)="$event.stopPropagation()">
         <div class="header">{{'notifications.title' | translate}}</div>
-        <a class="link" (click)="menuTrigger.closeMenu()">View all</a>
+        <a class="link" (click)="openNotificationsPage(menuTrigger)">{{'notifications.view_all' | translate}}</a>
       </div>
       <div class="notifications" (click)="$event.stopPropagation()">
         <div class="notification fx-row" *ngFor="let item of notifications$ | async">

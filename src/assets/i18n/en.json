@@ -48,6 +48,15 @@
     "charts_table_trade": "Trade",
     "easiest_way": "The easiest way to buy, sell and trade digital currency. ",
     "get_started": "Get started",
+    "howto_link_1": "",
+    "howto_link_2": "",
+    "howto_link_3": "",
+    "howto_text_1": "",
+    "howto_text_2": "",
+    "howto_text_3": "",
+    "howto_title_1": "",
+    "howto_title_2": "",
+    "howto_title_3": "",
     "regulation_section_1_text": "License FVR000971 Financial services, providing services of exchanging a virtual currency against a fiat currency.",
     "regulation_section_1_title": "License FVR000971",
     "regulation_section_2_text": "License FVR000971 Financial services, providing services of exchanging a virtual currency against a fiat currency.",
@@ -65,7 +74,8 @@
     "tab_profit": "Profit"
   },
   "notifications": {
-    "title": "notifications"
+    "title": "notifications",
+    "view_all": "View all"
   },
   "time_ago": {
     "day_before": "a day before",
