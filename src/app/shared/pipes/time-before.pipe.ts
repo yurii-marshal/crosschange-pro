@@ -1,34 +1,14 @@
 import { ChangeDetectorRef, NgZone, OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Pipe({
   name: 'timeBefore',
 })
-export class TimeBeforePipe implements PipeTransform, OnDestroy {
-  private timer: number;
-
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private ngZone: NgZone,
-  ) {
-  }
-
+export class TimeBeforePipe implements PipeTransform {
   transform(value: string): string {
-    this.removeTimer();
-
     const d = new Date(value);
     const now = new Date();
     const seconds = Math.round(Math.abs((now.getTime() - d.getTime()) / 1000));
-    const timeToUpdate = (Number.isNaN(seconds)) ? 1000 : this.getSecondsUntilUpdate(seconds) * 1000;
-
-    this.timer = this.ngZone.runOutsideAngular(() => {
-      if (typeof window !== 'undefined') {
-        return window.setTimeout(() => {
-          this.ngZone.run(() => this.changeDetectorRef.markForCheck());
-        }, timeToUpdate);
-      }
-
-      return null;
-    });
 
     const minutes = Math.round(Math.abs(seconds / 60));
     const hours = Math.round(Math.abs(minutes / 60));
@@ -39,11 +19,11 @@ export class TimeBeforePipe implements PipeTransform, OnDestroy {
     if (Number.isNaN(seconds)) {
       return '';
     } else if (seconds <= 45) {
-      return 'a few seconds before';
+      return 'time_ago.few_seconds_before';
     } else if (seconds <= 90) {
-      return 'a minute before';
+      return 'time_ago.minute_ago';
     } else if (minutes <= 45) {
-      return minutes + ' minutes before';
+      return 'time_ago.minutes_before';
     } else if (minutes <= 90) {
       return 'an hour before';
     } else if (hours <= 22) {
@@ -62,31 +42,10 @@ export class TimeBeforePipe implements PipeTransform, OnDestroy {
       return years + ' years before';
     }
   }
-
-  ngOnDestroy(): void {
-    this.removeTimer();
-  }
-
-  private removeTimer(): void {
-    if (this.timer) {
-      window.clearTimeout(this.timer);
-      this.timer = null;
-    }
-  }
-
-  private getSecondsUntilUpdate(seconds: number): number {
-    const min = 60;
-    const hr = min * 60;
-    const day = hr * 24;
-
-    if (seconds < min) { // less than 1 min, update every 2 secs
-      return 2;
-    } else if (seconds < hr) { // less than an hour, update every 30 secs
-      return 30;
-    } else if (seconds < day) { // less then a day, update every 5 mins
-      return 300;
-    } else { // update every hour
-      return 3600;
-    }
-  }
 }
+
+_([
+  'time_ago.few_seconds_before',
+  'time_ago.minute_ago',
+  'time_ago.minutes_before'
+]);

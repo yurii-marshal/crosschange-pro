@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { NotificationsService } from '../../services/notifications.service';
+import { NotificationsService } from '../services/notifications.service';
 import { Observable } from 'rxjs';
-import { Notification } from '../../../core/interfaces/notification.interface';
-import { NotificationCategory } from '../../../core/interfaces/notification-category.interface';
+import { Notification } from '../../core/interfaces/notification.interface';
+import { NotificationCategory } from '../../core/interfaces/notification-category.interface';
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
