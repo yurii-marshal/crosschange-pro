@@ -16,6 +16,12 @@ header {
   padding: 24px 52px 24px 40px;
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
 
+  &.logged-in {
+    .right mat-icon:last-of-type {
+      margin-right: 30px;
+    }
+  }
+
   .left, .right {
     display: flex;
     align-items: center;
@@ -36,14 +42,21 @@ header {
   .logo {
     margin-right: 40px;
   }
-  a {
-    &:hover {
-      outline: none;
-      text-decoration: none;
-    }
+  a, button {
     color: $color-grey-5;
     font-size: 14px;
     line-height: 20px;
+  }
+  button {
+    background: transparent;
+    outline: none;
+    text-decoration: none;
+    border: none;
+  }
+
+  a:hover {
+    outline: none;
+    text-decoration: none;
   }
   .menu-trigger {
     cursor: pointer;
@@ -84,6 +97,8 @@ mat-icon {
 
 @media all and (max-width: $media-small-tablet) {
  header {
+   padding-left: 20px;
+   padding-right: 20px;
    .right {
      display: none;
    }
@@ -92,6 +107,11 @@ mat-icon {
    }
    .left ul {
      display: none;
+   }
+   &.logged-in {
+     .right mat-icon:last-of-type {
+       margin-right: 0;
+     }
    }
  }
 }

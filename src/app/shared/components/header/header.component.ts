@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { SsoService, SessionService } from 'shared-kuailian-lib';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +10,22 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  get isLoggedIn(): boolean {
+    return this.sessionService.isAuthenticated;
+  }
+
+  constructor(
+    private ssoService: SsoService,
+    private sessionService: SessionService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  logout(): void {
+    this.ssoService.logout().pipe(
+      tap(() => this.sessionService.removeSession())
+    ).subscribe();
   }
 
 }
