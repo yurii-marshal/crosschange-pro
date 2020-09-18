@@ -68,8 +68,16 @@
     "title": "notifications"
   },
   "time_ago": {
+    "day_before": "a day before",
+    "days_before": "{{days}} days before",
     "few_seconds_before": "a few seconds ago",
+    "hour_before": "an hour before",
+    "hours_before": "{{hours}} hours before",
     "minute_ago": "a minute ago",
-    "minutes_before": "{{days}} minutes ago"
+    "minutes_before": "{{minutes}} minutes ago",
+    "month_before": "a month before",
+    "months_before": "{{months}} months before",
+    "year_before": "a year before",
+    "years_before": "{{years}} years before"
   }
 }

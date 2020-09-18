@@ -68,8 +68,16 @@
     "title": "notifications"
   },
   "time_ago": {
+    "day_before": "",
+    "days_before": "",
     "few_seconds_before": "",
+    "hour_before": "",
+    "hours_before": "",
     "minute_ago": "",
-    "minutes_before": ""
+    "minutes_before": "",
+    "month_before": "",
+    "months_before": "",
+    "year_before": "",
+    "years_before": ""
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, NgZone, OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Pipe({
@@ -25,21 +25,21 @@ export class TimeBeforePipe implements PipeTransform {
     } else if (minutes <= 45) {
       return 'time_ago.minutes_before';
     } else if (minutes <= 90) {
-      return 'an hour before';
+      return 'time_ago.hour_before';
     } else if (hours <= 22) {
-      return hours + ' hours before';
+      return 'time_ago.hours_before';
     } else if (hours <= 36) {
-      return 'a day before';
+      return 'time_ago.day_before';
     } else if (days <= 25) {
-      return days + ' days before';
+      return 'time_ago.days_before';
     } else if (days <= 45) {
-      return 'a month before';
+      return 'time_ago.month_before';
     } else if (days <= 345) {
-      return months + ' months before';
+      return 'time_ago.months_before';
     } else if (days <= 545) {
-      return 'a year before';
+      return 'time_ago.year_before';
     } else { // (days > 545)
-      return years + ' years before';
+      return 'time_ago.years_before';
     }
   }
 }
@@ -47,5 +47,13 @@ export class TimeBeforePipe implements PipeTransform {
 _([
   'time_ago.few_seconds_before',
   'time_ago.minute_ago',
-  'time_ago.minutes_before'
+  'time_ago.minutes_before',
+  'time_ago.hour_before',
+  'time_ago.hours_before',
+  'time_ago.day_before',
+  'time_ago.days_before',
+  'time_ago.month_before',
+  'time_ago.months_before',
+  'time_ago.year_before',
+  'time_ago.years_before',
 ]);
