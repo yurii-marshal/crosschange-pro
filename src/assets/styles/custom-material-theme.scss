@@ -42,3 +42,33 @@ $cross-pro-accent: mat-palette($cross-pro-brand);
 $cross-pro-theme: mat-light-theme($cross-pro-primary, $cross-pro-accent);
 
 @include angular-material-theme($cross-pro-theme);
+
+// custom material components
+
+// MatSnackBar
+.mat-snack-bar-container {
+  min-width: 482px !important;
+  filter: drop-shadow(0px 4px 16px rgba(58, 59, 61, 0.12));
+  box-shadow: none;
+  background: #FFFFFF;
+  border-radius: 4px;
+  color: $color-brand-dark;
+
+  &.mat-snack-bar-top {
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    right: 22px;
+    top: calc(#{$header-height} + 20px);
+  }
+
+  &.success {
+    .color-strip {
+      background-color: $color-green-100;
+    }
+
+    .content .icon svg path {
+      fill: $color-green-100;
+    }
+  }
+}

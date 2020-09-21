@@ -6,6 +6,8 @@ import { NotificationCategory } from '../../core/interfaces/notification-categor
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { SnackbarNotificationComponent } from '../../shared/components/snackbar-notification/snackbar-notification.component';
 
 @Component({
   selector: 'app-notifications',
@@ -18,7 +20,15 @@ export class NotificationsComponent implements OnInit {
   currentType = '';
   notifications$: Observable<Notification[]>;
 
+  snackBarConfigs: MatSnackBarConfig = {
+    panelClass: 'success',
+    duration: 2 * 1000,
+    horizontalPosition: 'right',
+    verticalPosition: 'top'
+  };
+
   constructor(
+    public snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
   ) {
@@ -32,6 +42,13 @@ export class NotificationsComponent implements OnInit {
         return this.notificationsService.getNotifications(params.type ? params : null);
       })
     );
+  }
+
+  openSnackBarNotification(note: Notification): void {
+    this.snackBar.openFromComponent(SnackbarNotificationComponent, {
+      data: note,
+      ...this.snackBarConfigs,
+    });
   }
 
 }

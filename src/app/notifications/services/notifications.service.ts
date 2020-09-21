@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Notification } from '../../core/interfaces/notification.interface';
 import { NotificationCategory } from '../../core/interfaces/notification-category.interface';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -82,18 +83,20 @@ export class NotificationsService {
   }
 
   getNotifications(params?): Observable<Notification[]> {
-    let notes = this.notifications;
+    return of({}).pipe(
+      map(() => {
+        if (params) {
+          if (params.type) {
+            return this.notifications.filter(item => item.category === params.type);
+          }
 
-    if (params) {
-      if (params.type) {
-        notes = this.notifications.filter(item => item.category === params.type);
-      }
+          if (params.limit) {
+            return this.notifications.slice(0, params.limit);
+          }
+        }
 
-      if (params.limit) {
-        notes = this.notifications.slice(0, params.limit);
-      }
-    }
-
-    return of(notes);
+        return this.notifications;
+      })
+    );
   }
 }

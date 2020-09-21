@@ -66,7 +66,7 @@ import { CoreModule } from './core/core.module';
       multi: true
     }, {
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-      useValue: {duration: 2.5 * 1000, verticalPosition: 'top'}
+      useValue: {duration: 2.5 * 1000, verticalPosition: 'top', panelClass: 'success'}
     },
     {
       provide: 'HTTP_INTERCEPTORS',
