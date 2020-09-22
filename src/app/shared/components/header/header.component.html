@@ -24,18 +24,25 @@
     </ul>
   </div>
   <div class="right">
-    <button class="notifications-btn" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="notificationsPopup">
+    <button class="notifications-btn"
+            mat-icon-button
+            #menuTrigger="matMenuTrigger"
+            [matMenuTriggerFor]="notificationsPopup">
       <mat-icon svgIcon="icon_notification"></mat-icon>
     </button>
 
-    <mat-menu #notificationsPopup="matMenu" xPosition="before" class="notifications-popup">
-      <div class="popup-header fx-row fx-h-align-space-between" (click)="$event.stopPropagation()">
-        <div class="header">{{'notifications.title' | translate}}</div>
-        <a class="link" (click)="openNotificationsPage(menuTrigger)">{{'notifications.view_all' | translate}}</a>
-      </div>
-      <div class="notifications" (click)="$event.stopPropagation()">
-        <div class="notification fx-row" *ngFor="let item of notifications$ | async">
-          <app-notification-item [notification]="item" [short]="true"></app-notification-item>
+    <mat-menu #notificationsPopup="matMenu"
+              xPosition="before"
+              class="notifications-popup">
+      <div class="container">
+        <div class="popup-header fx-row fx-h-align-space-between" (click)="$event.stopPropagation()">
+          <div class="header">{{'notifications.title' | translate}}</div>
+          <a class="link" (click)="openNotificationsPage(menuTrigger)">{{'notifications.view_all' | translate}}</a>
+        </div>
+        <div class="notifications" (click)="$event.stopPropagation()">
+          <div class="notification fx-row" *ngFor="let item of notifications$ | async">
+            <app-notification-item [notification]="item" [short]="true"></app-notification-item>
+          </div>
         </div>
       </div>
     </mat-menu>

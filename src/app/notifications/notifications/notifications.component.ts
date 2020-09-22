@@ -50,7 +50,6 @@ export class NotificationsComponent implements OnInit {
       ...this.snackBarConfigs,
     });
   }
-
 }
 
 // _([
