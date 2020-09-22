@@ -1,0 +1,31 @@
+@import "../../../../assets/styles/variables";
+.switcher {
+  max-width: 148px;
+  border: 1px solid $color-grey-40;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 8px 6px 8px 12px;
+  color: $color-white-100;
+  justify-content: space-between;
+  .language {
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-white-100;
+    display: block;
+  }
+  .flag {
+    margin-right: 8px;
+  }
+  mat-icon {
+    max-height: 20px;
+    cursor: pointer;
+  }
+}
+.menu-item {
+  display: block;
+}
+.flex {
+  display: flex;
+}

@@ -1,0 +1,68 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+:host {
+  display: flex;
+  color: $color-grey-60;
+  font-size: 14px;
+  line-height: 143%;
+  border-bottom: 1px solid $color-grey-20;
+  position: relative;
+
+  .text-block {
+    padding-top: 12px;
+
+    &.short {
+      .header {
+        margin-left: 20px;
+      }
+
+      .active-label {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .message {
+        padding-bottom: 0;
+        margin-bottom: 12px;
+
+        @include text-overflow();
+      }
+    }
+  }
+
+  .active-label {
+    margin-right: 12px;
+    min-width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: $color-grey-60;
+
+    &.active {
+      background-color: $color-green-100;
+    }
+  }
+
+  .header {
+    max-width: 414px;
+    font-size: 16px;
+    line-height: 150%;
+    color: $color-grey-100;
+
+    @include text-overflow();
+  }
+
+  .message {
+    padding: 4px 40px 12px 20px;
+  }
+
+  .time {
+    min-width: 100px;
+    text-align: right;
+
+    &.short {
+      min-width: 70px;
+    }
+  }
+}

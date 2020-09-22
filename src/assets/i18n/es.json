@@ -1,0 +1,101 @@
+{
+  "crypto_widget": {
+    "volume": "Volume"
+  },
+  "footer": {
+    "3rd_party": "3RD PARTY PARTNERS",
+    "about": "About",
+    "commission": "Commission",
+    "company": "Company",
+    "connect": "Connect",
+    "contact": "Contact",
+    "copyright": "© Crosschange Pro",
+    "crosschange": "Crosschange Pro",
+    "crosschange_bank": "Crosschange Bank",
+    "faq": "FAQ",
+    "gdpr": "GDPR",
+    "kuailian_academy": "Kuailian Academy",
+    "kuailian_marketplace": "Kuailian Marketplace",
+    "kuailian_platform": "Kuailian Platform",
+    "member_of_alliance": "Member of Enterprise Ethereum Alliance",
+    "partners": "Partners",
+    "privacy": "Privacy Policy",
+    "products": "Products",
+    "terms": "Terms and Conditions"
+  },
+  "header": {
+    "exchange": "Exchange",
+    "history": "History",
+    "logout": "Logout",
+    "markets": "Markets",
+    "spot_wallet": "Spot wallet",
+    "wallet": "Wallet"
+  },
+  "languages": {
+    "chi": "Chinese",
+    "de": "Alemán",
+    "en": "Inglés",
+    "es": "Español",
+    "fr": "French",
+    "ru": "Ruso",
+    "uk": "Ucranio"
+  },
+  "main_page": {
+    "charts_table_available": "Available",
+    "charts_table_buy": "Buy",
+    "charts_table_chart": "Chart",
+    "charts_table_coin": "Coin",
+    "charts_table_total": "Total",
+    "charts_table_trade": "Trade",
+    "easiest_way": "The easiest way to buy, sell and trade digital currency. ",
+    "get_started": "Get started",
+    "howto_link_1": "",
+    "howto_link_2": "",
+    "howto_link_3": "",
+    "howto_text_1": "",
+    "howto_text_2": "",
+    "howto_text_3": "",
+    "howto_title_1": "",
+    "howto_title_2": "",
+    "howto_title_3": "",
+    "regulation_section_1_text": "License FVR000971 Financial services, providing services of exchanging a virtual currency against a fiat currency.",
+    "regulation_section_1_title": "License FVR000971",
+    "regulation_section_2_text": "License FVR000971 Financial services, providing services of exchanging a virtual currency against a fiat currency.",
+    "regulation_section_2_title": "License FVR000971",
+    "regulation_subtitle": "Crosschange Bank Pro is managed by Crosschange International OU, a regulated and licensed digital currency service provider, by the Financial Intelligence Unit of the Republic of Estonia. Our financial licenses include:",
+    "regulation_title": "We are regulated and licensed",
+    "welcome_1": "Welcome to ",
+    "welcome_2": "Crosschange Bank Pro!"
+  },
+  "markets_page": {
+    "24cng": "24 Cng",
+    "24high": "24 High",
+    "24low": "24 Low",
+    "24vol": "24 Vol",
+    "last": "Last",
+    "mktCap": "Mkt Cap",
+    "pair": "Pair",
+    "tab_atls_markets": "ATLS Markets",
+    "tab_btc_markets": "BTC Markets",
+    "tab_favorite": "Favorite",
+    "tab_history": "History",
+    "tab_profit": "Profit"
+  },
+  "notifications": {
+    "title": "notifications",
+    "view_all": ""
+  },
+  "time_ago": {
+    "day_before": "",
+    "days_before": "",
+    "few_seconds_before": "",
+    "hour_before": "",
+    "hours_before": "",
+    "minute_ago": "",
+    "minutes_before": "",
+    "month_before": "",
+    "months_before": "",
+    "year_before": "",
+    "years_before": ""
+  }
+}

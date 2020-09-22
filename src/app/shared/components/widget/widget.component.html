@@ -1,0 +1,14 @@
+<div [ngStyle]="{'height': '100%', 'width': '100%', 'background': widgetInfo.color }">
+  <div class="widget">
+    <div class="widget__header">
+      <mat-icon [svgIcon]="widgetInfo.icon" class="widget__header-icon"></mat-icon><div class="widget__header-currency">{{ widgetInfo.currencyType }}</div>
+    </div>
+    <div class="widget__content">
+      <div class="widget__content-amount">{{ widgetInfo.amount }}</div><div class="widget__content-change">{{ widgetInfo.change }}</div>
+    </div>
+    <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.volume }}</div>
+    <div class="widget__chart">
+      <img src="assets/images/simple-widget-chart.png" alt="chart" class="widget__chart-image">
+    </div>
+  </div>
+</div>

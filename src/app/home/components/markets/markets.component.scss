@@ -1,0 +1,100 @@
+@import "../../../../assets/styles/variables";
+
+.wrapper {
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.widgets-container {
+  height: 188px;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
+              linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+
+  .widgets-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .widget {
+      width: 295px;
+      height: 116px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 4px;
+    }
+  }
+}
+
+.tabs-container {
+  background-color: #f6f3f3;
+
+  .tabs-content {
+    padding: 68px 0 80px;
+
+    .mat-tab-group {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.mat-table__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  height: 52px;
+  background: $color-white-100;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  &-icon {
+    position: absolute;
+    left: 20px;
+  }
+
+  &-input {
+    margin-left: 12px;
+    padding-left: 35px;
+    width: 200px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    background: $color-grey-5;
+    border: 1px solid $color-grey-10;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+}
+
+::ng-deep .mat-tab-list .mat-tab-label {
+  color: #000000;
+  opacity: 1;
+}
+
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color: $color-brand;
+}
+
+.mat-column-favorite {
+  flex: 1;
+  padding-left: 12px;
+  cursor: pointer;
+}
+
+.mat-column-pair {
+ flex: 4;
+}
+
+.mat-column-last {
+  flex: 5;
+}
+
+.mat-column-cng,
+.mat-column-high,
+.mat-column-low,
+.mat-column-mktCap,
+.mat-column-vol {
+  flex: 2;
+  justify-content: flex-end;
+  padding-right: 12px;
+}

@@ -1,0 +1,65 @@
+@import "../../../../assets/styles/variables";
+
+.widget {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 16px 16px;
+  color: $color-grey-5;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+
+    &-icon {
+      margin-right: 4px;
+      color: $color-white-100;
+    }
+
+    &-currency {
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: bold;
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: baseline;
+
+    &-amount {
+      margin: 0 4px 12px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-white-100;
+      text-transform: uppercase;
+    }
+
+    &-change {
+      font-size: 14px;
+      line-height: 20px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  &__volume {
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  &__chart {
+    position: absolute;
+    top: 15px;
+    right: 16px;
+    width: 80px;
+    height: 38px;
+
+    &-image {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

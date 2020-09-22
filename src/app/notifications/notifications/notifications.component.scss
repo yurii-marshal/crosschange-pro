@@ -1,0 +1,39 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+
+.notifications-shell {
+  font-family: IBM Plex Sans;
+  height: calc(100vh - #{$header-height});
+
+  .notifications-sidebar {
+    min-width: 240px;
+    padding: 32px 40px;
+
+    .header {
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 133%;
+      align-items: center;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: $color-grey-100;
+    }
+
+    .category {
+      cursor: pointer;
+      color: $color-grey-60;
+      margin-top: 8px;
+
+      &.active {
+        color: $color-grey-100;
+      }
+    }
+  }
+
+  .notifications-list {
+    width: 100%;
+    overflow-y: auto;
+    background-color: #F8FAFB;
+    padding: 50px 22px;
+  }
+}
