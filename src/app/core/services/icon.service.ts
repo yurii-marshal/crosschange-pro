@@ -22,6 +22,11 @@ const icons: string[] = [
   'icon_bitcoin_cash_widget',
   'icon_eth_widget',
   'icon_ark_widget',
+  'icon_search',
+  'icon_arrow_left',
+  'icon_arrow_right',
+  'icon_star',
+  'icon_fill_star',
 ];
 
 @Injectable({

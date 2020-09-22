@@ -26,6 +26,7 @@
   "header": {
     "exchange": "Exchange",
     "history": "History",
+    "logout": "Logout",
     "markets": "Markets",
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"
@@ -67,6 +68,13 @@
     "welcome_2": "Crosschange Bank Pro!"
   },
   "markets_page": {
+    "24cng": "24 Cng",
+    "24high": "24 High",
+    "24low": "24 Low",
+    "24vol": "24 Vol",
+    "last": "Last",
+    "mktCap": "Mkt Cap",
+    "pair": "Pair",
     "tab_atls_markets": "ATLS Markets",
     "tab_btc_markets": "BTC Markets",
     "tab_favorite": "Favorite",

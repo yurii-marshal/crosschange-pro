@@ -1,4 +1,4 @@
-<header>
+<header [class.logged-in]="isLoggedIn">
   <div class="left">
     <div class="logo">
       <img src="/assets/images/logo-white.svg" alt="logo">
@@ -41,6 +41,11 @@
     </mat-menu>
 
     <mat-icon svgIcon="icon_user"></mat-icon>
+    <ul *ngIf="isLoggedIn">
+      <li>
+        <button (click)="logout()">{{'header.logout' | translate}}</button>
+      </li>
+    </ul>
   </div>
   <div class="right mobile">
     <mat-icon svgIcon="icon_menu"></mat-icon>

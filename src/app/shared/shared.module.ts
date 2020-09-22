@@ -11,6 +11,7 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { TimeBeforePipe } from './pipes/time-before.pipe';
 import { NotificationItemComponent } from './components/notification-item/notification-item.component';
 import { SnackbarNotificationComponent } from './components/snackbar-notification/snackbar-notification.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 const components = [
   HeaderComponent,
@@ -19,6 +20,7 @@ const components = [
   WidgetComponent,
   LanguageSwitcherComponent,
   NotificationItemComponent,
+  PaginatorComponent,
 
   TimeBeforePipe,
 ];
