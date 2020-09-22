@@ -17,6 +17,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    canActivate: [ AuthGuard ],
     children: [],
     data: {
       headerClass: 'transparent'
