@@ -9,12 +9,14 @@
 
   .wave-content {
     margin-left: 83px;
-    padding-top: 60px;
+    padding-top: 160px;
     text-align: left;
     color: $color-white-100;
+    z-index: 1;
     h1 {
       text-align: left;
       font-size: 48px;
+      font-weight: bold;
       line-height: 56px;
       margin-bottom: 16px;
     }
@@ -36,7 +38,7 @@
       border-radius: 4px;
       color: $color-white-100;
       min-width: 211px;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 16px;
       line-height: 24px;
     }
@@ -54,7 +56,7 @@
   .wave {
     width: 100%;
     position: absolute;
-    max-height: 76%;
+    max-height: 58%;
     z-index: 2;
     bottom: 0;
     img {
@@ -86,7 +88,7 @@
     margin: 0 auto;
     background-color: $color-white-100;
     position: absolute;
-    top: -23%;
+    top: -17%;
     display: flex;
     justify-content: center;
     box-shadow: 0 0 4px 0 rgba(145, 149, 158, 0.25);
@@ -118,19 +120,28 @@
     line-height: 20px;
     color: $color-grey-100;
     &.caption {
-      font-weight: 500;
-      font-size: 16px;
+      font-weight: 400;
+      font-size: 14px;
       line-height: 24px;
-      color: $color-grey-100;
+      color: $color-grey-60;
     }
     &.image {
       padding: 0;
+      width: 25%;
     }
-    &.available, &.total, &.image, &.button {
+    &.available {
+      text-align: center;
+      width: 30%;
+    }
+    &.total {
       text-align: right;
+    }
+    &.image, &.button {
+      text-align: left;
     }
     &.button {
       padding-right: 15px;
+      width: 10%;
     }
     &.total:not(.caption) span, .available:not(.caption) span {
       font-size: 14px;
@@ -160,13 +171,20 @@
     }
   }
   button {
-    border: 1px solid $color-brand;
     color: $color-brand;
     min-width: 89px;
     font-size: 14px;
     line-height: 20px;
     padding-top: 6px;
     padding-bottom: 6px;
+    background: #E7ECF4;
+    border-color: transparent;
+    font-weight: 400;
+
+    &:hover {
+      background-color: $color-brand;
+      color: #FFFFFF;
+    }
   }
 }
 

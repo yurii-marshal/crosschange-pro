@@ -14,7 +14,9 @@
     "member_of_alliance": "Member of Enterprise Ethereum Alliance",
     "privacy": "Privacy Policy",
     "products": "Products",
-    "terms": "Terms and Conditions"
+    "status": "Status",
+    "terms": "Terms and Conditions",
+    "zendesk": "Zendesk"
   },
   "header": {
     "exchange": "Exchange",
@@ -57,6 +59,6 @@
     "regulation_subtitle": "Crosschange Bank Pro is managed by Crosschange International OU, a regulated and licensed digital currency service provider, by the Financial Intelligence Unit of the Republic of Estonia. Our financial licenses include:",
     "regulation_title": "We are regulated and licensed",
     "welcome_1": "Welcome to ",
-    "welcome_2": "Crosschange Bank Pro!"
+    "welcome_2": "Crosschange Bank Pro"
   }
 }
