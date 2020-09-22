@@ -19,9 +19,14 @@
         <!--</mat-menu>-->
         <div *ngIf="i === 1" class="menu">
           <div class="menu-container" [hidden]="!item.active">
-            <span class="menu-item">
-            {{'header.spot_wallet' | translate }}
-            </span>
+            <div class="menu-item">
+              <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
+              <span>{{'header.spot_wallet' | translate }}</span>
+            </div>
+            <div class="menu-item">
+              <mat-icon class="icon" svgIcon="icon_meter"></mat-icon>
+              <span>{{'header.margin_wallet' | translate }}</span>
+            </div>
           </div>
         </div>
       </li>

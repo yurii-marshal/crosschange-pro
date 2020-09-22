@@ -1,13 +1,15 @@
 @import "../../../../assets/styles/variables";
+
 :host {
- &.transparent {
-   header {
-     background: transparent;
-     position: relative;
-     z-index: 2;
-   }
- }
+  &.transparent {
+    header {
+      background: transparent;
+      position: relative;
+      z-index: 2;
+    }
+  }
 }
+
 header {
   display: flex;
   align-items: center;
@@ -29,6 +31,8 @@ header {
     list-style-type: none;
     li {
       margin-right: 32px;
+      position: relative;
+
       &:last-of-type {
         margin-right: 0;
       }
@@ -56,9 +60,65 @@ header {
   }
 
   .menu {
-    .menu-container {
-      .menu-item {
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+    background-color: transparent;
+    padding-top: 15px;
 
+    .menu-container {
+      position: relative;
+      background: #FFFFFF;
+      border: 0.5px solid #ECECEC;
+      box-sizing: border-box;
+      box-shadow: 0 6px 10px rgba(40, 53, 68, 0.12);
+      border-radius: 4px;
+      min-width: 133px;
+      padding: 13px;
+      width: max-content;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-bottom: 10px solid #FFFFFF;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 143%;
+        color: $color-trading-dark;
+
+        &:hover {
+          cursor: pointer;
+          color: $color-grey-60;
+
+          ::ng-deep .icon svg path {
+            fill: $color-grey-60;
+          }
+        }
+
+        &:not(:last-child) {
+          padding-bottom: 8px;
+        }
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        span {
+          padding-left: 9px;
+        }
       }
     }
   }
@@ -103,17 +163,16 @@ mat-icon {
   }
 }
 
-
 @media all and (max-width: $media-small-tablet) {
- header {
-   .right {
-     display: none;
-   }
-   .right.mobile {
-     display: block;
-   }
-   .left ul {
-     display: none;
-   }
- }
+  header {
+    .right {
+      display: none;
+    }
+    .right.mobile {
+      display: block;
+    }
+    .left ul {
+      display: none;
+    }
+  }
 }
