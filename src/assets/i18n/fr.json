@@ -26,6 +26,7 @@
   "header": {
     "exchange": "Exchange",
     "history": "History",
+    "logout": "Logout",
     "markets": "Markets",
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"

@@ -30,7 +30,7 @@
     <mat-icon svgIcon="icon_user"></mat-icon>
     <ul *ngIf="isLoggedIn">
       <li>
-        <button (click)="logout()">Logout</button>
+        <button (click)="logout()">{{'header.logout' | translate}}</button>
       </li>
     </ul>
   </div>
