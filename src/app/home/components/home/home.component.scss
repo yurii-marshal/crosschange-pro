@@ -1,18 +1,19 @@
 @import "../../../../assets/styles/variables";
 .wave-container {
   height: 741px;
-  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), #060B1F;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
   position: relative;
   top: -75px;
   padding-top: 72px;
   display: flex;
-  justify-content: center;
 
   .wave-content {
+    margin-left: 83px;
     padding-top: 60px;
+    text-align: left;
     color: $color-white-100;
     h1 {
-      text-align: center;
+      text-align: left;
       font-size: 48px;
       line-height: 56px;
       margin-bottom: 16px;
@@ -22,7 +23,7 @@
       font-size: 16px;
       line-height: 28px;
       margin-bottom: 36px;
-      text-align: center;
+      text-align: left;
     }
     .button {
       display: flex;
@@ -40,11 +41,32 @@
       line-height: 24px;
     }
   }
-  .wave {
+  /*.wave {
     width: 100%;
     position: absolute;
     bottom: 0;
     height: 315px;
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }*/
+  .wave {
+    width: 100%;
+    position: absolute;
+    max-height: 76%;
+    z-index: 2;
+    bottom: 0;
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+  .wave-grid {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
     img {
       max-width: 100%;
       width: 100%;
@@ -57,6 +79,7 @@
   position: relative;
   .charts {
     border: 0.5px solid $color-grey-20;
+    z-index: 3;
     border-radius: 4px;
     left: 12%;
     width: 80.27%;
@@ -188,9 +211,8 @@
 }
 
 .regulation {
-  padding: 160px 6.9% 160px 6.9%;
+  padding: 0 6.9% 160px 6.9%;
   display: flex;
-  background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
   .left {
     margin-right: 8%;
     flex-basis: 42%;
@@ -200,12 +222,12 @@
       font-weight: bold;
       margin-bottom: 12px;
       display: block;
-      color: $color-white-100;
+      color: $color-trading-dark;
     }
     & > .subtitle {
       font-size: 16px;
       line-height: 28px;
-      color: $color-grey-30;
+      color: $color-grey-80;
       display: block;
       margin-bottom: 32px;
     }
@@ -236,13 +258,13 @@
     .title {
       font-size: 20px;
       line-height: 32px;
-      color: $color-grey-5;
+      color: $color-trading-dark;
       display: block;
     }
     .text {
       font-size: 14px;
       line-height: 20px;
-      color: $color-grey-30;
+      color: $color-brand;
     }
   }
 }
@@ -250,8 +272,19 @@
   .charts-container {
     padding-top: 100px;
   }
-  .wave-container .wave {
-    height: 221px;
+
+  .wave-container {
+    .wave {
+      min-height: 50%;
+    }
+    .wave-content {
+      width: 100%;
+      margin-left: 0;
+      justify-content: center;
+      h1, span {
+        text-align: center;
+      }
+    }
   }
   .charts-container .charts {
     overflow: auto;
