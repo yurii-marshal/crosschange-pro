@@ -7,6 +7,15 @@
      z-index: 2;
    }
  }
+
+  &.widget {
+    header {
+      background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
+                  linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+      position: relative;
+      z-index: 2;
+    }
+  }
 }
 header {
   display: flex;

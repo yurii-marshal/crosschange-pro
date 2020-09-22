@@ -7,6 +7,7 @@ import { MarketsComponent } from './components/markets/markets.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { JwtResolver } from 'shared-kuailian-lib';
 import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
+import { ReactiveFormsModule } from '@angular/forms';
 
 export const routes: Routes = [
   {
@@ -29,7 +30,7 @@ export const routes: Routes = [
     component: MarketsComponent,
     children: [],
     data: {
-      headerClass: 'transparent'
+      headerClass: 'widget'
     }
   }
 ];
@@ -43,6 +44,7 @@ export const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     SharedModule,
+    ReactiveFormsModule,
     AngularMaterialModule,
   ]
 })

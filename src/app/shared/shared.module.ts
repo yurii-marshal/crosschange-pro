@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { WidgetComponent } from './components/widget/widget.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
     FooterComponent,
     BaseComponent,
     LanguageSwitcherComponent,
-    WidgetComponent
+    WidgetComponent,
+    PaginatorComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,8 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
     CommonModule,
     RouterModule,
     TranslateModule,
-    WidgetComponent
+    WidgetComponent,
+    PaginatorComponent
   ]
 })
 export class SharedModule { }
