@@ -35,8 +35,9 @@ header {
     }
   }
   .logo {
-    margin-right: 40px;
-    width: 113px;
+    margin-right: 19px;
+    width: 92px;
+    height: 33px;
     img {
       max-width: 100%;
     }
@@ -72,6 +73,8 @@ mat-icon {
   top: 19px;
   .mat-menu-content {
     position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
     &::before {
       content: "";
       width: 0;
@@ -82,6 +85,12 @@ mat-icon {
       position: absolute;
       left: 42%;
       top: -10px
+    }
+    .menu-item.mat-menu-item {
+      padding: 0 13px;
+    }
+    .menu-item mat-icon {
+      margin-right: 9px;
     }
   }
 }

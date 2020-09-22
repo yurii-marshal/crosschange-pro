@@ -7,11 +7,16 @@
       <li>
         <a href="">{{'header.markets' | translate}}</a>
       </li>
-      <li>
+      <li >
         <span [matMenuTriggerFor]="walletMenu" class="menu-trigger">{{'header.wallet' | translate}}</span>
         <mat-menu #walletMenu xPosition="before" yPosition="above" [class]="'header-menu-dropdown'">
           <span mat-menu-item class="menu-item">
-              {{'header.spot_wallet' | translate }}
+              <mat-icon svgIcon="icon_wallet"></mat-icon>
+              <span>{{'header.spot_wallet' | translate }}</span>
+          </span>
+          <span mat-menu-item class="menu-item">
+              <mat-icon svgIcon="icon_meter"></mat-icon>
+              <span>{{'header.spot_wallet' | translate }}</span>
           </span>
         </mat-menu>
       </li>

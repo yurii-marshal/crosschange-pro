@@ -9,13 +9,9 @@
     "copyright": "© Crosschange Pro",
     "crosschange": "Crosschange Pro",
     "crosschange_bank": "Crosschange Bank",
-    "faq": "FAQ",
     "gdpr": "GDPR",
-    "kuailian_academy": "Kuailian Academy",
-    "kuailian_marketplace": "Kuailian Marketplace",
-    "kuailian_platform": "Kuailian Platform",
+    "kuailian_platform": "Kuailian",
     "member_of_alliance": "Member of Enterprise Ethereum Alliance",
-    "partners": "Partners",
     "privacy": "Privacy Policy",
     "products": "Products",
     "terms": "Terms and Conditions"
@@ -23,18 +19,19 @@
   "header": {
     "exchange": "Exchange",
     "history": "History",
+    "margin_wallet": "Margin wallet",
     "markets": "Markets",
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"
   },
   "languages": {
-    "chi": "Chinese",
-    "de": "German",
-    "en": "English",
-    "es": "Spanish",
-    "fr": "French",
-    "ru": "Russian",
-    "uk": "Ukrainian"
+    "chi": "Chi",
+    "de": "Ge",
+    "en": "En",
+    "es": "Sp",
+    "fr": "Fr",
+    "ru": "Ru",
+    "uk": "Uk"
   },
   "main_page": {
     "charts_table_available": "Available",
@@ -44,7 +41,6 @@
     "charts_table_total": "Total",
     "charts_table_trade": "Trade",
     "easiest_way": "The easiest way to buy, sell and trade digital currency. ",
-    "get_started": "Get started",
     "howto_link_1": "Get started",
     "howto_link_2": "Contact us",
     "howto_link_3": "Learn more",

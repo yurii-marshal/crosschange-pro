@@ -14,6 +14,9 @@
     line-height: 20px;
     color: $color-white-100;
     display: block;
+    &:first-letter {
+      text-transform: uppercase;
+    }
   }
   .flag {
     margin-right: 8px;
@@ -25,6 +28,9 @@
 }
 .menu-item {
   display: block;
+  &:first-letter {
+    text-transform: uppercase;
+  }
 }
 .flex {
   display: flex;
