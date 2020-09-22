@@ -30,7 +30,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   searchInputControl = new FormControl();
 
-  count: number = 7;
+  count = 7;
 
   widgets: Observable<IWidget[]>;
   onDestroyed$: Subject<void> = new Subject<void>();
@@ -39,7 +39,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
     private marketsService: MarketsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.widgets = this.marketsService.getWidgetsData().pipe(
@@ -55,7 +56,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToFavorite(element) {
+  addToFavorite(element): void {
     element.favorite = !element.favorite;
   }
 

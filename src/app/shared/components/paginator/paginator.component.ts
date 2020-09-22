@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,9 +13,9 @@ export interface Pagination {
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent implements OnInit, OnChanges {
+export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
-  count: number = 0;
+  count = 0;
 
   params: Pagination = {
     offset: 0,
@@ -75,7 +75,7 @@ export class PaginatorComponent implements OnInit, OnChanges {
     }
   }
 
-  navigate() {
+  navigate(): void {
     this.router.navigate([window.location.pathname], {
       queryParams: {
         ...this.route.snapshot.queryParams,
