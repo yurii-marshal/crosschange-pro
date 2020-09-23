@@ -1,0 +1,24 @@
+<div class="mat-table__search">
+  <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+  <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+</div>
+<mat-table mat-table [dataSource]="dataSource | async">
+  <ng-container [matColumnDef]="column" *ngFor="let column of displayedData; let i = index">
+    <mat-header-cell *matHeaderCellDef>{{ pageType + '.' + displayedColumns[i] | translate }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <ng-container *ngIf="column === 'favorite'">
+        <mat-icon [svgIcon]="element[column] ? 'icon_fill_star' : 'icon_star'"
+                  (click)="addToFavorite(element)">
+        </mat-icon>
+      </ng-container>
+
+      <ng-container *ngIf="column !== 'favorite'">
+        {{ element[column] }}
+      </ng-container>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedData"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedData;"></mat-row>
+</mat-table>
+<app-paginator [count]="count"></app-paginator>
