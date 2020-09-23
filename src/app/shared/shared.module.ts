@@ -9,13 +9,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LanguageSwitcherComponent } from './components/language-switcher/language-switcher.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MenuMobileComponent } from './components/menu-mobile/menu-mobile.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     BaseComponent,
-    LanguageSwitcherComponent
+    LanguageSwitcherComponent,
+    MenuMobileComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
     TranslateModule,
     MatIconModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSidenavModule,
   ],
   exports: [
     BaseComponent,

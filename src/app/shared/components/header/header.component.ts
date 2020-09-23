@@ -20,4 +20,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  openMenuMobile(MenuMobile): void {
+    MenuMobile.open();
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeMenuMobile(MenuMobile): void {
+    MenuMobile.close();
+    document.body.style.overflow = 'auto';
+  }
+
 }

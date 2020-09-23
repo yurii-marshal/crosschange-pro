@@ -1,43 +1,56 @@
-<header>
-  <div class="left">
-    <div class="logo">
-      <img src="/assets/images/logo-white.svg" alt="logo">
+<mat-drawer-container class="menu-mobile-container" [hasBackdrop]="false">
+  <mat-drawer #menuMobile mode="over">
+    <div class="menu-header">
+      <div class="logo">
+        <img src="/assets/images/logo-white.svg" alt="logo">
+      </div>
+      <mat-icon class="close" svgIcon="icon_close" (click)="closeMenuMobile(menuMobile)"></mat-icon>
     </div>
-    <ul>
-      <li *ngFor="let item of menuItems; let i = index">
-        <a class="menu-trigger"
-           (mouseover)="item.active = true"
-           (mouseleave)="item.active = false"
-        >
-          {{item.label | translate}}
-        </a>
-        <!--<span [matMenuTriggerFor]="walletMenu" class="menu-trigger">{{'header.wallet' | translate}}</span>-->
-        <!--<mat-menu #walletMenu xPosition="before" yPosition="above" [class]="'header-menu-dropdown'">-->
-        <!--<span mat-menu-item class="menu-item">-->
-        <!--{{'header.spot_wallet' | translate }}-->
-        <!--</span>-->
-        <!--</mat-menu>-->
-        <div *ngIf="i === 1" class="menu">
-          <div class="menu-container" [hidden]="!item.active">
-            <div class="menu-item">
-              <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
-              <span>{{'header.spot_wallet' | translate }}</span>
-            </div>
-            <div class="menu-item">
-              <mat-icon class="icon" svgIcon="icon_meter"></mat-icon>
-              <span>{{'header.margin_wallet' | translate }}</span>
-            </div>
-          </div>
+    <app-menu-mobile></app-menu-mobile>
+  </mat-drawer>
+  <mat-drawer-content>
+    <header>
+      <div class="left">
+        <div class="logo">
+          <img src="/assets/images/logo-white.svg" alt="logo">
         </div>
-      </li>
-    </ul>
-  </div>
-  <div class="right">
-    <mat-icon svgIcon="icon_notification"></mat-icon>
-    <mat-icon svgIcon="icon_user"></mat-icon>
-  </div>
-  <div class="right mobile">
-    <mat-icon svgIcon="icon_notification"></mat-icon>
-    <mat-icon svgIcon="icon_menu"></mat-icon>
-  </div>
-</header>
+        <ul>
+          <li *ngFor="let item of menuItems; let i = index">
+            <a class="menu-trigger"
+               (mouseover)="item.active = true"
+               (mouseleave)="item.active = false"
+            >
+              {{item.label | translate}}
+            </a>
+            <!--<span [matMenuTriggerFor]="walletMenu" class="menu-trigger">{{'header.wallet' | translate}}</span>-->
+            <!--<mat-menu #walletMenu xPosition="before" yPosition="above" [class]="'header-menu-dropdown'">-->
+            <!--<span mat-menu-item class="menu-item">-->
+            <!--{{'header.spot_wallet' | translate }}-->
+            <!--</span>-->
+            <!--</mat-menu>-->
+            <div *ngIf="i === 1" class="menu">
+              <div class="menu-container" [hidden]="!item.active">
+                <div class="menu-item">
+                  <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
+                  <span>{{'header.spot_wallet' | translate }}</span>
+                </div>
+                <div class="menu-item">
+                  <mat-icon class="icon" svgIcon="icon_meter"></mat-icon>
+                  <span>{{'header.margin_wallet' | translate }}</span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="right">
+        <mat-icon svgIcon="icon_notification"></mat-icon>
+        <mat-icon svgIcon="icon_user"></mat-icon>
+      </div>
+      <div class="right mobile">
+        <mat-icon svgIcon="icon_notification"></mat-icon>
+        <mat-icon svgIcon="icon_menu" (click)="openMenuMobile(menuMobile)"></mat-icon>
+      </div>
+    </header>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -10,6 +10,38 @@
   }
 }
 
+mat-drawer {
+  position: fixed;
+  z-index: 999;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+
+  .menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px 0 16px;
+    min-height: 86px;
+    z-index: 1;
+
+    .logo {
+      margin-right: 36px;
+      width: 92px;
+      height: 33px;
+
+      img {
+        max-width: 100%;
+      }
+    }
+    .close {
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
 header {
   display: flex;
   align-items: center;
@@ -165,9 +197,9 @@ mat-icon {
 
 @media all and (max-width: $media-small-tablet) {
   header {
+    min-height: 74px;
     padding: 0 16px;
     height: auto;
-    min-height: 86px;
 
     mat-icon {
       margin-right: 15px;
@@ -186,5 +218,11 @@ mat-icon {
     .left ul {
       display: none;
     }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  header {
+    min-height: 86px;
   }
 }

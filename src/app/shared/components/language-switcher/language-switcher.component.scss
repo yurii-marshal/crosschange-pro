@@ -20,6 +20,10 @@
     &:first-letter {
       text-transform: uppercase;
     }
+
+    &.mobile {
+      display: none;
+    }
   }
 
   .flag {

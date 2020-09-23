@@ -69,5 +69,15 @@
     "regulation_title": "We are regulated and licensed",
     "welcome_1": "Welcome to ",
     "welcome_2": "Crosschange Bank Pro"
+  },
+  "menu_mobile": {
+    "exchange": "Exchange",
+    "exchange_currency": "Exchange Currencies",
+    "history": "History",
+    "logout": "Logout",
+    "margin_wallet": "Margin wallet",
+    "markets": "Markets",
+    "spot_wallet": "Spot wallet",
+    "wallet": "Wallet"
   }
 }

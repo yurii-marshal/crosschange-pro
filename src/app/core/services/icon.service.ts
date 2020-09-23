@@ -19,7 +19,9 @@ const icons: string[] = [
   'icon_youtube',
   'icon_menu',
   'icon_meter',
-  'icon_wallet'
+  'icon_wallet',
+  'icon_close',
+  'icon_arrow_down',
 ];
 
 @Injectable({
