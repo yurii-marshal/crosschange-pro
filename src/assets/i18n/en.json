@@ -32,13 +32,13 @@
     "wallet": "Wallet"
   },
   "languages": {
-    "chi": "Chinese",
-    "de": "German",
-    "en": "English",
-    "es": "Spanish",
-    "fr": "French",
-    "ru": "Russian",
-    "uk": "Ukrainian"
+    "chi": "Chi",
+    "de": "De",
+    "en": "En",
+    "es": "Es",
+    "fr": "Fr",
+    "ru": "Ru",
+    "uk": "Uk"
   },
   "main_page": {
     "charts_table_available": "Available",
