@@ -165,6 +165,18 @@ mat-icon {
 
 @media all and (max-width: $media-small-tablet) {
   header {
+    padding: 0 16px;
+    height: auto;
+    min-height: 86px;
+
+    mat-icon {
+      margin-right: 15px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
     .right {
       display: none;
     }

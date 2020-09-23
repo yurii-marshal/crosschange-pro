@@ -1,4 +1,5 @@
 @import "../../../../assets/styles/variables";
+
 .switcher {
   max-width: 148px;
   border: 1px solid $color-grey-40;
@@ -9,29 +10,52 @@
   padding: 8px 6px 8px 12px;
   color: $color-white-100;
   justify-content: space-between;
+
   .language {
     font-size: 14px;
     line-height: 20px;
     color: $color-white-100;
     display: block;
+
     &:first-letter {
       text-transform: uppercase;
     }
   }
+
   .flag {
     margin-right: 8px;
   }
+
   mat-icon {
     max-height: 20px;
     cursor: pointer;
   }
 }
+
 .menu-item {
   display: block;
+
   &:first-letter {
     text-transform: uppercase;
   }
 }
+
 .flex {
   display: flex;
+}
+
+.mobile {
+  display: none;
+}
+
+@media all and (max-width: $media-mobile) {
+  .switcher .language,
+  .menu-item {
+    display: none;
+  }
+
+  .switcher .language.mobile,
+  .menu-item.mobile {
+    display: block;
+  }
 }

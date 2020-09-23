@@ -1,7 +1,9 @@
 @import "../../../../assets/styles/variables";
+
 footer {
 
 }
+
 .top {
   padding: 62px 40px 134px 40px;
   background-color: $color-footer-background;
@@ -29,6 +31,7 @@ footer {
     letter-spacing: 0.04em;
     margin-bottom: 20px;
     display: block;
+
     &.crosschange {
       margin-bottom: 27px;
     }
@@ -64,6 +67,7 @@ footer {
     }
   }
 }
+
 .bottom {
   display: flex;
   justify-content: space-between;
@@ -128,7 +132,6 @@ footer {
   }
 }
 
-
 @media all and (max-width: $media-small-tablet) {
   .top.mobile {
     display: block;
@@ -161,7 +164,47 @@ footer {
   .top .right.mobile {
     display: block;
   }
-  .top .right .title  {
+  .top .right .title {
     display: none;
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .top {
+    padding-bottom: 34px;
+
+    .left {
+      width: 100%;
+    }
+
+    .right {
+      ul li {
+        margin-bottom: 16px;
+      }
+
+      .socials {
+        padding-top: 20px;
+
+        li {
+          margin-right: 16px;
+          margin-bottom: 0;
+
+          a .mat-icon {
+            width: 34px;
+            height: 34px;
+          }
+        }
+      }
+    }
+
+    .title {
+      .crosschange {
+        margin-bottom: 16px;
+      }
+    }
+  }
+
+  .bottom {
+    padding: 18px 18px 24px;
   }
 }

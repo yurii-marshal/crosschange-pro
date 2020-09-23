@@ -21,6 +21,7 @@
     <div class="table">
       <div class="table-row header">
         <div class="table-cell caption icon">{{'main_page.charts_table_coin' | translate}}</div>
+        <div class="table-cell caption data">{{'main_page.charts_table_data' | translate}}</div>
         <div class="table-cell caption total">{{'main_page.charts_table_total' | translate}}</div>
         <div class="table-cell caption available">{{'main_page.charts_table_available' | translate}}</div>
         <div class="table-cell caption image">{{'main_page.charts_table_chart' | translate}}</div>
@@ -36,6 +37,10 @@
            </div>
          </div>
 
+        </div>
+        <div class="table-cell data">
+          <div>{{item.total}}</div>
+          <div class="data-available">{{item.available}}%</div>
         </div>
         <div class="table-cell total">
           <span>{{item.total}}</span>

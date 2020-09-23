@@ -79,6 +79,7 @@
 .charts-container {
   padding-top: 375px;
   position: relative;
+
   .charts {
     border: 0.5px solid $color-grey-20;
     z-index: 3;
@@ -119,6 +120,9 @@
     font-size: 14px;
     line-height: 20px;
     color: $color-grey-100;
+    &.data {
+      display: none;
+    }
     &.caption {
       font-weight: 400;
       font-size: 14px;
@@ -288,19 +292,62 @@
 }
 @media all and (max-width: 826px) {
   .charts-container {
-    padding-top: 100px;
+    padding-top: 0;
+    z-index: 9;
+
+    .table-cell {
+      &.data {
+        display: block;
+        text-align: right;
+        padding-right: 15px;
+
+        .data-available {
+          font-size: 14px;
+          line-height: 143%;
+          color: $color-green-100;
+        }
+      }
+
+      &.available, &.total, &.image, &.button {
+        display: none;
+      }
+    }
   }
 
   .wave-container {
+    height: 600px;
+    top: -86px;
+
     .wave {
+      z-index: 1;
       min-height: 50%;
+      overflow: hidden;
+
+      img {
+        transform: translateX(-25%);
+        max-width: none;
+        width: auto;
+      }
     }
     .wave-content {
       width: 100%;
       margin-left: 0;
       justify-content: center;
-      h1, span {
-        text-align: center;
+      padding: 48px 16px 0;
+
+      h1 {
+        width: 75%;
+        font-size: 28px;
+        line-height: 129%;
+        color: $color-grey-5;
+        margin-bottom: 5px;
+      }
+
+      span {
+        width: 90%;
+        font-size: 14px;
+        line-height: 143%;
+        color: $color-grey-10;
       }
     }
   }
@@ -308,11 +355,13 @@
     overflow: auto;
     max-width: 100%;
     position: static;
-    width: 100%;
-    margin-bottom: 100px;
+    width: 92%;
+    margin-bottom: 78px;
     display: block;
+    margin-top: -226px;
+
     .table {
-      min-width: 726px;
+      min-width: 0;
     }
   }
   .how-to {
@@ -323,6 +372,51 @@
   }
   .regulation {
     flex-wrap: wrap;
-    flex-direction: column-reverse;
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .wave-container {
+    .wave-grid {
+      overflow: hidden;
+
+      img {
+        max-width: 185%;
+        width: auto;
+      }
+    }
+  }
+
+  .regulation {
+    padding-bottom: 40px;
+
+    .section {
+      display: block;
+
+      .shield-container {
+        img {
+          width: 40px;
+        }
+      }
+    }
+
+    .left {
+      flex-basis: auto;
+
+      .title {
+        margin-bottom: 4px;
+        font-size: 20px;
+        line-height: 140%;
+      }
+    }
+
+    .right {
+      flex-basis: auto;
+
+      img {
+        margin-top: 26px;
+        top: 0;
+      }
+    }
   }
 }

@@ -15,6 +15,7 @@
     "privacy": "Privacy Policy",
     "products": "Products",
     "status": "",
+    "status_mobile": "",
     "terms": "Terms and Conditions",
     "zendesk": ""
   },
@@ -28,18 +29,26 @@
   },
   "languages": {
     "chi": "Chi",
+    "chi_mobile": "Chinese",
     "de": "Ge",
+    "de_mobile": "German",
     "en": "En",
+    "en_mobile": "English",
     "es": "Sp",
+    "es_mobile": "Spanish",
     "fr": "Fr",
+    "fr_mobile": "France",
     "ru": "Ru",
-    "uk": "Uk"
+    "ru_mobile": "Russian",
+    "uk": "Uk",
+    "uk_mobile": "Ukrainian"
   },
   "main_page": {
     "charts_table_available": "Available",
     "charts_table_buy": "Buy",
     "charts_table_chart": "Chart",
     "charts_table_coin": "Coin",
+    "charts_table_data": "",
     "charts_table_total": "Total",
     "charts_table_trade": "Trade",
     "easiest_way": "The easiest way to buy, sell and trade digital currency. ",
