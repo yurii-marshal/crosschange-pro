@@ -1,0 +1,45 @@
+<aside>
+  <div class="spot-wallet">
+    <div class="spot-wallet__header">Spot wallet</div>
+    <ul class="spot-wallet__services-list">
+      <li class="spot-wallet__services-item" [routerLink]="['../balance']" [routerLinkActive]="['active']">Balance</li>
+      <li class="spot-wallet__services-item" [routerLink]="['../deposit']" [routerLinkActive]="['active']">Deposit</li>
+      <li class="spot-wallet__services-item" [routerLink]="['../withdraw']" [routerLinkActive]="['active']">Withdraw</li>
+    </ul>
+  </div>
+</aside>
+<main>
+  <div class="total-balance">
+    <div class="total-balance__header">Total balance</div>
+    <div class="total-balance__amount">0.00000000
+      <div class="total-balance__amount-currency">
+        <span class="total-balance__amount-currency--black">BTC</span> ≈ $0.00
+      </div>
+      <mat-icon [svgIcon]="'icon_view'" class="total-balance__amount-icon"></mat-icon>
+    </div>
+  </div>
+
+  <div class="balances">
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">Fiat balance</div>
+        <div class="balance-info__table">
+        </div>
+      </div>
+    </div>
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">Crosschange Euro account balance</div>
+        <div class="balance-info__table">
+        </div>
+      </div>
+    </div>
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">Crypto balance</div>
+        <div class="balance-info__table">
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

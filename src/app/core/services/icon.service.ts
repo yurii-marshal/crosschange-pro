@@ -27,6 +27,10 @@ const icons: string[] = [
   'icon_arrow_right',
   'icon_star',
   'icon_fill_star',
+  'icon_view',
+  'icon_eur',
+  'icon_usd',
+  'icon_union',
 ];
 
 @Injectable({

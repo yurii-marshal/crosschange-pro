@@ -10,7 +10,7 @@
       <li>
         <span [matMenuTriggerFor]="walletMenu" class="menu-trigger">{{'header.wallet' | translate}}</span>
         <mat-menu #walletMenu xPosition="before" yPosition="above" [class]="'header-menu-dropdown'">
-          <span mat-menu-item class="menu-item">
+          <span mat-menu-item class="menu-item" routerLink="/wallet/balance">
               {{'header.spot_wallet' | translate }}
           </span>
         </mat-menu>
@@ -24,6 +24,8 @@
     </ul>
   </div>
   <div class="right">
+    <button class="exchange-btn">Exchange</button>
+
     <button class="notifications-btn" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="notificationsPopup">
       <mat-icon svgIcon="icon_notification"></mat-icon>
     </button>
