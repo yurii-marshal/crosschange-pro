@@ -60,7 +60,9 @@
           </div>
         </mat-menu>
 
-        <mat-icon svgIcon="icon_user"></mat-icon>
+        <button>
+          <mat-icon svgIcon="icon_user"></mat-icon>
+        </button>
         <ul *ngIf="isLoggedIn">
           <li>
             <button (click)="logout()">{{'header.logout' | translate}}</button>

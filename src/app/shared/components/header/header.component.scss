@@ -1,11 +1,14 @@
 @import "../../../../assets/styles/variables";
 
 :host {
+  header {
+    position: relative;
+    z-index: 2;
+  }
+
   &.transparent {
     header {
       background: transparent;
-      position: relative;
-      z-index: 2;
     }
   }
 
@@ -13,8 +16,6 @@
     header {
       background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
       linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
-      position: relative;
-      z-index: 2;
     }
   }
 }
@@ -49,6 +50,10 @@ mat-drawer {
       height: 12px;
     }
   }
+}
+
+mat-drawer-container {
+  background-color: transparent;
 }
 
 ::ng-deep {
@@ -114,8 +119,8 @@ header {
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
 
   &.logged-in {
-    .right mat-icon:last-of-type {
-      margin-right: 30px;
+    .right button:not(:last-child) {
+      margin-right: 20px;
     }
   }
 
