@@ -25,12 +25,14 @@ export class MarketsComponent implements OnInit, OnDestroy {
     'mktCap',
     'vol',
   ];
+  activeLink = 'favorite';
+  limit = 2;
 
   dataSource: Observable<MatTableDataSource<IExchangeData[]>>;
 
   searchInputControl = new FormControl();
 
-  count = 7;
+  count: number;
 
   widgets: Observable<IWidget[]>;
   onDestroyed$: Subject<void> = new Subject<void>();
@@ -52,7 +54,11 @@ export class MarketsComponent implements OnInit, OnDestroy {
       this.route.queryParams
     ).pipe(
       switchMap(([query, params]) =>
-        this.marketsService.loadResults(query, +params.offset, +params.limit).pipe(takeUntil(this.onDestroyed$))),
+        this.marketsService.loadResults(query, params).pipe(takeUntil(this.onDestroyed$))),
+      map(result => {
+        this.count = result.count;
+        return result.results;
+      })
     );
   }
 
