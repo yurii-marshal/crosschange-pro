@@ -11,77 +11,105 @@
 <div class="tabs-container">
   <div class="wrapper">
     <div class="tabs-content">
-      <mat-tab-group class="mat-tab-group">
-        <mat-tab label="{{ 'markets_page.tab_favorite' | translate }}">
+      <nav mat-tab-nav-bar class="mat-tab-group">
+        <a mat-tab-link
+           [active]="activeLink === 'favorite'"
+           (click)="activeLink = 'favorite'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'favorite', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_favorite' | translate }}
+        </a>
+        <a mat-tab-link
+           [active]="activeLink === 'btc_markets'"
+           (click)="activeLink = 'btc_markets'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'btc_markets', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_btc_markets' | translate }}
+        </a>
+        <a mat-tab-link
+           [active]="activeLink === 'atls_markets'"
+           (click)="activeLink = 'atls_markets'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'atls_markets', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_atls_markets' | translate }}
+        </a>
+        <a mat-tab-link
+           [active]="activeLink === 'history'"
+           (click)="activeLink = 'history'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'history', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_history' | translate }}
+        </a>
+        <a mat-tab-link
+           [active]="activeLink === 'profit'"
+           (click)="activeLink = 'profit'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'profit', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_profit' | translate }}
+        </a>
+      </nav>
 
-        </mat-tab>
-        <mat-tab label="{{ 'markets_page.tab_btc_markets' | translate }}">
-          <div class="mat-table__search">
-            <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
-            <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
-          </div>
-          <mat-table mat-table [dataSource]="dataSource | async" matSort>
-            <!-- Favorite column -->
-            <ng-container matColumnDef="favorite">
-              <mat-header-cell *matHeaderCellDef></mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                <mat-icon [svgIcon]="element.favorite ? 'icon_fill_star' : 'icon_star'"
-                          (click)="addToFavorite(element)">
-                </mat-icon>
-              </mat-cell>
-            </ng-container>
+      <div class="mat-table__search">
+        <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+        <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+      </div>
+      <mat-table mat-table [dataSource]="dataSource | async" matSort>
+        <!-- Favorite column -->
+        <ng-container matColumnDef="favorite">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-icon [svgIcon]="element.favorite ? 'icon_fill_star' : 'icon_star'"
+                      (click)="addToFavorite(element)">
+            </mat-icon>
+          </mat-cell>
+        </ng-container>
 
-            <!-- Pair column -->
-            <ng-container matColumnDef="pair">
-              <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.pair }}</mat-cell>
-            </ng-container>
+        <!-- Pair column -->
+        <ng-container matColumnDef="pair">
+          <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.pair }}</mat-cell>
+        </ng-container>
 
-            <!-- Last column -->
-            <ng-container matColumnDef="last">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.last' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.last }}</mat-cell>
-            </ng-container>
+        <!-- Last column -->
+        <ng-container matColumnDef="last">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.last' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.last }}</mat-cell>
+        </ng-container>
 
-            <!-- 24h Cng column -->
-            <ng-container matColumnDef="cng">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24cng' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.cng }}</mat-cell>
-            </ng-container>
+        <!-- 24h Cng column -->
+        <ng-container matColumnDef="cng">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24cng' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.cng }}</mat-cell>
+        </ng-container>
 
-            <!-- 24h High column -->
-            <ng-container matColumnDef="high">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24high' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.high }}</mat-cell>
-            </ng-container>
+        <!-- 24h High column -->
+        <ng-container matColumnDef="high">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24high' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.high }}</mat-cell>
+        </ng-container>
 
-            <!-- 24h Low column -->
-            <ng-container matColumnDef="low">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24low' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.low }}</mat-cell>
-            </ng-container>
+        <!-- 24h Low column -->
+        <ng-container matColumnDef="low">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24low' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.low }}</mat-cell>
+        </ng-container>
 
-            <!-- Mkt Cap column -->
-            <ng-container matColumnDef="mktCap">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.mktCap' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.mktCap }}</mat-cell>
-            </ng-container>
+        <!-- Mkt Cap column -->
+        <ng-container matColumnDef="mktCap">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.mktCap' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.mktCap }}</mat-cell>
+        </ng-container>
 
-            <!-- 24h Vol column -->
-            <ng-container matColumnDef="vol">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24vol' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{ element.vol }}</mat-cell>
-            </ng-container>
+        <!-- 24h Vol column -->
+        <ng-container matColumnDef="vol">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24vol' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.vol }}</mat-cell>
+        </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-          <app-paginator [count]="count"></app-paginator>
-        </mat-tab>
-        <mat-tab label="{{ 'markets_page.tab_atls_markets' | translate }}"></mat-tab>
-        <mat-tab label="{{ 'markets_page.tab_history' | translate }}"></mat-tab>
-        <mat-tab label="{{ 'markets_page.tab_profit' | translate }}"></mat-tab>
-      </mat-tab-group>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <app-paginator [count]="count"></app-paginator>
     </div>
   </div>
 </div>

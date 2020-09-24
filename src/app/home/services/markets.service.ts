@@ -124,10 +124,23 @@ export class MarketsService {
     return of(mockData);
   }
 
-  loadResults(query: string, offset: number, limit: number): Observable<any> {
-    const data = mockTable.filter(item =>
-      item.pair.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) !== -1).slice(offset, offset + limit);
+  loadResults(query: string, params: any): Observable<any> {
+    const favorite = mockTable.filter(item => item.favorite);
+    let data;
 
-    return of(data);
+    if (params.tab === 'favorite') {
+      data = favorite.filter(item =>
+        item.pair.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) !== -1);
+    } else {
+      data = mockTable.filter(item =>
+        item.pair.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) !== -1);
+    }
+
+    const result = {
+      results: data.slice(+params.offset, +params.offset + +params.limit),
+      count: data.length
+    };
+
+    return of(result);
   }
 }
