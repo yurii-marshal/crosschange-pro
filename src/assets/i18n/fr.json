@@ -1,4 +1,7 @@
 {
+  "crypto_widget": {
+    "volume": ""
+  },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
     "about": "About",
@@ -22,6 +25,7 @@
   "header": {
     "exchange": "Exchange",
     "history": "History",
+    "logout": "",
     "margin_wallet": "Margin wallet",
     "markets": "Markets",
     "spot_wallet": "Spot wallet",
@@ -70,6 +74,20 @@
     "welcome_1": "Welcome to ",
     "welcome_2": "Crosschange Bank Pro"
   },
+  "markets_page": {
+    "24cng": "",
+    "24high": "",
+    "24low": "",
+    "24vol": "",
+    "last": "",
+    "mktCap": "",
+    "pair": "",
+    "tab_atls_markets": "",
+    "tab_btc_markets": "",
+    "tab_favorite": "",
+    "tab_history": "",
+    "tab_profit": ""
+  },
   "menu_mobile": {
     "exchange": "Exchange",
     "exchange_currency": "Exchange Currencies",
@@ -79,5 +97,22 @@
     "markets": "Markets",
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"
+  },
+  "notifications": {
+    "title": "",
+    "view_all": ""
+  },
+  "time_ago": {
+    "day_before": "",
+    "days_before": "",
+    "few_seconds_before": "",
+    "hour_before": "",
+    "hours_before": "",
+    "minute_ago": "",
+    "minutes_before": "",
+    "month_before": "",
+    "months_before": "",
+    "year_before": "",
+    "years_before": ""
   }
 }
