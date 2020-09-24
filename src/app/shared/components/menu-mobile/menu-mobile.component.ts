@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { tap } from 'rxjs/operators';
+import { SsoService, SessionService } from 'shared-kuailian-lib';
 
 @Component({
   selector: 'app-menu-mobile',
@@ -23,10 +25,19 @@ export class MenuMobileComponent implements OnInit {
     {label: '', active: false},
   ];
 
-  constructor() {
+  constructor(
+    private ssoService: SsoService,
+    private sessionService: SessionService,
+  ) {
   }
 
   ngOnInit(): void {
+  }
+
+  logout(): void {
+    this.ssoService.logout().pipe(
+      tap(() => this.sessionService.removeSession())
+    ).subscribe();
   }
 
 }
