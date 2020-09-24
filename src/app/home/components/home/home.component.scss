@@ -1,19 +1,23 @@
 @import "../../../../assets/styles/variables";
+
 .wave-container {
   height: 741px;
-  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), #060B1F;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
   position: relative;
   top: -75px;
   padding-top: 72px;
   display: flex;
-  justify-content: center;
 
   .wave-content {
-    padding-top: 60px;
+    margin-left: 83px;
+    padding-top: 160px;
+    text-align: left;
     color: $color-white-100;
+    z-index: 1;
     h1 {
-      text-align: center;
+      text-align: left;
       font-size: 48px;
+      font-weight: bold;
       line-height: 56px;
       margin-bottom: 16px;
     }
@@ -22,7 +26,7 @@
       font-size: 16px;
       line-height: 28px;
       margin-bottom: 36px;
-      text-align: center;
+      text-align: left;
     }
     .button {
       display: flex;
@@ -35,16 +39,37 @@
       border-radius: 4px;
       color: $color-white-100;
       min-width: 211px;
-      font-weight: 500;
+      font-weight: 400;
       font-size: 16px;
       line-height: 24px;
     }
   }
-  .wave {
+  /*.wave {
     width: 100%;
     position: absolute;
     bottom: 0;
     height: 315px;
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }*/
+  .wave {
+    width: 100%;
+    position: absolute;
+    max-height: 58%;
+    z-index: 2;
+    bottom: 0;
+    img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+  .wave-grid {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
     img {
       max-width: 100%;
       width: 100%;
@@ -55,15 +80,17 @@
 .charts-container {
   padding-top: 375px;
   position: relative;
+
   .charts {
     border: 0.5px solid $color-grey-20;
+    z-index: 3;
     border-radius: 4px;
     left: 12%;
     width: 80.27%;
     margin: 0 auto;
     background-color: $color-white-100;
     position: absolute;
-    top: -23%;
+    top: -17%;
     display: flex;
     justify-content: center;
     box-shadow: 0 0 4px 0 rgba(145, 149, 158, 0.25);
@@ -94,20 +121,32 @@
     font-size: 14px;
     line-height: 20px;
     color: $color-grey-100;
+    &.data {
+      display: none;
+    }
     &.caption {
-      font-weight: 500;
-      font-size: 16px;
+      font-weight: 400;
+      font-size: 14px;
       line-height: 24px;
-      color: $color-grey-100;
+      color: $color-grey-60;
     }
     &.image {
       padding: 0;
+      width: 25%;
     }
-    &.available, &.total, &.image, &.button {
+    &.available {
+      text-align: center;
+      width: 30%;
+    }
+    &.total {
       text-align: right;
+    }
+    &.image, &.button {
+      text-align: left;
     }
     &.button {
       padding-right: 15px;
+      width: 10%;
     }
     &.total:not(.caption) span, .available:not(.caption) span {
       font-size: 14px;
@@ -137,13 +176,20 @@
     }
   }
   button {
-    border: 1px solid $color-brand;
     color: $color-brand;
     min-width: 89px;
     font-size: 14px;
     line-height: 20px;
     padding-top: 6px;
     padding-bottom: 6px;
+    background: #E7ECF4;
+    border-color: transparent;
+    font-weight: 400;
+
+    &:hover {
+      background-color: $color-brand;
+      color: #FFFFFF;
+    }
   }
 }
 
@@ -188,9 +234,8 @@
 }
 
 .regulation {
-  padding: 160px 6.9% 160px 6.9%;
+  padding: 0 6.9% 160px 6.9%;
   display: flex;
-  background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
   .left {
     margin-right: 8%;
     flex-basis: 42%;
@@ -200,12 +245,12 @@
       font-weight: bold;
       margin-bottom: 12px;
       display: block;
-      color: $color-white-100;
+      color: $color-trading-dark;
     }
     & > .subtitle {
       font-size: 16px;
       line-height: 28px;
-      color: $color-grey-30;
+      color: $color-grey-80;
       display: block;
       margin-bottom: 32px;
     }
@@ -236,32 +281,89 @@
     .title {
       font-size: 20px;
       line-height: 32px;
-      color: $color-grey-5;
+      color: $color-trading-dark;
       display: block;
     }
     .text {
       font-size: 14px;
       line-height: 20px;
-      color: $color-grey-30;
+      color: $color-brand;
     }
   }
 }
+
+// TODO: check media sizes
 @media all and (max-width: 826px) {
   .charts-container {
-    padding-top: 100px;
+    padding-top: 0;
+    z-index: 9;
+
+    .table-cell {
+      &.data {
+        display: block;
+        text-align: right;
+        padding-right: 15px;
+
+        .data-available {
+          font-size: 14px;
+          line-height: 143%;
+          color: $color-green-100;
+        }
+      }
+
+      &.available, &.total, &.image, &.button {
+        display: none;
+      }
+    }
   }
-  .wave-container .wave {
-    height: 221px;
+
+  .wave-container {
+    top: -86px;
+
+    .wave {
+      z-index: 1;
+      min-height: 50%;
+      overflow: hidden;
+
+      img {
+        transform: translateX(-25%);
+        max-width: none;
+        width: auto;
+      }
+    }
+    .wave-content {
+      width: 100%;
+      margin-left: 0;
+      justify-content: center;
+      padding: 48px 16px 0;
+
+      h1 {
+        width: 75%;
+        font-size: 28px;
+        line-height: 129%;
+        color: $color-grey-5;
+        margin-bottom: 5px;
+      }
+
+      span {
+        width: 90%;
+        font-size: 14px;
+        line-height: 143%;
+        color: $color-grey-10;
+      }
+    }
   }
   .charts-container .charts {
     overflow: auto;
     max-width: 100%;
     position: static;
-    width: 100%;
-    margin-bottom: 100px;
+    width: 92%;
+    margin-bottom: 78px;
     display: block;
+    margin-top: -226px;
+
     .table {
-      min-width: 726px;
+      min-width: 0;
     }
   }
   .how-to {
@@ -272,6 +374,53 @@
   }
   .regulation {
     flex-wrap: wrap;
-    flex-direction: column-reverse;
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .wave-container {
+    height: 600px;
+
+    .wave-grid {
+      overflow: hidden;
+
+      img {
+        max-width: 185%;
+        width: auto;
+      }
+    }
+  }
+
+  .regulation {
+    padding-bottom: 40px;
+
+    .section {
+      display: block;
+
+      .shield-container {
+        img {
+          width: 40px;
+        }
+      }
+    }
+
+    .left {
+      flex-basis: auto;
+
+      .title {
+        margin-bottom: 4px;
+        font-size: 20px;
+        line-height: 140%;
+      }
+    }
+
+    .right {
+      flex-basis: auto;
+
+      img {
+        margin-top: 26px;
+        top: 0;
+      }
+    }
   }
 }

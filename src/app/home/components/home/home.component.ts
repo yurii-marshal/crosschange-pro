@@ -7,7 +7,10 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-
+  /*
+  * status.crosschange.exchange
+    https://crosschange-bank.zendesk.com
+  * */
   crypto = [
     {
       icon: 'icon_bitcoin',
