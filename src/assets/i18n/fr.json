@@ -25,7 +25,7 @@
   "header": {
     "exchange": "Exchange",
     "history": "History",
-    "logout": "",
+    "logout": "Logout",
     "margin_wallet": "Margin wallet",
     "markets": "Markets",
     "spot_wallet": "Spot wallet",

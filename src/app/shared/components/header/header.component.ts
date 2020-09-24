@@ -5,6 +5,7 @@ import { Notification } from '../../../core/interfaces/notification.interface';
 import { Router } from '@angular/router';
 import { SsoService, SessionService } from 'shared-kuailian-lib';
 import { tap } from 'rxjs/operators';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-header',
@@ -57,3 +58,10 @@ export class HeaderComponent implements OnInit {
   }
 
 }
+
+_([
+  'header.markets',
+  'header.wallet',
+  'header.exchange',
+  'header.history',
+]);

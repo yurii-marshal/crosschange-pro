@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-menu-mobile',
@@ -29,3 +30,12 @@ export class MenuMobileComponent implements OnInit {
   }
 
 }
+
+_([
+  'menu_mobile.markets',
+  'menu_mobile.wallet',
+  'menu_mobile.spot_wallet',
+  'menu_mobile.margin_wallet',
+  'menu_mobile.exchange',
+  'menu_mobile.history',
+]);

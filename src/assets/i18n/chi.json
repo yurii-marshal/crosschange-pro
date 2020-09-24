@@ -23,13 +23,13 @@
     "zendesk": ""
   },
   "header": {
-    "exchange": "Exchange",
-    "history": "History",
+    "exchange": "",
+    "history": "",
     "logout": "Logout",
     "margin_wallet": "Margin wallet",
-    "markets": "Markets",
+    "markets": "",
     "spot_wallet": "Spot wallet",
-    "wallet": "Wallet"
+    "wallet": ""
   },
   "languages": {
     "chi": "Chi",
@@ -89,14 +89,14 @@
     "tab_profit": "Profit"
   },
   "menu_mobile": {
-    "exchange": "Exchange",
+    "exchange": "",
     "exchange_currency": "Exchange Currencies",
-    "history": "History",
+    "history": "",
     "logout": "Logout",
-    "margin_wallet": "Margin wallet",
-    "markets": "Markets",
-    "spot_wallet": "Spot wallet",
-    "wallet": "Wallet"
+    "margin_wallet": "",
+    "markets": "",
+    "spot_wallet": "",
+    "wallet": ""
   },
   "notifications": {
     "title": "Notifications",
