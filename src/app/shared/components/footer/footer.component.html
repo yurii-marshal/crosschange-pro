@@ -13,7 +13,7 @@
         </span>
         <ul>
           <li>
-            <a href="">{{'footer.crosschange_bank' | translate}}</a>
+            <a [href]="environment.kuailianBankUrl">{{'footer.crosschange_bank' | translate}}</a>
           </li>
         </ul>
       </div>
@@ -23,13 +23,7 @@
         </span>
         <ul>
           <li>
-            <a href="">{{'footer.kuailian_platform' | translate}}</a>
-          </li>
-          <li>
-            <a href="">{{'footer.kuailian_marketplace' | translate}}</a>
-          </li>
-          <li>
-            <a href="">{{'footer.kuailian_academy' | translate}}</a>
+            <a [href]="environment.kuailianPlatformUrl">{{'footer.kuailian_platform' | translate}}</a>
           </li>
         </ul>
       </div>
@@ -43,12 +37,6 @@
           </li>
           <li>
             <a href="">{{'footer.contact' | translate}}</a>
-          </li>
-          <li>
-            <a href="">{{'footer.faq' | translate}}</a>
-          </li>
-          <li>
-            <a href="">{{'footer.partners' | translate}}</a>
           </li>
           <li>
             <a href="">{{'footer.commission' | translate}}</a>
@@ -94,6 +82,12 @@
       <div class="section mobile">
         <ul>
           <li>
+            <a href="">{{'footer.status_mobile' | translate}}</a>
+          </li>
+          <li>
+            <a href="">{{'footer.zendesk' | translate}}</a>
+          </li>
+          <li>
             <a href="">{{'footer.terms' | translate}}</a>
           </li>
           <li>
@@ -103,18 +97,54 @@
             <a href="">{{'footer.gdpr' | translate}}</a>
           </li>
         </ul>
+        <ul>
+          <li>
+            <ul class="socials">
+              <li>
+                <a href="">
+                  <mat-icon svgIcon="icon_facebook"></mat-icon>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <mat-icon svgIcon="icon_instagram"></mat-icon>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <mat-icon svgIcon="icon_youtube"></mat-icon>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <mat-icon svgIcon="icon_linkedin"></mat-icon>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <span>bank@crosschange.exchange</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
   <div class="bottom">
     <div class="left">
       <ul>
-        <li class="copyright">{{'footer.copyright' | translate}}</li>
         <li>{{'footer.member_of_alliance' | translate}}</li>
+        <li>{{'footer.copyright' | translate}}</li>
       </ul>
     </div>
     <div class="right">
       <ul>
+        <li>
+          <div class="ellipse"></div>
+          <a href="">{{'footer.status' | translate}}</a>
+        </li>
+        <li>
+          <a href="">{{'footer.zendesk' | translate}}</a>
+        </li>
         <li>
           <a href="">{{'footer.terms' | translate}}</a>
         </li>

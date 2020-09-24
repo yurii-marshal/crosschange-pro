@@ -7,13 +7,13 @@
       {{'main_page.welcome_2' | translate}}
     </h1>
     <span>{{'main_page.easiest_way' | translate}}</span>
-    <div class="button">
-      <button mat-raised-button>{{'main_page.get_started' | translate}}</button>
-    </div>
   </div>
 
   <div class="wave">
-    <img src="assets/images/homepage-wave.svg" alt="Wave">
+    <img src="assets/images/wave-v2-cropped.png" alt="Wave">
+  </div>
+  <div class="wave-grid">
+    <img src="assets/images/wave-grid.png" alt="grid">
   </div>
 </div>
 <div class="charts-container">
@@ -21,6 +21,7 @@
     <div class="table">
       <div class="table-row header">
         <div class="table-cell caption icon">{{'main_page.charts_table_coin' | translate}}</div>
+        <div class="table-cell caption data">{{'main_page.charts_table_data' | translate}}</div>
         <div class="table-cell caption total">{{'main_page.charts_table_total' | translate}}</div>
         <div class="table-cell caption available">{{'main_page.charts_table_available' | translate}}</div>
         <div class="table-cell caption image">{{'main_page.charts_table_chart' | translate}}</div>
@@ -32,16 +33,20 @@
            <mat-icon [svgIcon]="item.icon"></mat-icon>
            <div class="title-container">
              <span class="title">{{item.title}}</span>
-             <span class="subtitle">{{item.subtitle}}</span>
+             <!--<span class="subtitle">{{item.subtitle}}</span>-->
            </div>
          </div>
 
         </div>
+        <div class="table-cell data">
+          <div>{{item.total}}</div>
+          <div class="data-available">{{item.available}}%</div>
+        </div>
         <div class="table-cell total">
-          <span>{{item.total}}%</span>
+          <span>{{item.total}}</span>
         </div>
         <div class="table-cell available">
-          <span>{{item.available}}</span>
+          <span>{{item.available}}%</span>
         </div>
         <div class="table-cell image">
           <div>
@@ -55,41 +60,40 @@
     </div>
   </div>
 
-  <div class="how-to">
+  <!--<div class="how-to">
       <div class="item" *ngFor="let item of [1,2,3]; let i=index">
         <img class="shield" src="assets/images/shield.png" alt="">
         <span class="title">{{'main_page.howto_title_' + (i + 1) | translate}}</span>
         <span class="text">{{'main_page.howto_text_' + (i + 1) | translate}}</span>
         <a href="">{{'main_page.howto_link_' + (i + 1) | translate}}</a>
       </div>
-  </div>
-
-</div>
-
-<div class="regulation">
-  <div class="left">
-    <span class="title">{{'main_page.regulation_title' | translate}}</span>
-    <span class="subtitle">{{'main_page.regulation_subtitle' | translate}}</span>
-    <div class="section">
-      <div class="shield-container">
-        <img src="assets/images/shield-black.png" alt="">
+  </div>-->
+  <div class="regulation">
+    <div class="left">
+      <span class="title">{{'main_page.regulation_title' | translate}}</span>
+      <span class="subtitle">{{'main_page.regulation_subtitle' | translate}}</span>
+      <div class="section">
+        <div class="shield-container">
+          <img src="assets/images/shield-grey.svg" alt="">
+        </div>
+        <div>
+          <span class="title">{{'main_page.regulation_section_1_title' | translate}}</span>
+          <span class="text">{{'main_page.regulation_section_1_text' | translate}}</span>
+        </div>
       </div>
-      <div>
-        <span class="title">{{'main_page.regulation_section_1_title' | translate}}</span>
-        <span class="text">{{'main_page.regulation_section_1_text' | translate}}</span>
-      </div>
-    </div>
-    <div class="section">
-      <div class="shield-container">
-        <img src="assets/images/shield-black.png" alt="">
-      </div>
-      <div>
-        <span class="title">{{'main_page.regulation_section_2_title' | translate}}</span>
-        <span class="text">{{'main_page.regulation_section_2_text' | translate}}</span>
+      <div class="section">
+        <div class="shield-container">
+          <img src="assets/images/shield-grey.svg" alt="">
+        </div>
+        <div>
+          <span class="title">{{'main_page.regulation_section_2_title' | translate}}</span>
+          <span class="text">{{'main_page.regulation_section_2_text' | translate}}</span>
+        </div>
       </div>
     </div>
+    <div class="right">
+      <img src="assets/images/homepage-regulation.png" alt="">
+    </div>
   </div>
-  <div class="right">
-    <img src="assets/images/homepage-regulation.png" alt="">
-  </div>
+
 </div>

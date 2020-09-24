@@ -15,6 +15,13 @@ import { tap } from 'rxjs/operators';
 export class HeaderComponent implements OnInit {
   notifications$: Observable<Notification[]>;
 
+  menuItems = [
+    {active: false, label: 'header.markets'},
+    {active: false, label: 'header.wallet'},
+    {active: false, label: 'header.exchange'},
+    {active: false, label: 'header.history'},
+  ];
+
   get isLoggedIn(): boolean {
     return this.sessionService.isAuthenticated;
   }
@@ -40,6 +47,16 @@ export class HeaderComponent implements OnInit {
     this.ssoService.logout().pipe(
       tap(() => this.sessionService.removeSession())
     ).subscribe();
+  }
+
+  openMenuMobile(MenuMobile): void {
+    MenuMobile.open();
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeMenuMobile(MenuMobile): void {
+    MenuMobile.close();
+    document.body.style.overflow = 'auto';
   }
 
 }
