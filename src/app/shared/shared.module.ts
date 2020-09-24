@@ -13,6 +13,11 @@ import { NotificationItemComponent } from './components/notification-item/notifi
 import { SnackbarNotificationComponent } from './components/snackbar-notification/snackbar-notification.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { MenuMobileComponent } from './components/menu-mobile/menu-mobile.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 const components = [
   HeaderComponent,
@@ -22,6 +27,8 @@ const components = [
   LanguageSwitcherComponent,
   NotificationItemComponent,
   PaginatorComponent,
+  SnackbarNotificationComponent,
+  MenuMobileComponent,
 
   TimeBeforePipe,
 ];
@@ -29,13 +36,16 @@ const components = [
 @NgModule({
   declarations: [
     ...components,
-    SnackbarNotificationComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     AngularMaterialModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSidenavModule,
     ReactiveFormsModule,
   ],
   exports: [
@@ -43,6 +53,9 @@ const components = [
     CommonModule,
     RouterModule,
     TranslateModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
   ],
   providers: [DatePipe]
 })

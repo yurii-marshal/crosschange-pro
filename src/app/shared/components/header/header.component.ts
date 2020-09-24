@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NotificationsService } from '../../../notifications/services/notifications.service';
 import { Observable } from 'rxjs';
 import { Notification } from '../../../core/interfaces/notification.interface';
 import { Router } from '@angular/router';
 import { SsoService, SessionService } from 'shared-kuailian-lib';
 import { tap } from 'rxjs/operators';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,16 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+  @Input() menuMobile;
+
   notifications$: Observable<Notification[]>;
+
+  menuItems = [
+    {active: false, label: 'header.markets'},
+    {active: false, label: 'header.wallet'},
+    {active: false, label: 'header.exchange'},
+    {active: false, label: 'header.history'},
+  ];
 
   get isLoggedIn(): boolean {
     return this.sessionService.isAuthenticated;
@@ -42,4 +52,16 @@ export class HeaderComponent implements OnInit {
     ).subscribe();
   }
 
+  openMenuMobile(MenuMobile): void {
+    MenuMobile.open();
+    document.body.style.overflow = 'hidden';
+  }
+
 }
+
+_([
+  'header.markets',
+  'header.wallet',
+  'header.exchange',
+  'header.history',
+]);
