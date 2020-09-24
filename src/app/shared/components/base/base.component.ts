@@ -48,6 +48,11 @@ export class BaseComponent implements OnInit, OnDestroy {
     return route;
   }
 
+  closeMenuMobile(MenuMobile): void {
+    MenuMobile.close();
+    document.body.style.overflow = 'auto';
+  }
+
   ngOnDestroy(): void {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();

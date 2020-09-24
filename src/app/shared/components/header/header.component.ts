@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { NotificationsService } from '../../../notifications/services/notifications.service';
 import { Observable } from 'rxjs';
 import { Notification } from '../../../core/interfaces/notification.interface';
@@ -13,6 +13,8 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
+  @Input() menuMobile;
+
   notifications$: Observable<Notification[]>;
 
   menuItems = [
@@ -52,11 +54,6 @@ export class HeaderComponent implements OnInit {
   openMenuMobile(MenuMobile): void {
     MenuMobile.open();
     document.body.style.overflow = 'hidden';
-  }
-
-  closeMenuMobile(MenuMobile): void {
-    MenuMobile.close();
-    document.body.style.overflow = 'auto';
   }
 
 }

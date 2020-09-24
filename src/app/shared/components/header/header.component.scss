@@ -20,38 +20,6 @@
   }
 }
 
-mat-drawer {
-  position: fixed;
-  z-index: 999;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
-  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%), linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
-
-  .menu-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 22px 0 16px;
-    min-height: 86px;
-    z-index: 1;
-
-    .logo {
-      margin-right: 36px;
-      width: 92px;
-      height: 33px;
-
-      img {
-        max-width: 100%;
-      }
-    }
-    .close {
-      width: 12px;
-      height: 12px;
-    }
-  }
-}
-
 mat-drawer-container {
   background-color: transparent;
 }
@@ -110,6 +78,7 @@ mat-drawer-container {
 }
 
 header {
+  perspective: 2000px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -136,7 +105,6 @@ header {
     list-style-type: none;
     li {
       margin-right: 32px;
-      position: relative;
 
       &:last-of-type {
         margin-right: 0;
@@ -176,18 +144,37 @@ header {
   }
 
   .menu {
-    left: 50%;
-    transform: translateX(-50%);
-    position: absolute;
+    position: fixed;
     background-color: transparent;
     padding-top: 15px;
+
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    transform: translateX(-35%) rotateX(0);
+    transform-origin: 100% 0;
+    opacity: 1;
+    will-change: transform, opacity;
+    transition-property: transform, opacity;
+    transition-duration: .25s;
+
+    &.closed {
+      transform-origin: center -100px; /* Axis moved up to create a larger arc of movement. */
+      transform: translateX(-35%) rotateX(-15deg);
+      opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+      transition-property: transform, opacity;
+      transition-duration: .25s;
+    }
 
     .menu-container {
       position: relative;
       background: #FFFFFF;
       border: 0.5px solid #ECECEC;
       box-sizing: border-box;
-      box-shadow: 0 6px 10px rgba(40, 53, 68, 0.12);
+      box-shadow:
+        0 50px 100px -20px rgba(50,50,93,.25),
+        0 30px 60px -30px rgba(0,0,0,.3);
       border-radius: 4px;
       min-width: 133px;
       padding: 13px;
@@ -197,8 +184,8 @@ header {
         content: "";
         position: absolute;
         top: -10px;
-        left: 50%;
-        transform: translateX(-50%);
+        //left: 50%;
+        transform: translateX(178%);
         width: 0;
         height: 0;
         border-left: 12px solid transparent;
