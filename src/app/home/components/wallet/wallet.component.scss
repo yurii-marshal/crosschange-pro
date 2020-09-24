@@ -1,0 +1,193 @@
+@import "../../../../assets/styles/variables";
+
+:host {
+  display: flex;
+  height: 100%;
+}
+
+aside {
+  width: 240px;
+  height: 100%;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  background-color: #fafbfc;
+}
+
+.spot-wallet {
+  display: flex;
+  flex-direction: column;
+  padding-top: 32px;
+  padding-left: 40px;
+
+  &__header {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+  }
+
+  &__services-list {
+    margin-top: 8px;
+  }
+
+  &__services-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-grey-60;
+    cursor: pointer;
+  }
+
+  .active {
+    color: $color-brand-dark;
+  }
+}
+
+.total-balance {
+  margin: 36px 22px;
+
+  &__header {
+    font-size: 32px;
+    line-height: 44px;
+    font-weight: bold;
+    color: $color-brand-dark;
+  }
+
+  &__amount {
+    display: flex;
+    align-items: baseline;
+    font-size: 20px;
+    line-height: 32px;
+    color: $color-brand-dark;
+
+    &-currency {
+      margin-left: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 16px;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: $color-grey-60;
+
+      &--black {
+        color: $color-brand-dark;
+      }
+    }
+
+    &-icon {
+      margin-left: 9px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.balances {
+  margin: 0 22px 107px;
+
+  .balance {
+    margin-bottom: 40px;
+  }
+
+  .balance-info {
+    color: $color-brand-dark;
+
+    &__name {
+      margin-bottom: 12px;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+    }
+  }
+}
+
+.mat-table__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  height: 52px;
+  background: $color-white-100;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  &-icon {
+    position: absolute;
+    left: 20px;
+  }
+
+  &-input {
+    margin-left: 12px;
+    padding-left: 35px;
+    width: 200px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    background: $color-grey-5;
+    border: 1px solid $color-grey-10;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+
+  .hide-balance-btn {
+    margin-left: 12px;
+    padding: 6px 8px;
+    background-color: $color-white-100;
+    border: 1px solid $color-grey-10;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
+
+.mat-header__icon {
+  margin-top: -10px;
+  margin-left: 8px;
+  width: 8px;
+  height: 9.5px;
+}
+
+.mat-column-coin {
+  flex: 4;
+  text-transform: uppercase;
+
+  mat-icon {
+    margin-right: 19px;
+  }
+}
+
+.mat-column-total,
+.mat-column-available,
+.mat-column-inOrder,
+.mat-column-btcValue {
+  flex: 3;
+  justify-content: flex-end;
+  padding-right: 12px;
+}
+
+.mat-column-action {
+  flex: 5;
+  justify-content: flex-end;
+
+  span {
+    margin-left: 24px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-brand;
+  }
+}
+
+.mat-header-cell {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: normal;
+  color: $color-grey-60;
+
+  &:first-child {
+    text-transform: capitalize;
+  }
+}
