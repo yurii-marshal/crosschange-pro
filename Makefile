@@ -11,7 +11,7 @@ config-basic-auth:
 
 build-pro-frontend:
 	npm install
-	NODE_ENV=${ENV} OS_PROJECT_ID=173816 OS_SECRET_KEY=hWbx4rOO1odMr7P5x5afZ0O27GH1D74L OS_PUBLIC_KEY=T58OmNsd2vPksvfQrfVg5A936GUADObn  OS_BASE_FILE=en.json ONE_SKY_BASE_FILE_NAME=base.json BASE_LANG=en node translationsUpdater
+	NODE_ENV=${ENV} OS_PROJECT_ID=173816 OS_SECRET_KEY=${OS_SECRET_KEY} OS_PUBLIC_KEY=T58OmNsd2vPksvfQrfVg5A936GUADObn  OS_BASE_FILE=en.json ONE_SKY_BASE_FILE_NAME=base.json BASE_LANG=en node translationsUpdater
 	npm run build:${ENV}
 
 deploy-pro-frontend:
