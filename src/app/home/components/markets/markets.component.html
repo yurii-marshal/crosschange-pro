@@ -27,11 +27,11 @@
           {{ 'markets_page.tab_btc_markets' | translate }}
         </a>
         <a mat-tab-link
-           [active]="activeLink === 'atls_markets'"
-           (click)="activeLink = 'atls_markets'"
+           [active]="activeLink === 'alts_markets'"
+           (click)="activeLink = 'alts_markets'"
            [routerLink]="['.']"
-           [queryParams]="{tab: 'atls_markets', offset: 0, limit: limit}">
-          {{ 'markets_page.tab_atls_markets' | translate }}
+           [queryParams]="{tab: 'alts_markets', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_alts_markets' | translate }}
         </a>
         <a mat-tab-link
            [active]="activeLink === 'history'"

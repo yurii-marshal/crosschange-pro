@@ -68,18 +68,18 @@
     "welcome_2": "Crosschange Bank Pro"
   },
   "markets_page": {
-    "24cng": "",
-    "24high": "",
-    "24low": "",
-    "24vol": "",
-    "last": "",
-    "mktCap": "",
-    "pair": "",
-    "tab_atls_markets": "",
-    "tab_btc_markets": "",
-    "tab_favorite": "",
-    "tab_history": "",
-    "tab_profit": ""
+    "24cng": "24 Cng",
+    "24high": "24 High",
+    "24low": "24 Low",
+    "24vol": "24 Vol",
+    "last": "Last",
+    "mktCap": "Mkt Cap",
+    "pair": "Pair",
+    "tab_alts_markets": "ALTS Markets",
+    "tab_btc_markets": "BTC Markets",
+    "tab_favorite": "Favorite",
+    "tab_history": "History",
+    "tab_profit": "Profit"
   },
   "menu_mobile": {
     "exchange": "Exchange",
