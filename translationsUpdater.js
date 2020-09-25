@@ -115,6 +115,7 @@ class TranslationsUpdater {
     try {
       mergedContent = this.mergeIfEmpty(JSON.parse(JSON.stringify(mergedContent)), localBaseContent, []);
     } catch (e) {
+      console.error('mergeWithDefaultAndSave error', e);
       throw e;
     }
 
@@ -145,7 +146,7 @@ class TranslationsUpdater {
       }
       catch (e) {
         debuglog(`Error load file for lang: ${lang}. ` + e);
-        console.log(`Error load file for lang: ${lang}. ` + e)
+        console.error(`Error load file for lang: ${lang}. ` + e)
         throw e;
       }
 
@@ -155,13 +156,21 @@ class TranslationsUpdater {
         debuglog(`failed to parse downloaded content for ${lang}. Please check if any of them exist or that's an error`);
         downloadedContent = { ...localBaseContent };
       }
-      let fp = path.join(...this.baseDir) + path.sep + lang + '.json';
-      const fileContent = await fsPromises.readFile(fp, 'utf8');
+
+      let fp = `${path.join(...this.baseDir)}${path.sep}${lang}.json`;
+      let fileContent;
+      try {
+        fileContent = await fsPromises.readFile(fp, 'utf8');
+      } catch (e) {
+        fileContent = '{}';
+      }
+
       let localTranslation;
       try {
         localTranslation = JSON.parse(fileContent);
       } catch (e) {
         debuglog(`failed to parse local file content for ${lang}`);
+        console.error(`failed to parse local file content for ${lang}. continuing execution.`)
         continue;
       }
       let mergedContent = {...localTranslation, ...downloadedContent};
@@ -192,13 +201,14 @@ class TranslationsUpdater {
       if(langs.has(localLang)) {
         continue;
       }
-      let fp = path.join(...this.baseDir) + path.sep + localLang + '.json';
+      let fp = `${path.join(...this.baseDir)}${path.sep}${localLang}.json`;
       const fileContent = await fsPromises.readFile(fp, 'utf8');
       let localTranslation;
       try {
         localTranslation = JSON.parse(fileContent);
       } catch (e) {
         debuglog(`failed to parse local file content for ${localLang}`);
+        console.error(`failed to parse local file content for ${localLang}. continuing execution`);
         continue;
       }
       await this.mergeWithDefaultAndSave(localTranslation, localBaseContent, fp, localLang);
@@ -282,6 +292,7 @@ class TranslationsUpdater {
       content = await onesky.getFile(options);
     } catch (e) {
       debuglog('syncTranslations onesky.getFile error: ', e);
+      console.error('syncTranslations onesky.getFile error: ', e);
       throw e;
     }
 
@@ -312,6 +323,7 @@ class TranslationsUpdater {
       await onesky.postFile(postOptions);
     } catch (e) {
       debuglog('syncTranslations onesky.postFile error: ', e);
+      console.error('syncTranslations onesky.postFile error: ', e);
       throw e;
     }
   }
@@ -370,7 +382,7 @@ const c_baseLang = process.env.BASE_LANG;
 const envs = new Set(['local', 'stage', 'develop', 'prod']);
 
 if (!c_projectID || !envs.has(env)) {
-  console.log(`Error: Invalid OS_PROJECT_ID OR NODE_ENV var`);
+  console.error(`Error: Invalid OS_PROJECT_ID OR NODE_ENV var`);
   process.exit(0);
 }
 
