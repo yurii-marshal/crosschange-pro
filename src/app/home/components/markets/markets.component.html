@@ -53,7 +53,7 @@
         <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
         <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
       </div>
-      <mat-table mat-table [dataSource]="dataSource | async" matSort>
+      <mat-table mat-table [dataSource]="dataSource | async">
         <!-- Favorite column -->
         <ng-container matColumnDef="favorite">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -72,37 +72,55 @@
 
         <!-- Last column -->
         <ng-container matColumnDef="last">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.last' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'markets_page.last' | translate }}
+            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.last }}</mat-cell>
         </ng-container>
 
         <!-- 24h Cng column -->
         <ng-container matColumnDef="cng">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24cng' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'markets_page.24cng' | translate }}
+            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.cng }}</mat-cell>
         </ng-container>
 
         <!-- 24h High column -->
         <ng-container matColumnDef="high">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24high' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'markets_page.24high' | translate }}
+            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.high }}</mat-cell>
         </ng-container>
 
         <!-- 24h Low column -->
         <ng-container matColumnDef="low">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24low' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'markets_page.24low' | translate }}
+            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.low }}</mat-cell>
         </ng-container>
 
         <!-- Mkt Cap column -->
         <ng-container matColumnDef="mktCap">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.mktCap' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'markets_page.mktCap' | translate }}
+            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.mktCap }}</mat-cell>
         </ng-container>
 
         <!-- 24h Vol column -->
         <ng-container matColumnDef="vol">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'markets_page.24vol' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'markets_page.24vol' | translate }}
+            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">{{ element.vol }}</mat-cell>
         </ng-container>
 

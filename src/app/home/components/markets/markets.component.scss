@@ -27,7 +27,7 @@
 }
 
 .tabs-container {
-  background-color: #f6f3f3;
+  background-color: #fafbfc;
 
   .tabs-content {
     padding: 68px 0 80px;
@@ -64,6 +64,13 @@
     box-sizing: border-box;
     border-radius: 4px;
   }
+}
+
+.mat-header__icon {
+  margin-top: -10px;
+  margin-left: 8px;
+  width: 8px;
+  height: 9.5px;
 }
 
 ::ng-deep .mat-tab-list .mat-tab-label {
