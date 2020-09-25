@@ -20,10 +20,6 @@
     &:first-letter {
       text-transform: uppercase;
     }
-
-    &.mobile {
-      display: none;
-    }
   }
 
   .flag {
@@ -46,20 +42,4 @@
 
 .flex {
   display: flex;
-}
-
-.mobile {
-  display: none;
-}
-
-@media all and (max-width: $media-mobile) {
-  .switcher .language,
-  .menu-item {
-    display: none;
-  }
-
-  .switcher .language.mobile,
-  .menu-item.mobile {
-    display: block;
-  }
 }
