@@ -4,5 +4,4 @@ export interface IBalanceInfo {
   available: string;
   inOrder: string;
   btcValue: string;
-  action: string[];
 }

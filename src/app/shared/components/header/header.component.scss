@@ -28,11 +28,9 @@ mat-drawer-container {
   .mat-menu-content:not(:empty) {
     padding: 0;
   }
-  .mat-menu-panel {
-    overflow: hidden !important;
-  }
   .notifications-popup {
     margin: 0 -74px 0 0;
+    overflow: hidden !important;
     min-width: 547px !important;
     height: 282px;
     filter: drop-shadow(0px 4px 16px rgba(58, 59, 61, 0.12));

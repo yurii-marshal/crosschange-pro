@@ -15,19 +15,19 @@
     "member_of_alliance": "Member of Enterprise Ethereum Alliance",
     "privacy": "Privacy Policy",
     "products": "Products",
-    "status": "Status",
-    "status_mobile": "Crosschange status page",
+    "status": "",
+    "status_mobile": "",
     "terms": "Terms and Conditions",
-    "zendesk": "Zendesk"
+    "zendesk": ""
   },
   "header": {
-    "exchange": "Exchange",
-    "history": "History",
+    "exchange": "",
+    "history": "",
     "logout": "Logout",
     "margin_wallet": "Margin wallet",
-    "markets": "Markets",
+    "markets": "",
     "spot_wallet": "Spot wallet",
-    "wallet": "Wallet"
+    "wallet": ""
   },
   "languages": {
     "chi": "Chi",
@@ -43,7 +43,7 @@
     "charts_table_buy": "Buy",
     "charts_table_chart": "Chart",
     "charts_table_coin": "Coin",
-    "charts_table_data": "Data",
+    "charts_table_data": "",
     "charts_table_total": "Total",
     "charts_table_trade": "Trade",
     "easiest_way": "The easiest way to buy, sell and trade digital currency. ",
@@ -80,31 +80,31 @@
     "tab_profit": "Profit"
   },
   "menu_mobile": {
-    "exchange": "Exchange",
+    "exchange": "",
     "exchange_currency": "Exchange Currencies",
-    "history": "History",
+    "history": "",
     "logout": "Logout",
-    "margin_wallet": "Margin wallet",
-    "markets": "Markets",
-    "spot_wallet": "Spot wallet",
-    "wallet": "Wallet"
+    "margin_wallet": "",
+    "markets": "",
+    "spot_wallet": "",
+    "wallet": ""
   },
   "notifications": {
-    "title": "notifications",
-    "view_all": "View all"
+    "title": "Notifications",
+    "view_all": ""
   },
   "time_ago": {
-    "day_before": "a day before",
-    "days_before": "{{days}} d before",
-    "few_seconds_before": "a few seconds before",
-    "hour_before": "an hour before",
-    "hours_before": "{{hours}} h before",
-    "minute_ago": "a minute before",
-    "minutes_before": "{{minutes}} min before",
-    "month_before": "a month before",
-    "months_before": "{{months}} months before",
-    "year_before": "a year before",
-    "years_before": "{{years}} years before"
+    "day_before": "",
+    "days_before": "",
+    "few_seconds_before": "",
+    "hour_before": "",
+    "hours_before": "",
+    "minute_ago": "",
+    "minutes_before": "",
+    "month_before": "",
+    "months_before": "",
+    "year_before": "",
+    "years_before": ""
   },
   "wallet_page": {
     "action": "Action",
