@@ -11,6 +11,7 @@ config-basic-auth:
 
 build-pro-frontend:
 	npm install
+	NODE_ENV=${ENV} OS_PROJECT_ID=173816 OS_SECRET_KEY=hWbx4rOO1odMr7P5x5afZ0O27GH1D74L OS_PUBLIC_KEY=T58OmNsd2vPksvfQrfVg5A936GUADObn  OS_BASE_FILE=en.json ONE_SKY_BASE_FILE_NAME=base.json BASE_LANG=en node translationsUpdater
 	npm run build:${ENV}
 
 deploy-pro-frontend:
@@ -21,7 +22,7 @@ deploy-pro-frontend:
 	# upload html with predefined headers
 	aws s3 sync --delete ./dist ${S3_BUCKET} --exclude "*" --include "*.html" --content-encoding gzip --cache-control no-cache
 	# upload svg, jpg, png, ttf, eot, otf with predefined headers
-	aws s3 sync --delete ./dist ${S3_BUCKET} --exclude "*" --include "*.svg" --include "*.jpg"  --include "*.png" --include "*.eot" --include "*.ttf" --include "*.otf" --cache-control max-age=31536000,dist	
+	aws s3 sync --delete ./dist ${S3_BUCKET} --exclude "*" --include "*.svg" --include "*.jpg"  --include "*.png" --include "*.eot" --include "*.ttf" --include "*.otf" --cache-control max-age=31536000,dist
 	$(call create_invalidation,${CLOUDFRONT_DISTRIBUTION_ID})
 
 slack-notification:
