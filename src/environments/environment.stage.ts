@@ -16,7 +16,7 @@ export const environment = {
   locales: ['en', 'ru', 'es', 'de', 'uk', 'chi', 'fr'],
   defaultLocale: 'en',
   filesHashStamp: new Date().getTime(),
-  kuailianPlatformUrl: '',
+  kuailianPlatformUrl: 'https://stage.kuailiandp.net/',
   refreshUrl: '',
   assetsAuth: ''
 };

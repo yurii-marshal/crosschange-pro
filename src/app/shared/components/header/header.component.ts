@@ -19,10 +19,10 @@ export class HeaderComponent implements OnInit {
   notifications$: Observable<Notification[]>;
 
   menuItems = [
-    {active: false, label: 'header.markets', link: '/markets', params: {tab: 'favorite'}},
-    {active: false, label: 'header.wallet', link: '.', params: {}},
-    {active: false, label: 'header.exchange', link: '.', params: {}},
-    {active: false, label: 'header.history', link: '.', params: {}},
+    {active: false, label: 'header.markets', link: '/markets'},
+    {active: false, label: 'header.wallet', link: '.'},
+    {active: false, label: 'header.exchange', link: '.'},
+    {active: false, label: 'header.history', link: '.'},
   ];
 
   get isLoggedIn(): boolean {

@@ -42,6 +42,8 @@ export class WalletComponent implements OnInit {
 
   searchInputControl = new FormControl();
 
+  hideNumbers = true;
+
   constructor() { }
 
   ngOnInit(): void {
