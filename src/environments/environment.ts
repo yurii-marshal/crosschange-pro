@@ -16,7 +16,7 @@ export const environment = {
   locales: ['en', 'ru', 'es', 'de', 'uk', 'chi', 'fr'],
   defaultLocale: 'en',
   filesHashStamp: '',
-  kuailianPlatformUrl: '',
+  kuailianPlatformUrl: 'https://dev.kuailiandp.net/',
   refreshUrl: '',
   assetsAuth: ''
 };

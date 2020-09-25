@@ -88,9 +88,9 @@ header {
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
 
   &.logged-in {
-    .right button:not(:last-child) {
-      margin-right: 20px;
-    }
+    //.right button:not(:last-child) {
+    //  margin-right: 20px;
+    //}
   }
 
   .left, .right {
@@ -115,6 +115,8 @@ header {
     margin-right: 36px;
     width: 92px;
     height: 33px;
+    cursor: pointer;
+
     img {
       max-width: 100%;
     }
@@ -140,7 +142,7 @@ header {
   }
 
   .exchange-btn {
-    margin-right: 32px;
+    margin-right: 25px;
     padding: 6px 32px;
     font-size: 14px;
     line-height: 20px;
@@ -151,7 +153,15 @@ header {
   }
 
   .notifications-btn {
-    margin-right: 20px;
+    margin-right: 10px;
+  }
+
+  .user-btn {
+    margin-right: 10px;
+  }
+
+  .logout-btn {
+    height: 32px;
   }
 
   .menu {

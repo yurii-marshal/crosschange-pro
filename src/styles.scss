@@ -14,6 +14,14 @@ a {
   }
 }
 
+button {
+  transition: background 0.3s;
+
+  &:hover {
+    transition: background 0.3s;
+  }
+}
+
 .mat-menu-panel.languages {
   min-width: 148px;
 }

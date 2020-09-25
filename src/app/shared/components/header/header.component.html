@@ -33,10 +33,10 @@
     </ul>
   </div>
   <div class="right">
-    <button class="exchange-btn">Exchange</button>
+    <button mat-button class="exchange-btn">{{'header.exchange' | translate}}</button>
 
     <button class="notifications-btn" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="notificationsPopup">
-      <mat-icon svgIcon="icon_notification"></mat-icon>
+      <mat-icon class="icon notes" svgIcon="icon_notification"></mat-icon>
     </button>
 
     <mat-menu #notificationsPopup="matMenu" xPosition="before" class="notifications-popup">
@@ -51,12 +51,12 @@
       </div>
     </mat-menu>
 
-    <button>
-      <mat-icon svgIcon="icon_user"></mat-icon>
+    <button class="user-btn" mat-icon-button>
+      <mat-icon class="icon user" svgIcon="icon_user"></mat-icon>
     </button>
     <ul *ngIf="isLoggedIn">
       <li>
-        <button (click)="logout()">{{'header.logout' | translate}}</button>
+        <button class="logout-btn" mat-button mat-flat-button (click)="logout()">{{'header.logout' | translate}}</button>
       </li>
     </ul>
   </div>
