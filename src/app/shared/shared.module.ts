@@ -18,6 +18,7 @@ import { MenuMobileComponent } from './components/menu-mobile/menu-mobile.compon
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
 
 const components = [
   HeaderComponent,
@@ -29,13 +30,17 @@ const components = [
   PaginatorComponent,
   SnackbarNotificationComponent,
   MenuMobileComponent,
+];
 
+const pipes = [
   TimeBeforePipe,
+  ToggleSecretTextPipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
+    ...pipes,
   ],
   imports: [
     CommonModule,
@@ -50,6 +55,7 @@ const components = [
   ],
   exports: [
     ...components,
+    ...pipes,
     CommonModule,
     RouterModule,
     TranslateModule,
