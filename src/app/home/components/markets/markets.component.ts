@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, map, startWith, switchMap, take, ta
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-markets',
@@ -25,7 +25,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
     'mktCap',
     'vol',
   ];
-  activeLink = 'favorite';
   limit = 2;
 
   dataSource: Observable<MatTableDataSource<IExchangeData[]>>;
@@ -33,6 +32,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   searchInputControl = new FormControl();
 
   count: number;
+  activeLink: string;
 
   widgets: Observable<IWidget[]>;
   onDestroyed$: Subject<void> = new Subject<void>();
@@ -41,10 +41,19 @@ export class MarketsComponent implements OnInit, OnDestroy {
     private marketsService: MarketsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
+    private router: Router,
   ) {
   }
 
   ngOnInit(): void {
+    this.router.navigate([window.location.pathname], {
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        tab: this.route.snapshot.queryParams.tab || 'favorite',
+      }
+    });
+    this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
+
     this.widgets = this.marketsService.getWidgetsData().pipe(
       takeUntil(this.onDestroyed$)
     );
