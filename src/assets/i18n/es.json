@@ -33,19 +33,12 @@
   },
   "languages": {
     "chi": "Chi",
-    "chi_mobile": "Chinese",
     "de": "Ge",
-    "de_mobile": "German",
     "en": "En",
-    "en_mobile": "English",
     "es": "Sp",
-    "es_mobile": "Spanish",
     "fr": "Fr",
-    "fr_mobile": "France",
     "ru": "Ru",
-    "ru_mobile": "Russian",
-    "uk": "Uk",
-    "uk_mobile": "Ukrainian"
+    "uk": "Uk"
   },
   "main_page": {
     "charts_table_available": "Available",

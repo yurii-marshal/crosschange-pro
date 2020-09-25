@@ -39,11 +39,4 @@ _([
   'languages.de',
   'languages.fr',
   'languages.es',
-  'languages.chi_mobile',
-  'languages.en_mobile',
-  'languages.ru_mobile',
-  'languages.uk_mobile',
-  'languages.de_mobile',
-  'languages.fr_mobile',
-  'languages.es_mobile',
 ]);
