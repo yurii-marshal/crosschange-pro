@@ -1,6 +1,7 @@
 @import "../../../../assets/styles/variables";
 
 .switcher {
+  cursor: pointer;
   max-width: 148px;
   border: 1px solid $color-grey-40;
   box-sizing: border-box;
