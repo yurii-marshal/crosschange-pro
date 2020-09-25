@@ -139,6 +139,17 @@ header {
     cursor: pointer;
   }
 
+  .exchange-btn {
+    margin-right: 32px;
+    padding: 6px 32px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-brand;
+    background: $color-white-100;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
   .notifications-btn {
     margin-right: 20px;
   }

@@ -1,0 +1,246 @@
+<aside>
+  <div class="spot-wallet">
+    <div class="spot-wallet__header">Spot wallet</div>
+    <ul class="spot-wallet__services-list">
+      <li class="spot-wallet__services-item" [routerLink]="['../balance']" [routerLinkActive]="['active']">Balance</li>
+      <li class="spot-wallet__services-item" [routerLink]="['../deposit']" [routerLinkActive]="['active']">Deposit</li>
+      <li class="spot-wallet__services-item" [routerLink]="['../withdraw']" [routerLinkActive]="['active']">Withdraw</li>
+    </ul>
+  </div>
+</aside>
+<main>
+  <div class="total-balance">
+    <div class="total-balance__header">Total balance</div>
+    <div class="total-balance__amount">0.00000000
+      <div class="total-balance__amount-currency">
+        <span class="total-balance__amount-currency--black">BTC</span> ≈ $0.00
+      </div>
+      <mat-icon [svgIcon]="'icon_view'" class="total-balance__amount-icon"></mat-icon>
+    </div>
+  </div>
+
+  <div class="balances">
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">Fiat balance</div>
+        <div class="balance-info__table">
+          <mat-table mat-table [dataSource]="dataSource">
+            <!-- Coin column -->
+            <ng-container matColumnDef="coin">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.coin' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon [svgIcon]="'icon_' + element.coin"></mat-icon>
+                {{ element.coin }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total column -->
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.total' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.total }}</mat-cell>
+            </ng-container>
+
+            <!-- Available column -->
+            <ng-container matColumnDef="available">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.available' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.available }}</mat-cell>
+            </ng-container>
+
+            <!-- In Order column -->
+            <ng-container matColumnDef="inOrder">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.inOrder' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.inOrder }}</mat-cell>
+            </ng-container>
+
+            <!-- BTC Value column -->
+            <ng-container matColumnDef="btcValue">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.btcValue' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.btcValue }}</mat-cell>
+            </ng-container>
+
+            <!-- Action column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.action' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let action of element.action">
+                  <span>{{ action }}</span>
+                </ng-container>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">Crosschange Euro account balance</div>
+        <div class="balance-info__table">
+          <mat-table mat-table [dataSource]="dataSource">
+            <!-- Coin column -->
+            <ng-container matColumnDef="coin">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.coin' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon [svgIcon]="'icon_' + element.coin"></mat-icon>
+                {{ element.coin }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total column -->
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.total' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.total }}</mat-cell>
+            </ng-container>
+
+            <!-- Available column -->
+            <ng-container matColumnDef="available">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.available' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.available }}</mat-cell>
+            </ng-container>
+
+            <!-- In Order column -->
+            <ng-container matColumnDef="inOrder">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.inOrder' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.inOrder }}</mat-cell>
+            </ng-container>
+
+            <!-- BTC Value column -->
+            <ng-container matColumnDef="btcValue">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.btcValue' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.btcValue }}</mat-cell>
+            </ng-container>
+
+            <!-- Action column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.action' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let action of element.action">
+                  <span>{{ action }}</span>
+                </ng-container>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">Crypto balance</div>
+        <div class="balance-info__table">
+          <div class="mat-table__search">
+            <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+            <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+            <button class="hide-balance-btn">Hide low balance assets</button>
+          </div>
+          <mat-table mat-table [dataSource]="dataSource">
+            <!-- Coin column -->
+            <ng-container matColumnDef="coin">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.coin' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon [svgIcon]="'icon_' + element.coin"></mat-icon>
+                {{ element.coin }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total column -->
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.total' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.total }}</mat-cell>
+            </ng-container>
+
+            <!-- Available column -->
+            <ng-container matColumnDef="available">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.available' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.available }}</mat-cell>
+            </ng-container>
+
+            <!-- In Order column -->
+            <ng-container matColumnDef="inOrder">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.inOrder' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.inOrder }}</mat-cell>
+            </ng-container>
+
+            <!-- BTC Value column -->
+            <ng-container matColumnDef="btcValue">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.btcValue' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.btcValue }}</mat-cell>
+            </ng-container>
+
+            <!-- Action column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.action' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <ng-container *ngFor="let action of element.action">
+                  <span>{{ action }}</span>
+                </ng-container>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <app-paginator [count]="count"></app-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

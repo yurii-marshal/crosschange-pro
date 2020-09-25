@@ -114,5 +114,13 @@
     "months_before": "",
     "year_before": "",
     "years_before": ""
+  },
+  "wallet_page": {
+    "action": "Action",
+    "available": "Available",
+    "btcValue": "BTC Value",
+    "coin": "Coin",
+    "inOrder": "In Order",
+    "total": "Total"
   }
 }
