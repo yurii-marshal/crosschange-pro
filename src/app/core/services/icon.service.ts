@@ -32,6 +32,10 @@ const icons: string[] = [
   'icon_wallet',
   'icon_close',
   'icon_arrow_down',
+  'icon_view',
+  'icon_eur',
+  'icon_usd',
+  'icon_union',
 ];
 
 @Injectable({
