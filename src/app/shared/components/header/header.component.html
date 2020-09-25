@@ -1,6 +1,6 @@
 <header [class.logged-in]="isLoggedIn">
   <div class="left">
-    <div class="logo">
+    <div class="logo" routerLink="/">
       <img src="/assets/images/logo-white.svg" alt="logo">
     </div>
     <ul>
@@ -8,7 +8,7 @@
           (mouseover)="item.active = true"
           (mouseleave)="item.active = false"
       >
-        <a class="menu-trigger">
+        <a class="menu-trigger" [routerLink]="[item.link]" [queryParams]="item.params">
           {{item.label | translate}}
         </a>
         <!--<span [matMenuTriggerFor]="walletMenu" class="menu-trigger">{{'header.wallet' | translate}}</span>-->
@@ -19,7 +19,7 @@
         <!--</mat-menu>-->
         <div *ngIf="i === 1" class="menu" [class.closed]="!item.active">
           <div class="menu-container">
-            <div class="menu-item">
+            <div class="menu-item" routerLink="/wallet/balance">
               <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
               <span>{{'header.spot_wallet' | translate }}</span>
             </div>
