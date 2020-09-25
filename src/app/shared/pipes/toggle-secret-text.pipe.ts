@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ToggleSecretTextPipe implements PipeTransform {
 
   transform(value: string, replace = true): string {
-    if (value.length && replace) {
+    if (value && replace) {
       return '*'.repeat(value.length);
     }
 
