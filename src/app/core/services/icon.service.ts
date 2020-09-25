@@ -33,6 +33,7 @@ const icons: string[] = [
   'icon_close',
   'icon_arrow_down',
   'icon_view',
+  'icon_view_crossed',
   'icon_eur',
   'icon_usd',
   'icon_union',

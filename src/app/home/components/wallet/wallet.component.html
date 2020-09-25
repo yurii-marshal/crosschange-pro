@@ -16,12 +16,11 @@
       <div class="total-balance__amount-currency">
         <span class="total-balance__amount-currency--black">{{'wallet_page.btc' | translate}}</span> ≈ ${{'0.00' | toggleSecretText: hideNumbers}}
       </div>
-      <mat-icon [svgIcon]="'icon_view'"
-                [title]="hideNumbers ? 'Show information' : 'Hide information'"
-                class="total-balance__amount-icon"
-                [class.show]="!hideNumbers"
-                (click)="hideNumbers=!hideNumbers"
-      ></mat-icon>
+      <button class="total-balance__amount-hide-btn" mat-icon-button [title]="hideNumbers ? 'Show information' : 'Hide information'" (click)="hideNumbers=!hideNumbers">
+        <mat-icon [svgIcon]="hideNumbers ? 'icon_view' : 'icon_view_crossed'"
+                  class="total-balance__amount-hide-btn-icon"
+        ></mat-icon>
+      </button>
     </div>
   </div>
 

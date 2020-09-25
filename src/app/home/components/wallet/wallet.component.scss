@@ -78,14 +78,16 @@ main {
       }
     }
 
-    &-icon {
-      margin-left: 9px;
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
+    &-hide-btn {
+      margin-left: 3px;
 
-      &.show ::ng-deep svg path {
-        fill: $color-brand-dark;
+      &-icon {
+        width: 16px;
+        height: 16px;
+
+        //&.show ::ng-deep svg path {
+        //  fill: $color-brand-dark;
+        //}
       }
     }
   }
