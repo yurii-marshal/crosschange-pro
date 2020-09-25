@@ -1,4 +1,5 @@
 @import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
 
 :host {
   display: flex;
@@ -179,7 +180,8 @@ main {
   flex: 5;
   justify-content: flex-end;
 
-  span {
+  a {
+    cursor: pointer;
     margin-left: 24px;
     font-size: 14px;
     line-height: 20px;
@@ -197,5 +199,34 @@ main {
 
   &:first-child {
     text-transform: capitalize;
+  }
+}
+
+::ng-deep .trade-select {
+  box-shadow: none;
+  overflow-y: auto;
+  filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
+  background: $color-white-100;
+  border-radius: 4px;
+  max-height: 200px;
+  min-width: 134px;
+  padding: 0 16px;
+
+  .link .label {
+    padding: 10px 8px;
+    font-size: 12px;
+    line-height: 133%;
+    color: $color-brand-dark;
+    max-width: 84px;
+    cursor: pointer;
+    text-transform: uppercase;
+
+    @include text-overflow();
+  }
+
+  .link .divider {
+    width: 100%;
+    height: 1px;
+    background-color: $color-grey-10;
   }
 }

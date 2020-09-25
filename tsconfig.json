@@ -16,6 +16,9 @@
       "es2018",
       "dom"
     ],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "paths": {
       "shared-kuailian-lib": ["node_modules/shared-kuailian-lib/dist/shared-kuailian-lib"]
     }

@@ -122,6 +122,7 @@
     "spot_wallet": "Spot wallet",
     "total": "Total",
     "total_balance": "Total balance",
+    "trade": "Trade",
     "withdraw": "Withdraw"
   }
 }

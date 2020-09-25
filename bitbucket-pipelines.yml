@@ -10,7 +10,7 @@ pipelines:
           script:
             - make config-basic-auth BASIC_AUTH=$BASIC_AUTH ENV=develop
             # build dev and notify
-            - if make build-pro-frontend ENV=develop; then
+            - if make build-pro-frontend ENV=develop OS_SECRET_KEY=${OS_SECRET_KEY}; then
               make slack-notification MESSAGE="build was SUCCESSFULL.";
               else
               make slack-notification MESSAGE="build was FAILED.";
@@ -47,7 +47,7 @@ pipelines:
           script:
             - make config-basic-auth BASIC_AUTH=$BASIC_AUTH ENV=stage
             # build dev and notify
-            - if make build-pro-frontend ENV=stage; then
+            - if make build-pro-frontend ENV=stage OS_SECRET_KEY=${OS_SECRET_KEY}; then
               make slack-notification MESSAGE="build was SUCCESSFULL.";
               else
               make slack-notification MESSAGE="build was FAILED.";
@@ -83,7 +83,7 @@ pipelines:
             - node
           script:
             # build dev and notify
-            - if make build-pro-frontend ENV=production; then
+            - if make build-pro-frontend ENV=production OS_SECRET_KEY=${OS_SECRET_KEY}; then
               make slack-notification MESSAGE="build was SUCCESSFULL.";
               else
               make slack-notification MESSAGE="build was FAILED.";
