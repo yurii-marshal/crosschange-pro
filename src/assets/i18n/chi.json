@@ -118,9 +118,19 @@
   "wallet_page": {
     "action": "Action",
     "available": "Available",
+    "balance": "Balance",
+    "btc": "BTC",
     "btcValue": "BTC Value",
+    "cc_euro_account_balance": "Crosschange euro account balance",
     "coin": "Coin",
+    "crypto_balance": "Crypto balance",
+    "deposit": "Deposit",
+    "fiat_balance": "Fiat balance",
+    "hide_low_balance_assets": "Hide low balance assets",
     "inOrder": "In Order",
-    "total": "Total"
+    "spot_wallet": "Spot wallet",
+    "total": "Total",
+    "total_balance": "Total balance",
+    "withdraw": "Withdraw"
   }
 }
