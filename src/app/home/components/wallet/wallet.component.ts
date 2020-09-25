@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { IBalanceInfo } from 'src/app/shared/interfaces/balance-info.interface';
 import { FormControl } from '@angular/forms';
+import { TradeType } from '../../../core/interfaces/trade-type.interface';
+import { Observable } from 'rxjs';
+import { WalletService } from '../../services/wallet.service';
 
 const mockData = [
   {
@@ -10,7 +13,6 @@ const mockData = [
     available: '0.00000000',
     inOrder: '0.00000000',
     btcValue: '0.00000000',
-    action: ['Deposit', 'Withdraw', 'Trade']
   },
   {
     coin: 'usd',
@@ -18,7 +20,6 @@ const mockData = [
     available: '0.00000000',
     inOrder: '0.00000000',
     btcValue: '0.00000000',
-    action: ['Deposit', 'Withdraw', 'Trade']
   }
 ];
 
@@ -43,10 +44,16 @@ export class WalletComponent implements OnInit {
   searchInputControl = new FormControl();
 
   hideNumbers = true;
+  tradeTypes$: Observable<TradeType[]>;
 
-  constructor() { }
+  constructor(private walletService: WalletService) {
+  }
 
   ngOnInit(): void {
+  }
+
+  getTradeTypes(balanceType: string, currencyType: string): void {
+    this.tradeTypes$ = this.walletService.getTradeTypes(balanceType, currencyType);
   }
 
 }
