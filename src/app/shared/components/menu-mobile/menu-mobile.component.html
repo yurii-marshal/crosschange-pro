@@ -6,7 +6,7 @@
     <div class="top">
       <div class="item" *ngFor="let item of menuItems">
 
-        <div class="link" (click)="item.active = !item.active">
+        <div class="link" routerLink="{{item.link}}" (click)="openPage(item)">
           <a>{{item.label | translate}}</a>
           <mat-icon class="icon arrow-down"
                     [class.rotate]="item.active"
@@ -16,7 +16,7 @@
         </div>
 
         <div class="sub-menu" [class.open]="item.active" *ngIf="item.subItems">
-          <div class="sub-link" *ngFor="let subItem of item.subItems">
+          <div class="sub-link" (click)="openPage(subItem)" routerLink="{{item.link}}" *ngFor="let subItem of item.subItems">
             <mat-icon class="icon" svgIcon="{{subItem.icon}}"></mat-icon>
             <div>{{subItem.label | translate }}</div>
           </div>

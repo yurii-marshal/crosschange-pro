@@ -16,13 +16,15 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 export class HeaderComponent implements OnInit {
   @Input() menuMobile;
 
+  newMessages = [];
+
   notifications$: Observable<Notification[]>;
 
   menuItems = [
     {active: false, label: 'header.markets', link: '/markets'},
     {active: false, label: 'header.wallet', link: '.'},
-    {active: false, label: 'header.exchange', link: '.'},
-    {active: false, label: 'header.history', link: '.'},
+    {active: false, label: 'header.exchange', link: '/exchange'},
+    {active: false, label: 'header.history', link: '/history'},
   ];
 
   get isLoggedIn(): boolean {

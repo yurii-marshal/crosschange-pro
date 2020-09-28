@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 const icons: string[] = [
   'icon_user',
   'icon_notification',
+  'icon_notification_new',
   'icon_bitcoin',
   'icon_bitcoin_cash',
   'icon_bitcoin_sv',

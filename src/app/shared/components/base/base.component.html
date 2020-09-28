@@ -6,7 +6,7 @@
       </div>
       <mat-icon class="close" svgIcon="icon_close" (click)="closeMenuMobile(menuMobile)"></mat-icon>
     </div>
-    <app-menu-mobile></app-menu-mobile>
+    <app-menu-mobile (closeMenu)="closeMenuMobile(menuMobile)"></app-menu-mobile>
   </mat-drawer>
   <mat-drawer-content>
     <app-header class="{{headerClass}}" [menuMobile]="menuMobile"></app-header>
