@@ -262,6 +262,25 @@ class TranslationsUpdater {
 
   /**
    *
+   * @param {object} local
+   * @param {object} downloaded
+   */
+  merge(local, downloaded) {
+    for (let p in local) {
+      if (!downloaded[p] || typeof local[p] !== typeof downloaded[p]) {
+        continue;
+      }
+      if (typeof local[p] === 'object') {
+        local[p] = this.merge(local[p], downloaded[p]);
+      } else {
+        local[p] = downloaded[p];
+      }
+    }
+    return local;
+  }
+
+  /**
+   *
    * @param {string} secret
    * @param {string} publicKey
    * @param {string} projectId
@@ -364,7 +383,8 @@ class TranslationsUpdater {
       throw new Error('Base translations JSON file has empty values.');
     }
     let localEnTranslation = JSON.parse(fileContent);
-    let newContent = JSON.stringify({...localEnTranslation, ...downloadedEnTranslation}, null, this.indentation)
+    let newContent = this.merge({...localEnTranslation}, downloadedEnTranslation);
+    newContent = JSON.stringify(newContent, null, this.indentation)
     await fsPromises.writeFile(this.baseFilePath, newContent, 'utf8');
     await this.postBaseFile(newContent);
     debuglog('Base file synced...');

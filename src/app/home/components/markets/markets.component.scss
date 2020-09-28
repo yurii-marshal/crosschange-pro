@@ -30,6 +30,7 @@
   background-color: #fafbfc;
 
   .tabs-content {
+    position: relative;
     padding: 68px 0 80px;
 
     .mat-tab-group {
@@ -73,12 +74,17 @@
   height: 9.5px;
 }
 
-::ng-deep .mat-tab-list .mat-tab-label {
+::ng-deep .mat-tab-list .mat-tab-link {
+  min-width: 0;
+  padding: 0 36px 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
   color: #000000;
   opacity: 1;
 }
 
-::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+::ng-deep .mat-tab-list .mat-tab-links .mat-tab-label-active {
   color: $color-brand;
 }
 
@@ -104,4 +110,28 @@
   flex: 2;
   justify-content: flex-end;
   padding-right: 12px;
+}
+
+.show-favorites {
+  position: absolute;
+  top: 79px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: $color-grey-40;
+  cursor: pointer;
+  z-index: 2;
+
+  &--active {
+    color: $color-brand;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 9px;
+  }
 }
