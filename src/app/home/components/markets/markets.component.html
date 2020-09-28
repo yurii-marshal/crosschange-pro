@@ -11,13 +11,6 @@
 <div class="tabs-container">
   <div class="wrapper">
     <div class="tabs-content">
-      <div class="show-favorites"
-           [ngClass]="{ 'show-favorites--active': showFavorites }"
-           (click)="activateShowFavorites()">
-        <mat-icon [svgIcon]="showFavorites ? 'icon_fill_star' : 'icon_star'" class="show-favorites__icon"></mat-icon>
-        Show only Favourites
-      </div>
-
       <nav mat-tab-nav-bar class="mat-tab-group">
         <a mat-tab-link
            [active]="activeLink === 'favorite'"
