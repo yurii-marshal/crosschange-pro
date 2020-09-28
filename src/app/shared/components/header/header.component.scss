@@ -1,24 +1,36 @@
 @import "../../../../assets/styles/variables";
 
 :host {
+  header {
+    position: relative;
+    z-index: 2;
+  }
+
   &.transparent {
     header {
       background: transparent;
-      position: relative;
-      z-index: 2;
     }
   }
+
+  &.widget {
+    header {
+      background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
+      linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+    }
+  }
+}
+
+mat-drawer-container {
+  background-color: transparent;
 }
 
 ::ng-deep {
   .mat-menu-content:not(:empty) {
     padding: 0;
   }
-  .mat-menu-panel {
-    overflow: hidden !important;
-  }
   .notifications-popup {
     margin: 0 -74px 0 0;
+    overflow: hidden !important;
     min-width: 547px !important;
     height: 282px;
     filter: drop-shadow(0px 4px 16px rgba(58, 59, 61, 0.12));
@@ -66,6 +78,7 @@
 }
 
 header {
+  perspective: 2000px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -73,6 +86,12 @@ header {
   padding: 0 52px 0 40px;
   height: 72px;
   background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
+
+  &.logged-in {
+    //.right button:not(:last-child) {
+    //  margin-right: 20px;
+    //}
+  }
 
   .left, .right {
     display: flex;
@@ -86,33 +105,146 @@ header {
     list-style-type: none;
     li {
       margin-right: 32px;
+
       &:last-of-type {
         margin-right: 0;
       }
     }
   }
   .logo {
-    margin-right: 40px;
-    width: 113px;
+    margin-right: 36px;
+    width: 92px;
+    height: 33px;
+    cursor: pointer;
+
     img {
       max-width: 100%;
     }
   }
-  a {
-    &:hover {
-      outline: none;
-      text-decoration: none;
-    }
+  a, button {
     color: $color-grey-5;
     font-size: 14px;
     line-height: 20px;
+  }
+  button {
+    background: transparent;
+    outline: none;
+    text-decoration: none;
+    border: none;
+  }
+
+  a:hover {
+    outline: none;
+    text-decoration: none;
   }
   .menu-trigger {
     cursor: pointer;
   }
 
+  .exchange-btn {
+    margin-right: 25px;
+    padding: 6px 32px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-brand;
+    background: $color-white-100;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
   .notifications-btn {
-    margin-right: 20px;
+    margin-right: 10px;
+  }
+
+  .user-btn {
+    margin-right: 10px;
+  }
+
+  .logout-btn {
+    height: 32px;
+  }
+
+  .menu {
+    position: fixed;
+    background-color: transparent;
+    padding-top: 15px;
+
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    transform: translateX(-35%) rotateX(0);
+    transform-origin: 100% 0;
+    opacity: 1;
+    will-change: transform, opacity;
+    transition-property: transform, opacity;
+    transition-duration: .25s;
+
+    &.closed {
+      transform-origin: center -100px; /* Axis moved up to create a larger arc of movement. */
+      transform: translateX(-35%) rotateX(-15deg);
+      opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+      transition-property: transform, opacity;
+      transition-duration: .25s;
+    }
+
+    .menu-container {
+      position: relative;
+      background: #FFFFFF;
+      border: 0.5px solid #ECECEC;
+      box-sizing: border-box;
+      box-shadow:
+        0 50px 100px -20px rgba(50,50,93,.25),
+        0 30px 60px -30px rgba(0,0,0,.3);
+      border-radius: 4px;
+      min-width: 133px;
+      padding: 13px;
+      width: max-content;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: -10px;
+        //left: 50%;
+        transform: translateX(178%);
+        width: 0;
+        height: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-bottom: 10px solid #FFFFFF;
+      }
+
+      .menu-item {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 143%;
+        color: $color-trading-dark;
+
+        &:hover {
+          cursor: pointer;
+          color: $color-grey-60;
+
+          ::ng-deep .icon svg path {
+            fill: $color-grey-60;
+          }
+        }
+
+        &:not(:last-child) {
+          padding-bottom: 8px;
+        }
+
+        .icon {
+          width: 16px;
+          height: 16px;
+        }
+
+        span {
+          padding-left: 9px;
+        }
+      }
+    }
   }
 }
 
@@ -133,6 +265,8 @@ mat-icon {
   top: 19px;
   .mat-menu-content {
     position: relative;
+    padding-top: 0;
+    padding-bottom: 0;
     &::before {
       content: "";
       width: 0;
@@ -144,11 +278,29 @@ mat-icon {
       left: 42%;
       top: -10px
     }
+    .menu-item.mat-menu-item {
+      padding: 0 13px;
+    }
+    .menu-item mat-icon {
+      margin-right: 9px;
+    }
   }
 }
 
 @media all and (max-width: $media-small-tablet) {
   header {
+    min-height: 74px;
+    padding: 0 16px;
+    height: auto;
+
+    mat-icon {
+      margin-right: 15px;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+
     .right {
       display: none;
     }
@@ -157,6 +309,40 @@ mat-icon {
     }
     .left ul {
       display: none;
+    }
+    &.logged-in {
+      .right mat-icon:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  header {
+    min-height: 86px;
+  }
+
+  ::ng-deep {
+    .mat-menu-content:not(:empty) {
+      padding: 0;
+      height: 100%;
+    }
+    .notifications-popup {
+      margin: 0;
+      min-width: 90% !important;
+      height: 305px;
+      top: 96px;
+      position: fixed;
+      right: 50%;
+      transform: translateX(50%);
+
+      .notifications {
+        margin: 60px 0 0;
+        overflow-y: auto;
+        padding: 0 8px;
+        height: 240px;
+      }
     }
   }
 }

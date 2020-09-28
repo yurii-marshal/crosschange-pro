@@ -7,7 +7,10 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-
+  /*
+  * status.crosschange.exchange
+    https://crosschange-bank.zendesk.com
+  * */
   crypto = [
     {
       icon: 'icon_bitcoin',
@@ -18,42 +21,42 @@ export class HomeComponent implements OnInit {
     },
     {
       icon: 'icon_bitcoin_cash',
-      title: 'BTC',
+      title: 'BCH',
       subtitle: 'Bitcoin Cash',
       total: '0.00000000',
       available: '+00.00',
     },
     {
       icon: 'icon_bitcoin_sv',
-      title: 'BTC',
+      title: 'BSV',
       subtitle: 'Bitcoin SV',
       total: '0.00000000',
       available: '+00.00',
     },
     {
       icon: 'icon_dash',
-      title: 'BTC',
+      title: 'DASH',
       subtitle: 'Dash',
       total: '0.00000000',
       available: '+00.00',
     },
     {
       icon: 'icon_eth',
-      title: 'BTC',
+      title: 'ETH',
       subtitle: 'Basic Attention',
       total: '0.00000000',
       available: '+00.00',
     },
     {
       icon: 'icon_lightcoin',
-      title: 'BTC',
+      title: 'LTC',
       subtitle: 'Litecoin',
       total: '0.00000000',
       available: '+00.00',
     },
     {
       icon: 'icon_ripple',
-      title: 'BTC',
+      title: 'XRP',
       subtitle: 'Ripple',
       total: '0.00000000',
       available: '+00.00',

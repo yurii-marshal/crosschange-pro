@@ -1,0 +1,10 @@
+<div *ngIf="count && count > params.limit" class="pagination">
+  <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page" (click)="prevPage()"></mat-icon>
+  <div *ngFor="let page of totalPages; let i = index"
+       class="page"
+       [ngClass]="{ 'active-page': isActive(i) }"
+       (click)="pageChanged(i)">
+    {{ i + 1 }}
+  </div>
+  <mat-icon [svgIcon]="'icon_arrow_right'" class="next-page" (click)="nextPage()"></mat-icon>
+</div>

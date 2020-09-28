@@ -2,7 +2,7 @@ export const environment = {
   production: false,
   apiUrl: 'https://dev-pro-back.crosschange.net',
   projectApiUrl: 'https://dev-pro-back.crosschange.net',
-  bankUrl: 'https://dev-crosschange-back.kuailiandp.net',
+  bankUrl: 'https://dev-back.crosschange.net',
   kuailianBankUrl: 'http://localhost:4201',
   kuailianLandingPageUrl: 'https://dev.kuailiandp.net',
   kuailianMarketplaceUrl: 'http://localhost:4202',
@@ -16,7 +16,7 @@ export const environment = {
   locales: ['en', 'ru', 'es', 'de', 'uk', 'chi', 'fr'],
   defaultLocale: 'en',
   filesHashStamp: '',
-  kuailianPlatformUrl: '',
+  kuailianPlatformUrl: 'https://dev.kuailiandp.net/',
   refreshUrl: '',
   assetsAuth: ''
 };

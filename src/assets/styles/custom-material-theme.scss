@@ -1,6 +1,5 @@
 @import '~@angular/material/theming';
-@import 'variables';
-@import 'animations';
+@import "variables";
 
 @include mat-core();
 
@@ -56,31 +55,11 @@ $cross-pro-theme: mat-light-theme($cross-pro-primary, $cross-pro-accent);
   color: $color-brand-dark;
 
   &.mat-snack-bar-top {
-    position: relative;
     margin: 0;
     padding: 0;
-    background-color: transparent;
-    min-height: 0;
-    max-height: 0;
-
-    app-snackbar-notification {
-      position: fixed;
-      right: 22px;
-      border-radius: 4px;
-      top: calc(#{$header-height} + 20px);
-      background-color: #FFFFFF;
-
-      animation: snackBarIn 3s;
-    }
-  }
-
-  &.mat-snack-bar-top[mat-exit] {
-    animation: none;
-    transition: none;
-
-    app-snackbar-notification {
-      animation: snackBarOut 3s;
-    }
+    position: fixed;
+    right: 22px;
+    top: calc(#{$header-height} + 20px);
   }
 
   &.success {
@@ -94,19 +73,19 @@ $cross-pro-theme: mat-light-theme($cross-pro-primary, $cross-pro-accent);
   }
 }
 
-// MatMenu
+@media all and (max-width: $media-small-tablet) {
+}
 
-.mat-menu-panel {
-  background: #fff;
-  box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .15), 0 5px 15px rgba(0, 0, 0, .1);
-  border-radius: 4px;
-  font-size: 17px;
-  line-height: 40px;
-  white-space: nowrap;
+@media all and (max-width: $media-mobile) {
+  // MatSnackBar
+  .mat-snack-bar-container {
+    min-width: 90% !important;
+    width: 90% !important;
 
-  //animation: matMenuIn 0.5s;
-
-  .container {
-
+    &.mat-snack-bar-top {
+      left: 50%;
+      transform: translateX(-50%) !important;
+      margin: 6px 0 !important;
+    }
   }
 }

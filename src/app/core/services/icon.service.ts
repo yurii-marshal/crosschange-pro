@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 const icons: string[] = [
   'icon_user',
   'icon_notification',
+  'icon_notification_new',
   'icon_bitcoin',
   'icon_bitcoin_cash',
   'icon_bitcoin_sv',
@@ -22,6 +23,21 @@ const icons: string[] = [
   'icon_bitcoin_cash_widget',
   'icon_eth_widget',
   'icon_ark_widget',
+  'icon_search',
+  'icon_arrow_left',
+  'icon_arrow_right',
+  'icon_star',
+  'icon_fill_star',
+  'icon_menu',
+  'icon_meter',
+  'icon_wallet',
+  'icon_close',
+  'icon_arrow_down',
+  'icon_view',
+  'icon_view_crossed',
+  'icon_eur',
+  'icon_usd',
+  'icon_union',
 ];
 
 @Injectable({

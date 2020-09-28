@@ -11,6 +11,14 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { TimeBeforePipe } from './pipes/time-before.pipe';
 import { NotificationItemComponent } from './components/notification-item/notification-item.component';
 import { SnackbarNotificationComponent } from './components/snackbar-notification/snackbar-notification.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { MenuMobileComponent } from './components/menu-mobile/menu-mobile.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
 
 const components = [
   HeaderComponent,
@@ -19,26 +27,41 @@ const components = [
   WidgetComponent,
   LanguageSwitcherComponent,
   NotificationItemComponent,
+  PaginatorComponent,
+  SnackbarNotificationComponent,
+  MenuMobileComponent,
+];
 
+const pipes = [
   TimeBeforePipe,
+  ToggleSecretTextPipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
-    SnackbarNotificationComponent,
+    ...pipes,
   ],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     AngularMaterialModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSidenavModule,
+    ReactiveFormsModule,
   ],
   exports: [
     ...components,
+    ...pipes,
     CommonModule,
     RouterModule,
     TranslateModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
   ],
   providers: [DatePipe]
 })

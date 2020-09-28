@@ -1,0 +1,299 @@
+<aside>
+  <div class="spot-wallet">
+    <div class="spot-wallet__header">{{'wallet_page.spot_wallet' | translate}}</div>
+    <ul class="spot-wallet__services-list">
+      <li class="spot-wallet__services-item" [routerLink]="['../balance']" [routerLinkActive]="['active']">
+        {{'wallet_page.balance' | translate}}
+      </li>
+      <li class="spot-wallet__services-item" [routerLink]="['../deposit']" [routerLinkActive]="['active']">
+        {{'wallet_page.deposit' | translate}}
+      </li>
+      <li class="spot-wallet__services-item" [routerLink]="['../withdraw']" [routerLinkActive]="['active']">
+        {{'wallet_page.withdraw' | translate}}
+      </li>
+    </ul>
+  </div>
+</aside>
+<main>
+  <div class="total-balance">
+    <div class="total-balance__header">{{'wallet_page.total_balance' | translate}}</div>
+    <div class="total-balance__amount">
+      {{'0.00000000' | toggleSecretText: hideNumbers}}
+      <div class="total-balance__amount-currency">
+        <span class="total-balance__amount-currency--black">{{'wallet_page.btc' | translate}}</span> ≈ ${{'0.00' |
+        toggleSecretText: hideNumbers}}
+      </div>
+      <button class="total-balance__amount-hide-btn" mat-icon-button
+              [title]="hideNumbers ? 'Show information' : 'Hide information'" (click)="hideNumbers=!hideNumbers">
+        <mat-icon [svgIcon]="hideNumbers ? 'icon_view' : 'icon_view_crossed'"
+                  class="total-balance__amount-hide-btn-icon"
+        ></mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="balances">
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">{{'wallet_page.fiat_balance' | translate}}</div>
+        <div class="balance-info__table">
+          <mat-table mat-table [dataSource]="dataSource">
+            <!-- Coin column -->
+            <ng-container matColumnDef="coin">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.coin' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon [svgIcon]="'icon_' + element.coin"></mat-icon>
+                {{ element.coin }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total column -->
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.total' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.total | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- Available column -->
+            <ng-container matColumnDef="available">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.available' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.available | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- In Order column -->
+            <ng-container matColumnDef="inOrder">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.inOrder' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.inOrder | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- BTC Value column -->
+            <ng-container matColumnDef="btcValue">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.btcValue' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.btcValue | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- Action column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.action' | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <a>{{ 'wallet_page.deposit' | translate }}</a>
+                <a>{{ 'wallet_page.withdraw' | translate }}</a>
+                <a (menuOpened)="getTradeTypes('fiat', element.coin)"
+                   #tradeTrigger="matMenuTrigger"
+                   [matMenuTriggerFor]="tradeSelect"
+                >{{ 'wallet_page.trade' | translate }}</a>
+
+                <mat-menu #tradeSelect="matMenu" xPosition="before" class="trade-select">
+                  <div class="link" routerLink="/some-page/{{item.id}}"
+                       *ngFor="let item of tradeTypes$ | async; let last = last">
+                    <div class="label">
+                      {{element.coin + '/' + item.label}}
+                    </div>
+                    <div class="divider" *ngIf="!last"></div>
+                  </div>
+                </mat-menu>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">{{'wallet_page.cc_euro_account_balance' | translate}}</div>
+        <div class="balance-info__table">
+          <mat-table mat-table [dataSource]="dataSource">
+            <!-- Coin column -->
+            <ng-container matColumnDef="coin">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.coin' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon [svgIcon]="'icon_' + element.coin"></mat-icon>
+                {{ element.coin }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total column -->
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.total' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.total | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- Available column -->
+            <ng-container matColumnDef="available">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.available' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.available | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- In Order column -->
+            <ng-container matColumnDef="inOrder">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.inOrder' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.inOrder | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- BTC Value column -->
+            <ng-container matColumnDef="btcValue">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.btcValue' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.btcValue | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- Action column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.action' | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <a>{{ 'wallet_page.deposit' | translate }}</a>
+                <a>{{ 'wallet_page.withdraw' | translate }}</a>
+                <a (menuOpened)="getTradeTypes('crosschange_ea', element.coin)"
+                   #tradeTrigger="matMenuTrigger"
+                   [matMenuTriggerFor]="tradeSelect"
+                >{{ 'wallet_page.trade' | translate }}</a>
+
+                <mat-menu #tradeSelect="matMenu" xPosition="before" class="trade-select">
+                  <div class="link" routerLink="/some-page/{{item.id}}"
+                       *ngFor="let item of tradeTypes$ | async; let last = last">
+                    <div class="label">
+                      {{element.coin + '/' + item.label}}
+                    </div>
+                    <div class="divider" *ngIf="!last"></div>
+                  </div>
+                </mat-menu>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <div class="balance">
+      <div class="balance-info">
+        <div class="balance-info__name">{{'wallet_page.crypto_balance' | translate}}</div>
+        <div class="balance-info__table">
+          <div class="mat-table__search">
+            <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+            <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+            <button class="hide-balance-btn">{{'wallet_page.hide_low_balance_assets' | translate}}</button>
+          </div>
+          <mat-table mat-table [dataSource]="dataSource">
+            <!-- Coin column -->
+            <ng-container matColumnDef="coin">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.coin' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <mat-icon [svgIcon]="'icon_' + element.coin"></mat-icon>
+                {{ element.coin }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Total column -->
+            <ng-container matColumnDef="total">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.total' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.total | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- Available column -->
+            <ng-container matColumnDef="available">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.available' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.available | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- In Order column -->
+            <ng-container matColumnDef="inOrder">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.inOrder' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.inOrder | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- BTC Value column -->
+            <ng-container matColumnDef="btcValue">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.btcValue' | translate }}
+                <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.btcValue | toggleSecretText: hideNumbers }}</mat-cell>
+            </ng-container>
+
+            <!-- Action column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef>
+                {{ 'wallet_page.action' | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+
+                <a>{{ 'wallet_page.deposit' | translate }}</a>
+
+                <a>{{ 'wallet_page.withdraw' | translate }}</a>
+
+                <a (menuOpened)="getTradeTypes('crypto', element.coin)"
+                   #tradeTrigger="matMenuTrigger"
+                   [matMenuTriggerFor]="tradeSelect"
+                >{{ 'wallet_page.trade' | translate }}</a>
+
+                <mat-menu #tradeSelect="matMenu" xPosition="before" class="trade-select">
+                  <div class="link" routerLink="/some-page/{{item.id}}"
+                       *ngFor="let item of tradeTypes$ | async; let last = last">
+                    <div class="label">
+                      {{element.coin + '/' + item.label}}
+                    </div>
+                    <div class="divider" *ngIf="!last"></div>
+                  </div>
+                </mat-menu>
+
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <app-paginator [count]="count"></app-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
