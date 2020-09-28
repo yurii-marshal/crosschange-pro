@@ -7,7 +7,10 @@
 }
 
 .widgets-container {
-  height: 188px;
+  display: flex;
+  align-items: center;
+  min-height: 188px;
+  padding: 36px 0;
   background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
               linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
 
@@ -20,8 +23,13 @@
     .widget {
       width: 295px;
       height: 116px;
+      margin-right: 20px;
       border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: 4px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 }
@@ -30,6 +38,7 @@
   background-color: #fafbfc;
 
   .tabs-content {
+    position: relative;
     padding: 68px 0 80px;
 
     .mat-tab-group {
@@ -109,4 +118,67 @@
   flex: 2;
   justify-content: flex-end;
   padding-right: 12px;
+}
+
+@media screen and(max-width: 1280px) {
+  .widgets-container {
+    .widgets-content {
+      flex-wrap: wrap;
+
+      .widget {
+        margin: 20px 10%;
+
+        &:last-child {
+          margin-right: 10%;
+        }
+      }
+    }
+  }
+
+  .mat-column-favorite {
+    min-width: 45px;
+  }
+
+  .mat-column-pair,
+  .mat-column-last,
+  .mat-column-cng,
+  .mat-column-high,
+  .mat-column-low,
+  .mat-column-mktCap,
+  .mat-column-vol {
+    min-width: 160px;
+  }
+}
+
+@media all and (max-width: $media-tablet) {
+  .widgets-container {
+    .widgets-content {
+
+      .widget {
+        margin: 15px 3%;
+
+        &:last-child {
+          margin-right: 3%;
+        }
+      }
+    }
+  }
+}
+
+@media all and (max-width: 685px) {
+  .widgets-container {
+    .widgets-content {
+      flex-direction: column;
+      align-items: center;
+
+      .widget {
+        margin: 10px 0 20px;
+
+        &:last-child {
+          margin-right: 0;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
 }
