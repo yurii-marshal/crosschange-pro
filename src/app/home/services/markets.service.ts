@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IWidget } from 'src/app/shared/interfaces/widget.interface';
-import { HttpClient } from '@angular/common/http';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
+import { ApiService } from 'shared-kuailian-lib';
 
 const mockData: IWidget[] = [
   {
@@ -115,9 +115,14 @@ const mockTable: IExchangeData[] = [
 @Injectable({
   providedIn: 'root'
 })
-export class MarketsService {
+export class MarketsService extends ApiService {
 
-  constructor(private http: HttpClient) {
+  constructor(protected injector: Injector) {
+    super(injector);
+  }
+
+  getAll(): Observable<any> {
+    return super.get('exchanges/markets');
   }
 
   getWidgetsData(): Observable<any> {
