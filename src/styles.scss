@@ -3,10 +3,13 @@
 @import 'assets/styles/flex';
 @import "assets/styles/variables";
 @import "assets/styles/animations";
+@import "~@angular/cdk/overlay-prebuilt.css";
+@import "~@angular/cdk/overlay";
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600&display=swap');
 
 body * {
   font-family: 'IBM Plex Sans', sans-serif;
+  //@include cdk-overlay();
 }
 
 a {

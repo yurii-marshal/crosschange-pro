@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { SnackbarNotificationComponent } from '../../shared/components/snackbar-notification/snackbar-notification.component';
+import { PopoverService } from '../../shared/popover/popover.service';
 
 @Component({
   selector: 'app-notifications',
@@ -28,7 +29,8 @@ export class NotificationsComponent implements OnInit {
   };
 
   constructor(
-    public snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
+    private popoverService: PopoverService,
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
   ) {
@@ -45,9 +47,13 @@ export class NotificationsComponent implements OnInit {
   }
 
   openSnackBarNotification(note: Notification): void {
-    this.snackBar.openFromComponent(SnackbarNotificationComponent, {
-      data: note,
-      ...this.snackBarConfigs,
+    // this.snackBar.openFromComponent(SnackbarNotificationComponent, {
+    //   data: note,
+    //   ...this.snackBarConfigs,
+    // });
+    this.popoverService.show({
+      text: `Toast message`,
+      type: 'success',
     });
   }
 }

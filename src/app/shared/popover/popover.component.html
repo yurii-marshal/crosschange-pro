@@ -1,0 +1,8 @@
+<div class="popover"
+     [@fadeAnimation]="{value: animationState, params:
+        { fadeIn: popoverConfig.animation.fadeIn, fadeOut: popoverConfig.animation.fadeOut }}"
+     (@fadeAnimation.done)="onFadeFinished($event)">
+  <mat-icon>{{ iconType }}</mat-icon>
+  <div>{{ data.text }}</div>
+  <mat-icon (click)="close()">close</mat-icon>
+</div>

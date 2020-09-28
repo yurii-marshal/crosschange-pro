@@ -23,7 +23,6 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.1.4",
-    "@angular/cdk": "^9.2.1",
     "@angular/common": "~9.1.4",
     "@angular/compiler": "~9.1.4",
     "@angular/core": "~9.1.4",
@@ -43,6 +42,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.901.4",
+    "@angular/cdk": "^9.2.4",
     "@angular/cli": "~9.1.4",
     "@angular/compiler-cli": "~9.1.4",
     "@biesbjerg/ngx-translate-extract": "^6.0.3",
