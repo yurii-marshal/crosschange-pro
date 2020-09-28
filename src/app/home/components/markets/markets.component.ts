@@ -26,7 +26,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
     'vol',
   ];
   limit = 2;
-  showFavorites = false;
 
   dataSource: Observable<MatTableDataSource<IExchangeData[]>>;
 
@@ -74,10 +73,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   addToFavorite(element): void {
     element.favorite = !element.favorite;
-  }
-
-  activateShowFavorites(): void {
-    this.showFavorites = !this.showFavorites;
   }
 
   ngOnDestroy(): void {
