@@ -66,3 +66,51 @@
     }
   }
 }
+
+@media all and (max-width: $media-small-tablet) {
+}
+
+@media all and (max-width: $media-mobile) {
+  :host {
+    display: block;
+
+    .text-block {
+      padding-top: 12px;
+
+      &.short {
+        .header-container {
+          .active-label {
+            top: 32px;
+            transform: none;
+            margin-top: 0;
+          }
+        }
+      }
+    }
+
+    .header-container {
+      align-items: flex-start;
+    }
+
+    .active-label {
+      margin-top: 9px;
+    }
+
+    .header {
+      max-width: 100%;
+      @include text-overflow(2);
+    }
+
+    .message {
+      font-weight: 400;
+      padding-right: 0;
+    }
+
+    .time {
+      font-weight: 400;
+      justify-content: flex-start;
+      text-align: left;
+      padding: 0 0 20px 20px;
+    }
+  }
+}
