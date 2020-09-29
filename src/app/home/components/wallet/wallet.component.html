@@ -37,7 +37,7 @@
       <div class="balance-info">
         <div class="balance-info__name">{{'wallet_page.fiat_balance' | translate}}</div>
         <div class="balance-info__table">
-          <mat-table mat-table [dataSource]="dataSource">
+          <mat-table mat-table [dataSource]="dataSource" class="single-table">
             <!-- Coin column -->
             <ng-container matColumnDef="coin">
               <mat-header-cell *matHeaderCellDef>
@@ -121,7 +121,7 @@
       <div class="balance-info">
         <div class="balance-info__name">{{'wallet_page.cc_euro_account_balance' | translate}}</div>
         <div class="balance-info__table">
-          <mat-table mat-table [dataSource]="dataSource">
+          <mat-table mat-table [dataSource]="dataSource" class="single-table">
             <!-- Coin column -->
             <ng-container matColumnDef="coin">
               <mat-header-cell *matHeaderCellDef>
@@ -291,7 +291,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
-          <app-paginator [count]="count"></app-paginator>
+          <app-paginator [count]="count" class="paginator"></app-paginator>
         </div>
       </div>
     </div>

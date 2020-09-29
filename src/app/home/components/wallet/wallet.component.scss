@@ -230,3 +230,91 @@ main {
     background-color: $color-grey-10;
   }
 }
+
+@media screen and(max-width: 1200px) {
+  .mat-column-coin,
+  .mat-column-total,
+  .mat-column-available,
+  .mat-column-inOrder,
+  .mat-column-btcValue {
+    min-width: 140px;
+  }
+
+  .mat-column-action {
+    min-width: 240px;
+  }
+
+  .hide-balance-btn {
+    white-space: nowrap;
+  }
+}
+
+@media screen and(max-width: 1125px) {
+  :host {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+  }
+
+  .spot-wallet {
+    flex-direction: row;
+    height: 52px;
+    padding: 0;
+    background-color: #1D2235;
+
+    &__header {
+      display: none;
+    }
+
+    &__services-list {
+      display: flex;
+      align-items: center;
+    }
+
+    &__services-item {
+      margin-right: 24px;
+      color: rgba(255, 255, 255, 0.6);
+
+      &:first-child {
+        margin-left: 16px;
+      }
+    }
+
+    .active {
+      color: $color-white-100;
+    }
+  }
+}
+
+@media all and (max-width: $media-small-tablet) {
+  main {
+    background-color: $color-white-100;
+  }
+
+  .balances {
+    margin: 0 0 0 16px;
+  }
+
+  .mat-table {
+    background-color:transparent!important;
+    box-shadow: 5px 0 8px -3px rgba(0, 0 , 0, 0.1), -5px 0 5px -3px rgba(0, 0 , 0, 0.1);
+  }
+
+  .mat-table__search {
+    border-radius: 4px 4px 0 0;
+    box-shadow: 7px 0 8px -6px rgba(0, 0 , 0, 0.1), -2px -2px 5px 0 rgba(0, 0 , 0, 0.1);
+  }
+
+  .paginator {
+    border-radius: 0 0 4px 4px;
+    box-shadow: 7px 0 8px -6px rgba(0, 0 , 0, 0.1), -2px 2px 5px 0 rgba(0, 0 , 0, 0.1);
+  }
+
+  .single-table {
+    border-radius: 4px;
+    box-shadow: 0.1px 0.1px 10px rgba(0, 0 , 0, 0.1);
+  }
+}
+
