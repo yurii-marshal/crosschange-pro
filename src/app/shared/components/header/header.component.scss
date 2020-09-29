@@ -83,7 +83,7 @@ header {
   color: $color-grey-5;
   padding: 0 52px 0 40px;
   height: 72px;
-  background: linear-gradient(0deg, #111629, #111629), linear-gradient(0deg, #060B1F, #060B1F), #FFFFFF;
+  background: $color-brand;
 
   &.logged-in {
     //.right button:not(:last-child) {

@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { IWidget } from 'src/app/shared/interfaces/widget.interface';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
 import { ApiService } from 'shared-kuailian-lib';
+import { HttpParams } from '@angular/common/http';
 
 const mockData: IWidget[] = [
   {
