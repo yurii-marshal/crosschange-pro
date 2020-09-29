@@ -18,7 +18,7 @@
     <div class="notification fx-row" *ngFor="let item of notifications$ | async">
       <app-notification-item
         [notification]="item"
-        (click)="openSnackBarNotification(item)"
+        (click)="openPopupNotification(item)"
       ></app-notification-item>
     </div>
   </div>

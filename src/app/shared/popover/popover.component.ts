@@ -7,24 +7,23 @@ import { PopoverRef } from './popover-ref';
   selector: 'app-popover',
   templateUrl: './popover.component.html',
   styleUrls: ['./popover.component.scss'],
-  animations: [popoverAnimations.fadePopover],
+  animations: [popoverAnimations.transformPopover],
 })
 export class PopoverComponent implements OnInit, OnDestroy {
   animationState: PopoverAnimationState = 'default';
-  iconType: string;
 
-  private intervalId: number;
+  private intervalId;
+  private defaultDuration = 3000;
 
   constructor(
     readonly data: PopoverData,
-    readonly ref: PopoverRef,
+    readonly popoverRef: PopoverRef,
     @Inject(POPOVER_CONFIG_TOKEN) public popoverConfig: PopoverConfig,
   ) {
-    this.iconType = data.type === 'success' ? 'done' : data.type;
   }
 
   ngOnInit(): void {
-    this.intervalId = setTimeout(() => this.animationState = 'closing', 5000);
+    this.intervalId = setTimeout(() => this.animationState = 'closing', this.data.duration || this.defaultDuration);
   }
 
   ngOnDestroy(): void {
@@ -32,16 +31,16 @@ export class PopoverComponent implements OnInit, OnDestroy {
   }
 
   close(): void {
-    this.ref.close();
+    this.animationState = 'closing';
   }
 
   onFadeFinished(event: any): void {
-    const { toState } = event;
+    const {toState} = event;
     const isFadeOut = (toState as PopoverAnimationState) === 'closing';
     const itFinished = this.animationState === 'closing';
 
     if (isFadeOut && itFinished) {
-      this.close();
+      this.popoverRef.close();
     }
   }
 }

@@ -10,7 +10,6 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { TimeBeforePipe } from './pipes/time-before.pipe';
 import { NotificationItemComponent } from './components/notification-item/notification-item.component';
-import { SnackbarNotificationComponent } from './components/snackbar-notification/snackbar-notification.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
@@ -29,7 +28,6 @@ const components = [
   LanguageSwitcherComponent,
   NotificationItemComponent,
   PaginatorComponent,
-  SnackbarNotificationComponent,
   MenuMobileComponent,
 ];
 

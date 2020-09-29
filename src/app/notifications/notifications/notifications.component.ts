@@ -6,9 +6,7 @@ import { NotificationCategory } from '../../core/interfaces/notification-categor
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { SnackbarNotificationComponent } from '../../shared/components/snackbar-notification/snackbar-notification.component';
-import { PopoverService } from '../../shared/popover/popover.service';
+import { PopoverService } from '../../shared/popover';
 
 @Component({
   selector: 'app-notifications',
@@ -21,15 +19,7 @@ export class NotificationsComponent implements OnInit {
   currentType = '';
   notifications$: Observable<Notification[]>;
 
-  snackBarConfigs: MatSnackBarConfig = {
-    panelClass: 'success',
-    duration: 2 * 1000,
-    horizontalPosition: 'right',
-    verticalPosition: 'top'
-  };
-
   constructor(
-    private snackBar: MatSnackBar,
     private popoverService: PopoverService,
     private route: ActivatedRoute,
     private notificationsService: NotificationsService,
@@ -46,15 +36,10 @@ export class NotificationsComponent implements OnInit {
     );
   }
 
-  openSnackBarNotification(note: Notification): void {
-    // this.snackBar.openFromComponent(SnackbarNotificationComponent, {
-    //   data: note,
-    //   ...this.snackBarConfigs,
-    // });
+  openPopupNotification(note: Notification): void {
     this.popoverService.show({
-      text: `Toast message`,
-      type: 'success',
-    });
+      content: note,
+    }, {positionOffset: {top: 84, bottom: 20}});
   }
 }
 

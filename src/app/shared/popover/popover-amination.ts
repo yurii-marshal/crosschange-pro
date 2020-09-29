@@ -8,14 +8,31 @@ import {
 } from '@angular/animations';
 
 export const popoverAnimations: {
-  readonly fadePopover: AnimationTriggerMetadata;
+  readonly transformPopover: AnimationTriggerMetadata;
 } = {
-  fadePopover: trigger('fadeAnimation', [
-    state('default', style({ opacity: 1 })),
-    transition('void => *', [style({ opacity: 0 }), animate('{{ fadeIn }}ms')]),
+  transformPopover: trigger('transformPopover', [
+    state('default', style({
+      transform: 'translateX(0%)',
+      visibility: 'visible',
+      'transition-property': 'transform, opacity, visibility',
+      'transition-duration': '0.7s',
+      'transition-timing-function': 'cubic-bezier(0.445, 0.05, 0.55, 0.95)',
+    })),
+    transition('void => *',
+      [
+        style({
+          transform: 'translateX(100%)',
+          visibility: 'hidden',
+        }),
+        animate('{{ shiftIn }}ms')
+      ]
+    ),
     transition(
       'default => closing',
-      animate('{{ fadeOut }}ms', style({ opacity: 0 })),
+      animate('{{ shiftOut }}ms', style({
+        transform: 'translateX(100%)',
+        visibility: 'hidden',
+      })),
     ),
   ]),
 };
