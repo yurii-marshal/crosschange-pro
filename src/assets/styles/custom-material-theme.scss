@@ -72,3 +72,20 @@ $cross-pro-theme: mat-light-theme($cross-pro-primary, $cross-pro-accent);
     }
   }
 }
+
+@media all and (max-width: $media-small-tablet) {
+}
+
+@media all and (max-width: $media-mobile) {
+  // MatSnackBar
+  .mat-snack-bar-container {
+    min-width: 90% !important;
+    width: 90% !important;
+
+    &.mat-snack-bar-top {
+      left: 50%;
+      transform: translateX(-50%) !important;
+      margin: 6px 0 !important;
+    }
+  }
+}

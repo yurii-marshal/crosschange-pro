@@ -30,3 +30,13 @@ button {
   background-color: transparent;
   z-index: 999 !important;
 }
+
+.mobile {
+  display: none;
+}
+
+@media all and (max-width: $media-mobile) {
+  .mobile {
+    display: block;
+  }
+}

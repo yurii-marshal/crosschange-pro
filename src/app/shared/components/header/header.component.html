@@ -36,11 +36,11 @@
     <button mat-button class="exchange-btn">{{'header.exchange' | translate}}</button>
 
     <button class="notifications-btn" mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="notificationsPopup">
-      <mat-icon class="icon notes" svgIcon="icon_notification"></mat-icon>
+      <mat-icon class="icon notes" [svgIcon]="newMessages ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
     </button>
 
     <mat-menu #notificationsPopup="matMenu" xPosition="before" class="notifications-popup">
-      <div class="popup-header fx-row fx-h-align-space-between" (click)="$event.stopPropagation()">
+      <div class="popup-header fx-row fx-v-align-center-xs fx-h-align-space-between" (click)="$event.stopPropagation()">
         <div class="header">{{'notifications.title' | translate}}</div>
         <a class="link" (click)="openNotificationsPage(menuTrigger)">{{'notifications.view_all' | translate}}</a>
       </div>
@@ -61,7 +61,11 @@
     </ul>
   </div>
   <div class="right mobile">
-    <mat-icon svgIcon="icon_notification"></mat-icon>
-    <mat-icon svgIcon="icon_menu" (click)="openMenuMobile(menuMobile)"></mat-icon>
+    <button mat-icon-button #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="notificationsPopup">
+      <mat-icon [svgIcon]="newMessages ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon svgIcon="icon_menu" (click)="openMenuMobile(menuMobile)"></mat-icon>
+    </button>
   </div>
 </header>

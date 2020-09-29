@@ -10,6 +10,7 @@ export const routes: Routes = [
     path: '',
     component: NotificationsComponent,
     data: {
+      // headerClass: 'transparent',
       footerClass: 'hide'
     },
     children: [],

@@ -39,3 +39,22 @@
     }
   }
 }
+
+@media all and (max-width: $media-small-tablet) {
+}
+
+@media all and (max-width: $media-mobile) {
+  .container {
+    .content {
+      .message {
+        .header, .text {
+          padding-right: 8px;
+        }
+
+        .text {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
