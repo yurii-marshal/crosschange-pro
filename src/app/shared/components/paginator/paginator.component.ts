@@ -2,11 +2,7 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-export interface Pagination {
-  offset: number;
-  limit: number;
-}
+import { defaultPagination, Pagination } from 'src/app/shared/constants/pagination.constant';
 
 @Component({
   selector: 'app-paginator',
@@ -17,10 +13,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   count = 0;
 
-  params: Pagination = {
-    offset: 0,
-    limit: 2
-  };
+  params = defaultPagination;
 
   totalPages: number[] = [];
 
@@ -38,8 +31,8 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
       takeUntil(this.onDestroyed)
     ).subscribe((params: Pagination) => {
       this.params = {
-        offset: +params.offset || 0,
-        limit: +params.limit || 2
+        offset: +params.offset || defaultPagination.offset,
+        limit: +params.limit || defaultPagination.limit
       };
     });
   }
@@ -56,7 +49,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   pageChanged(pageIndex: number): void {
     this.params = {
       offset: pageIndex * this.params.limit,
-      limit: 2
+      limit: this.params.limit
     };
     this.navigate();
   }
