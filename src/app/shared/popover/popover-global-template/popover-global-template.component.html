@@ -1,11 +1,11 @@
 <div (click)="close()"
   [className]="'app-popover fx-row ' + popoverConfig.type + ' ' + popoverConfig.horizontalAlign + ' ' + popoverConfig.verticalAlign"
-  [@transformPopover]="{value: animationState, params:
+  [@translatePopover]="{value: animationState, params:
         {
         shiftIn: popoverConfig.animation.transitionStart,
         shiftOut: popoverConfig.animation.transitionEnd
         }}"
-  (@transformPopover.done)="onFadeFinished($event)"
+  (@translatePopover.done)="onFadeFinished($event)"
 >
   <div class="color-strip"></div>
   <div class="content fx-row fx-align-center">

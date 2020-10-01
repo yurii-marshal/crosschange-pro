@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { PopoverFlexibleTemplateComponent } from './popover-flexible-template.component';
 
-import { PopoverComponent } from './popover.component';
 
 describe('PopoverComponent', () => {
-  let component: PopoverComponent;
-  let fixture: ComponentFixture<PopoverComponent>;
+  let component: PopoverFlexibleTemplateComponent;
+  let fixture: ComponentFixture<PopoverFlexibleTemplateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PopoverComponent ]
+      declarations: [ PopoverFlexibleTemplateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PopoverComponent);
+    fixture = TestBed.createComponent(PopoverFlexibleTemplateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

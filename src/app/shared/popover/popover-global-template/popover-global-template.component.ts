@@ -1,15 +1,15 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { popoverAnimations, PopoverAnimationState } from './popover-amination';
-import { POPOVER_CONFIG_TOKEN, PopoverConfig, PopoverData } from './popover-config';
-import { PopoverRef } from './popover-ref';
+import { popoverAnimations, PopoverAnimationState } from '../popover-amination';
+import { POPOVER_CONFIG_TOKEN, PopoverConfig, PopoverData } from '../popover-config';
+import { PopoverRef } from '../popover-ref';
 
 @Component({
   selector: 'app-popover',
-  templateUrl: './popover.component.html',
-  styleUrls: ['./popover.component.scss'],
-  animations: [popoverAnimations.transformPopover],
+  templateUrl: './popover-global-template.component.html',
+  styleUrls: ['./popover-global-template.component.scss'],
+  animations: [popoverAnimations.translatePopover],
 })
-export class PopoverComponent implements OnInit, OnDestroy {
+export class PopoverGlobalTemplateComponent implements OnInit, OnDestroy {
   animationState: PopoverAnimationState = 'default';
 
   private intervalId;

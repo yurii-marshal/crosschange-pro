@@ -18,7 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
-import { PopoverModule } from './popover';
+import { PopoverModule } from './popover/popover.module';
 
 const components = [
   HeaderComponent,

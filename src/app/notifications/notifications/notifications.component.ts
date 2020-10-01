@@ -6,7 +6,7 @@ import { NotificationCategory } from '../../core/interfaces/notification-categor
 import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { PopoverService } from '../../shared/popover';
+import { PopoverService } from '../../shared/popover/popover.service';
 
 @Component({
   selector: 'app-notifications',
@@ -39,7 +39,7 @@ export class NotificationsComponent implements OnInit {
   openPopupNotification(note: Notification): void {
     this.popoverService.show({
       content: note,
-    }, {positionOffset: {top: 84, bottom: 20}});
+    }, {positionOffset: {top: 84, right: 20, bottom: 20}});
   }
 }
 

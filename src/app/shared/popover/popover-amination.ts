@@ -8,9 +8,10 @@ import {
 } from '@angular/animations';
 
 export const popoverAnimations: {
-  readonly transformPopover: AnimationTriggerMetadata;
+  readonly translatePopover: AnimationTriggerMetadata;
+  readonly rotatePopover: AnimationTriggerMetadata;
 } = {
-  transformPopover: trigger('transformPopover', [
+  translatePopover: trigger('translatePopover', [
     state('default', style({
       transform: 'translateX(0%)',
       visibility: 'visible',
@@ -32,6 +33,37 @@ export const popoverAnimations: {
       animate('{{ shiftOut }}ms', style({
         transform: 'translateX(100%)',
         visibility: 'hidden',
+      })),
+    ),
+  ]),
+  rotatePopover: trigger('rotatePopover', [
+    state('default', style({
+      'flex-grow': 1,
+      transform: 'rotateX(0)',
+      'transform-origin': '100% 0',
+      opacity: 1,
+      'will-change': 'transform, opacity',
+      'transition-property': 'transform, opacity',
+      'transition-duration': '0.25s',
+    })),
+    transition('void => *',
+      [
+        style({
+          'transform-origin': 'center -100px',
+          transform: 'rotateX(-15deg)',
+          opacity: 0,
+          'pointer-events': 'none',
+        }),
+        animate('{{ rotateIn }}ms')
+      ]
+    ),
+    transition(
+      'default => closing',
+      animate('{{ rotateOut }}ms', style({
+        'transform-origin': 'center -100px',
+        transform: 'rotateX(-15deg)',
+        opacity: 0,
+        'pointer-events': 'none',
       })),
     ),
   ]),

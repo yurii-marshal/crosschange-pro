@@ -1,30 +1,28 @@
 import { InjectionToken } from '@angular/core';
-import { ComponentType } from '@angular/cdk/portal';
+import {
+  PopoverScrollStrategy,
+  PopoverType,
+} from './types';
 
 export class PopoverData {
   content?: string | object;
-  component?: ComponentType<any>;
+  component?: any;
   duration?: number;
 }
 
-export type PopoverType = 'warning' | 'info' | 'success';
-
 export interface PopoverConfig {
   type?: PopoverType;
-  scrollStrategy?: 'noop' | 'block' | 'reposition' | 'close';
+  scrollStrategy?: PopoverScrollStrategy;
   stackStrategy?: 'stack' | 'restart';
-  anchorStrategy?: 'global' | 'flexible';
 
-  horizontalAlign?: 'left' | 'center' | 'right';
-  verticalAlign?: 'top' | 'center' | 'bottom';
+  horizontalAlign?: 'left' | 'centerHorizontally' | 'right';
+  verticalAlign?: 'top' | 'centerVertically' | 'bottom';
   forceAlignment?: boolean;
   lockAlignment?: boolean;
 
   positionOffset?: {
     top?: number;
     bottom?: number;
-    centerLeft?: number;
-    centerTop?: number;
     left?: number;
     right?: number;
     vType?: 'px' | '%';
@@ -43,7 +41,6 @@ export const defaultPopoverConfig: PopoverConfig = {
   type: 'success',
   scrollStrategy: 'block',
   stackStrategy: 'stack',
-  anchorStrategy: 'global',
 
   horizontalAlign: 'right',
   verticalAlign: 'top',
@@ -51,8 +48,10 @@ export const defaultPopoverConfig: PopoverConfig = {
   lockAlignment: false,
 
   positionOffset: {
-    top: 20,
-    right: 20,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     vType: 'px',
     hType: 'px',
   },
