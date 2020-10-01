@@ -19,6 +19,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
+import { CoinSelectComponent } from './components/coin-select/coin-select.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 const components = [
   HeaderComponent,
@@ -30,6 +32,7 @@ const components = [
   PaginatorComponent,
   SnackbarNotificationComponent,
   MenuMobileComponent,
+  CoinSelectComponent
 ];
 
 const pipes = [
@@ -40,7 +43,7 @@ const pipes = [
 @NgModule({
   declarations: [
     ...components,
-    ...pipes,
+    ...pipes
   ],
   imports: [
     CommonModule,
@@ -52,6 +55,7 @@ const pipes = [
     MatMenuModule,
     MatSidenavModule,
     ReactiveFormsModule,
+    LayoutModule
   ],
   exports: [
     ...components,
@@ -62,7 +66,10 @@ const pipes = [
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    LayoutModule
   ],
-  providers: [DatePipe]
+  providers: [
+    DatePipe
+  ]
 })
 export class SharedModule { }
