@@ -190,28 +190,6 @@ export class PopoverService implements OnDestroy {
     this.onDestroyed$.complete();
   }
 
-  private repositionBelow(): void {
-    for (const i in this.globalOverlays) {
-      if (!this.globalOverlays[i].hostElement) {
-        this.globalOverlays.splice(+i, 1);
-        this.globalPopovers.splice(+i, 1);
-        this.globalOverlays.slice(+i, this.globalOverlays.length).forEach((item, index) => {
-          setTimeout(() => {
-            item.updatePositionStrategy(this.getRepositionGlobalStrategy(index - 1));
-            item.updatePosition();
-          }, 100);
-        });
-        break;
-      }
-    }
-  }
-
-  private getRepositionGlobalStrategy(prevPopoverIndex: number): GlobalPositionStrategy {
-    return this.overlayGlobalStrategy
-      [this.config.verticalAlign](this.getRelativeVPosition(this.globalPopovers[prevPopoverIndex], this.config))
-      [this.config.horizontalAlign](this.getRelativeHPosition(this.config));
-  }
-
   // GLOBAL STRATEGY
   private getPositionGlobalStrategy(config: PopoverConfig): GlobalPositionStrategy {
     return this.overlayGlobalStrategy
@@ -275,6 +253,28 @@ export class PopoverService implements OnDestroy {
     tokens.set(PopoverRef, popoverRef);
 
     return new PortalInjector(parentInjector, tokens);
+  }
+
+  private repositionBelow(): void {
+    for (const i in this.globalOverlays) {
+      if (!this.globalOverlays[i].hostElement) {
+        this.globalOverlays.splice(+i, 1);
+        this.globalPopovers.splice(+i, 1);
+        this.globalOverlays.slice(+i, this.globalOverlays.length).forEach((item, index) => {
+          setTimeout(() => {
+            item.updatePositionStrategy(this.getRepositionGlobalStrategy(index - 1));
+            item.updatePosition();
+          }, 100);
+        });
+        break;
+      }
+    }
+  }
+
+  private getRepositionGlobalStrategy(prevPopoverIndex: number): GlobalPositionStrategy {
+    return this.overlayGlobalStrategy
+      [this.config.verticalAlign](this.getRelativeVPosition(this.globalPopovers[prevPopoverIndex], this.config))
+      [this.config.horizontalAlign](this.getRelativeHPosition(this.config));
   }
 
   // FLEXIBLE STRATEGY
