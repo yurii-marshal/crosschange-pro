@@ -50,6 +50,7 @@ export class PopoverService implements OnDestroy {
 
   private lastGlobalPopover: PopoverRef;
   private globalOverlays: OverlayRef[] = [];
+  private globalPopovers: PopoverRef[] = [];
 
   private portal: TemplatePortal<any>;
 
@@ -102,6 +103,7 @@ export class PopoverService implements OnDestroy {
     const popoverRef = new PopoverRef(globalOverlayRef);
     this.lastGlobalPopover = popoverRef;
     this.globalOverlays.push(globalOverlayRef);
+    this.globalPopovers.push(popoverRef);
 
     const injector = this.getInjector(data, popoverRef, this.parentInjector);
     const component = data.component || PopoverGlobalTemplateComponent;
@@ -110,16 +112,11 @@ export class PopoverService implements OnDestroy {
 
     globalOverlayRef.attach(popoverPortal);
 
-    // TODO: reposition to top on previous popover closing
-    // globalOverlayRef.detachments()
-    //   .pipe(takeUntil(this.onDestroyed$))
-    //   .subscribe(() => {
-        // this.globalOverlays.splice(1, 1);
-        // this.globalOverlays.forEach((overlay) => {
-        //  overlay.position().global()
-        //   .top(config.positionOffset.bottom + this.config.positionOffset.vType);
-        // });
-      // });
+    globalOverlayRef.detachments()
+      .pipe(takeUntil(this.onDestroyed$))
+      .subscribe(() => {
+        this.repositionBelow();
+      });
 
     return popoverRef;
   }
@@ -193,10 +190,30 @@ export class PopoverService implements OnDestroy {
     this.onDestroyed$.complete();
   }
 
+  private repositionBelow(): void {
+    for (const i in this.globalOverlays) {
+      if (!this.globalOverlays[i].hostElement) {
+        this.globalOverlays.splice(+i, 1);
+        this.globalPopovers.splice(+i, 1);
+        this.globalOverlays.slice(+i, this.globalOverlays.length).forEach((item, index) => {
+          item.updatePositionStrategy(this.getRepositionGlobalStrategy(index - 1));
+          item.updatePosition();
+        });
+        break;
+      }
+    }
+  }
+
+  private getRepositionGlobalStrategy(prevPopoverIndex: number): GlobalPositionStrategy {
+    return this.overlayGlobalStrategy
+      [this.config.verticalAlign](this.getRelativeVPosition(this.globalPopovers[prevPopoverIndex], this.config))
+      [this.config.horizontalAlign](this.getRelativeHPosition(this.config));
+  }
+
   // GLOBAL STRATEGY
   private getPositionGlobalStrategy(config: PopoverConfig): GlobalPositionStrategy {
     return this.overlayGlobalStrategy
-      [config.verticalAlign](this.getRelativeVPosition(config))
+      [config.verticalAlign](this.getRelativeVPosition(this.lastGlobalPopover, config))
       [config.horizontalAlign](this.getRelativeHPosition(config));
   }
 
@@ -214,17 +231,17 @@ export class PopoverService implements OnDestroy {
     }
   }
 
-  private getRelativeVPosition(config: PopoverConfig): string {
+  private getRelativeVPosition(lastGlobalPopover: PopoverRef, config: PopoverConfig): string {
     let position = 0;
-    const lastPopoverIsVisible = this.lastGlobalPopover && this.lastGlobalPopover.isVisible();
+    const lastPopoverIsVisible = lastGlobalPopover && lastGlobalPopover.isVisible();
 
     if (lastPopoverIsVisible) {
       switch (config.verticalAlign) {
         case 'top':
-          position = this.lastGlobalPopover.getPosition().bottom + config.positionOffset.bottom;
+          position = lastGlobalPopover.getPosition().bottom + config.positionOffset.bottom;
           break;
         case 'bottom':
-          position = this.lastGlobalPopover.getPosition().top + config.positionOffset.top;
+          position = lastGlobalPopover.getPosition().top + config.positionOffset.top;
           break;
       }
     } else {
