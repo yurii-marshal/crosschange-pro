@@ -196,8 +196,10 @@ export class PopoverService implements OnDestroy {
         this.globalOverlays.splice(+i, 1);
         this.globalPopovers.splice(+i, 1);
         this.globalOverlays.slice(+i, this.globalOverlays.length).forEach((item, index) => {
-          item.updatePositionStrategy(this.getRepositionGlobalStrategy(index - 1));
-          item.updatePosition();
+          setTimeout(() => {
+            item.updatePositionStrategy(this.getRepositionGlobalStrategy(index - 1));
+            item.updatePosition();
+          }, 100);
         });
         break;
       }
