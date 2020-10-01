@@ -69,7 +69,6 @@ export class HomeComponent implements OnInit {
 
 }
 
-
 _([
   'main_page.howto_title_1',
   'main_page.howto_text_1',
