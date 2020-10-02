@@ -25,7 +25,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     'action'
   ];
 
-  count = 15;
+  count = 81;
 
   tableData = [];
 
@@ -65,7 +65,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       .subscribe((walletsBalance: any) => {
         this.dataSource.data = walletsBalance;
         this.dataSource.sort = this.sort;
-        this.count = 50;
+        this.count = 81;
       });
   }
 

@@ -1,16 +1,18 @@
-<div *ngIf="count && count > params.limit" class="pagination">
+<div *ngIf="count && count > limit" class="pagination">
   <button mat-icon-button (click)="prevPage()" [disabled]="currentPage === 0">
     <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page"></mat-icon>
   </button>
-  <div class="page" *ngIf="currentPageSet[0] !== 0" (click)="getFirstPage()">
+
+  <div class="page" *ngIf="currentVisiblePages[0] !== 0" (click)="getFirstPage()">
     {{ 1 }}
   </div>
+
   <div class="page"
-       *ngIf="currentPageSet.length < count && currentPageSet[0] !== 0"
-       (click)="changePageSet(currentPageSet[0] - visibleSetCount)"
+       *ngIf="currentVisiblePages.length < totalPages && currentVisiblePages[0] !== 0"
+       (click)="switchVisiblePages(currentVisiblePages[0] - visiblePagesCount)"
   > ... </div>
 
-  <div *ngFor="let page of currentPageSet"
+  <div *ngFor="let page of currentVisiblePages"
        class="page"
        [ngClass]="{ 'active-page': currentPage === page }"
        (click)="setPage(page)">
@@ -18,13 +20,17 @@
   </div>
 
   <div class="page"
-       *ngIf="currentPageSet.length < count && currentPageSet[currentPageSet.length - 1] !== count - 1"
-       (click)="changePageSet(currentPageSet[currentPageSet.length - 1] + 1)"
+       *ngIf="currentVisiblePages.length < totalPages
+        && currentVisiblePages[currentVisiblePages.length - 1] !== totalPages - 1"
+       (click)="switchVisiblePages(currentVisiblePages[currentVisiblePages.length - 1] + 1)"
   > ... </div>
-  <div class="page" *ngIf="currentPage !== count - 1" (click)="getLastPage()">
-    {{ count }}
+
+  <div class="page" *ngIf="currentVisiblePages[currentVisiblePages.length - 1] !== totalPages - 1"
+       (click)="getLastPage()">
+    {{ totalPages }}
   </div>
-  <button mat-icon-button (click)="nextPage()" [disabled]="currentPage === count - 1">
+
+  <button mat-icon-button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
     <mat-icon [svgIcon]="'icon_arrow_right'" class="next-page"></mat-icon>
   </button>
 </div>

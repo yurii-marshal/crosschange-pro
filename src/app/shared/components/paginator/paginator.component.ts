@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { defaultPagination, Pagination } from 'src/app/shared/constants/pagination.constant';
+import { GridService } from '../../services/grid.service';
 
 @Component({
   selector: 'app-paginator',
@@ -20,15 +21,16 @@ import { defaultPagination, Pagination } from 'src/app/shared/constants/paginati
 })
 export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   @Input() count = 0;
-  @Input() limit = 20;
-  @Input() visibleSetCount = 3;
+  @Input() limit = 9;
+  @Input() visiblePagesCount = 3;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
   params = defaultPagination;
 
-  currentPageSet: number[];
+  currentVisiblePages: number[];
 
+  totalPages = 1;
   currentPage = 0;
 
   private onDestroyed: Subject<void> = new Subject<void>();
@@ -36,7 +38,6 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private gridService: GridService,
     private route: ActivatedRoute,
-    private router: Router
   ) {
 
   }
@@ -47,22 +48,24 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
     ).subscribe((params: Pagination) => {
       this.params = {
         offset: +params.offset || defaultPagination.offset,
-        limit: +params.limit || defaultPagination.limit
+        limit: +params.limit || this.limit || defaultPagination.limit
       };
     });
 
-    this.currentPage = +this.route.snapshot.queryParams.offset - 1 || 0;
+    this.currentPage = +this.route.snapshot.queryParams.offset / this.limit || 0;
+    this.totalPages = Math.ceil(this.count / this.limit);
 
-    this.changePageSet(this.currentPage);
+    this.getVisiblePages(this.currentPage);
 
     this.setPage(this.currentPage);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.count.currentValue) {
-      this.totalPages = new Array(Math.ceil(this.count / this.params.limit));
-      if (this.totalPages.length > 1) {
-        this.navigate();
+      this.totalPages = Math.ceil(this.count / this.limit);
+
+      if (this.totalPages > 1) {
+        this.gridService.navigate(this.params);
       }
     }
   }
@@ -71,8 +74,8 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
     this.currentPage = page;
 
     this.params = {
-      offset: pageIndex * this.params.limit,
-      limit: this.params.limit
+      offset: page * this.limit,
+      limit: this.limit,
     };
 
     this.onPageChanged(page);
@@ -84,30 +87,43 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   nextPage(): void {
-    if (this.currentPage < this.count - 1) {
-      this.setPage(this.currentPage++);
+    if (this.currentPage < this.totalPages - 1) {
+      this.setPage(++this.currentPage);
+
+      if (this.currentPage > this.currentVisiblePages[this.currentVisiblePages.length - 1]) {
+        this.getVisiblePages(this.currentPage);
+      }
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 0) {
-      this.setPage(this.currentPage--);
+      this.setPage(--this.currentPage);
+
+      if (this.currentPage < this.currentVisiblePages[0]) {
+        this.getVisiblePages((this.currentPage + 1) - this.visiblePagesCount);
+      }
     }
   }
 
+  switchVisiblePages(firstElement): void {
+    this.getVisiblePages(firstElement);
+    this.setPage(this.currentVisiblePages[0]);
+  }
+
   getFirstPage(): void {
-    this.changePageSet(0);
-    this.onPageChanged(0);
+    this.setPage(0);
+    this.getVisiblePages(0);
   }
 
   getLastPage(): void {
-    this.changePageSet(this.count - 1);
-    this.onPageChanged(this.count - 1);
+    this.setPage(this.totalPages - 1);
+    this.getVisiblePages(this.totalPages - this.visiblePagesCount);
   }
 
-  changePageSet(firstElement: number): void {
-    firstElement = firstElement <= 0 ? 0 : firstElement >= this.count - 1 ? this.count - this.visibleSetCount : firstElement;
-    this.currentPageSet = [...Array(this.visibleSetCount).keys()].map(() => firstElement++);
+  getVisiblePages(firstElement: number): void {
+    firstElement = firstElement <= 0 ? 0 : firstElement >= this.totalPages - 1 ? this.totalPages - this.visiblePagesCount : firstElement;
+    this.currentVisiblePages = [...Array(this.visiblePagesCount).keys()].map(() => firstElement++);
   }
 
   ngOnDestroy(): void {

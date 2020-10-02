@@ -109,7 +109,6 @@
   "wallet_page": {
     "action": "Action",
     "available": "Available",
-    "balance": "Balance",
     "btc": "BTC",
     "btcValue": "BTC Value",
     "cc_euro_account_balance": "Crosschange euro account balance",
@@ -121,8 +120,8 @@
     "inOrder": "In Order",
     "spot_wallet": "Spot wallet",
     "total": "Total",
-    "wallet_list": "Wallet list",
     "trade": "Trade",
+    "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
   }
 }
