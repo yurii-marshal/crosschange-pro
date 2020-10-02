@@ -1,9 +1,10 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { IWidget } from 'src/app/shared/interfaces/widget.interface';
-import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
 import { ApiService } from 'shared-kuailian-lib';
 import { HttpParams } from '@angular/common/http';
+import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
+import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 
 const mockData: IWidget[] = [
   {
@@ -40,79 +41,6 @@ const mockData: IWidget[] = [
   }
 ];
 
-const mockTable: IExchangeData[] = [
-  {
-    favorite: true,
-    pair: 'EOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.29%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-  {
-    favorite: false,
-    pair: 'AOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.29%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-  {
-    favorite: false,
-    pair: 'BOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.29%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-  {
-    favorite: true,
-    pair: 'TOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.20%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-  {
-    favorite: false,
-    pair: 'SOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.23%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-  {
-    favorite: true,
-    pair: 'EOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.27%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-  {
-    favorite: false,
-    pair: 'EOS / STEEM',
-    last: '17.885 / $3.27',
-    cng: '+1.28%',
-    high: '0.015974',
-    low: '0.015974',
-    mktCap: '$967.17M',
-    vol: '995.26'
-  },
-];
-
 @Injectable({
   providedIn: 'root'
 })
@@ -122,31 +50,19 @@ export class MarketsService extends ApiService {
     super(injector);
   }
 
-  getAll(): Observable<any> {
-    return super.get('exchanges/markets');
+  loadPairs(query: string, params): Observable<{ results: IExchangeData[], count: number }> {
+    let parameters = new HttpParams();
+    parameters = parameters
+      .set('search', query || '')
+      .set('type', params.tab)
+      .set('orderby', params.orderby || 'last')
+      .set('offset', params.offset || defaultPagination.offset)
+      .set('limit', params.limit || defaultPagination.limit);
+
+    return super.get('exchanges/markets', {params: parameters});
   }
 
   getWidgetsData(): Observable<any> {
     return of(mockData);
-  }
-
-  loadResults(query: string, params: any): Observable<any> {
-    const favorite = mockTable.filter(item => item.favorite);
-    let data;
-
-    if (params.tab === 'favorite') {
-      data = favorite.filter(item =>
-        item.pair.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) !== -1);
-    } else {
-      data = mockTable.filter(item =>
-        item.pair.toLocaleLowerCase().indexOf(query.toLocaleLowerCase()) !== -1);
-    }
-
-    const result = {
-      results: data.slice(+params.offset, +params.offset + +params.limit),
-      count: data.length
-    };
-
-    return of(result);
   }
 }
