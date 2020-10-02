@@ -3,7 +3,7 @@ export class I18nTestHelper {
   translations = {};
   constructor() {
     environment.locales.forEach(lang => {
-      this.translations[lang] = require(`src/assets/i18n/${lang}.json`);
+      this.translations[lang] = require(`src/assets/i18n/en.json`);
     });
   }
 
