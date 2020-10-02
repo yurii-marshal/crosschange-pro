@@ -6,11 +6,11 @@ import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
 import { take, takeUntil } from 'rxjs/operators';
 import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
-import { IPaginationResponse } from '../../../shared/interfaces/pagination-response.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
+import { IApiResponse } from 'shared-kuailian-lib';
 
 @Component({
   selector: 'app-deposit',
@@ -22,7 +22,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   selected$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin | null>(null);
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
-  deposits$: Observable<IPaginationResponse<ITransactionItem>>;
+  deposits$: Observable<IApiResponse<ITransactionItem>>;
   popularSelected: ICoin;
   onDestroy$ = new Subject<void>();
   device$: Observable<Devices>;
@@ -49,9 +49,8 @@ export class DepositComponent implements OnInit, OnDestroy {
       this.navigateDefault();
     }
 
-    this.popular$ = this.coinService.coinsPopularStream.pipe(takeUntil(this.onDestroy$));
-    this.wallets$ = this.walletService.walletsStream.pipe(takeUntil(this.onDestroy$));
-    this.deposits$ = this.walletService.depositsStream.pipe(takeUntil(this.onDestroy$));
+    this.popular$ = this.coinService.getPopular();
+    this.wallets$ = this.walletService.getWallets();
 
     this.coinService.getCoins();
     this.walletService.getWallets();
@@ -63,8 +62,12 @@ export class DepositComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.onDestroy$)
     ).subscribe(([selected, qParams]) => {
-      this.walletService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
+      !this.deposits$ ? this.deposits$ = this.getHistory(selected, qParams) : this.getHistory(selected, qParams);
     });
+  }
+
+  getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
+    return this.walletService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
   }
 
   onCoinSelect(coin: ICoin): void {
@@ -81,7 +84,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   openQrDialog(): void {
-    this.wallets$.pipe(take(1)).subscribe(wallets => {
+    this.walletService.getWallets().pipe(take(1)).subscribe(wallets => {
       const selected = this.selected$.getValue();
       const wallet = wallets.filter(v => v.cryptocurrency === (selected && selected.key)).shift();
       if (!wallet) {

@@ -30,12 +30,10 @@ export class CoinSelectComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit(): void {
-    this.coins$ = this.coinsService.coinsStream;
-    this.coinsService.coinsStream.pipe(take(1)).subscribe( v => {
+    this.coins$ = this.coinsService.getCoins();
+    this.coins$.pipe(take(1)).subscribe( v => {
       this.select(v[0]);
     });
-
-    this.coinsService.getCoins();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

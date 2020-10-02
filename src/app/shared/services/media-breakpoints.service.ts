@@ -18,6 +18,8 @@ enum Breakpoints {
   MOBILE = '(max-width: 575px)'
 }
 
+
+/** @deprecated Do not use this without strong need */
 @Injectable({
   providedIn: 'root'
 })
