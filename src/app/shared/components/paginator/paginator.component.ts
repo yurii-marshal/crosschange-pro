@@ -11,12 +11,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { GridService } from '../../services/grid.service';
-
-export interface Pagination {
-  offset: number;
-  limit: number;
-}
+import { defaultPagination, Pagination } from 'src/app/shared/constants/pagination.constant';
 
 @Component({
   selector: 'app-paginator',
@@ -30,10 +25,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
-  params: Pagination = {
-    offset: 0,
-    limit: 20,
-  };
+  params = defaultPagination;
 
   currentPageSet: number[];
 
@@ -44,7 +36,9 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private gridService: GridService,
     private route: ActivatedRoute,
+    private router: Router
   ) {
+
   }
 
   ngOnInit(): void {
@@ -52,8 +46,8 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
       takeUntil(this.onDestroyed)
     ).subscribe((params: Pagination) => {
       this.params = {
-        offset: +params.offset || 0,
-        limit: +params.limit || 20,
+        offset: +params.offset || defaultPagination.offset,
+        limit: +params.limit || defaultPagination.limit
       };
     });
 
@@ -65,20 +59,20 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes.count.currentValue) {
-    // this.totalPages = new Array(Math.ceil(this.count / this.params.limit));
-    // if (this.totalPages.length > 1) {
-    //   this.gridService.navigate(this.params);
-    // }
-    // }
+    if (changes.count.currentValue) {
+      this.totalPages = new Array(Math.ceil(this.count / this.params.limit));
+      if (this.totalPages.length > 1) {
+        this.navigate();
+      }
+    }
   }
 
   setPage(page: number): void {
     this.currentPage = page;
 
     this.params = {
-      offset: page + 1,
-      limit: this.limit,
+      offset: pageIndex * this.params.limit,
+      limit: this.params.limit
     };
 
     this.onPageChanged(page);
