@@ -1,10 +1,30 @@
 <div *ngIf="count && count > params.limit" class="pagination">
-  <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page" (click)="prevPage()"></mat-icon>
-  <div *ngFor="let page of totalPages; let i = index"
-       class="page"
-       [ngClass]="{ 'active-page': isActive(i) }"
-       (click)="pageChanged(i)">
-    {{ i + 1 }}
+  <button mat-icon-button (click)="prevPage()" [disabled]="currentPage === 0">
+    <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page"></mat-icon>
+  </button>
+  <div class="page" *ngIf="currentPageSet[0] !== 0" (click)="getFirstPage()">
+    {{ 1 }}
   </div>
-  <mat-icon [svgIcon]="'icon_arrow_right'" class="next-page" (click)="nextPage()"></mat-icon>
+  <div class="page"
+       *ngIf="currentPageSet.length < count && currentPageSet[0] !== 0"
+       (click)="changePageSet(currentPageSet[0] - visibleSetCount)"
+  > ... </div>
+
+  <div *ngFor="let page of currentPageSet"
+       class="page"
+       [ngClass]="{ 'active-page': currentPage === page }"
+       (click)="setPage(page)">
+    {{ page + 1 }}
+  </div>
+
+  <div class="page"
+       *ngIf="currentPageSet.length < count && currentPageSet[currentPageSet.length - 1] !== count - 1"
+       (click)="changePageSet(currentPageSet[currentPageSet.length - 1] + 1)"
+  > ... </div>
+  <div class="page" *ngIf="currentPage !== count - 1" (click)="getLastPage()">
+    {{ count }}
+  </div>
+  <button mat-icon-button (click)="nextPage()" [disabled]="currentPage === count - 1">
+    <mat-icon [svgIcon]="'icon_arrow_right'" class="next-page"></mat-icon>
+  </button>
 </div>

@@ -1,7 +1,17 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { GridService } from '../../services/grid.service';
 
 export interface Pagination {
   offset: number;
@@ -14,23 +24,27 @@ export interface Pagination {
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
-  @Input()
-  count = 0;
+  @Input() count = 0;
+  @Input() limit = 20;
+  @Input() visibleSetCount = 3;
+
+  @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
   params: Pagination = {
     offset: 0,
-    limit: 2
+    limit: 20,
   };
 
-  totalPages: number[] = [];
+  currentPageSet: number[];
+
+  currentPage = 0;
 
   private onDestroyed: Subject<void> = new Subject<void>();
 
   constructor(
+    private gridService: GridService,
     private route: ActivatedRoute,
-    private router: Router
   ) {
-
   }
 
   ngOnInit(): void {
@@ -39,53 +53,67 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
     ).subscribe((params: Pagination) => {
       this.params = {
         offset: +params.offset || 0,
-        limit: +params.limit || 2
+        limit: +params.limit || 20,
       };
     });
+
+    this.currentPage = +this.route.snapshot.queryParams.offset - 1 || 0;
+
+    this.changePageSet(this.currentPage);
+
+    this.setPage(this.currentPage);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.count.currentValue) {
-      this.totalPages = new Array(Math.ceil(this.count / this.params.limit));
-      if (this.totalPages.length > 1) {
-        this.navigate();
-      }
-    }
+    // if (changes.count.currentValue) {
+    // this.totalPages = new Array(Math.ceil(this.count / this.params.limit));
+    // if (this.totalPages.length > 1) {
+    //   this.gridService.navigate(this.params);
+    // }
+    // }
   }
 
-  pageChanged(pageIndex: number): void {
+  setPage(page: number): void {
+    this.currentPage = page;
+
     this.params = {
-      offset: pageIndex * this.params.limit,
-      limit: 2
+      offset: page + 1,
+      limit: this.limit,
     };
-    this.navigate();
+
+    this.onPageChanged(page);
+  }
+
+  onPageChanged(page: number): void {
+    this.gridService.navigate(this.params);
+    this.pageChanged.emit(page + 1);
   }
 
   nextPage(): void {
-    if (this.params.offset + this.params.limit < this.count) {
-      this.params.offset += this.params.limit;
-      this.navigate();
+    if (this.currentPage < this.count - 1) {
+      this.setPage(this.currentPage++);
     }
   }
 
   prevPage(): void {
-    if (this.params.offset > 0) {
-      this.params.offset -= this.params.limit;
-      this.navigate();
+    if (this.currentPage > 0) {
+      this.setPage(this.currentPage--);
     }
   }
 
-  navigate(): void {
-    this.router.navigate([window.location.pathname], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        ...this.params
-      }
-    });
+  getFirstPage(): void {
+    this.changePageSet(0);
+    this.onPageChanged(0);
   }
 
-  isActive(pageIndex: number): boolean {
-    return Math.floor(this.params.offset / this.params.limit) === pageIndex;
+  getLastPage(): void {
+    this.changePageSet(this.count - 1);
+    this.onPageChanged(this.count - 1);
+  }
+
+  changePageSet(firstElement: number): void {
+    firstElement = firstElement <= 0 ? 0 : firstElement >= this.count - 1 ? this.count - this.visibleSetCount : firstElement;
+    this.currentPageSet = [...Array(this.visibleSetCount).keys()].map(() => firstElement++);
   }
 
   ngOnDestroy(): void {

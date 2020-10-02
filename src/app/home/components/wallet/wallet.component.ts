@@ -1,34 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { IBalanceInfo } from 'src/app/shared/interfaces/balance-info.interface';
 import { FormControl } from '@angular/forms';
 import { TradeType } from '../../../core/interfaces/trade-type.interface';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { WalletService } from '../../services/wallet.service';
-
-const mockData = [
-  {
-    coin: 'eur',
-    total: '0.00000000',
-    available: '0.00000000',
-    inOrder: '0.00000000',
-    btcValue: '0.00000000',
-  },
-  {
-    coin: 'usd',
-    total: '0.00000000',
-    available: '0.00000000',
-    inOrder: '0.00000000',
-    btcValue: '0.00000000',
-  }
-];
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { GridService } from '../../../shared/services/grid.service';
+import { ActivatedRoute } from '@angular/router';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
   styleUrls: ['./wallet.component.scss']
 })
-export class WalletComponent implements OnInit {
+export class WalletComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'coin',
     'total',
@@ -37,23 +24,58 @@ export class WalletComponent implements OnInit {
     'btcValue',
     'action'
   ];
-  count = 5;
 
-  dataSource: MatTableDataSource<IBalanceInfo> = new MatTableDataSource<IBalanceInfo>(mockData);
+  count = 15;
+
+  tableData = [];
+
+  dataSource: MatTableDataSource<IBalanceInfo> = new MatTableDataSource<IBalanceInfo>(this.tableData);
 
   searchInputControl = new FormControl();
 
   hideNumbers = true;
   tradeTypes$: Observable<TradeType[]>;
 
-  constructor(private walletService: WalletService) {
+  sort: MatSort;
+
+  private onDestroyed$: Subject<void> = new Subject<void>();
+
+  constructor(
+    private route: ActivatedRoute,
+    public walletService: WalletService,
+    private gridService: GridService,
+  ) {
   }
 
   ngOnInit(): void {
+    this.searchInputControl.valueChanges
+      .pipe(
+        takeUntil(this.onDestroyed$),
+        debounceTime(500),
+      )
+      .subscribe((search: string) => {
+        this.gridService.navigate({search});
+      });
+
+    this.route.queryParams
+      .pipe(
+        takeUntil(this.onDestroyed$),
+        switchMap((params) => this.walletService.getWalletsBalance(params))
+      )
+      .subscribe((walletsBalance: any) => {
+        this.dataSource.data = walletsBalance;
+        this.dataSource.sort = this.sort;
+        this.count = 50;
+      });
   }
 
   getTradeTypes(balanceType: string, currencyType: string): void {
     this.tradeTypes$ = this.walletService.getTradeTypes(balanceType, currencyType);
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroyed$.next();
+    this.onDestroyed$.complete();
   }
 
 }
