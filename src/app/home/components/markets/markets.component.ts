@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { IWidget } from 'src/app/shared/interfaces/widget.interface';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
-import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
@@ -72,7 +72,11 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
 
   addToFavorite(element): void {
-    element.favorite = !element.favorite;
+    this.marketsService.addToFavorite(element.exchange_type).pipe(
+      takeUntil(this.onDestroyed$)
+    ).subscribe(() => {
+      element.favorite = !element.favorite;
+    });
   }
 
   orderBy(value: string): void {

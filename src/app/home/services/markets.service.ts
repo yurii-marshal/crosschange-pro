@@ -62,6 +62,12 @@ export class MarketsService extends ApiService {
     return super.get('exchanges/markets', {params: parameters});
   }
 
+  addToFavorite(pair: string): Observable<any> {
+    const url = 'exchanges/rates/favorites';
+
+    return super.post(url, {exchange_type: pair});
+  }
+
   getWidgetsData(): Observable<any> {
     return of(mockData);
   }
