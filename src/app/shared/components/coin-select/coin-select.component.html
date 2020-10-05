@@ -4,7 +4,7 @@
     <div class="flex">
       <mat-icon *ngIf="selected" class="coin-icon" [svgIcon]="'icon_' + selected?.key">
       </mat-icon>
-      <span class="coin-title">{{selected?.key.toUpperCase()}}</span>
+      <span class="coin-title">{{selected?.name}}/{{selected?.key.toUpperCase()}}</span>
     </div>
     <mat-icon>{{opened ? 'arrow_drop_up' : 'arrow_drop_down'}}</mat-icon>
   </div>

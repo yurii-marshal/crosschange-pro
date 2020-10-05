@@ -30,23 +30,16 @@ export class DepositComponent implements OnInit, OnDestroy {
   coinSelect = new FormControl();
   private readonly LIMIT = 10;
 
-  get devices(): any {
-    return Devices;
-  }
-
   constructor(
     private coinService: CoinsService,
     private walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private breakPoints: MediaBreakpointsService,
     private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    this.device$ = this.breakPoints.device.pipe(takeUntil(this.onDestroy$));
-
     const params = this.route.snapshot.queryParams;
     if (!('offset' in params) || !('limit' in params)) {
       this.navigateDefault();

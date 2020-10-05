@@ -1,56 +1,30 @@
-<div class="content-container" [class.standalone]="!isDialog">
-  <div class="header">
-    <span class="title">{{'qr_code.header' | translate: { crypto: wallet?.cryptocurrency.toUpperCase()} }}</span>
-    <mat-icon svgIcon="icon_close" (click)="close()"></mat-icon>
+<div class="qr-codes">
+  <div class="qr-container">
+    <span class="field-title">{{'qr_code.address_short' | translate: { crypto: wallet?.cryptocurrency.toUpperCase()} }}</span>
+    <div class="qr">
+      <img src="/assets/images/qr_stub.png" alt="qr code">
+    </div>
+    <div class="field">
+      {{wallet.address}}
+    </div>
+    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.address">
+      <mat-icon svgIcon="icon_copy"></mat-icon>
+      {{'qr_code.copy_address' | translate}}
+    </button>
   </div>
-  <div class="body">
-    <span class="title">{{'qr_code.title' | translate}}</span>
-    <span class="subtitle">{{'qr_code.subtitle' | translate}}</span>
-
-    <div class="qr-codes">
-      <div class="qr-container">
-        <span class="field-title standalone">{{'qr_code.address_short' | translate: { crypto: wallet?.cryptocurrency.toUpperCase()} }}</span>
-        <div class="qr">
-          <img src="/assets/images/qr_stub.png" alt="qr code">
-        </div>
-        <span class="field-title">
-        {{ 'qr_code.address' | translate }}
-      </span>
-        <div class="field">
-          <div class="wallet">
-            {{wallet.address}}
-          </div>
-          <mat-icon svgIcon="icon_copy" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.address"></mat-icon>
-        </div>
-        <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.address">
-          {{'qr_code.copy_address' | translate}}
-        </button>
-      </div>
-
-      <div class="qr-container" *ngIf="wallet.tag">
-      <span class="field-title standalone">
+  <div class="qr-container" *ngIf="wallet.tag">
+      <span class="field-title">
         {{ 'qr_code.tag_short' | translate : { crypto: wallet?.cryptocurrency.toUpperCase()} }}
       </span>
-        <div class="qr">
-          <img src="/assets/images/qr_stub.png" alt="qr code">
-        </div>
-        <span class="field-title">
-        {{'qr_code.tag' | translate}}
-      </span>
-        <div class="field">
-          <div class="wallet">
-            {{wallet.tag}}
-          </div>
-          <mat-icon svgIcon="icon_copy" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.tag"></mat-icon>
-        </div>
-        <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.tag">
-          {{'qr_code.copy_tag' | translate}}
-        </button>
-      </div>
+    <div class="qr">
+      <img src="/assets/images/qr_stub.png" alt="qr code">
     </div>
-
-    <div class="buttons">
-      <button mat-stroked-button (click)="close()">{{'qr_code.button' | translate}}</button>
+    <div class="field">
+      {{wallet.tag}}
     </div>
+    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.tag">
+      <mat-icon svgIcon="icon_copy"></mat-icon>
+      {{'qr_code.copy_tag' | translate}}
+    </button>
   </div>
 </div>
