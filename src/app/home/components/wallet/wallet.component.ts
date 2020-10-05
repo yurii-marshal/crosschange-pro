@@ -2,10 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { IBalanceInfo } from 'src/app/shared/interfaces/balance-info.interface';
 import { FormControl } from '@angular/forms';
-import { TradeType } from '../../../core/interfaces/trade-type.interface';
-import { Observable, Subject } from 'rxjs';
-import { WalletService } from '../../services/wallet.service';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { Coin, Wallet, WalletService } from '../../services/wallet.service';
+import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { GridService } from '../../../shared/services/grid.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
@@ -29,25 +28,25 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   isLoading: boolean;
 
-  count = 81;
+  count: number;
 
   tableData = [];
 
-  dataSource: MatTableDataSource<IBalanceInfo> = new MatTableDataSource<IBalanceInfo>(this.tableData);
+  dataSource: MatTableDataSource<Wallet> = new MatTableDataSource<Wallet>(this.tableData);
 
   searchInputControl = new FormControl();
 
   hideNumbers = true;
-  tradeTypes$: Observable<TradeType[]>;
+  coinTypes: Coin[] = [];
 
-  sort: MatSort;
+  // sort: MatSort;
 
   private onDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
-    public walletService: WalletService,
     private gridService: GridService,
+    public walletService: WalletService,
   ) {
   }
 
@@ -66,18 +65,20 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.route.queryParams
       .pipe(
         takeUntil(this.onDestroyed$),
-        switchMap((params) => this.walletService.getWalletsBalance(params))
+        switchMap((params) => this.walletService.getWalletsList(params)),
+        tap((walletsList: Wallet[]) => {
+          this.isLoading = false;
+          this.dataSource.data = walletsList;
+          // this.dataSource.sort = this.sort;
+          this.count = walletsList && walletsList.length;
+        }),
+        switchMap(() => this.walletService.getCoinTypes()),
       )
-      .subscribe((walletsBalance: any) => {
-        this.isLoading = false;
-        this.dataSource.data = walletsBalance;
-        this.dataSource.sort = this.sort;
-        this.count = 81;
-      });
+      .subscribe((coinTypes: Coin[]) => {});
   }
 
-  getTradeTypes(balanceType: string, currencyType: string): void {
-    this.tradeTypes$ = this.walletService.getTradeTypes(balanceType, currencyType);
+  getCoinTypes(balanceType: string, currencyType: string): void {
+    this.coinTypes = this.walletService.serializedCoins[balanceType] && this.walletService.serializedCoins[balanceType][currencyType];
   }
 
   toggleLowBalance(): void {
