@@ -3,7 +3,7 @@
     <div class="spot-wallet__header">{{'wallet_page.spot_wallet' | translate}}</div>
     <ul class="spot-wallet__services-list">
       <li class="spot-wallet__services-item" [routerLink]="['../balance']" [routerLinkActive]="['active']">
-        {{'wallet_page.wallet_list' | translate}}
+        {{'wallet_page.balance' | translate}}
       </li>
       <li class="spot-wallet__services-item" [routerLink]="['../deposit']" [routerLinkActive]="['active']">
         {{'wallet_page.deposit' | translate}}
@@ -209,7 +209,9 @@
           <div class="mat-table__search">
             <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
             <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
-            <button class="hide-balance-btn">{{'wallet_page.hide_low_balance_assets' | translate}}</button>
+            <button class="hide-balance-btn" [disabled]="isLoading" (click)="toggleLowBalance()">
+              {{(hideLowBalance ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') | translate}}
+            </button>
           </div>
           <mat-table mat-table [dataSource]="dataSource">
             <!-- Coin column -->

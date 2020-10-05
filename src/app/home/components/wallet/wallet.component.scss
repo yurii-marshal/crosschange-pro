@@ -104,12 +104,22 @@ main {
 
   .balance-info {
     color: $color-brand-dark;
+    filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
 
     &__name {
       margin-bottom: 12px;
       font-size: 16px;
       line-height: 24px;
       font-weight: 500;
+    }
+
+    &__table {
+      border: 0.5px solid $color-grey-20;
+      border-radius: 4px;
+    }
+
+    .mat-table {
+      box-shadow: none;
     }
   }
 }
@@ -121,7 +131,6 @@ main {
   margin-top: 16px;
   height: 52px;
   background: $color-white-100;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
   &-icon {
     position: absolute;
@@ -149,6 +158,20 @@ main {
     border-radius: 4px;
     cursor: pointer;
   }
+}
+
+mat-header-row {
+  border-radius: 4px 4px 0 0;
+  border-color: $color-grey-10;
+}
+
+mat-row {
+  border-color: $color-grey-10;
+}
+
+mat-row:last-child {
+  border: none;
+  border-radius: 0 0 4px 4px;
 }
 
 .mat-header__icon {
@@ -298,23 +321,46 @@ main {
   }
 
   .mat-table {
-    background-color:transparent!important;
-    box-shadow: 5px 0 8px -3px rgba(0, 0 , 0, 0.1), -5px 0 5px -3px rgba(0, 0 , 0, 0.1);
   }
 
   .mat-table__search {
     border-radius: 4px 4px 0 0;
-    box-shadow: 7px 0 8px -6px rgba(0, 0 , 0, 0.1), -2px -2px 5px 0 rgba(0, 0 , 0, 0.1);
   }
 
   .paginator {
     border-radius: 0 0 4px 4px;
-    box-shadow: 7px 0 8px -6px rgba(0, 0 , 0, 0.1), -2px 2px 5px 0 rgba(0, 0 , 0, 0.1);
   }
 
   .single-table {
     border-radius: 4px;
-    box-shadow: 0.1px 0.1px 10px rgba(0, 0 , 0, 0.1);
   }
 }
 
+@media all and (max-width: $media-mobile) {
+  .balances {
+    margin: 0;
+
+    .balance {
+      .balance-info {
+        margin-left: 16px;
+
+        &__table {
+          width: 100%;
+          overflow-x: auto;
+        }
+
+        .mat-table {
+        }
+      }
+    }
+  }
+
+  .mat-table__search {
+    margin: 0;
+    border-bottom: 0.5px solid $color-grey-10;
+  }
+
+  mat-header-row {
+    height: 52px;
+  }
+}

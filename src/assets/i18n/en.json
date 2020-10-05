@@ -109,6 +109,7 @@
   "wallet_page": {
     "action": "Action",
     "available": "Available",
+    "balance": "Balance",
     "btc": "BTC",
     "btcValue": "BTC Value",
     "cc_euro_account_balance": "Crosschange euro account balance",
@@ -118,6 +119,7 @@
     "fiat_balance": "Fiat balance",
     "hide_low_balance_assets": "Hide low balance assets",
     "inOrder": "In Order",
+    "show_all_balance_assets": "Show all balance assets",
     "spot_wallet": "Spot wallet",
     "total": "Total",
     "trade": "Trade",

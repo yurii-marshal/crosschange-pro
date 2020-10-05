@@ -25,6 +25,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     'action'
   ];
 
+  hideLowBalance: boolean;
+
+  isLoading: boolean;
+
   count = 81;
 
   tableData = [];
@@ -48,6 +52,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.searchInputControl.valueChanges
       .pipe(
         takeUntil(this.onDestroyed$),
@@ -63,6 +69,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         switchMap((params) => this.walletService.getWalletsBalance(params))
       )
       .subscribe((walletsBalance: any) => {
+        this.isLoading = false;
         this.dataSource.data = walletsBalance;
         this.dataSource.sort = this.sort;
         this.count = 81;
@@ -71,6 +78,13 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   getTradeTypes(balanceType: string, currencyType: string): void {
     this.tradeTypes$ = this.walletService.getTradeTypes(balanceType, currencyType);
+  }
+
+  toggleLowBalance(): void {
+    this.isLoading = true;
+    this.hideLowBalance = !this.hideLowBalance;
+
+    this.gridService.navigate({hideLowBalance: this.hideLowBalance});
   }
 
   ngOnDestroy(): void {
