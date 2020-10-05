@@ -119,10 +119,11 @@
     "fiat_balance": "Fiat balance",
     "hide_low_balance_assets": "Hide low balance assets",
     "inOrder": "In Order",
+    "show_all_balance_assets": "Show all balance assets",
     "spot_wallet": "Spot wallet",
     "total": "Total",
-    "wallet_list": "Wallet list",
     "trade": "Trade",
+    "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
   }
 }
