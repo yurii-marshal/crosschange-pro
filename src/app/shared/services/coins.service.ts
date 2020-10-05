@@ -1,8 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ApiService } from 'shared-kuailian-lib';
 import { ICoin } from '../interfaces/coin.interface';
-import { delay, map, share } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
 
 // TODO: DELETE WHEN API IS READY
@@ -58,30 +58,27 @@ const coinsMock: ICoin[] = [
   providedIn: 'root'
 })
 export class CoinsService extends ApiService {
-  private readonly coins$: BehaviorSubject<ICoin[]> = new BehaviorSubject<ICoin[]>([]);
-
+  private coins: ICoin[] = [];
   constructor(protected injector: Injector) {
     super(injector);
   }
 
   getCoins(): Observable<ICoin[]> {
-    if (this.coins$.getValue().length) {
-      return this.coins$.asObservable();
+    if (this.coins.length) {
+      return of(this.coins);
     }
     // TODO: UNCOMMENT WHEN API IS READY
-    /*super.get<ICoin[]>('exchanges/coins/').pipe(take(1)).subscribe(v => {
-      this.coins$.next(v);
-    });*/
+    /*return super.get<ICoin[]>('exchanges/coins').pipe(
+      tap((v) => this.coins = v)
+    );*/
     // TODO: DELETE WHEN API IS READY
-    this.coins$.next(coinsMock);
-
-    return this.coins$.asObservable().pipe(delay(500), share());
+    this.coins = coinsMock;
+    return of(coinsMock).pipe(share());
   }
 
   getPopular(): Observable<ICoin[]> {
     return this.getCoins().pipe(
-      map((res: ICoin[]) => res.filter(v => v.is_popular)),
-      share()
+      map((res: ICoin[]) => res.filter(v => v.is_popular))
     );
   }
 }

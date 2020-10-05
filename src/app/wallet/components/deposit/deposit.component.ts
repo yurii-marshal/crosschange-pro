@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { IApiResponse } from 'shared-kuailian-lib';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-deposit',
@@ -26,6 +27,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   popularSelected: ICoin;
   onDestroy$ = new Subject<void>();
   device$: Observable<Devices>;
+  coinSelect = new FormControl();
   private readonly LIMIT = 10;
 
   get devices(): any {
@@ -38,7 +40,8 @@ export class DepositComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private breakPoints: MediaBreakpointsService
+    private breakPoints: MediaBreakpointsService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -52,8 +55,6 @@ export class DepositComponent implements OnInit, OnDestroy {
     this.popular$ = this.coinService.getPopular();
     this.wallets$ = this.walletService.getWallets();
 
-    this.coinService.getCoins();
-    this.walletService.getWallets();
     combineLatest(
       [
         this.selected$,
@@ -62,7 +63,7 @@ export class DepositComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.onDestroy$)
     ).subscribe(([selected, qParams]) => {
-      !this.deposits$ ? this.deposits$ = this.getHistory(selected, qParams) : this.getHistory(selected, qParams);
+      this.deposits$ = this.getHistory(selected, qParams);
     });
   }
 
@@ -73,6 +74,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   onCoinSelect(coin: ICoin): void {
     this.selected$.next(coin);
     this.navigateDefault();
+    setTimeout(() => this.ref.markForCheck());
   }
 
   navigateDefault(): void {
@@ -80,7 +82,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   selectPopular(coin: ICoin): void {
-    this.popularSelected = coin;
+    this.coinSelect.setValue(coin);
   }
 
   openQrDialog(): void {

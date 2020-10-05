@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TradeType } from '../../core/interfaces/trade-type.interface';
 import { Memoized } from '../../core/decorators/memoized.decorator';
 import { ApiService } from 'shared-kuailian-lib';
@@ -10,7 +10,7 @@ import {
   TransactionType
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { delay, share } from 'rxjs/operators';
+import { share } from 'rxjs/operators';
 
 const mockDataBalanceTypes = {
   fiat: {
@@ -108,13 +108,13 @@ export interface IDepositHistoryRequest {
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
-  private readonly wallets$: BehaviorSubject<IWallet[] | null> = new BehaviorSubject(null);
-  private readonly deposits$: BehaviorSubject<IApiResponse<ITransactionItem>> = new BehaviorSubject({
+  private wallets: IWallet[] | null = null;
+  private deposits: IApiResponse<ITransactionItem> = {
     count: 0,
     next: '',
     previous: '',
     results: []
-  });
+  };
 
   constructor(protected injector: Injector) {
     super(injector);
@@ -127,33 +127,28 @@ export class WalletService extends ApiService {
 
   getWallets(refresh = false): Observable<IWallet[]> {
 
-    if (this.wallets$.getValue() && !refresh) {
-      return this.wallets$.asObservable().pipe(share());
+    if (this.wallets && !refresh) {
+      return of(this.wallets);
     }
 
     // TODO: UNCOMMENT WHEN API IS READY
-    /*super.get<IWallet[]>('spot-wallets/').pipe(take(1)).subscribe(v => {
-      this.wallets$.next(v);
-    });*/
+    /*return super.get<IWallet[]>('spot-wallets/').pipe(share())*/
 
     // TODO: DELETE WHEN API IS READY
-    this.wallets$.next(walletsMock);
-
-    return this.wallets$.asObservable().pipe(share());
+    this.wallets = walletsMock;
+    return of(this.wallets).pipe(share());
   }
 
   getDepositHistory(params: IDepositHistoryRequest): Observable<IApiResponse<ITransactionItem>> {
     if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {
-      return this.deposits$.asObservable();
+      return of(this.deposits);
     }
     // TODO: UNCOMMENT WHEN API IS READY
     /*const req = {
       type: 'deposit',
         ...params
     };
-    super.get<IApiResponse<ITransactionItem>>(`transactions/`, req).pipe(take(1)).subscribe(v => {
-      this.deposits$.next(v);
-    });*/
+    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share())*/
 
     // TODO: DELETE WHEN API IS READY
     depositsMock.results = depositsMock.results.map(v => {
@@ -161,8 +156,7 @@ export class WalletService extends ApiService {
       v.amount = params.offset;
       return v;
     });
-    this.deposits$.next(depositsMock);
-
-    return this.deposits$.asObservable().pipe(delay(200));
+    this.deposits = depositsMock;
+    return of(this.deposits);
   }
 }
