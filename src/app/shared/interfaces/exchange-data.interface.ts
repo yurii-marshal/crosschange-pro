@@ -1,10 +1,11 @@
 export interface IExchangeData {
   favorite: boolean;
-  pair: string;
+  exchange_type: string;
   last: string;
-  cng: string;
-  high: string;
-  low: string;
-  mktCap: string;
-  vol: string;
+  exchange_rate: string;
+  change_perce_24: string;
+  high_24: string;
+  low_24: string;
+  market_cap: string;
+  vol_24: string;
 }

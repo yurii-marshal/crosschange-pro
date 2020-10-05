@@ -23,14 +23,14 @@
            [active]="activeLink === 'btc_markets'"
            (click)="activeLink = 'btc_markets'"
            [routerLink]="['.']"
-           [queryParams]="{tab: 'btc_markets', offset: 0, limit: limit}">
+           [queryParams]="{tab: 'btc', offset: 0, limit: limit}">
           {{ 'markets_page.tab_btc_markets' | translate }}
         </a>
         <a mat-tab-link
            [active]="activeLink === 'alts_markets'"
            (click)="activeLink = 'alts_markets'"
            [routerLink]="['.']"
-           [queryParams]="{tab: 'alts_markets', offset: 0, limit: limit}">
+           [queryParams]="{tab: 'alts', offset: 0, limit: limit}">
           {{ 'markets_page.tab_alts_markets' | translate }}
         </a>
         <a mat-tab-link
@@ -65,63 +65,70 @@
         </ng-container>
 
         <!-- Pair column -->
-        <ng-container matColumnDef="pair">
+        <ng-container matColumnDef="exchange_type">
           <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.pair }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.exchange_type }}</mat-cell>
         </ng-container>
 
         <!-- Last column -->
-        <ng-container matColumnDef="last">
-          <mat-header-cell *matHeaderCellDef>
+        <ng-container matColumnDef="exchange_rate">
+          <mat-header-cell *matHeaderCellDef (click)="orderBy('last')">
             {{ 'markets_page.last' | translate }}
             <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.last }}</mat-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.last }}&nbsp;<span class="exchange-rate">/ {{ element.exchange_rate }}</span>
+          </mat-cell>
         </ng-container>
 
         <!-- 24h Cng column -->
-        <ng-container matColumnDef="cng">
+        <ng-container matColumnDef="change_perce_24">
           <mat-header-cell *matHeaderCellDef>
             {{ 'markets_page.24cng' | translate }}
             <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.cng }}</mat-cell>
+          <mat-cell *matCellDef="let element">
+            <div class="custom-cell"
+                 [ngClass]="(element.change_perce_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
+              {{ element.change_perce_24 > 0 ? '+' + element.change_perce_24 : element.change_perce_24  }}
+            </div>
+          </mat-cell>
         </ng-container>
 
         <!-- 24h High column -->
-        <ng-container matColumnDef="high">
+        <ng-container matColumnDef="high_24">
           <mat-header-cell *matHeaderCellDef>
             {{ 'markets_page.24high' | translate }}
             <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.high }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.high_24 }}</mat-cell>
         </ng-container>
 
         <!-- 24h Low column -->
-        <ng-container matColumnDef="low">
+        <ng-container matColumnDef="low_24">
           <mat-header-cell *matHeaderCellDef>
             {{ 'markets_page.24low' | translate }}
             <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.low }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.low_24 }}</mat-cell>
         </ng-container>
 
         <!-- Mkt Cap column -->
-        <ng-container matColumnDef="mktCap">
+        <ng-container matColumnDef="market_cap">
           <mat-header-cell *matHeaderCellDef>
             {{ 'markets_page.mktCap' | translate }}
             <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.mktCap }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.market_cap }}</mat-cell>
         </ng-container>
 
         <!-- 24h Vol column -->
-        <ng-container matColumnDef="vol">
+        <ng-container matColumnDef="vol_24">
           <mat-header-cell *matHeaderCellDef>
             {{ 'markets_page.24vol' | translate }}
             <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
           </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.vol }}</mat-cell>
+          <mat-cell *matCellDef="let element">{{ element.vol_24 }}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -75,6 +75,10 @@
   }
 }
 
+.exchange-rate {
+  color: $color-grey-60;
+}
+
 .mat-header__icon {
   margin-top: -10px;
   margin-left: 8px;
@@ -102,22 +106,37 @@
   cursor: pointer;
 }
 
-.mat-column-pair {
+.mat-column-exchange_type {
  flex: 4;
 }
 
-.mat-column-last {
+.mat-column-exchange_rate {
   flex: 5;
 }
 
-.mat-column-cng,
-.mat-column-high,
-.mat-column-low,
-.mat-column-mktCap,
-.mat-column-vol {
-  flex: 2;
+.mat-column-change_perce_24,
+.mat-column-high_24,
+.mat-column-low_24,
+.mat-column-market_cap,
+.mat-column-vol_24 {
+  flex: 3;
   justify-content: flex-end;
   padding-right: 12px;
+}
+
+.custom-cell {
+  padding: 3px 7px;
+  border-radius: 4px;
+
+  &--positive {
+    color: $color-green-100;
+    background-color: rgba($color-trading-green, 0.1);
+  }
+
+  &--negative {
+    color: #DD4662;
+    background-color: rgba(#DD4662, 0.1);
+  }
 }
 
 @media screen and(max-width: 1280px) {
@@ -139,13 +158,13 @@
     min-width: 45px;
   }
 
-  .mat-column-pair,
-  .mat-column-last,
-  .mat-column-cng,
-  .mat-column-high,
-  .mat-column-low,
-  .mat-column-mktCap,
-  .mat-column-vol {
+  .mat-column-exchange_type,
+  .mat-column-exchange_rate,
+  .mat-column-change_perce_24,
+  .mat-column-high_24,
+  .mat-column-low_24,
+  .mat-column-market_cap,
+  .mat-column-vol_24 {
     min-width: 160px;
   }
 }
