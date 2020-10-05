@@ -7,10 +7,10 @@ import {
   ENVIRONMENT,
   IEnvironment
 } from 'shared-kuailian-lib';
-import { skip } from 'rxjs/operators';
+import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 
 
-fdescribe('WalletService', () => {
+describe('WalletService', () => {
   let service: WalletService;
   let httpMock: HttpTestingController;
   beforeEach(() => {
@@ -38,15 +38,26 @@ fdescribe('WalletService', () => {
   });
 
   it('should send get wallets request', (done) => {
-    const mock = [];
+    const mock = [ {
+      cryptocurrency: 'btc',
+      address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
+      tag: '',
+      id: 0,
+      balance: {
+        total: 0,
+        available: 0,
+        in_order: 0,
+        btc: 0
+      },
+    } ];
 
-    // skip to skip initial value
-    service.getWallets().pipe(skip(1)).subscribe(res => {
+    service.getWallets().subscribe(res => {
       expect(res).toEqual(mock);
       done();
     });
 
     const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/`);
+
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });
@@ -65,8 +76,8 @@ fdescribe('WalletService', () => {
         btc: 0
       },
     } ];
-    // skip to skip initial value
-    service.getWallets().pipe(skip(1)).subscribe(res => {
+
+    service.getWallets().subscribe(res => {
       service.getWallets().subscribe(secondRes => {
         expect(secondRes).toEqual(mock);
         done();
@@ -83,15 +94,23 @@ fdescribe('WalletService', () => {
       count: 10,
       next: '',
       previous: '',
-      results: []
+      results: [
+        {
+          date: '',
+          cryptocurrency: '',
+          amount: 1,
+          status: TransactionStatus.NEW,
+          tx_hash: '',
+          type: TransactionType.DEPOSIT
+        }
+      ]
     };
 
-    // skip to skip initial value
     service.getDepositHistory({
       cryptocurrency: 'btc',
       offset: 10,
       limit: 10
-    }).pipe(skip(1)).subscribe(res => {
+    }).subscribe(res => {
       expect(res).toEqual(mock);
       done();
     });
@@ -106,7 +125,16 @@ fdescribe('WalletService', () => {
       count: 10,
       next: '',
       previous: '',
-      results: []
+      results: [
+        {
+          date: new Date().toString(),
+          cryptocurrency: 'btc',
+          amount: 1,
+          status: TransactionStatus.NEW,
+          tx_hash: '234jl6k23j4kl6j2346j',
+          type: TransactionType.DEPOSIT
+        }
+      ]
     };
 
     const secondMock = {
@@ -115,29 +143,25 @@ fdescribe('WalletService', () => {
       previous: '',
       results: []
     };
-    let i = 0;
-    // skip to skip initial value
+
     service.getDepositHistory({
       cryptocurrency: 'btc',
       offset: 10,
       limit: 10
-    }).pipe(skip(1)).subscribe(res => {
-      if (i === 0) {
-        expect(res).toEqual(mock);
-        i += 1;
-        service.getDepositHistory({
-          cryptocurrency: 'btc',
-          offset: 10,
-          limit: 10
-        });
-        const secondRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
-        expect(secondRequest.request.method).toEqual('GET');
-        secondRequest.flush(secondMock);
-      } else {
-        expect(res).toEqual(secondMock);
+    }).subscribe(res => {
+
+      expect(res).toEqual(mock);
+      service.getDepositHistory({
+        cryptocurrency: 'btc',
+        offset: 20,
+        limit: 10
+      }). subscribe(res2 => {
+        expect(res2).toEqual(secondMock);
         done();
-        return;
-      }
+      });
+      const secondRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+      expect(secondRequest.request.method).toEqual('GET');
+      secondRequest.flush(secondMock);
 
     });
 

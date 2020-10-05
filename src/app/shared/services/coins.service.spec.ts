@@ -7,7 +7,6 @@ import {
   ENVIRONMENT,
   IEnvironment
 } from 'shared-kuailian-lib';
-import { skip } from 'rxjs/operators';
 
 // TODO: CHANGE TO describe WHEN START USING REAL API REQUESTS
 describe('CoinsService', () => {
@@ -30,7 +29,6 @@ describe('CoinsService', () => {
   });
 
   afterEach(() => {
-    // After every test, assert that there are no more pending requests.
     httpMock.verify();
   });
 
@@ -41,8 +39,7 @@ describe('CoinsService', () => {
   it('should send get coins request', (done) => {
     const mock = [{ key: '', name: '', is_popular: true }];
 
-    // skip to skip initial value
-    service.getCoins().pipe(skip(1)).subscribe(res => {
+    service.getCoins().subscribe(res => {
       expect(res).toEqual(mock);
       done();
     });
@@ -58,8 +55,7 @@ describe('CoinsService', () => {
   it('should cache get coins response', (done) => {
     const mock = [ { key: '', name: '', is_popular: true } ];
 
-    // skip to skip initial value
-    service.getCoins().pipe(skip(1)).subscribe(res => {
+    service.getCoins().subscribe(res => {
       service.getCoins().subscribe(secondRes => {
         expect(secondRes).toEqual(mock);
         done();
@@ -68,6 +64,25 @@ describe('CoinsService', () => {
 
     const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/exchanges/coins/`);
     expect(httpRequest.request.method).toEqual('GET');
+    httpRequest.flush(mock);
+  });
+
+  it('should get popular coins', (done) => {
+    const mock = [
+      { key: 'a', name: 'a', is_popular: false },
+      { key: 'b', name: 'b', is_popular: true }
+    ];
+    const expected = [{ key: 'b', name: 'b', is_popular: true }];
+
+    service.getPopular().subscribe(res => {
+      expect(res).toEqual(expected);
+      done();
+    });
+
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/exchanges/coins/`);
+    expect(httpRequest.request.method).toEqual('GET');
+
+    // Provide each request with a mock response
     httpRequest.flush(mock);
   });
 
