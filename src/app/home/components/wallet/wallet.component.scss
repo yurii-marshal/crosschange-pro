@@ -104,7 +104,6 @@ main {
 
   .balance-info {
     color: $color-brand-dark;
-    filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
 
     &__name {
       margin-bottom: 12px;
@@ -114,14 +113,40 @@ main {
     }
 
     &__table {
-      border: 0.5px solid $color-grey-20;
+      box-shadow: none;
       border-radius: 4px;
+      filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
+
+      &.with-controls {
+
+        .mat-table__search {
+          border-radius: 4px 4px 0 0;
+          border: 0.5px solid $color-grey-20;
+          border-bottom-color: $color-grey-10;
+        }
+
+        .mat-table {
+          border: none;
+          border-left: 0.5px solid $color-grey-20;
+          border-right: 0.5px solid $color-grey-20;
+        }
+      }
     }
 
     .mat-table {
-      box-shadow: none;
+      border: 0.5px solid #DEE1E6;
     }
   }
+}
+
+.single-table {
+  border-radius: 4px;
+}
+
+app-paginator {
+  border-radius: 0 0 4px 4px;
+  border: 0.5px solid $color-grey-20;
+  border-top-color: $color-grey-10;
 }
 
 .mat-table__search {
@@ -309,58 +334,52 @@ mat-row:last-child {
       color: $color-white-100;
     }
   }
-}
 
-@media all and (max-width: $media-small-tablet) {
-  main {
-    background-color: $color-white-100;
-  }
-
-  .balances {
-    margin: 0 0 0 16px;
-  }
-
-  .mat-table {
-  }
-
-  .mat-table__search {
-    border-radius: 4px 4px 0 0;
-  }
-
-  .paginator {
-    border-radius: 0 0 4px 4px;
-  }
-
-  .single-table {
-    border-radius: 4px;
-  }
-}
-
-@media all and (max-width: $media-mobile) {
   .balances {
     margin: 0;
+  }
 
-    .balance {
-      .balance-info {
+  .balance {
+    .balance-info {
+      overflow-x: auto;
+
+      &__name {
         margin-left: 16px;
+      }
 
-        &__table {
-          width: 100%;
-          overflow-x: auto;
-        }
+      .mat-table {
+        margin-right: 16px;
+      }
 
-        .mat-table {
-        }
+      &__table {
+        width: max-content;
+        margin: 12px 0 12px 16px;
       }
     }
   }
 
   .mat-table__search {
-    margin: 0;
-    border-bottom: 0.5px solid $color-grey-10;
+    margin: 0 16px 0 0;
+  }
+
+  app-paginator {
+    margin-right: 16px;
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .balances {
+    .balance {
+      margin-bottom: 32px;
+    }
   }
 
   mat-header-row {
     height: 52px;
+  }
+
+  mat-header-cell:first-child,
+  mat-cell:first-child {
+    padding-left: 12px;
   }
 }
