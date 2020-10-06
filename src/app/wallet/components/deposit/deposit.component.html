@@ -9,7 +9,7 @@
 <div class="flex-container coin-select-container">
   <app-coin-select [formControl]="coinSelect" (ngModelChange)="onCoinSelect($event)"></app-coin-select>
 
-  <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async)">
+  <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
     <div class="balance">
       <div class="balance-item">
         <div class="title">{{'deposit_page.total_balance' | translate}}:</div>

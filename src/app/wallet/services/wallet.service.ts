@@ -10,7 +10,7 @@ import {
   TransactionType
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import {map, share, tap} from 'rxjs/operators';
+import { share } from 'rxjs/operators';
 
 const mockDataBalanceTypes = {
   fiat: {
