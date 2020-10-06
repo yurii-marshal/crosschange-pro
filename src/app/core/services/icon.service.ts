@@ -11,6 +11,7 @@ const icons: string[] = [
   'icon_bitcoin_sv',
   'icon_dash',
   'icon_eth',
+  'icon_ark',
   'icon_lightcoin',
   'icon_ripple',
   'icon_flag_en',

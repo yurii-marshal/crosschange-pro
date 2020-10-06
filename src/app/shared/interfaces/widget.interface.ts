@@ -4,5 +4,4 @@ export interface IWidget {
   amount: string;
   change: string;
   volume: string;
-  color: string;
 }

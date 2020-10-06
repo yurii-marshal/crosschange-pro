@@ -69,6 +69,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
         return new MatTableDataSource(result.results);
       })
     );
+
+    this.marketsService.loadWidgetsData().subscribe(vl => console.log(vl));
   }
 
   addToFavorite(element): void {
