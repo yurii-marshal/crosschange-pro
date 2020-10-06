@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
-    // canActivate: [CanShowProGuard],
+    canActivate: [CanShowProGuard],
     children: [
       {
         path: '',
