@@ -11,8 +11,8 @@
   padding: 12px 24px;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 14px;
+  line-height: 20px;
   &:focus {
     background-color: $color-grey-10;
   }
@@ -69,10 +69,12 @@
     flex-direction: column;
     margin-bottom: 32px;
     flex: 1;
+    max-width: 50%;
   }
   .qr {
-    /*width: 50%;*/
-    max-width: 50%;
+    /*max-width: 50%;*/
+    /*width: 25.4%;*/
+    width: 132px;
     align-self: center;
     border-radius: 4px;
     margin-bottom: 12px;
@@ -88,8 +90,8 @@
   .field-title {
     font-style: normal;
     font-weight: normal;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 24px;
     color: $color-trading-dark;
     display: block;
     align-self: center;
@@ -102,7 +104,7 @@
     line-height: 20px;
     align-items: center;
     text-align: center;
-    color: $color-trading-dark;
+    color: $color-grey-100;
     margin-bottom: 17px;
   }
   .buttons {
@@ -129,6 +131,13 @@
 ::ng-deep .qr-code-dialog mat-dialog-container {
   padding: 0;
 }
+@media all and (min-width: $media-laptop) {
+  .qr-codes .qr {
+    width: 36%;
+    max-width: 50%;
+  }
+}
+
 @media all and (max-width: 1167px){
   .qr-codes.double {
     justify-content: stretch;
@@ -151,6 +160,9 @@
     flex-direction: column;
     .qr {
       margin-bottom: 20px;
+    }
+    .qr-container {
+      max-width: 100%;
     }
     .qr-container:last-child {
       margin-bottom: 41px;
