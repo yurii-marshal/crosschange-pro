@@ -18,6 +18,18 @@
   & > .flex {
     align-items: center;
   }
+  ::ng-deep .icon-trigger {
+    width: 10px;
+    path {
+      fill: $color-trading-dark;
+    }
+  }
+  &.opened {
+    .icon-trigger {
+      transform: rotateX(180deg);
+      transition: all .3s linear;
+    }
+  }
 }
 .coin-icon {
   margin-right: 8px;
@@ -47,7 +59,7 @@
   left: 0;
   display: none;
   background-color: $color-white-100;
-  max-height: 264px;
+  max-height: 240px;
   overflow: auto;
   &.visible {
     display: block;

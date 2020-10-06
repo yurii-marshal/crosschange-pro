@@ -10,6 +10,7 @@ aside {
   width: 240px;
   height: 100%;
   background-color: $color-white-100;
+  min-width: 123px;
 }
 
 main {
@@ -50,7 +51,7 @@ main {
   }
 
   .active {
-    color: $color-brand-dark;
+    color: $color-brand;
   }
 }
 @media all and (max-width: $media-small-tablet) {
