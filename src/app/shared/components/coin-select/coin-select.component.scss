@@ -18,6 +18,18 @@
   & > .flex {
     align-items: center;
   }
+  ::ng-deep .icon-trigger {
+    width: 10px;
+    path {
+      fill: $color-trading-dark;
+    }
+  }
+  &.opened {
+    .icon-trigger {
+      transform: rotateX(180deg);
+      transition: all .3s linear;
+    }
+  }
 }
 .coin-icon {
   margin-right: 8px;
