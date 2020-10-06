@@ -74,6 +74,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   onCoinSelect(coin: ICoin): void {
     this.selected$.next(coin);
     this.navigateDefault();
+    // TODO: REFACTOR
     setTimeout(() => this.ref.markForCheck());
   }
 
