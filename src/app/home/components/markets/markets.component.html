@@ -53,87 +53,89 @@
         <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
         <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
       </div>
-      <mat-table mat-table [dataSource]="dataSource | async">
-        <!-- Favorite column -->
-        <ng-container matColumnDef="favorite">
-          <mat-header-cell *matHeaderCellDef></mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <mat-icon [svgIcon]="element.favorite ? 'icon_fill_star' : 'icon_star'"
-                      (click)="addToFavorite(element)">
-            </mat-icon>
-          </mat-cell>
-        </ng-container>
+      <div class="table-responsive">
+        <mat-table mat-table [dataSource]="dataSource | async">
+          <!-- Favorite column -->
+          <ng-container matColumnDef="favorite">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <mat-icon [svgIcon]="element.favorite ? 'icon_fill_star' : 'icon_star'"
+                        (click)="addToFavorite(element)">
+              </mat-icon>
+            </mat-cell>
+          </ng-container>
 
-        <!-- Pair column -->
-        <ng-container matColumnDef="exchange_type">
-          <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.exchange_type }}</mat-cell>
-        </ng-container>
+          <!-- Pair column -->
+          <ng-container matColumnDef="exchange_type">
+            <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.exchange_type }}</mat-cell>
+          </ng-container>
 
-        <!-- Last column -->
-        <ng-container matColumnDef="exchange_rate">
-          <mat-header-cell *matHeaderCellDef (click)="orderBy('last')">
-            {{ 'markets_page.last' | translate }}
-            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            {{ element.last }}&nbsp;<span class="exchange-rate">/ {{ element.exchange_rate }}</span>
-          </mat-cell>
-        </ng-container>
+          <!-- Last column -->
+          <ng-container matColumnDef="exchange_rate">
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('last')">
+              {{ 'markets_page.last' | translate }}
+              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              {{ element.last }}&nbsp;<span class="exchange-rate">/ {{ element.exchange_rate }}</span>
+            </mat-cell>
+          </ng-container>
 
-        <!-- 24h Cng column -->
-        <ng-container matColumnDef="change_perce_24">
-          <mat-header-cell *matHeaderCellDef>
-            {{ 'markets_page.24cng' | translate }}
-            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <div class="custom-cell"
-                 [ngClass]="(element.change_perce_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
-              {{ element.change_perce_24 > 0 ? '+' + element.change_perce_24 : element.change_perce_24  }}
-            </div>
-          </mat-cell>
-        </ng-container>
+          <!-- 24h Cng column -->
+          <ng-container matColumnDef="change_perce_24">
+            <mat-header-cell *matHeaderCellDef>
+              {{ 'markets_page.24cng' | translate }}
+              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <div class="custom-cell"
+                   [ngClass]="(element.change_perce_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
+                {{ element.change_perce_24 > 0 ? '+' + element.change_perce_24 : element.change_perce_24  }}
+              </div>
+            </mat-cell>
+          </ng-container>
 
-        <!-- 24h High column -->
-        <ng-container matColumnDef="high_24">
-          <mat-header-cell *matHeaderCellDef>
-            {{ 'markets_page.24high' | translate }}
-            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.high_24 }}</mat-cell>
-        </ng-container>
+          <!-- 24h High column -->
+          <ng-container matColumnDef="high_24">
+            <mat-header-cell *matHeaderCellDef>
+              {{ 'markets_page.24high' | translate }}
+              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.high_24 }}</mat-cell>
+          </ng-container>
 
-        <!-- 24h Low column -->
-        <ng-container matColumnDef="low_24">
-          <mat-header-cell *matHeaderCellDef>
-            {{ 'markets_page.24low' | translate }}
-            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.low_24 }}</mat-cell>
-        </ng-container>
+          <!-- 24h Low column -->
+          <ng-container matColumnDef="low_24">
+            <mat-header-cell *matHeaderCellDef>
+              {{ 'markets_page.24low' | translate }}
+              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.low_24 }}</mat-cell>
+          </ng-container>
 
-        <!-- Mkt Cap column -->
-        <ng-container matColumnDef="market_cap">
-          <mat-header-cell *matHeaderCellDef>
-            {{ 'markets_page.mktCap' | translate }}
-            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.market_cap }}</mat-cell>
-        </ng-container>
+          <!-- Mkt Cap column -->
+          <ng-container matColumnDef="market_cap">
+            <mat-header-cell *matHeaderCellDef>
+              {{ 'markets_page.mktCap' | translate }}
+              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.market_cap }}</mat-cell>
+          </ng-container>
 
-        <!-- 24h Vol column -->
-        <ng-container matColumnDef="vol_24">
-          <mat-header-cell *matHeaderCellDef>
-            {{ 'markets_page.24vol' | translate }}
-            <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">{{ element.vol_24 }}</mat-cell>
-        </ng-container>
+          <!-- 24h Vol column -->
+          <ng-container matColumnDef="vol_24">
+            <mat-header-cell *matHeaderCellDef>
+              {{ 'markets_page.24vol' | translate }}
+              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.vol_24 }}</mat-cell>
+          </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
       <app-paginator [count]="count"></app-paginator>
     </div>
   </div>
