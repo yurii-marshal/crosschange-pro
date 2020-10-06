@@ -81,6 +81,10 @@
       width: 100%;
     }
   }
+  .content-container {
+    display: flex;
+    flex-direction: column;
+  }
   .field-title {
     font-style: normal;
     font-weight: normal;
@@ -125,6 +129,22 @@
 ::ng-deep .qr-code-dialog mat-dialog-container {
   padding: 0;
 }
+@media all and (max-width: 1167px){
+  .qr-codes.double {
+    justify-content: stretch;
+    .qr-container {
+      padding-left: 2px;
+      padding-right: 2px;
+      justify-content: space-around;
+      align-self: stretch;
+      .field {
+        word-break: break-all;
+      }
+    }
+
+  }
+}
+
 @media all and (max-width: $media-small-tablet) {
   .qr-codes {
     max-width: 100%;
