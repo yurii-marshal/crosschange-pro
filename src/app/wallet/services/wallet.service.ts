@@ -10,7 +10,7 @@ import {
   TransactionType
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { share } from 'rxjs/operators';
+import { share, tap } from 'rxjs/operators';
 
 const mockDataBalanceTypes = {
   fiat: {
@@ -90,7 +90,7 @@ const walletMock = {
 
 // TODO: DELETE WHEN API IS READY
 const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 'XTZ'].map((v, i) => {
-  const val = { ...walletMock };
+  const val = {...walletMock};
   val.cryptocurrency = v.toLowerCase();
   val.address += i + '';
   if (val.cryptocurrency === 'xrp') {
@@ -121,11 +121,40 @@ export interface IDepositHistoryRequest {
   ordering?: string;
 }
 
+export interface Wallet {
+  cryptocurrency: string; // 'btc', 'eth' etc.
+  address: string; // wallet address
+  tag: string; // used for e.g. in Ripple.
+  id: number;
+  balance: {
+    total: number;
+    available: number;
+    in_order: number;
+    btc: number; // value in btc
+  };
+}
+
+export interface UserBalance {
+  available_balance: number;
+  total_balance: number;
+  total_balance_usd: number;
+}
+
+export interface Coin {
+  key: string;
+  name: string;
+  balance_type: string;
+  is_popular: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
+  serializedCoins = {};
+
   private wallets: IWallet[] | null = null;
+
   private deposits: IApiResponse<ITransactionItem> = {
     count: 0,
     next: '',
@@ -185,11 +214,33 @@ export class WalletService extends ApiService {
     return of(this.deposits);
   }
 
-  getWalletsBalance(params: any): Observable<any> {
-    return of(mockDataTable);
+  @Memoized()
+  getCoinTypes(params?): Observable<Coin[]> {
+    // return super.get('exchanges/coins')
+    return super.get('exchanges/rates', params) // ?pairs=USD
+      .pipe(tap((coinTypes: Coin[]) => this.serializedCoins = serializeCoins(coinTypes)));
   }
 
-  getTotalBalance(): Observable<any> {
-    return of({totalBalanceCC: 10.564544, totalBalanceUSD: 344444.55});
+  getWalletBalance(userId: string): Observable<UserBalance> {
+    return super.get(`spot-wallets/users/${userId}/balances/general`);
   }
+
+  getWalletsList(params: any): Observable<any> {
+    return super.get('spot-wallets');
+  }
+}
+
+function serializeCoins(coinTypes: Coin[]): object {
+  let serializedCoins = {};
+
+  coinTypes
+    .map((coin: Coin) => coin.balance_type)
+    .forEach((balanceType: string) => {
+      serializedCoins = {
+        ...serializedCoins,
+        ...{[balanceType]: coinTypes.filter((item: Coin) => item.balance_type === balanceType)},
+      };
+    });
+
+  return serializedCoins;
 }
