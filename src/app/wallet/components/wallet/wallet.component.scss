@@ -129,6 +129,10 @@
   }
 }
 
+.mat-table {
+  overflow-x: auto;
+}
+
 .single-table {
   border-radius: 4px;
 }
@@ -371,5 +375,9 @@ mat-row:last-child {
   mat-header-cell:first-child,
   mat-cell:first-child {
     padding-left: 12px;
+  }
+
+  .paginator {
+    padding-left: 30px;
   }
 }

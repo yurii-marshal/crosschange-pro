@@ -47,6 +47,10 @@
   }
 }
 
+.mat-table {
+  overflow-x: auto;
+}
+
 .mat-table__search {
   position: relative;
   display: flex;
