@@ -89,10 +89,10 @@
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <div class="custom-cell"
+              <span class="custom-cell"
                    [ngClass]="(element.change_perce_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
                 {{ element.change_perce_24 > 0 ? '+' + element.change_perce_24 : element.change_perce_24  }}
-              </div>
+              </span>
             </mat-cell>
           </ng-container>
 

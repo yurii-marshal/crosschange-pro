@@ -206,32 +206,43 @@
   }
 }
 
-
-.table-responsive {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  .mat-table {
+@media all and (max-width: 1301px){
+  .table-responsive {
+    display: block;
     width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    display: table;
-    border-collapse: collapse;
-    margin: 0px;
+    overflow-x: auto;
+    .mat-table {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 1rem;
+      display: table;
+      border-collapse: collapse;
+      margin: 0px;
+    }
+    .mat-row,
+    .mat-header-row {
+      display: table-row;
+    }
+    .mat-cell,
+    .mat-header-cell {
+      word-wrap: initial;
+      display: table-cell;
+      padding-left: 5px;
+      padding-right: 5px;
+      line-break: unset;
+      width: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+
+    .mat-column-change_perce_24,
+    .mat-column-high_24,
+    .mat-column-low_24,
+    .mat-column-market_cap,
+    .mat-column-vol_24 {
+      text-align: right;
+    }
   }
-  .mat-row,
-  .mat-header-row {
-    display: table-row;
-  }
-  .mat-cell,
-  .mat-header-cell {
-    word-wrap: initial;
-    display: table-cell;
-    padding: 0px 5px;
-    line-break: unset;
-    width: auto;
-    white-space: nowrap;
-    overflow: hidden;
-    vertical-align: middle;
-  }
+
 }
