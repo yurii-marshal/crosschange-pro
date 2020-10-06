@@ -2,6 +2,22 @@
   "crypto_widget": {
     "volume": "Volume"
   },
+  "deposit_page": {
+    "available_balance": "Available Balance",
+    "coin": "Coin",
+    "history_amount": "Amount",
+    "history_coin": "Coin",
+    "history_date": "Date",
+    "history_status": "Status",
+    "history_title": "Recent deposit history",
+    "history_transaction_hash": "Hash",
+    "in_order": "In Order",
+    "info_text_1": "Coins will be deposited after 3 network confirmations.",
+    "info_text_2": "Until 3 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.",
+    "popular": "Popular Coins",
+    "title": "Deposit",
+    "total_balance": "Total Balance"
+  },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
     "commission": "Commission",
@@ -92,6 +108,12 @@
   "notifications": {
     "title": "notifications",
     "view_all": "View all"
+  },
+  "qr_code": {
+    "address_short": "{{crypto}} Address",
+    "copy_address": "Copy address",
+    "copy_tag": "Copy tag",
+    "tag_short": "{{crypto}} Tag"
   },
   "time_ago": {
     "day_before": "a day before",

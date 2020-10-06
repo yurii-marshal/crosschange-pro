@@ -7,7 +7,7 @@ export const routes: Routes = [
   {
     path: '',
     component: BaseComponent,
-    // canActivate: [CanShowProGuard],
+    canActivate: [CanShowProGuard],
     children: [
       {
         path: '',
@@ -16,6 +16,10 @@ export const routes: Routes = [
       {
         path: 'notifications',
         loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsModule),
+      },
+      {
+        path: 'wallet',
+        loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletModule),
       },
     ]
   },
