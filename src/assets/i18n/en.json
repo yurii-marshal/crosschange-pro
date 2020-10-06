@@ -2,6 +2,22 @@
   "crypto_widget": {
     "volume": "Volume"
   },
+  "deposit_page": {
+    "title": "Deposit",
+    "coin": "Coin",
+    "total_balance": "Total Balance",
+    "in_order": "In Order",
+    "available_balance": "Available Balance",
+    "info_text_1": "Coins will be deposited after 3 network confirmations.",
+    "info_text_2": "Until 3 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.",
+    "history_title": "Recent deposit history",
+    "history_date": "Date",
+    "history_coin": "Coin",
+    "history_amount": "Amount",
+    "history_status": "Status",
+    "history_transaction_hash": "Hash",
+    "popular": "Popular Coins"
+  },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
     "commission": "Commission",
@@ -124,5 +140,17 @@
     "wallet_list": "Wallet list",
     "trade": "Trade",
     "withdraw": "Withdraw"
+  },
+  "qr_code": {
+    "header": "{{crypto}} Address",
+    "title": "Send only BTC to this deposit address.",
+    "subtitle": "Sending coin or token other than BTC to this address may result in the loss of your deposit.",
+    "address": "Wallet address",
+    "tag": "Tag",
+    "address_short": "{{crypto}} Address",
+    "tag_short": "{{crypto}} Tag",
+    "button": "Okay",
+    "copy_address": "Copy address",
+    "copy_tag": "Copy tag"
   }
 }

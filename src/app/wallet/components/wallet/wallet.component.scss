@@ -2,19 +2,9 @@
 @import "../../../../assets/styles/mixins";
 
 :host {
-  display: flex;
-  height: 100%;
-}
-
-aside {
-  width: 240px;
-  height: 100%;
-}
-
-main {
+  /*display: flex;
+  height: 100%;*/
   width: 100%;
-  height: 100%;
-  background-color: #fafbfc;
 }
 
 .spot-wallet {

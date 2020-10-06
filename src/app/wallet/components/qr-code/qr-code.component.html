@@ -1,0 +1,34 @@
+<div class="qr-codes" [class.double]="!!wallet.tag">
+  <div class="qr-container">
+    <div class="content-container">
+      <span class="field-title">{{'qr_code.address_short' | translate: { crypto: wallet?.cryptocurrency.toUpperCase()} }}</span>
+      <div class="qr">
+        <img src="/assets/images/qr_stub.png" alt="qr code">
+      </div>
+      <div class="field">
+        {{wallet.address}}
+      </div>
+    </div>
+    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.address">
+      <mat-icon svgIcon="icon_copy"></mat-icon>
+      {{'qr_code.copy_address' | translate}}
+    </button>
+  </div>
+  <div class="qr-container" *ngIf="wallet.tag">
+    <div class="content-container">
+      <span class="field-title">
+        {{ 'qr_code.tag_short' | translate : { crypto: wallet?.cryptocurrency.toUpperCase()} }}
+      </span>
+      <div class="qr">
+        <img src="/assets/images/qr_stub.png" alt="qr code">
+      </div>
+      <div class="field">
+        {{wallet.tag}}
+      </div>
+    </div>
+    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.tag">
+      <mat-icon svgIcon="icon_copy"></mat-icon>
+      {{'qr_code.copy_tag' | translate}}
+    </button>
+  </div>
+</div>
