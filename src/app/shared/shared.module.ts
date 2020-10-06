@@ -10,7 +10,6 @@ import { WidgetComponent } from './components/widget/widget.component';
 import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { TimeBeforePipe } from './pipes/time-before.pipe';
 import { NotificationItemComponent } from './components/notification-item/notification-item.component';
-import { SnackbarNotificationComponent } from './components/snackbar-notification/snackbar-notification.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
@@ -19,6 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
+import { PopoverModule } from './popover/popover.module';
 import { CoinSelectComponent } from './components/coin-select/coin-select.component';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -30,7 +30,6 @@ const components = [
   LanguageSwitcherComponent,
   NotificationItemComponent,
   PaginatorComponent,
-  SnackbarNotificationComponent,
   MenuMobileComponent,
   CoinSelectComponent
 ];
@@ -55,6 +54,7 @@ const pipes = [
     MatMenuModule,
     MatSidenavModule,
     ReactiveFormsModule,
+    PopoverModule.forRoot(),
     LayoutModule
   ],
   exports: [
@@ -66,6 +66,7 @@ const pipes = [
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
+    PopoverModule,
     LayoutModule
   ],
   providers: [

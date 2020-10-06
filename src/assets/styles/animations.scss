@@ -1,0 +1,61 @@
+@keyframes snackBarIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition-property: transform, opacity, visibility;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes snackBarOut {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+    visibility: visible;
+    transition-property: transform, opacity, visibility;
+    transition-duration: 0.7s;
+    transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes matMenuIn {
+  from {
+    overflow: hidden;
+    position: fixed;
+    transform: scale(.95);
+    transform-origin: 100% 0;
+    opacity: 0;
+    visibility: hidden;
+    will-change: transform, opacity;
+    transition-property: transform, opacity;
+    transition-duration: .25s;
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+  }
+}
+
+@keyframes matMenuOut {
+  from {
+
+  }
+
+  to {
+
+  }
+}
