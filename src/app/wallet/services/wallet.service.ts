@@ -57,6 +57,23 @@ const mockDataBalanceTypes = {
   },
 };
 
+const mockDataTable = [
+  {
+    coin: 'eur',
+    total: '0',
+    available: '0',
+    inOrder: '0',
+    btcValue: '0',
+  },
+  {
+    coin: 'usd',
+    total: '0',
+    available: '0',
+    inOrder: '0',
+    btcValue: '0',
+  }
+];
+
 // TODO: DELETE WHEN API IS READY
 const walletMock = {
   cryptocurrency: 'btc',
@@ -166,5 +183,13 @@ export class WalletService extends ApiService {
     });
     this.deposits = depositsMock;
     return of(this.deposits);
+  }
+
+  getWalletsBalance(params: any): Observable<any> {
+    return of(mockDataTable);
+  }
+
+  getTotalBalance(): Observable<any> {
+    return of({totalBalanceCC: 10.564544, totalBalanceUSD: 344444.55});
   }
 }
