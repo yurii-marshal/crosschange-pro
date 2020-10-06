@@ -14,19 +14,19 @@
       <div class="balance-item">
         <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
         <div class="value">
-          {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency.toUpperCase()}}
+          {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
         </div>
       </div>
       <div class="balance-item">
         <div class="title">{{'deposit_page.in_order' | translate}}:</div>
         <div class="value">
-          {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency.toUpperCase()}}
+          {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase }}
         </div>
       </div>
       <div class="balance-item">
         <div class="title">{{'deposit_page.available_balance' | translate}}:</div>
         <div class="value">
-          {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency.toUpperCase()}}
+          {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
       </span>
       <div class="popular">
         <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
-          {{item.key.toUpperCase()}}
+          {{item.key | uppercase}}
         </div>
       </div>
     </div>
@@ -90,7 +90,7 @@
       <div class="table-cell">
         <div class="cell-crypto">
           <mat-icon [svgIcon]="'icon_' + item.cryptocurrency"></mat-icon>
-          <span>{{item.cryptocurrency.toUpperCase()}}</span>
+          <span>{{item.cryptocurrency | uppercase}}</span>
         </div>
       </div>
       <div class="table-cell">{{item.amount | number:'1.8-8'}}</div>

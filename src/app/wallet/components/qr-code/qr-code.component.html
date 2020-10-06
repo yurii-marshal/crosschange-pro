@@ -1,7 +1,7 @@
 <div class="qr-codes" [class.double]="!!wallet.tag">
   <div class="qr-container">
     <div class="content-container">
-      <span class="field-title">{{'qr_code.address_short' | translate: { crypto: wallet?.cryptocurrency.toUpperCase()} }}</span>
+      <span class="field-title">{{'qr_code.address_short' | translate: { crypto: wallet?.cryptocurrency | uppercase } }}</span>
       <div class="qr">
         <img src="/assets/images/qr_stub.png" alt="qr code">
       </div>
@@ -17,7 +17,7 @@
   <div class="qr-container" *ngIf="wallet.tag">
     <div class="content-container">
       <span class="field-title">
-        {{ 'qr_code.tag_short' | translate : { crypto: wallet?.cryptocurrency.toUpperCase()} }}
+        {{ 'qr_code.tag_short' | translate : { crypto: wallet?.cryptocurrency | uppercase} }}
       </span>
       <div class="qr">
         <img src="/assets/images/qr_stub.png" alt="qr code">
