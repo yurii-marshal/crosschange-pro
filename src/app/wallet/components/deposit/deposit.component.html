@@ -6,58 +6,58 @@
   {{'deposit_page.coin' | translate}}
 </span>
 
-<app-coin-select [formControl]="coinSelect" (ngModelChange)="onCoinSelect($event)"></app-coin-select>
+<div class="flex-container coin-select-container">
+  <app-coin-select [formControl]="coinSelect" (ngModelChange)="onCoinSelect($event)"></app-coin-select>
 
-<div class="popular">
-  <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
-    {{item.key.toUpperCase()}}
-  </div>
+  <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
+    <div class="balance">
+      <div class="balance-item">
+        <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
+        <div class="value">
+          {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+        </div>
+      </div>
+      <div class="balance-item">
+        <div class="title">{{'deposit_page.in_order' | translate}}:</div>
+        <div class="value">
+          {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase }}
+        </div>
+      </div>
+      <div class="balance-item">
+        <div class="title">{{'deposit_page.available_balance' | translate}}:</div>
+        <div class="value">
+          {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>
 
+<div class="flex-container qr-code-container">
+  <div class="popular-container">
+    <ul class="info">
+      <li>{{'deposit_page.info_text_1' | translate}}</li>
+      <li>{{'deposit_page.info_text_2' | translate}}</li>
+    </ul>
 
-<span class="section-title">
-  {{(selected$ | async)?.key.toUpperCase()}}
-</span>
+    <div>
+      <span class="form-field-title">
+        {{'deposit_page.popular' | translate}}:
+      </span>
+      <div class="popular">
+        <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
+          {{item.key | uppercase}}
+        </div>
+      </div>
+    </div>
 
-<ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async)">
-  <div class="balance">
-    <div class="balance-item">
-      <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
-      <div class="value">
-        {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency.toUpperCase()}}
-      </div>
-    </div>
-    <div class="balance-item">
-      <div class="title">{{'deposit_page.in_order' | translate}}:</div>
-      <div class="value">
-        {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency.toUpperCase()}}
-      </div>
-    </div>
-    <div class="balance-item">
-      <div class="title">{{'deposit_page.available_balance' | translate}}:</div>
-      <div class="value">
-        {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency.toUpperCase()}}
-      </div>
-    </div>
   </div>
-  <app-qr-code *ngIf="(device$ | async) === devices.MOBILE" [wallet]="wallet"></app-qr-code>
-
-  <div class="wallet-info">
-    <div class="wallet">
-      {{wallet.address}}
-    </div>
-    <div class="buttons">
-      <mat-icon svgIcon="icon_copy" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.address">
-      </mat-icon>
-      <mat-icon svgIcon="icon_qr_code" (click)="openQrDialog()"></mat-icon>
-    </div>
+  <div class="qr-code">
+    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
+      <app-qr-code [wallet]="wallet"></app-qr-code>
+    </ng-container>
   </div>
-</ng-container>
-
-<ul class="info">
-  <li>{{'deposit_page.info_text_1' | translate}}</li>
-  <li>{{'deposit_page.info_text_2' | translate}}</li>
-</ul>
+</div>
 
 <span class="section-title">
   {{'deposit_page.history_title' | translate}}
@@ -90,7 +90,7 @@
       <div class="table-cell">
         <div class="cell-crypto">
           <mat-icon [svgIcon]="'icon_' + item.cryptocurrency"></mat-icon>
-          <span>{{item.cryptocurrency.toUpperCase()}}</span>
+          <span>{{item.cryptocurrency | uppercase}}</span>
         </div>
       </div>
       <div class="table-cell">{{item.amount | number:'1.8-8'}}</div>

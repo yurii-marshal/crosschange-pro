@@ -26,7 +26,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class CoinSelectComponent implements OnInit, ControlValueAccessor {
   opened = false;
   coins$: Observable<ICoin[]>;
-  selected;
+  selected: ICoin;
   onChange = (coin: ICoin) => {};
   onTouched = () => {};
   constructor(
