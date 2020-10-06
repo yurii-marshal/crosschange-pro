@@ -56,7 +56,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   pageChanged(pageIndex: number): void {
     this.params = {
       offset: pageIndex * this.params.limit,
-      limit: 2
+      limit: this.params.limit
     };
     this.navigate();
   }
