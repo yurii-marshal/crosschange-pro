@@ -2,6 +2,8 @@
 
 :host {
   position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 :host:hover .widget-hover {
@@ -101,7 +103,7 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(#E5F3FF, .8);
+  background-color: rgba($color-light-blue-10, .9);
   opacity: 0;
   visibility: hidden;
   border-radius: 4px;
