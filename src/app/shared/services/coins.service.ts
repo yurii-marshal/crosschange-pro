@@ -68,13 +68,13 @@ export class CoinsService extends ApiService {
       return of(this.coins);
     }
     // TODO: UNCOMMENT WHEN API IS READY
-    return super.get<ICoin[]>('exchanges/coins').pipe(
+    /*return super.get<ICoin[]>('exchanges/coins').pipe(
       tap((v) => this.coins = v),
       share()
-    );
+    );*/
     // TODO: DELETE WHEN API IS READY
-    /*this.coins = coinsMock;
-    return of(coinsMock).pipe(share());*/
+    this.coins = coinsMock;
+    return of(coinsMock).pipe(share());
   }
 
   getPopular(): Observable<ICoin[]> {

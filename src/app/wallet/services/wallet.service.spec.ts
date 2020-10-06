@@ -8,7 +8,8 @@ import {
   IEnvironment
 } from 'shared-kuailian-lib';
 import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
-
+import { IWallet } from '../../shared/interfaces/wallet.interface';
+import { IApiResponse } from 'shared-kuailian-lib';
 
 describe('WalletService', () => {
   let service: WalletService;
@@ -38,21 +39,26 @@ describe('WalletService', () => {
   });
 
   it('should send get wallets request', (done) => {
-    const mock = [ {
-      cryptocurrency: 'btc',
-      address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
-      tag: '',
-      id: 0,
-      balance: {
-        total: 0,
-        available: 0,
-        in_order: 0,
-        btc: 0
-      },
-    } ];
+    const mock: IApiResponse<IWallet> = {
+      results: [ {
+        cryptocurrency: 'btc',
+        address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
+        tag: '',
+        id: 0,
+        balance: {
+          total: 0,
+          available: 0,
+          in_order: 0,
+          btc: 0
+        },
+      } ],
+      count: 1,
+      previous: '',
+      next: ''
+    };
 
     service.getWallets().subscribe(res => {
-      expect(res).toEqual(mock);
+      expect(res).toEqual(mock.results);
       done();
     });
 
@@ -64,22 +70,27 @@ describe('WalletService', () => {
 
 
   it('should cache get wallets response', (done) => {
-    const mock = [ {
-      cryptocurrency: 'btc',
-      address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
-      tag: '',
-      id: 0,
-      balance: {
-        total: 0,
-        available: 0,
-        in_order: 0,
-        btc: 0
-      },
-    } ];
+    const mock: IApiResponse<IWallet> = {
+      results: [ {
+        cryptocurrency: 'btc',
+        address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
+        tag: '',
+        id: 0,
+        balance: {
+          total: 0,
+          available: 0,
+          in_order: 0,
+          btc: 0
+        },
+      } ],
+      count: 1,
+      previous: '',
+      next: ''
+    };
 
     service.getWallets().subscribe(res => {
       service.getWallets().subscribe(secondRes => {
-        expect(secondRes).toEqual(mock);
+        expect(secondRes).toEqual(mock.results);
         done();
       });
     });

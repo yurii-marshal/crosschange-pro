@@ -1,18 +1,17 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { TradeType } from '../../core/interfaces/trade-type.interface';
-import { Memoized } from '../../core/decorators/memoized.decorator';
-import { ApiService } from 'shared-kuailian-lib';
-import { IWallet } from '../../shared/interfaces/wallet.interface';
+import { TradeType } from '../src/app/core/interfaces/trade-type.interface';
+import { Memoized } from '../src/app/core/decorators/memoized.decorator';
+import { IWallet } from '../src/app/shared/interfaces/wallet.interface';
 import {
   ITransactionItem,
   TransactionStatus,
   TransactionType
-} from '../../shared/interfaces/transaction-item.interface';
+} from '../src/app/shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share } from 'rxjs/operators';
 
-const mockDataBalanceTypes = {
+export const mockDataBalanceTypes = {
   fiat: {
     eur: [
       {id: 0, label: 'AUD'},
@@ -57,8 +56,7 @@ const mockDataBalanceTypes = {
   },
 };
 
-// TODO: DELETE WHEN API IS READY
-const walletMock = {
+export const walletMock = {
   cryptocurrency: 'btc',
   address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
   tag: '',
@@ -71,8 +69,7 @@ const walletMock = {
   },
 };
 
-// TODO: DELETE WHEN API IS READY
-const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 'XTZ'].map((v, i) => {
+export const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 'XTZ'].map((v, i) => {
   const val = { ...walletMock };
   val.cryptocurrency = v.toLowerCase();
   val.address += i + '';
@@ -82,8 +79,7 @@ const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 
   return val;
 });
 
-
-const depositsMock: IApiResponse<ITransactionItem> = {
+export const depositsMock: IApiResponse<ITransactionItem> = {
   count: 50,
   next: '',
   previous: '',
@@ -107,7 +103,7 @@ export interface IDepositHistoryRequest {
 @Injectable({
   providedIn: 'root'
 })
-export class WalletService extends ApiService {
+export class WalletServiceMock {
   private wallets: IWallet[] | null = null;
   private deposits: IApiResponse<ITransactionItem> = {
     count: 0,
@@ -116,9 +112,7 @@ export class WalletService extends ApiService {
     results: []
   };
 
-  constructor(protected injector: Injector) {
-    super(injector);
-  }
+  constructor(protected injector: Injector) {}
 
   @Memoized()
   getTradeTypes(balanceType: string, currencyType: string): Observable<TradeType[]> {
@@ -131,17 +125,6 @@ export class WalletService extends ApiService {
       return of(this.wallets);
     }
 
-    // TODO: UNCOMMENT WHEN API IS READY
-    /*return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
-      tap((v) => {
-        this.wallets = v.results;
-      }),
-      map(v => {
-        return v.results;
-      }),
-      share()
-    );*/
-
     // TODO: DELETE WHEN API IS READY
     this.wallets = walletsMock;
     return of(this.wallets).pipe(share());
@@ -151,16 +134,9 @@ export class WalletService extends ApiService {
     if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {
       return of(this.deposits);
     }
-    // TODO: UNCOMMENT WHEN API IS READY
-    /*const req = {
-      type: 'deposit',
-        ...params
-    };
-    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());*/
-
-    // TODO: DELETE WHEN API IS READY
     depositsMock.results = depositsMock.results.map(v => {
       v.cryptocurrency = params.cryptocurrency;
+      v.amount = params.offset;
       return v;
     });
     this.deposits = depositsMock;
