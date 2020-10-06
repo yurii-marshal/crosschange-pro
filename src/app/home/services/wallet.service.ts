@@ -104,8 +104,9 @@ export class WalletService extends ApiService {
   }
 
   @Memoized()
-  getCoinTypes(): Observable<Coin[]> {
-    return super.get('exchanges/coins')
+  getCoinTypes(params?): Observable<Coin[]> {
+    // return super.get('exchanges/coins')
+    return super.get('exchange/rates', params) // ?pairs=USD
       .pipe(tap((coinTypes: Coin[]) => this.serializedCoins = serializeCoins(coinTypes)));
   }
 
