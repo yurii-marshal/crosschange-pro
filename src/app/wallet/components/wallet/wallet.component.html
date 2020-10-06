@@ -1,11 +1,11 @@
 <div class="total-balance">
   <div class="total-balance__header">{{'wallet_page.wallet_list' | translate}}</div>
   <div class="total-balance__amount">
-    {{walletBalance?.total_balance || 0 | number: '1.8-8' | toggleSecretText: hideNumbers}}
+    {{(walletBalance$ | async)?.total_balance || 0 | number: '1.8-8' | toggleSecretText: hideNumbers}}
     <div class="total-balance__amount-currency">
         <span class="total-balance__amount-currency--black">
           {{'wallet_page.btc' | translate}}
-        </span> ≈ €{{walletBalance?.total_balance_eur || 0 | number: '1.2-2' | toggleSecretText: hideNumbers}}
+        </span> ≈ €{{(walletBalance$ | async)?.total_balance_eur || 0 | number: '1.2-2' | toggleSecretText: hideNumbers}}
     </div>
     <button class="total-balance__amount-hide-btn" mat-icon-button
             [title]="hideNumbers ? 'Show information' : 'Hide information'" (click)="hideNumbers=!hideNumbers">
@@ -206,7 +206,7 @@
             {{(hideLowBalance ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') | translate}}
           </button>
         </div>
-        <mat-table mat-table [dataSource]="cryptoBalanceSource">
+        <mat-table mat-table [dataSource]="cryptoBalanceSource | async">
           <!-- Coin column -->
           <ng-container matColumnDef="cryptocurrency">
             <mat-header-cell *matHeaderCellDef>
@@ -279,7 +279,7 @@
                 <div class="link" routerLink="/some-page/{{item.id}}"
                      *ngFor="let item of coinTypes; let last = last">
                   <div class="label">
-                    {{element.coin + '/' + item.label}}
+                    {{element.cryptocurrency + '/' + item.label}}
                   </div>
                   <div class="divider" *ngIf="!last"></div>
                 </div>
@@ -290,7 +290,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!cryptoBalanceSource?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
+        <div class="no-data-splash" *ngIf="!(cryptoBalanceSource | async)?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
         <app-paginator [count]="count" class="paginator"></app-paginator>
       </div>
     </div>

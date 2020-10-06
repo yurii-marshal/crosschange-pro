@@ -11,6 +11,7 @@ import {
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share, tap } from 'rxjs/operators';
+import { ICoin } from '../../shared/interfaces/coin.interface';
 
 const mockDataBalanceTypes = [
   {id: 0, label: 'AUD'},
@@ -86,30 +87,10 @@ export interface IDepositHistoryRequest {
   ordering?: string;
 }
 
-export interface Wallet {
-  cryptocurrency: string; // 'btc', 'eth' etc.
-  address: string; // wallet address
-  tag: string; // used for e.g. in Ripple.
-  id: number;
-  balance: {
-    total: number;
-    available: number;
-    in_order: number;
-    btc: number; // value in btc
-  };
-}
-
 export interface UserBalance {
   available_balance: number;
   total_balance: number;
   total_balance_eur: number;
-}
-
-export interface Coin {
-  key: string;
-  name: string;
-  balance_type: string;
-  is_popular: boolean;
 }
 
 @Injectable({
@@ -180,10 +161,10 @@ export class WalletService extends ApiService {
   }
 
   @Memoized()
-  getCoinTypes(params?): Observable<Coin[]> {
+  getCoinTypes(params?): Observable<ICoin[]> {
     // return super.get('exchanges/coins')
     return super.get('exchanges/rates', params) // ?pairs=USD
-      .pipe(tap((coinTypes: Coin[]) => serializeCoins(coinTypes))); // this.serializedCoins = serializeCoins(coinTypes)
+      .pipe(tap((coinTypes: ICoin[]) => serializeCoins(coinTypes))); // this.serializedCoins = serializeCoins(coinTypes)
   }
 
   getWalletBalance(userId: string): Observable<UserBalance> {
@@ -191,19 +172,19 @@ export class WalletService extends ApiService {
   }
 
   getWalletsList(params: any): Observable<any> {
-    return super.get('spot-wallets');
+    return super.get('spot-wallets', params);
   }
 }
 
-function serializeCoins(coinTypes: Coin[]): object {
+function serializeCoins(coinTypes: ICoin[]): object {
   let serializedCoins = {};
 
   coinTypes
-    .map((coin: Coin) => coin.balance_type)
+    .map((coin: ICoin) => coin.balance_type)
     .forEach((balanceType: string) => {
       serializedCoins = {
         ...serializedCoins,
-        ...{[balanceType]: coinTypes.filter((item: Coin) => item.balance_type === balanceType)},
+        ...{[balanceType]: coinTypes.filter((item: ICoin) => item.balance_type === balanceType)},
       };
     });
 

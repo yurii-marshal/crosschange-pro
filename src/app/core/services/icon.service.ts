@@ -7,6 +7,7 @@ const icons: string[] = [
   'icon_notification',
   'icon_notification_new',
   'icon_btc',
+  'icon_bth',
   'icon_bch',
   'icon_bsv',
   'icon_dash',

@@ -195,11 +195,11 @@ app-paginator {
 mat-header-row {
   border-radius: 4px 4px 0 0;
   border-color: $color-grey-10;
+}
 
-  mat-header-cell:first-child,
-  mat-cell:first-child {
-    padding-left: 12px;
-  }
+mat-header-cell:first-child,
+mat-cell:first-child {
+  padding-left: 12px;
 }
 
 mat-row {
@@ -218,7 +218,7 @@ mat-row:last-child {
   height: 9.5px;
 }
 
-.mat-column-coin {
+.mat-column-cryptocurrency {
   flex: 4;
   text-transform: uppercase;
 
@@ -292,7 +292,7 @@ mat-row:last-child {
 }
 
 @media screen and(max-width: 1200px) {
-  .mat-column-coin,
+  .mat-column-cryptocurrency,
   .mat-column-total,
   .mat-column-available,
   .mat-column-inOrder,
