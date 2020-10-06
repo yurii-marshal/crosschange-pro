@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 
 const mockTable: IExchangeData[] = [
   {
@@ -81,7 +82,12 @@ const mockTable: IExchangeData[] = [
 })
 export class GridService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {
+  }
 
   loadResults(query: string, params: any): Observable<any> {
     const data = mockTable.filter(item =>
@@ -92,5 +98,14 @@ export class GridService {
     };
 
     return of(result);
+  }
+
+  navigate(newParams: object): void {
+    this.router.navigate([window.location.pathname], {
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        ...newParams
+      }
+    });
   }
 }
