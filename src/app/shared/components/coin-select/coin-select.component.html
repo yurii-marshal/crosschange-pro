@@ -1,0 +1,18 @@
+<div class="overlay" [class.overlay-visible]="opened" (click)="opened = false"></div>
+<ng-container *ngIf="coins$ | async">
+  <div class="switcher" (click)="opened = !opened">
+    <div class="flex">
+      <mat-icon *ngIf="selected" class="coin-icon" [svgIcon]="'icon_' + selected?.key">
+      </mat-icon>
+      <span class="coin-title">{{selected?.name}}/{{selected?.key | uppercase}}</span>
+    </div>
+    <mat-icon>{{opened ? 'arrow_drop_up' : 'arrow_drop_down'}}</mat-icon>
+  </div>
+  <div class="coins-menu" [class.visible]="opened">
+  <span *ngFor="let coin of coins$ | async" (click)="writeValue(coin); opened = false" class="menu-item">
+      <mat-icon class="coin-icon" [svgIcon]="'icon_' + coin.key"></mat-icon>
+      <span class="coin-title">{{coin.key | uppercase }}</span>
+      <span class="coin-subtitle">{{coin.name}}</span>
+  </span>
+  </div>
+</ng-container>

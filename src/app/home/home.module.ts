@@ -8,7 +8,6 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
 import { JwtResolver } from 'shared-kuailian-lib';
 import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
-import { WalletComponent } from './components/wallet/wallet.component';
 
 export const routes: Routes = [
   {
@@ -33,30 +32,13 @@ export const routes: Routes = [
     data: {
       headerClass: 'widget'
     }
-  },
-  {
-    path: 'wallet',
-    canActivate: [ AuthGuard ],
-    children: [
-      {
-        path: 'balance',
-        component: WalletComponent
-      },
-      {
-        path: 'deposit',
-      },
-      {
-        path: 'withdraw',
-      },
-    ],
   }
 ];
 
 @NgModule({
   declarations: [
     HomeComponent,
-    MarketsComponent,
-    WalletComponent
+    MarketsComponent
   ],
   imports: [
     CommonModule,
