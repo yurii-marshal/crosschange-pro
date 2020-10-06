@@ -24,8 +24,8 @@ export class BaseComponent implements OnInit, OnDestroy {
       mergeMap(route => route.data)
     )
       .subscribe(data => {
-        this.headerClass = data && data.headerClass ? data.headerClass : '';
-        this.footerClass = data && data.footerClass ? data.footerClass : '';
+        this.headerClass = data && data.headerClass;
+        this.footerClass = data && data.footerClass;
       });
   }
 

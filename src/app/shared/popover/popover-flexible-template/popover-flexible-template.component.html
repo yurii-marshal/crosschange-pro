@@ -1,0 +1,13 @@
+<ng-template>
+  <div class="app-popover-container"
+       #focusTrapElement
+       [ngClass]="classList"
+       [@rotatePopover]="{value: animationState, params:
+        { rotateIn: 250, rotateOut: 250 }}"
+       (@rotatePopover.done)="onRotateFinished($event)"
+  >
+    <div class="wrapper">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>
