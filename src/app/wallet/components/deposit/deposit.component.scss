@@ -106,8 +106,19 @@ app-coin-select {
 
 .info {
   margin-bottom: 36px;
-  list-style-type: disc;
+  list-style-type: none;
   padding-left: 17px;
+  li {
+    color: $color-grey-60;
+    &::before {
+      content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+      color: $color-grey-60;
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+  }
 }
 .history {
   display: table;
@@ -129,6 +140,10 @@ app-coin-select {
   .cell-crypto {
     display: flex;
     align-items: center;
+    mat-icon {
+      height: 22px;
+      width: 22px;
+    }
   }
   .status {
     display: block;
@@ -172,6 +187,11 @@ app-qr-code {
 
 .form-field-title {
   margin-bottom: 4px;
+  color: $color-trading-dark;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 20px;
 }
 
 .flex-container {
