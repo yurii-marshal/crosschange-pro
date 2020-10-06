@@ -9,6 +9,7 @@ import { JwtResolver } from 'shared-kuailian-lib';
 import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WalletComponent } from './components/wallet/wallet.component';
+import { UserDataResolver } from '../core/services/user-data-resolver.service';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,7 @@ export const routes: Routes = [
   {
     path: 'wallet',
     canActivate: [ AuthGuard ],
+    resolve: {user: UserDataResolver},
     children: [
       {
         path: 'balance',
@@ -56,7 +58,7 @@ export const routes: Routes = [
   declarations: [
     HomeComponent,
     MarketsComponent,
-    WalletComponent
+    WalletComponent,
   ],
   imports: [
     CommonModule,

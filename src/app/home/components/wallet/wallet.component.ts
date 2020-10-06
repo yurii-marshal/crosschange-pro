@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { IBalanceInfo } from 'src/app/shared/interfaces/balance-info.interface';
 import { FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { Coin, Wallet, WalletService } from '../../services/wallet.service';
+import { forkJoin, Subject } from 'rxjs';
+import { Coin, UserBalance, Wallet, WalletService } from '../../services/wallet.service';
 import { debounceTime, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { GridService } from '../../../shared/services/grid.service';
 import { ActivatedRoute } from '@angular/router';
@@ -38,6 +38,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   hideNumbers = true;
   coinTypes: Coin[] = [];
+  walletBalance;
 
   // sort: MatSort;
 
@@ -53,28 +54,16 @@ export class WalletComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
 
-    this.searchInputControl.valueChanges
-      .pipe(
-        takeUntil(this.onDestroyed$),
-        debounceTime(500),
-      )
-      .subscribe((search: string) => {
-        this.gridService.navigate({search});
+    forkJoin(
+      this.walletService.getWalletBalance(this.route.snapshot.data.user.id),
+      this.walletService.getCoinTypes(),
+    )
+      .subscribe(([walletBalance, coinTypes]: [UserBalance, Coin[]]) => {
+        this.walletBalance = walletBalance;
       });
 
-    this.route.queryParams
-      .pipe(
-        takeUntil(this.onDestroyed$),
-        switchMap((params) => this.walletService.getWalletsList(params)),
-        tap((walletsList: Wallet[]) => {
-          this.isLoading = false;
-          this.dataSource.data = walletsList;
-          // this.dataSource.sort = this.sort;
-          this.count = walletsList && walletsList.length;
-        }),
-        switchMap(() => this.walletService.getCoinTypes()),
-      )
-      .subscribe((coinTypes: Coin[]) => {});
+    this.subscribeToRoutingChanges();
+    this.subscribeToSearch();
   }
 
   getCoinTypes(balanceType: string, currencyType: string): void {
@@ -91,6 +80,31 @@ export class WalletComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroyed$.next();
     this.onDestroyed$.complete();
+  }
+
+  private subscribeToRoutingChanges(): void {
+    this.route.queryParams
+      .pipe(
+        takeUntil(this.onDestroyed$),
+        switchMap((params) => this.walletService.getWalletsList(params)),
+      )
+      .subscribe((walletsList: Wallet[]) => {
+        this.isLoading = false;
+        this.dataSource.data = walletsList;
+        // this.dataSource.sort = this.sort;
+        this.count = walletsList && walletsList.length;
+      });
+  }
+
+  private subscribeToSearch(): void {
+    this.searchInputControl.valueChanges
+      .pipe(
+        takeUntil(this.onDestroyed$),
+        debounceTime(500),
+      )
+      .subscribe((search: string) => {
+        this.gridService.navigate({search});
+      });
   }
 
 }

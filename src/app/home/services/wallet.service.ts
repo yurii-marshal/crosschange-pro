@@ -79,6 +79,12 @@ export interface Wallet {
   };
 }
 
+export interface UserBalance {
+  available_balance: number;
+  total_balance: number;
+  total_balance_usd: number;
+}
+
 export interface Coin {
   key: string;
   name: string;
@@ -103,12 +109,12 @@ export class WalletService extends ApiService {
       .pipe(tap((coinTypes: Coin[]) => this.serializedCoins = serializeCoins(coinTypes)));
   }
 
-  getWalletsList(params: any): Observable<any> {
-    return super.get('spot-wallets');
+  getWalletBalance(userId: string): Observable<UserBalance> {
+    return super.get(`spot-wallets/users/${userId}/balances/general`);
   }
 
-  getTotalBalance(): Observable<any> {
-    return of({totalBalanceCC: 10.564544, totalBalanceUSD: 344444.55});
+  getWalletsList(params: any): Observable<any> {
+    return super.get('spot-wallets');
   }
 }
 
