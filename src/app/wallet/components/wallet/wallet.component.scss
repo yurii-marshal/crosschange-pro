@@ -2,19 +2,9 @@
 @import "../../../../assets/styles/mixins";
 
 :host {
-  display: flex;
-  height: 100%;
-}
-
-aside {
-  width: 240px;
-  height: 100%;
-}
-
-main {
+  /*display: flex;
+  height: 100%;*/
   width: 100%;
-  height: 100%;
-  background-color: #fafbfc;
 }
 
 .spot-wallet {
@@ -111,7 +101,42 @@ main {
       line-height: 24px;
       font-weight: 500;
     }
+
+    &__table {
+      box-shadow: none;
+      border-radius: 4px;
+      filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
+
+      &.with-controls {
+
+        .mat-table__search {
+          border-radius: 4px 4px 0 0;
+          border: 0.5px solid $color-grey-20;
+          border-bottom-color: $color-grey-10;
+        }
+
+        .mat-table {
+          border: none;
+          border-left: 0.5px solid $color-grey-20;
+          border-right: 0.5px solid $color-grey-20;
+        }
+      }
+    }
+
+    .mat-table {
+      border: 0.5px solid #DEE1E6;
+    }
   }
+}
+
+.single-table {
+  border-radius: 4px;
+}
+
+app-paginator {
+  border-radius: 0 0 4px 4px;
+  border: 0.5px solid $color-grey-20;
+  border-top-color: $color-grey-10;
 }
 
 .mat-table__search {
@@ -121,7 +146,6 @@ main {
   margin-top: 16px;
   height: 52px;
   background: $color-white-100;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
   &-icon {
     position: absolute;
@@ -149,6 +173,20 @@ main {
     border-radius: 4px;
     cursor: pointer;
   }
+}
+
+mat-header-row {
+  border-radius: 4px 4px 0 0;
+  border-color: $color-grey-10;
+}
+
+mat-row {
+  border-color: $color-grey-10;
+}
+
+mat-row:last-child {
+  border: none;
+  border-radius: 0 0 4px 4px;
 }
 
 .mat-header__icon {
@@ -286,35 +324,52 @@ main {
       color: $color-white-100;
     }
   }
-}
-
-@media all and (max-width: $media-small-tablet) {
-  main {
-    background-color: $color-white-100;
-  }
 
   .balances {
-    margin: 0 0 0 16px;
+    margin: 0;
   }
 
-  .mat-table {
-    background-color:transparent!important;
-    box-shadow: 5px 0 8px -3px rgba(0, 0 , 0, 0.1), -5px 0 5px -3px rgba(0, 0 , 0, 0.1);
+  .balance {
+    .balance-info {
+      overflow-x: auto;
+
+      &__name {
+        margin-left: 16px;
+      }
+
+      .mat-table {
+        margin-right: 16px;
+      }
+
+      &__table {
+        width: max-content;
+        margin: 12px 0 12px 16px;
+      }
+    }
   }
 
   .mat-table__search {
-    border-radius: 4px 4px 0 0;
-    box-shadow: 7px 0 8px -6px rgba(0, 0 , 0, 0.1), -2px -2px 5px 0 rgba(0, 0 , 0, 0.1);
+    margin: 0 16px 0 0;
   }
 
-  .paginator {
-    border-radius: 0 0 4px 4px;
-    box-shadow: 7px 0 8px -6px rgba(0, 0 , 0, 0.1), -2px 2px 5px 0 rgba(0, 0 , 0, 0.1);
-  }
-
-  .single-table {
-    border-radius: 4px;
-    box-shadow: 0.1px 0.1px 10px rgba(0, 0 , 0, 0.1);
+  app-paginator {
+    margin-right: 16px;
   }
 }
 
+@media all and (max-width: $media-mobile) {
+  .balances {
+    .balance {
+      margin-bottom: 32px;
+    }
+  }
+
+  mat-header-row {
+    height: 52px;
+  }
+
+  mat-header-cell:first-child,
+  mat-cell:first-child {
+    padding-left: 12px;
+  }
+}

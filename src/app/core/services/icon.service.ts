@@ -6,11 +6,16 @@ const icons: string[] = [
   'icon_user',
   'icon_notification',
   'icon_notification_new',
-  'icon_bitcoin',
-  'icon_bitcoin_cash',
-  'icon_bitcoin_sv',
+  'icon_btc',
+  'icon_bch',
+  'icon_bsv',
   'icon_dash',
   'icon_eth',
+  'icon_ltc',
+  'icon_xrp',
+  'icon_usdt',
+  'icon_usdc',
+  'icon_xtz',
   'icon_ark',
   'icon_lightcoin',
   'icon_ripple',
@@ -39,6 +44,9 @@ const icons: string[] = [
   'icon_eur',
   'icon_usd',
   'icon_union',
+  'icon_copy',
+  'icon_qr_code',
+  'icon_sort'
 ];
 
 @Injectable({

@@ -1,0 +1,5 @@
+export interface ICoin {
+  key: string; // 'btc', 'eth' etc.
+  name: string; // 'Bitcoin'
+  is_popular: boolean;
+}
