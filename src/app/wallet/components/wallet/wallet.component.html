@@ -102,7 +102,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!fiatBalanceSource?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
+        <div class="no-data-splash" *ngIf="!(fiatBalanceSource | async)?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
       </div>
     </div>
   </div>
@@ -191,7 +191,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!euroAccountBalanceSource?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
+        <div class="no-data-splash" *ngIf="!(euroAccountBalanceSource | async)?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
       </div>
     </div>
   </div>
@@ -202,7 +202,7 @@
         <div class="mat-table__search">
           <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
           <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
-          <button class="hide-balance-btn" [disabled]="isLoading" (click)="toggleLowBalance()">
+          <button class="hide-balance-btn" (click)="hideLowBalance$.next(hideLowBalance = !hideLowBalance)">
             {{(hideLowBalance ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') | translate}}
           </button>
         </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { UserBalance, WalletService } from '../../services/wallet.service';
 import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -23,10 +23,6 @@ export class WalletComponent implements OnInit {
     'action',
   ];
 
-  hideLowBalance: boolean;
-
-  isLoading: boolean;
-
   count: number;
 
   fiatBalanceSource: Observable<MatTableDataSource<IWallet>>;
@@ -39,6 +35,11 @@ export class WalletComponent implements OnInit {
   coinTypes = [];
   walletBalance$: Observable<UserBalance>;
 
+  private hideLowBalance$ = new Subject<boolean>();
+
+  hideLowBalanceObs = this.hideLowBalance$.asObservable();
+  hideLowBalance: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private gridService: GridService,
@@ -47,8 +48,6 @@ export class WalletComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
-
     this.walletBalance$ = this.walletService.getWalletBalance(this.route.snapshot.data.user.id).pipe(share());
 
     this.cryptoBalanceSource = combineLatest(
@@ -59,9 +58,10 @@ export class WalletComponent implements OnInit {
           distinctUntilChanged(),
         ),
       this.route.queryParams,
+      this.hideLowBalanceObs,
     ).pipe(
-      switchMap(([query, params]) =>
-        this.walletService.getWalletsList({...params, ...{search: query}})),
+      switchMap(([search, params, hideLowBalance]) =>
+        this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}})),
       share(),
       map(result => {
         this.count = result.count;
@@ -73,12 +73,4 @@ export class WalletComponent implements OnInit {
   getCoinTypes(balanceType: string, currencyType: string): void {
     this.coinTypes = this.walletService.serializedCoins;
   }
-
-  toggleLowBalance(): void {
-    this.isLoading = true;
-    this.hideLowBalance = !this.hideLowBalance;
-
-    this.gridService.navigate({hideLowBalance: this.hideLowBalance});
-  }
-
 }
