@@ -1,7 +1,12 @@
-@import "./../../../../assets/styles/variables";
-@import "./../../../../assets/styles/mixins";
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
 
-.container {
+.app-popover {
+  filter: drop-shadow(0px 4px 16px rgba(58, 59, 61, 0.12));
+  background: #FFFFFF;
+  border-radius: 4px;
+  color: $color-brand-dark;
+
   .color-strip {
     min-width: 4px;
     border-bottom-left-radius: 4px;
@@ -40,11 +45,37 @@
   }
 }
 
+::ng-deep {
+  .popover-dialog-panel {
+    max-width: 482px;
+    box-shadow: none;
+    background: transparent;
+
+    &.top {
+      padding: 0;
+      position: fixed;
+      right: 22px;
+      top: calc(#{$header-height} + 20px);
+      margin-bottom: 20px;
+    }
+
+    .success {
+      .color-strip {
+        background-color: $color-green-100;
+      }
+
+      .content .icon svg path {
+        fill: $color-green-100;
+      }
+    }
+  }
+}
+
 @media all and (max-width: $media-small-tablet) {
 }
 
 @media all and (max-width: $media-mobile) {
-  .container {
+  .app-popover {
     .content {
       .message {
         .header, .text {
@@ -54,6 +85,19 @@
         .text {
           width: 100%;
         }
+      }
+    }
+  }
+
+  ::ng-deep {
+    .popover-dialog-panel {
+      min-width: 90%;
+      width: 90%;
+
+      &.top {
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 6px 0;
       }
     }
   }

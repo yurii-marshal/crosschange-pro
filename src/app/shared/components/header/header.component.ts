@@ -43,9 +43,9 @@ export class HeaderComponent implements OnInit {
     this.notifications$ = this.notificationsService.getNotifications({limit: 3});
   }
 
-  openNotificationsPage(menuTrigger): void {
+  openNotificationsPage(refNotesPopover): void {
+    refNotesPopover.close();
     this.router.navigate(['/notifications'], { queryParams: { type: '' } });
-    menuTrigger.closeMenu();
   }
 
   logout(): void {
