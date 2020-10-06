@@ -270,3 +270,11 @@ app-qr-code {
     }
   }
 }
+
+@media all and (max-width: $media-mobile) {
+  :host {
+    app-paginator {
+      justify-content: center;
+    }
+  }
+}
