@@ -15,6 +15,9 @@
   border-radius: 4px;
   padding: 10px 16px 10px 8px;
   cursor: pointer;
+  & > .flex {
+    align-items: center;
+  }
 }
 .coin-icon {
   margin-right: 8px;

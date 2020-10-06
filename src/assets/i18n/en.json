@@ -15,7 +15,8 @@
     "history_coin": "Coin",
     "history_amount": "Amount",
     "history_status": "Status",
-    "history_transaction_hash": "Transaction Hash"
+    "history_transaction_hash": "Hash",
+    "popular": "Popular Coins"
   },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",

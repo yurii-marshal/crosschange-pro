@@ -132,7 +132,15 @@ export class WalletService extends ApiService {
     }
 
     // TODO: UNCOMMENT WHEN API IS READY
-    /*return super.get<IWallet[]>('spot-wallets/').pipe(share())*/
+    /*return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
+      tap((v) => {
+        this.wallets = v.results;
+      }),
+      map(v => {
+        return v.results;
+      }),
+      share()
+    );*/
 
     // TODO: DELETE WHEN API IS READY
     this.wallets = walletsMock;

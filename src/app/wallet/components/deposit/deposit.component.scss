@@ -25,8 +25,8 @@
   margin-bottom: 12px;
 }
 app-coin-select {
-  width: 47.33%;
-  margin-bottom: 8px;
+  width: 32.08%;
+  margin-right: 50px;
 }
 .popular {
   display: flex;
@@ -48,29 +48,33 @@ app-coin-select {
 }
 .balance {
   display: flex;
-  margin-bottom: 16px;
+  flex: 1;
+  justify-content: space-around;
 }
 .balance-item {
   padding: 8px;
+  flex: 1;
   background-color: $color-white-100;
   color: $color-trading-dark;
-  margin-right: 20px;
+  margin-right: 10px;
   border: 0.5px solid #DEE1E6;
   border-radius: 4px;
   &:last-of-type {
     margin-right: 0;
   }
   .title {
-    font-weight: bold;
+    font-style: normal;
+    font-weight: normal;
     font-size: 12px;
     line-height: 16px;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-    margin-bottom: 5px;
   }
   .value {
-    font-size: 12px;
-    line-height: 16px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 19px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 }
 
@@ -101,7 +105,7 @@ app-coin-select {
 }
 
 .info {
-  margin-bottom: 32px;
+  margin-bottom: 36px;
   list-style-type: disc;
   padding-left: 17px;
 }
@@ -157,24 +161,85 @@ app-coin-select {
   border-bottom: none;
 }
 app-paginator {
-  margin-bottom: 32px;
+  margin-bottom: 58px;
   border: 0.5px solid $color-grey-20;
   border-bottom-right-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 app-qr-code {
   display: block;
-  margin-bottom: 33px;
 }
 
-@media all and (max-width: 1140px){
-  app-coin-select {
+.form-field-title {
+  margin-bottom: 4px;
+}
+
+.flex-container {
+  display: flex;
+  &.coin-select-container {
+    justify-content: space-between;
+    margin-bottom: 13px;
+  }
+  &.qr-code-container {
+    margin-bottom: 48px;
+    .popular-container {
+      width: 32.08%;
+      margin-right: 50px;
+    }
+    .qr-code {
+      flex: 1;
+      width: 67.02%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+}
+@media all and (max-width: $media-small-tablet) {
+  :host {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .coin-select-container, .qr-code-container, .balance {
+    flex-direction: column;
+    & > * {
+      width: 100%;
+    }
+  }
+  .qr-code-container {
+   margin-bottom: 50px;
+  }
+  .qr-code {
     width: 100%;
   }
-  .wallet-info {
+  .flex-container.qr-code-container .popular-container {
     width: 100%;
+    margin-right: 0;
+  }
+  .flex-container.qr-code-container .qr-code {
+    width: 100%;
+  }
+  app-coin-select {
+    margin-bottom: 23px;
+  }
+  .balance-item {
+    margin-bottom: 5px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .balance {
+    margin-bottom: 17px;
+  }
+  .info {
+    margin-bottom: 29px;
+  }
+  .popular {
+    flex-wrap: wrap;
   }
 }
+
 @media all and (max-width: 612px) {
   .history-wrapper {
     overflow: auto;
@@ -183,33 +248,5 @@ app-qr-code {
     .history {
       min-width: 700px;
     }
-  }
-}
-
-@media all and (max-width: $media-mobile) {
-  app-coin-select {
-    margin-bottom: 20px;
-  }
-  .balance  {
-    display: block;
-    margin-bottom: 32px;
-  }
-  .balance-item {
-    margin-right: 0;
-    display: flex;
-    justify-content: space-between;
-    background: 0;
-    padding: 0;
-    border: 0;
-    margin-bottom: 12px;
-  }
-  .popular {
-    display: none;
-    & + .section-title {
-      display: none;
-    }
-  }
-  .wallet-info {
-    display: none;
   }
 }
