@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { IBalanceInfo } from 'src/app/shared/interfaces/balance-info.interface';
 import { FormControl } from '@angular/forms';
-import { combineLatest, Subject } from 'rxjs';
-import { Coin, UserBalance, Wallet, WalletService } from '../../services/wallet.service';
-import { debounceTime, skip, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { UserBalance, Wallet, WalletService } from '../../services/wallet.service';
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { GridService } from '../../../shared/services/grid.service';
@@ -21,7 +20,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     'available',
     'inOrder',
     'btcValue',
-    'action'
+    'action',
   ];
 
   hideLowBalance: boolean;
@@ -32,12 +31,14 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   tableData = [];
 
-  dataSource: MatTableDataSource<Wallet> = new MatTableDataSource<Wallet>(this.tableData);
+  fiatBalanceSource: MatTableDataSource<Wallet> = new MatTableDataSource<Wallet>(this.tableData);
+  euroAccountBalanceSource: MatTableDataSource<Wallet> = new MatTableDataSource<Wallet>(this.tableData);
+  cryptoBalanceSource: MatTableDataSource<Wallet> = new MatTableDataSource<Wallet>(this.tableData);
 
   searchInputControl = new FormControl();
 
   hideNumbers = true;
-  coinTypes: Coin[] = [];
+  coinTypes = [];
   walletBalance: UserBalance;
 
   // sort: MatSort;
@@ -54,12 +55,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
 
-    combineLatest([
-      this.walletService.getCoinTypes(),
-      this.walletService.getWalletBalance(this.route.snapshot.data.user.id),
-    ])
-      .pipe(skip(1), takeUntil(this.onDestroyed$))
-      .subscribe(([coinTypes, walletBalance]: [Coin[], UserBalance]) => {
+    this.walletService.getWalletBalance(this.route.snapshot.data.user.id)
+      .pipe(takeUntil(this.onDestroyed$))
+      .subscribe((walletBalance: UserBalance) => {
         this.walletBalance = walletBalance;
       });
 
@@ -68,7 +66,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   getCoinTypes(balanceType: string, currencyType: string): void {
-    this.coinTypes = this.walletService.serializedCoins[balanceType] && this.walletService.serializedCoins[balanceType][currencyType];
+    this.coinTypes = this.walletService.serializedCoins;
   }
 
   toggleLowBalance(): void {
@@ -91,7 +89,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       )
       .subscribe((walletsList: Wallet[]) => {
         this.isLoading = false;
-        this.dataSource.data = walletsList;
+        this.cryptoBalanceSource.data = walletsList;
         // this.dataSource.sort = this.sort;
         this.count = walletsList && walletsList.length;
       });

@@ -57,7 +57,7 @@ export const defaultPopoverConfig: PopoverConfig = {
   },
   animation: {
     transitionStart: 500,
-    transitionEnd: 500,
+    transitionEnd: 99500,
   },
   hasBackdrop: false,
   backdropClass: 'cdk-overlay-transparent-backdrop',

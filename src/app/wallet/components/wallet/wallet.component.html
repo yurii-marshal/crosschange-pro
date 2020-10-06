@@ -5,9 +5,8 @@
     <div class="total-balance__amount-currency">
         <span class="total-balance__amount-currency--black">
           {{'wallet_page.btc' | translate}}
-        </span> ≈ ${{walletBalance?.total_balance_usd || 0 | number: '1.2-2' | toggleSecretText: hideNumbers}}
+        </span> ≈ €{{walletBalance?.total_balance_eur || 0 | number: '1.2-2' | toggleSecretText: hideNumbers}}
     </div>
-    <!--€-->
     <button class="total-balance__amount-hide-btn" mat-icon-button
             [title]="hideNumbers ? 'Show information' : 'Hide information'" (click)="hideNumbers=!hideNumbers">
       <mat-icon [svgIcon]="hideNumbers ? 'icon_view' : 'icon_view_crossed'"
@@ -22,7 +21,7 @@
     <div class="balance-info">
       <div class="balance-info__name">{{'wallet_page.fiat_balance' | translate}}</div>
       <div class="balance-info__table">
-        <mat-table mat-table [dataSource]="dataSource" class="single-table">
+        <mat-table mat-table [dataSource]="fiatBalanceSource" class="single-table">
           <!-- Coin column -->
           <ng-container matColumnDef="cryptocurrency">
             <mat-header-cell *matHeaderCellDef>
@@ -41,7 +40,7 @@
               {{ 'wallet_page.total' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.total | number: '1.8-8' | toggleSecretText: hideNumbers }}
+            <mat-cell *matCellDef="let element">{{ element.balance.total | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -51,8 +50,7 @@
               {{ 'wallet_page.available' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.available | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.available | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -62,8 +60,7 @@
               {{ 'wallet_page.inOrder' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.inOrder | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.in_order | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -73,8 +70,7 @@
               {{ 'wallet_page.btcValue' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.btcValue | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.btc | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -106,7 +102,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash">No data available</div>
+        <div class="no-data-splash" *ngIf="!fiatBalanceSource?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
       </div>
     </div>
   </div>
@@ -114,7 +110,7 @@
     <div class="balance-info">
       <div class="balance-info__name">{{'wallet_page.cc_euro_account_balance' | translate}}</div>
       <div class="balance-info__table">
-        <mat-table mat-table [dataSource]="dataSource" class="single-table">
+        <mat-table mat-table [dataSource]="euroAccountBalanceSource" class="single-table">
           <!-- Coin column -->
           <ng-container matColumnDef="cryptocurrency">
             <mat-header-cell *matHeaderCellDef>
@@ -133,7 +129,7 @@
               {{ 'wallet_page.total' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.total | number: '1.8-8' | toggleSecretText: hideNumbers }}
+            <mat-cell *matCellDef="let element">{{ element.balance.total | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -143,8 +139,7 @@
               {{ 'wallet_page.available' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.available | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.available | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -154,8 +149,7 @@
               {{ 'wallet_page.inOrder' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.inOrder | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.in_order | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -165,8 +159,7 @@
               {{ 'wallet_page.btcValue' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.btcValue | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.btc | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -198,7 +191,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash">No data available</div>
+        <div class="no-data-splash" *ngIf="!euroAccountBalanceSource?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
       </div>
     </div>
   </div>
@@ -210,11 +203,10 @@
           <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
           <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
           <button class="hide-balance-btn" [disabled]="isLoading" (click)="toggleLowBalance()">
-            {{(hideLowBalance ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') |
-            translate}}
+            {{(hideLowBalance ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') | translate}}
           </button>
         </div>
-        <mat-table mat-table [dataSource]="dataSource">
+        <mat-table mat-table [dataSource]="cryptoBalanceSource">
           <!-- Coin column -->
           <ng-container matColumnDef="cryptocurrency">
             <mat-header-cell *matHeaderCellDef>
@@ -233,7 +225,7 @@
               {{ 'wallet_page.total' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.total | number: '1.8-8' | toggleSecretText: hideNumbers }}
+            <mat-cell *matCellDef="let element">{{ element.balance.total | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -243,8 +235,7 @@
               {{ 'wallet_page.available' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.available | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.available | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -254,8 +245,7 @@
               {{ 'wallet_page.inOrder' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.inOrder | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.in_order | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -265,8 +255,7 @@
               {{ 'wallet_page.btcValue' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.btcValue | number: '1.8-8' | toggleSecretText: hideNumbers
-              }}
+            <mat-cell *matCellDef="let element">{{ element.balance.btc | number: '1.8-8' | toggleSecretText: hideNumbers }}
             </mat-cell>
           </ng-container>
 
@@ -301,7 +290,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash">No data available</div>
+        <div class="no-data-splash" *ngIf="!cryptoBalanceSource?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
         <app-paginator [count]="count" class="paginator"></app-paginator>
       </div>
     </div>

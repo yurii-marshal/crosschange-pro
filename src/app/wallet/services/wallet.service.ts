@@ -12,50 +12,15 @@ import {
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share, tap } from 'rxjs/operators';
 
-const mockDataBalanceTypes = {
-  fiat: {
-    eur: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-      {id: 2, label: 'BKRW'},
-      {id: 3, label: 'BTC'},
-      {id: 4, label: 'BUSD'},
-      {id: 5, label: 'DAI'},
-      {id: 6, label: 'XXO'},
-    ],
-    usd: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-      {id: 2, label: 'BKRW'},
-      {id: 3, label: 'BTC'},
-      {id: 4, label: 'BUSD'},
-      {id: 5, label: 'DAI'},
-      {id: 6, label: 'XXO'},
-    ],
-  },
-  crosschange_ea: {
-    eur: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-    ],
-    usd: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-    ],
-  },
-  crypto: {
-    eur: [
-      {id: 3, label: 'BTC'},
-      {id: 4, label: 'BUSD'},
-      {id: 5, label: 'DAI'},
-      {id: 6, label: 'XXO'},
-    ],
-    usd: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-    ],
-  },
-};
+const mockDataBalanceTypes = [
+  {id: 0, label: 'AUD'},
+  {id: 1, label: 'BIDR'},
+  {id: 2, label: 'BKRW'},
+  {id: 3, label: 'BTC'},
+  {id: 4, label: 'BUSD'},
+  {id: 5, label: 'DAI'},
+  {id: 6, label: 'XXO'},
+];
 
 const mockDataTable = [
   {
@@ -71,7 +36,7 @@ const mockDataTable = [
     available: '0',
     inOrder: '0',
     btcValue: '0',
-  }
+  },
 ];
 
 // TODO: DELETE WHEN API IS READY
@@ -137,7 +102,7 @@ export interface Wallet {
 export interface UserBalance {
   available_balance: number;
   total_balance: number;
-  total_balance_usd: number;
+  total_balance_eur: number;
 }
 
 export interface Coin {
@@ -151,7 +116,7 @@ export interface Coin {
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
-  serializedCoins = {};
+  serializedCoins = mockDataBalanceTypes;
 
   private wallets: IWallet[] | null = null;
 
@@ -168,7 +133,7 @@ export class WalletService extends ApiService {
 
   @Memoized()
   getTradeTypes(balanceType: string, currencyType: string): Observable<TradeType[]> {
-    return of(mockDataBalanceTypes[balanceType][currencyType]);
+    return of(mockDataBalanceTypes);
   }
 
   getWallets(refresh = false): Observable<IWallet[]> {
@@ -218,7 +183,7 @@ export class WalletService extends ApiService {
   getCoinTypes(params?): Observable<Coin[]> {
     // return super.get('exchanges/coins')
     return super.get('exchanges/rates', params) // ?pairs=USD
-      .pipe(tap((coinTypes: Coin[]) => this.serializedCoins = serializeCoins(coinTypes)));
+      .pipe(tap((coinTypes: Coin[]) => serializeCoins(coinTypes))); // this.serializedCoins = serializeCoins(coinTypes)
   }
 
   getWalletBalance(userId: string): Observable<UserBalance> {
