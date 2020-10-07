@@ -11,6 +11,8 @@ import {
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share, tap } from 'rxjs/operators';
+import { ICoin } from '../../shared/interfaces/coin.interface';
+import { HttpParams } from '@angular/common/http';
 
 const mockDataBalanceTypes = [
   {id: 0, label: 'AUD'},
@@ -86,37 +88,22 @@ export interface IDepositHistoryRequest {
   ordering?: string;
 }
 
-export interface Wallet {
-  cryptocurrency: string; // 'btc', 'eth' etc.
-  address: string; // wallet address
-  tag: string; // used for e.g. in Ripple.
-  id: number;
-  balance: {
-    total: number;
-    available: number;
-    in_order: number;
-    btc: number; // value in btc
-  };
+export interface ISerializedCoins {
+  balanceType: ICoin[];
 }
 
-export interface UserBalance {
+export interface IUserBalance {
   available_balance: number;
   total_balance: number;
   total_balance_eur: number;
-}
-
-export interface Coin {
-  key: string;
-  name: string;
-  balance_type: string;
-  is_popular: boolean;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
-  serializedCoins = mockDataBalanceTypes;
+  serializedCoins: ISerializedCoins;
+  serializedCoinsMockData = mockDataBalanceTypes;
 
   private wallets: IWallet[] | null = null;
 
@@ -179,30 +166,37 @@ export class WalletService extends ApiService {
   }
 
   @Memoized()
-  getCoinTypes(params?): Observable<Coin[]> {
-    // return super.get('exchanges/coins')
+  getCoinTypes(params?): Observable<ICoin[]> {
     return super.get('exchanges/rates', params) // ?pairs=USD
-      .pipe(tap((coinTypes: Coin[]) => serializeCoins(coinTypes))); // this.serializedCoins = serializeCoins(coinTypes)
+      .pipe(tap((coinTypes: ICoin[]) => this.serializedCoins = serializeCoins(coinTypes)));
   }
 
-  getWalletBalance(userId: string): Observable<UserBalance> {
+  getWalletBalance(userId: string): Observable<IUserBalance> {
     return super.get(`spot-wallets/users/${userId}/balances/general`);
   }
 
   getWalletsList(params: any): Observable<any> {
-    return super.get('spot-wallets');
+    let parameters = new HttpParams();
+
+    parameters = parameters
+      .set('offset', params.offset)
+      .set('limit', params.limit)
+      .set('search', params.search)
+      .set('hideLowBalance', params.hideLowBalance);
+
+    return super.get('spot-wallets', {params: parameters});
   }
 }
 
-function serializeCoins(coinTypes: Coin[]): object {
-  let serializedCoins = {};
+function serializeCoins(coinTypes: ICoin[]): ISerializedCoins {
+  let serializedCoins = {} as ISerializedCoins;
 
   coinTypes
-    .map((coin: Coin) => coin.balance_type)
+    .map((coin: ICoin) => coin.balance_type)
     .forEach((balanceType: string) => {
       serializedCoins = {
         ...serializedCoins,
-        ...{[balanceType]: coinTypes.filter((item: Coin) => item.balance_type === balanceType)},
+        ...{[balanceType]: coinTypes.filter((item: ICoin) => item.balance_type === balanceType)},
       };
     });
 
