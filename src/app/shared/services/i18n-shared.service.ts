@@ -19,7 +19,6 @@ export class I18nSharedService {
     } else if (browserLocale && locales.includes(browserLocale)) {
       useLang = browserLocale;
     }
-
     this.translateService.addLangs(locales);
     this.translateService.use(useLang);
   }
