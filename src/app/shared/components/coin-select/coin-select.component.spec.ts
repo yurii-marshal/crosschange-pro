@@ -13,17 +13,40 @@ import { IconService } from '../../../core/services/icon.service';
 import { CoinsService } from '../../services/coins.service';
 import { CoinServiceMock, coinsMock } from '../../../../../testing/CoinServiceMock';
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
+import { Component, ViewChild } from '@angular/core';
+import { DefaultValueAccessor, FormControl, FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { take } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-test-host',
+  template: '<app-qr-code [formControl]="ctrl" ngDefaultControl></app-qr-code>'
+})
+class TestHostComponent {
+  @ViewChild(CoinSelectComponent)
+  public coinSelect: CoinSelectComponent;
+  public ctrl: FormControl = new FormControl({value: null, disabled: false});
+}
 
 describe('CoinSelectComponent', () => {
   let component: CoinSelectComponent;
   let fixture: ComponentFixture<CoinSelectComponent>;
   let httpMock: HttpTestingController;
+  let hostFixture: ComponentFixture<TestHostComponent>;
+  let testHostComponent: TestHostComponent;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoinSelectComponent ],
+      declarations: [
+        CoinSelectComponent,
+        TestHostComponent,
+        DefaultValueAccessor,
+        NgModel,
+      ],
       imports: [
         HttpClientTestingModule,
-        MatIconModule
+        MatIconModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         {
@@ -35,7 +58,7 @@ describe('CoinSelectComponent', () => {
           provide: CoinsService,
           useClass: CoinServiceMock
         },
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry }
+        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
       ]
     }).compileComponents();
 
@@ -46,6 +69,12 @@ describe('CoinSelectComponent', () => {
     fixture = TestBed.createComponent(CoinSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+
+    hostFixture = TestBed.createComponent(TestHostComponent);
+    testHostComponent = hostFixture.componentInstance;
+    hostFixture.detectChanges();
+
   });
 
   it('should create', () => {
@@ -70,7 +99,7 @@ describe('CoinSelectComponent', () => {
     });
   });
 
-  it('should select value', (done) => {
+  it('should selected value in variable', (done) => {
     component.ngOnInit();
     component.coins$.subscribe(res => {
       const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
@@ -85,6 +114,30 @@ describe('CoinSelectComponent', () => {
       expect(component.selected).toEqual(res[1]);
       done();
     });
+  });
+
+  it('should have Ripple selected in template', async () => {
+    const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
+    MainTestHelper.click(switcher);
+    fixture.detectChanges();
+    const menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
+    const rippleIdx = coinsMock.findIndex((v) => v.key === 'xrp');
+    MainTestHelper.click(menuItems[rippleIdx]);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.selected.key).toEqual('xrp');
+    expect(switcher.innerText).toEqual('Ripple/XRP');
+  });
+
+
+  it('should get/set value as a form control',  (done) => {
+    testHostComponent.ctrl.valueChanges.pipe(take(1)).subscribe(v => {
+      expect(v).toEqual(coinsMock[rippleIdx]);
+      done();
+    });
+    const rippleIdx = coinsMock.findIndex((v) => v.key === 'xrp');
+    testHostComponent.ctrl.setValue(coinsMock[rippleIdx]);
+    hostFixture.detectChanges();
   });
 
 });

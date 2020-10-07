@@ -21,73 +21,82 @@ import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { WalletService } from '../../services/wallet.service';
 import { depositsMock, WalletServiceMock } from '../../../../../testing/WalletServiceMock';
 import { CoinsService } from '../../../shared/services/coins.service';
-import { CoinServiceMock } from '../../../../../testing/CoinServiceMock';
+import { CoinServiceMock, coinsMock } from '../../../../../testing/CoinServiceMock';
 import { ActivatedRouteStub } from '../../../../../testing/ActivatedRouteStub';
-import { ActivatedRoute } from '@angular/router';
-import {MainComponent} from '../main/main.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { skip } from 'rxjs/operators';
 
-fdescribe('DepositComponent', () => {
+describe('DepositComponent', () => {
   let component: DepositComponent;
   let fixture: ComponentFixture<DepositComponent>;
   let routeStub: ActivatedRouteStub;
+  const router = {
+    navigate: jasmine.createSpy('navigate')
+  };
 
   beforeEach(async(() => {
     routeStub = new ActivatedRouteStub();
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule.withRoutes([
+    TestBed.resetTestEnvironment();
+
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting())
+      .configureTestingModule({
+        imports: [
+          HttpClientTestingModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: 'deposit',
+              component: DepositComponent
+            },
+            {
+              path: '**',
+              redirectTo: '',
+              pathMatch: 'full'
+            }
+          ]),
+          MatDialogModule,
+          TranslateModule.forRoot(),
+          MatIconModule,
+          ClipboardModule,
+          FormsModule,
+          ReactiveFormsModule
+        ],
+        declarations: [
+          DepositComponent,
+          CoinSelectComponent,
+          PaginatorComponent,
+          SelectedWalletPipe,
+          QrCodeComponent
+        ],
+        providers: [
           {
-            path: 'wallet',
-            component: MainComponent,
-            children: [
-              {
-                path: 'deposit',
-                component: DepositComponent
-              }
-            ]
-          }
-        ]),
-        MatDialogModule,
-        TranslateModule.forRoot(),
-        MatIconModule,
-        ClipboardModule,
-        FormsModule,
-        ReactiveFormsModule
-      ],
-      declarations: [
-        DepositComponent,
-        CoinSelectComponent,
-        PaginatorComponent,
-        SelectedWalletPipe,
-        QrCodeComponent
-      ],
-      providers: [
-        {
-          provide: ENVIRONMENT,
-          useValue: environment as IEnvironment
-        },
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
-        { provide: WalletService, useClass: WalletServiceMock },
-        { provide: CoinsService, useClass: CoinServiceMock },
-        { provide: ActivatedRoute, useValue: routeStub },
-      ]
-    }).compileComponents();
+            provide: ENVIRONMENT,
+            useValue: environment as IEnvironment
+          },
+          { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
+          { provide: WalletService, useClass: WalletServiceMock },
+          { provide: CoinsService, useClass: CoinServiceMock },
+          { provide: ActivatedRoute, useValue: routeStub },
+          { provide: Router, useValue: router }
+        ]
+      });
 
   }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DepositComponent);
-    routeStub.setQueryParamMap({offset: 0, limit: 10});
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach((done) => {
+    routeStub.queryParams.subscribe(v => {
+      fixture = TestBed.createComponent(DepositComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      done();
+    });
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  /*it('should load deposit history', (done) => {
+  it('should load deposit history', (done) => {
     const coin = { key: 'btc' };
     const expected = { ...depositsMock };
     expected.results = depositsMock.results.map(v => {
@@ -98,7 +107,91 @@ fdescribe('DepositComponent', () => {
       .subscribe(val => {
         expect(val).toEqual(expected);
         done();
+      });
+  });
+
+  it('should display qr code', async () => {
+    await fixture.whenStable();
+    const qrCode = fixture.nativeElement.querySelector('app-qr-code .qr img');
+    expect(qrCode.getAttribute('src')).toBeTruthy();
+  });
+
+  it('should display qr code', async () => {
+    await fixture.whenStable();
+    const qrCode = fixture.nativeElement.querySelector('app-qr-code .qr img');
+    expect(qrCode.getAttribute('src')).toBeTruthy();
+  });
+
+  it('should change qr code on select', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.ngZone.run(() => {
+        const xrp = coinsMock.filter(v => v.key === 'xrp').shift();
+        component.selected$.pipe(skip(1)).subscribe((value) => {
+          expect(value.key).toEqual('xrp');
+          done();
+        });
+        component.onCoinSelect(xrp);
+        fixture.detectChanges();
+      });
     });
-  });*/
+  });
+
+
+  it('should change offset on coin change', (done) => {
+    routeStub.setQueryParamMap({ offset: 10, limit: 10 });
+    fixture.whenStable().then(() => {
+      fixture.ngZone.run(() => {
+        const xrp = coinsMock.filter(v => v.key === 'xrp').shift();
+        component.onCoinSelect(xrp);
+        fixture.detectChanges();
+        expect(router.navigate).toHaveBeenCalledWith([window.location.pathname], { queryParams: { offset: 0, limit: 10 }});
+        done();
+      });
+    });
+  });
+
+  it('should change offset on navigateDefault', (done) => {
+    routeStub.setQueryParamMap({ offset: 10, limit: 10 });
+    fixture.whenStable().then(() => {
+      fixture.ngZone.run(() => {
+        component.navigateDefault();
+        fixture.detectChanges();
+        expect(router.navigate).toHaveBeenCalledWith([window.location.pathname], { queryParams: { offset: 0, limit: 10 }});
+        done();
+      });
+    });
+  });
+
+  it('should get history with defined parameters', (done) => {
+    fixture.whenStable().then(() => {
+      const service = TestBed.inject(WalletService);
+      const spy = spyOn(service, 'getDepositHistory');
+      component.getHistory({key: 'btc'}, {offset: 10, limit: 20});
+      expect(spy).toHaveBeenCalledWith({
+        cryptocurrency: 'btc',
+        offset: 10,
+        limit: 20
+      });
+      done();
+    });
+  });
+
+  it('should select popular', (done) => {
+    fixture.whenStable().then(() => {
+      fixture.ngZone.run(() => {
+        const xrp = coinsMock.filter(v => v.key === 'xrp').shift();
+        component.selected$.pipe(skip(1)).subscribe((value) => {
+          fixture.whenStable().then(() => {
+            expect(value.key).toEqual('xrp');
+            const selected = fixture.nativeElement.querySelector('app-coin-select .coin-title');
+            expect(selected.innerText).toEqual('Ripple/XRP');
+            done();
+          });
+        });
+        component.selectPopular(xrp);
+        fixture.detectChanges();
+      });
+    });
+  });
 
 });

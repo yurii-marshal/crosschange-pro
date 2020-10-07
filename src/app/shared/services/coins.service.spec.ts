@@ -8,8 +8,8 @@ import {
   IEnvironment
 } from 'shared-kuailian-lib';
 
-// TODO: CHANGE TO describe WHEN START USING REAL API REQUESTS
-describe('CoinsService', () => {
+// TODO: change xdescribe to describe after switching to api in service
+xdescribe('CoinsService', () => {
   let service: CoinsService;
   let httpMock: HttpTestingController;
   beforeEach(() => {
@@ -46,8 +46,6 @@ describe('CoinsService', () => {
 
     const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/exchanges/coins/`);
     expect(httpRequest.request.method).toEqual('GET');
-
-    // Provide each request with a mock response
     httpRequest.flush(mock);
   });
 

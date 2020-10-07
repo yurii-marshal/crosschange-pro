@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ApiService } from 'shared-kuailian-lib';
 import { ICoin } from '../interfaces/coin.interface';
-import {map, share, tap} from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
 
 // TODO: DELETE WHEN API IS READY
