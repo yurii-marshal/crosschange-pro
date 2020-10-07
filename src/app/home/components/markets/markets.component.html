@@ -39,7 +39,7 @@
         <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
         <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
       </div>
-      <span class="table-responsive">
+      <div class="table-responsive">
         <mat-table mat-table [dataSource]="dataSource | async">
           <!-- Favorite column -->
           <ng-container matColumnDef="favorite">
