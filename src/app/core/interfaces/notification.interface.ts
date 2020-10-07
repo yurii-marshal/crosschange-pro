@@ -2,6 +2,6 @@ export interface Notification {
   header: string;
   message: string;
   date: Date;
-  active: boolean;
+  isNew: boolean;
   category?: string;
 }

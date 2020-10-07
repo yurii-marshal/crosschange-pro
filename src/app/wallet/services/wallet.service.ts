@@ -10,52 +10,19 @@ import {
   TransactionType
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { share } from 'rxjs/operators';
+import { share, tap } from 'rxjs/operators';
+import { ICoin } from '../../shared/interfaces/coin.interface';
+import { HttpParams } from '@angular/common/http';
 
-const mockDataBalanceTypes = {
-  fiat: {
-    eur: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-      {id: 2, label: 'BKRW'},
-      {id: 3, label: 'BTC'},
-      {id: 4, label: 'BUSD'},
-      {id: 5, label: 'DAI'},
-      {id: 6, label: 'XXO'},
-    ],
-    usd: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-      {id: 2, label: 'BKRW'},
-      {id: 3, label: 'BTC'},
-      {id: 4, label: 'BUSD'},
-      {id: 5, label: 'DAI'},
-      {id: 6, label: 'XXO'},
-    ],
-  },
-  crosschange_ea: {
-    eur: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-    ],
-    usd: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-    ],
-  },
-  crypto: {
-    eur: [
-      {id: 3, label: 'BTC'},
-      {id: 4, label: 'BUSD'},
-      {id: 5, label: 'DAI'},
-      {id: 6, label: 'XXO'},
-    ],
-    usd: [
-      {id: 0, label: 'AUD'},
-      {id: 1, label: 'BIDR'},
-    ],
-  },
-};
+const mockDataBalanceTypes = [
+  {id: 0, label: 'AUD'},
+  {id: 1, label: 'BIDR'},
+  {id: 2, label: 'BKRW'},
+  {id: 3, label: 'BTC'},
+  {id: 4, label: 'BUSD'},
+  {id: 5, label: 'DAI'},
+  {id: 6, label: 'XXO'},
+];
 
 const mockDataTable = [
   {
@@ -71,7 +38,7 @@ const mockDataTable = [
     available: '0',
     inOrder: '0',
     btcValue: '0',
-  }
+  },
 ];
 
 // TODO: DELETE WHEN API IS READY
@@ -90,7 +57,7 @@ const walletMock = {
 
 // TODO: DELETE WHEN API IS READY
 const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 'XTZ'].map((v, i) => {
-  const val = { ...walletMock };
+  const val = {...walletMock};
   val.cryptocurrency = v.toLowerCase();
   val.address += i + '';
   if (val.cryptocurrency === 'xrp') {
@@ -121,11 +88,25 @@ export interface IDepositHistoryRequest {
   ordering?: string;
 }
 
+export interface ISerializedCoins {
+  balanceType: ICoin[];
+}
+
+export interface IUserBalance {
+  available_balance: number;
+  total_balance: number;
+  total_balance_eur: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
+  serializedCoins: ISerializedCoins;
+  serializedCoinsMockData = mockDataBalanceTypes;
+
   private wallets: IWallet[] | null = null;
+
   private deposits: IApiResponse<ITransactionItem> = {
     count: 0,
     next: '',
@@ -139,7 +120,7 @@ export class WalletService extends ApiService {
 
   @Memoized()
   getTradeTypes(balanceType: string, currencyType: string): Observable<TradeType[]> {
-    return of(mockDataBalanceTypes[balanceType][currencyType]);
+    return of(mockDataBalanceTypes);
   }
 
   getWallets(refresh = false): Observable<IWallet[]> {
@@ -184,11 +165,40 @@ export class WalletService extends ApiService {
     return of(this.deposits);
   }
 
-  getWalletsBalance(params: any): Observable<any> {
-    return of(mockDataTable);
+  @Memoized()
+  getCoinTypes(params?): Observable<ICoin[]> {
+    return super.get('exchanges/rates', params) // ?pairs=USD
+      .pipe(tap((coinTypes: ICoin[]) => this.serializedCoins = serializeCoins(coinTypes)));
   }
 
-  getTotalBalance(): Observable<any> {
-    return of({totalBalanceCC: 10.564544, totalBalanceUSD: 344444.55});
+  getWalletBalance(userId: string): Observable<IUserBalance> {
+    return super.get(`spot-wallets/users/${userId}/balances/general`);
   }
+
+  getWalletsList(params: any): Observable<any> {
+    let parameters = new HttpParams();
+
+    parameters = parameters
+      .set('offset', params.offset)
+      .set('limit', params.limit)
+      .set('search', params.search)
+      .set('hideLowBalance', params.hideLowBalance);
+
+    return super.get('spot-wallets', {params: parameters});
+  }
+}
+
+function serializeCoins(coinTypes: ICoin[]): ISerializedCoins {
+  let serializedCoins = {} as ISerializedCoins;
+
+  coinTypes
+    .map((coin: ICoin) => coin.balance_type)
+    .forEach((balanceType: string) => {
+      serializedCoins = {
+        ...serializedCoins,
+        ...{[balanceType]: coinTypes.filter((item: ICoin) => item.balance_type === balanceType)},
+      };
+    });
+
+  return serializedCoins;
 }

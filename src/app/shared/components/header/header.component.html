@@ -30,7 +30,7 @@
     <button mat-button class="exchange-btn">{{'header.exchange' | translate}}</button>
 
     <button [appPopover]="refNotesPopover" (click)="refNotesPopover.toggle()" class="notifications-btn" mat-icon-button>
-      <mat-icon class="icon notes" [svgIcon]="newMessages ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
+      <mat-icon class="icon notes" [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
     </button>
 
     <app-popover-template
