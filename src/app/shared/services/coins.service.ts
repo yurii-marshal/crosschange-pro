@@ -69,7 +69,8 @@ export class CoinsService extends ApiService {
     }
     // TODO: UNCOMMENT WHEN API IS READY
     /*return super.get<ICoin[]>('exchanges/coins').pipe(
-      tap((v) => this.coins = v)
+      tap((v) => this.coins = v),
+      share()
     );*/
     // TODO: DELETE WHEN API IS READY
     this.coins = coinsMock;

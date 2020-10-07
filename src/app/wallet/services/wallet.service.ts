@@ -167,12 +167,11 @@ export class WalletService extends ApiService {
       type: 'deposit',
         ...params
     };
-    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share())*/
+    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());*/
 
     // TODO: DELETE WHEN API IS READY
     depositsMock.results = depositsMock.results.map(v => {
       v.cryptocurrency = params.cryptocurrency;
-      v.amount = params.offset;
       return v;
     });
     this.deposits = depositsMock;
