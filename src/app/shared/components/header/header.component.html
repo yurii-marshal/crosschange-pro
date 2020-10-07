@@ -67,7 +67,7 @@
   </div>
   <div class="right mobile">
     <button mat-icon-button (click)="refNotesPopover.toggle()">
-      <mat-icon [svgIcon]="newMessages ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
+      <mat-icon [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
     </button>
     <button mat-icon-button>
       <mat-icon svgIcon="icon_menu" (click)="openMenuMobile(menuMobile)"></mat-icon>

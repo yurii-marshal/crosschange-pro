@@ -15,9 +15,6 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 })
 export class HeaderComponent implements OnInit {
   @Input() menuMobile;
-
-  newMessages = [];
-
   notifications$: Observable<Notification[]>;
 
   menuItems = [
