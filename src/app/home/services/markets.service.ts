@@ -64,6 +64,12 @@ export class MarketsService extends ApiService {
     return super.post(url, {exchange_type: pair});
   }
 
+  deleteFromFavourite(pair: string): Observable<any> {
+    const url = 'exchanges/rates/favorites';
+
+    return super.delete(url, { body : { exchange_type: pair } });
+  }
+
   loadWidgetsData(): Observable<any> {
     let params = new HttpParams();
     params = params.set('pairs', 'BTCUSD,ETHUSD,LTCUSD,DASHUSD').set('provider', 'kraken');

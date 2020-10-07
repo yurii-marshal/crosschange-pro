@@ -71,11 +71,14 @@ export class MarketsComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToFavorite(element): void {
-    this.marketsService.addToFavorite(element.exchange_type).pipe(
+  setFavourite(element): void {
+    const fn = element.is_favorite ? 'deleteFromFavourite' : 'addToFavorite';
+    this.marketsService[fn](element.exchange_type).pipe(
       takeUntil(this.onDestroyed$)
     ).subscribe(() => {
-      element.favorite = !element.favorite;
+      element.is_favorite = !element.is_favorite;
+      // TODO: REFACTOR!!!!
+      setTimeout(() => this.cdr.markForCheck());
     });
   }
 
