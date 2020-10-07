@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: 'auth',
     resolve: { redirect: JwtResolver },
-    children: []
+    children: [],
   },
   {
     path: '',
@@ -31,14 +31,14 @@ export const routes: Routes = [
     children: [],
     data: {
       headerClass: 'widget'
-    }
-  }
+    },
+  },
 ];
 
 @NgModule({
   declarations: [
     HomeComponent,
-    MarketsComponent
+    MarketsComponent,
   ],
   imports: [
     CommonModule,

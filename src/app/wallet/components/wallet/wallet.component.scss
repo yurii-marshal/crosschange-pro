@@ -120,11 +120,15 @@
           border-left: 0.5px solid $color-grey-20;
           border-right: 0.5px solid $color-grey-20;
         }
+
+        .no-data-splash {
+          border-radius: 0;
+        }
       }
     }
 
     .mat-table {
-      border: 0.5px solid #DEE1E6;
+      border: 0.5px solid $color-grey-20;
     }
   }
 }
@@ -135,6 +139,19 @@
 
 .single-table {
   border-radius: 4px;
+}
+
+.no-data-splash {
+  background-color: $color-white-100;
+  padding: 16px 12px;
+  color: $color-grey-60;
+  font-style: italic;
+  border: 1px solid $color-grey-20;
+  border-top: none;
+  border-bottom: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  margin-right: 0;
 }
 
 app-paginator {
@@ -184,6 +201,11 @@ mat-header-row {
   border-color: $color-grey-10;
 }
 
+mat-header-cell:first-child,
+mat-cell:first-child {
+  padding-left: 12px;
+}
+
 mat-row {
   border-color: $color-grey-10;
 }
@@ -200,7 +222,7 @@ mat-row:last-child {
   height: 9.5px;
 }
 
-.mat-column-coin {
+.mat-column-cryptocurrency {
   flex: 4;
   text-transform: uppercase;
 
@@ -274,7 +296,7 @@ mat-row:last-child {
 }
 
 @media screen and(max-width: 1200px) {
-  .mat-column-coin,
+  .mat-column-cryptocurrency,
   .mat-column-total,
   .mat-column-available,
   .mat-column-inOrder,
@@ -345,6 +367,10 @@ mat-row:last-child {
         margin-right: 16px;
       }
 
+      .no-data-splash {
+        margin-right: 16px;
+      }
+
       &__table {
         width: max-content;
         margin: 12px 0 12px 16px;
@@ -370,14 +396,5 @@ mat-row:last-child {
 
   mat-header-row {
     height: 52px;
-  }
-
-  mat-header-cell:first-child,
-  mat-cell:first-child {
-    padding-left: 12px;
-  }
-
-  .paginator {
-    padding-left: 30px;
   }
 }

@@ -1,95 +1,73 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { IBalanceInfo } from 'src/app/shared/interfaces/balance-info.interface';
 import { FormControl } from '@angular/forms';
-import { TradeType } from '../../../core/interfaces/trade-type.interface';
-import { Observable, Subject } from 'rxjs';
-import { WalletService } from '../../services/wallet.service';
-import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
-import { GridService } from '../../../shared/services/grid.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { IUserBalance, WalletService } from '../../services/wallet.service';
+import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { MatSort } from '@angular/material/sort';
+import { IWallet } from '../../../shared/interfaces/wallet.interface';
+import { SsoUser } from 'shared-kuailian-lib';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.scss']
+  styleUrls: ['./wallet.component.scss'],
 })
-export class WalletComponent implements OnInit, OnDestroy {
+export class WalletComponent implements OnInit {
   displayedColumns: string[] = [
-    'coin',
+    'cryptocurrency',
     'total',
     'available',
     'inOrder',
     'btcValue',
-    'action'
+    'action',
   ];
 
-  hideLowBalance: boolean;
+  count: number;
 
-  isLoading: boolean;
-
-  count = 81;
-
-  tableData = [];
-
-  dataSource: MatTableDataSource<IBalanceInfo> = new MatTableDataSource<IBalanceInfo>(this.tableData);
+  fiatBalanceSource: Observable<MatTableDataSource<IWallet>>;
+  euroAccountBalanceSource: Observable<MatTableDataSource<IWallet>>;
+  cryptoBalanceSource: Observable<MatTableDataSource<IWallet>>;
 
   searchInputControl = new FormControl();
 
   hideNumbers = true;
-  tradeTypes$: Observable<TradeType[]>;
+  coinTypes;
+  walletBalance$: Observable<IUserBalance>;
 
-  sort: MatSort;
-
-  private onDestroyed$: Subject<void> = new Subject<void>();
+  hideLowBalance$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private route: ActivatedRoute,
     public walletService: WalletService,
-    private gridService: GridService,
   ) {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
+    const user: SsoUser = this.route.snapshot.data.user;
+    this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
 
-    this.searchInputControl.valueChanges
-      .pipe(
-        takeUntil(this.onDestroyed$),
-        debounceTime(500),
-      )
-      .subscribe((search: string) => {
-        this.gridService.navigate({search});
-      });
-
-    this.route.queryParams
-      .pipe(
-        takeUntil(this.onDestroyed$),
-        switchMap((params) => this.walletService.getWalletsBalance(params))
-      )
-      .subscribe((walletsBalance: any) => {
-        this.isLoading = false;
-        this.dataSource.data = walletsBalance;
-        this.dataSource.sort = this.sort;
-        this.count = 81;
-      });
+    this.cryptoBalanceSource = combineLatest([
+      this.searchInputControl.valueChanges
+        .pipe(
+          startWith(''),
+          debounceTime(500),
+          distinctUntilChanged(),
+        ),
+      this.route.queryParams,
+      this.hideLowBalance$,
+    ]).pipe(
+      switchMap(([search, params, hideLowBalance]) =>
+        this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}})),
+      share(),
+      map(result => {
+        this.count = result.count;
+        return new MatTableDataSource(result.results);
+      }),
+    );
   }
 
-  getTradeTypes(balanceType: string, currencyType: string): void {
-    this.tradeTypes$ = this.walletService.getTradeTypes(balanceType, currencyType);
+  getCoinTypes(balanceType: string, currencyType: string): void {
+    this.coinTypes = this.walletService.serializedCoinsMockData;
   }
-
-  toggleLowBalance(): void {
-    this.isLoading = true;
-    this.hideLowBalance = !this.hideLowBalance;
-
-    this.gridService.navigate({hideLowBalance: this.hideLowBalance});
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroyed$.next();
-    this.onDestroyed$.complete();
-  }
-
 }
