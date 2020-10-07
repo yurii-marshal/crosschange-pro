@@ -12,4 +12,8 @@ export class WidgetComponent {
 
   constructor() { }
 
+  isPositiveChange(): boolean {
+    return this.widgetInfo.change.charAt(0) === '+';
+  }
+
 }
