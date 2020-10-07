@@ -30,7 +30,6 @@ describe('WidgetComponent', () => {
       amount: '',
       change: '',
       volume: '',
-      color: '',
     };
     fixture.detectChanges();
   });
