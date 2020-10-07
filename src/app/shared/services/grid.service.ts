@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 const mockTable: IExchangeData[] = [
   {
-    favorite: true,
+    is_favorite: true,
     pair: 'EOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.29%',
@@ -16,7 +16,7 @@ const mockTable: IExchangeData[] = [
     vol: '995.26'
   },
   {
-    favorite: false,
+    is_favorite: false,
     pair: 'AOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.29%',
@@ -26,7 +26,7 @@ const mockTable: IExchangeData[] = [
     vol: '995.26'
   },
   {
-    favorite: false,
+    is_favorite: false,
     pair: 'BOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.29%',
@@ -36,7 +36,7 @@ const mockTable: IExchangeData[] = [
     vol: '995.26'
   },
   {
-    favorite: true,
+    is_favorite: true,
     pair: 'TOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.20%',
@@ -46,7 +46,7 @@ const mockTable: IExchangeData[] = [
     vol: '995.26'
   },
   {
-    favorite: false,
+    is_favorite: false,
     pair: 'SOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.23%',
@@ -56,7 +56,7 @@ const mockTable: IExchangeData[] = [
     vol: '995.26'
   },
   {
-    favorite: true,
+    is_favorite: true,
     pair: 'EOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.27%',
@@ -66,7 +66,7 @@ const mockTable: IExchangeData[] = [
     vol: '995.26'
   },
   {
-    favorite: false,
+    is_favorite: false,
     pair: 'EOS / STEEM',
     last: '17.885 / $3.27',
     cng: '+1.28%',

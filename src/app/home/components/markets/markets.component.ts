@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { IWidget } from 'src/app/shared/interfaces/widget.interface';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
@@ -36,7 +35,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   count: number;
   activeLink: string;
 
-  widgets: Observable<IWidget[]>;
+  widgets: Observable<IExchangeData[]>;
   onDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -48,15 +47,9 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.router.navigate([window.location.pathname], {
-      queryParams: {
-        ...this.route.snapshot.queryParams,
-        tab: this.route.snapshot.queryParams.tab || 'favorite',
-      }
-    });
     this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
 
-    this.widgets = this.marketsService.getWidgetsData();
+    this.widgets = this.marketsService.loadWidgetsData();
 
     this.dataSource = combineLatest(
       this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
@@ -71,11 +64,13 @@ export class MarketsComponent implements OnInit, OnDestroy {
     );
   }
 
-  addToFavorite(element): void {
-    this.marketsService.addToFavorite(element.exchange_type).pipe(
+  setFavourite(element): void {
+    const fn = element.is_favorite ? 'deleteFromFavourite' : 'addToFavorite';
+    this.marketsService[fn](element.exchange_type).pipe(
       takeUntil(this.onDestroyed$)
     ).subscribe(() => {
-      element.favorite = !element.favorite;
+      element.is_favorite = !element.is_favorite;
+      this.cdr.detectChanges();
     });
   }
 
