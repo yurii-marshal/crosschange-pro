@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { IWidget } from 'src/app/shared/interfaces/widget.interface';
+import { IExchangeData } from '../../interfaces/exchange-data.interface';
 
 @Component({
   selector: 'app-widget',
@@ -8,12 +8,11 @@ import { IWidget } from 'src/app/shared/interfaces/widget.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WidgetComponent {
-  @Input() widgetInfo: IWidget;
+  @Input() widgetInfo: IExchangeData;
 
   constructor() { }
 
   isPositiveChange(): boolean {
-    return this.widgetInfo.change.charAt(0) === '+';
+    return +this.widgetInfo.change_perce_24 >= 0;
   }
-
 }

@@ -1,21 +1,21 @@
 <div class="widget">
   <div class="widget__header">
     <div class="widget__header-currency">
-      <mat-icon [svgIcon]="widgetInfo.icon" class="widget__header-icon"></mat-icon>
-      {{ widgetInfo.currencyType }}
+      <mat-icon [svgIcon]="'icon_btc'" class="widget__header-icon"></mat-icon>
+      {{ widgetInfo.exchange_type }}
     </div>
     <div class="widget__header-last24">Last 24h</div>
   </div>
   <div class="widget__content">
-    <div class="widget__content-amount">{{ widgetInfo.amount }}</div>
+    <div class="widget__content-amount">{{ widgetInfo.last }}</div>
     <div class="widget__content-change"
          [ngClass]="isPositiveChange() ? 'widget__content-change--positive' : 'widget__content-change--negative'">
-      {{ widgetInfo.change }}
+      {{ widgetInfo.change_perce_24 }}
     </div>
   </div>
-  <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.volume }}</div>
+  <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
   <div class="widget__chart">
-    <img src="assets/images/simple-widget-chart.png" alt="chart" class="widget__chart-image">
+    <img src="assets/images/dummy-chart.png" alt="chart" class="widget__chart-image">
   </div>
 </div>
 <div class="widget-hover">
