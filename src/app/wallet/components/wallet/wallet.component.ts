@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { UserBalance, WalletService } from '../../services/wallet.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { IUserBalance, WalletService } from '../../services/wallet.service';
 import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { GridService } from '../../../shared/services/grid.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 
 @Component({
@@ -32,17 +31,13 @@ export class WalletComponent implements OnInit {
   searchInputControl = new FormControl();
 
   hideNumbers = true;
-  coinTypes = [];
-  walletBalance$: Observable<UserBalance>;
+  coinTypes;
+  walletBalance$: Observable<IUserBalance>;
 
-  private hideLowBalance$ = new Subject<boolean>();
-
-  hideLowBalanceObs = this.hideLowBalance$.asObservable();
-  hideLowBalance: boolean;
+  hideLowBalance$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private route: ActivatedRoute,
-    private gridService: GridService,
     public walletService: WalletService,
   ) {
   }
@@ -50,7 +45,7 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
     this.walletBalance$ = this.walletService.getWalletBalance(this.route.snapshot.data.user.id).pipe(share());
 
-    this.cryptoBalanceSource = combineLatest(
+    this.cryptoBalanceSource = combineLatest([
       this.searchInputControl.valueChanges
         .pipe(
           startWith(''),
@@ -58,8 +53,8 @@ export class WalletComponent implements OnInit {
           distinctUntilChanged(),
         ),
       this.route.queryParams,
-      this.hideLowBalanceObs,
-    ).pipe(
+      this.hideLowBalance$,
+    ]).pipe(
       switchMap(([search, params, hideLowBalance]) =>
         this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}})),
       share(),
@@ -71,6 +66,6 @@ export class WalletComponent implements OnInit {
   }
 
   getCoinTypes(balanceType: string, currencyType: string): void {
-    this.coinTypes = this.walletService.serializedCoins;
+    this.coinTypes = this.walletService.serializedCoinsMockData;
   }
 }

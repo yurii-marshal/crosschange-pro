@@ -12,6 +12,7 @@ import {
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share, tap } from 'rxjs/operators';
 import { ICoin } from '../../shared/interfaces/coin.interface';
+import { HttpParams } from '@angular/common/http';
 
 const mockDataBalanceTypes = [
   {id: 0, label: 'AUD'},
@@ -87,7 +88,11 @@ export interface IDepositHistoryRequest {
   ordering?: string;
 }
 
-export interface UserBalance {
+export interface ISerializedCoins {
+  balanceType: ICoin[];
+}
+
+export interface IUserBalance {
   available_balance: number;
   total_balance: number;
   total_balance_eur: number;
@@ -97,7 +102,8 @@ export interface UserBalance {
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
-  serializedCoins = mockDataBalanceTypes;
+  serializedCoins: ISerializedCoins;
+  serializedCoinsMockData = mockDataBalanceTypes;
 
   private wallets: IWallet[] | null = null;
 
@@ -162,22 +168,29 @@ export class WalletService extends ApiService {
 
   @Memoized()
   getCoinTypes(params?): Observable<ICoin[]> {
-    // return super.get('exchanges/coins')
     return super.get('exchanges/rates', params) // ?pairs=USD
-      .pipe(tap((coinTypes: ICoin[]) => serializeCoins(coinTypes))); // this.serializedCoins = serializeCoins(coinTypes)
+      .pipe(tap((coinTypes: ICoin[]) => this.serializedCoins = serializeCoins(coinTypes)));
   }
 
-  getWalletBalance(userId: string): Observable<UserBalance> {
+  getWalletBalance(userId: string): Observable<IUserBalance> {
     return super.get(`spot-wallets/users/${userId}/balances/general`);
   }
 
   getWalletsList(params: any): Observable<any> {
-    return super.get('spot-wallets', params);
+    let parameters = new HttpParams();
+
+    parameters = parameters
+      .set('offset', params.offset)
+      .set('limit', params.limit)
+      .set('search', params.search)
+      .set('hideLowBalance', params.hideLowBalance);
+
+    return super.get('spot-wallets', {params: parameters});
   }
 }
 
-function serializeCoins(coinTypes: ICoin[]): object {
-  let serializedCoins = {};
+function serializeCoins(coinTypes: ICoin[]): ISerializedCoins {
+  let serializedCoins = {} as ISerializedCoins;
 
   coinTypes
     .map((coin: ICoin) => coin.balance_type)
