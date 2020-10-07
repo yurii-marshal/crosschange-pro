@@ -35,7 +35,7 @@ export class WalletComponent implements OnInit {
   coinTypes;
   walletBalance$: Observable<IUserBalance>;
 
-  hideLowBalance$ = new BehaviorSubject<boolean>(false);
+  hideLowBalance$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideLowBalance')) || false);
 
   constructor(
     private route: ActivatedRoute,
@@ -62,6 +62,7 @@ export class WalletComponent implements OnInit {
       share(),
       map(result => {
         this.count = result.count;
+        localStorage.setItem('hideLowBalance', JSON.stringify(this.hideLowBalance$.getValue()));
         return new MatTableDataSource(result.results);
       }),
     );
