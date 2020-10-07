@@ -15,9 +15,6 @@ import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 })
 export class HeaderComponent implements OnInit {
   @Input() menuMobile;
-
-  newMessages = [];
-
   notifications$: Observable<Notification[]>;
 
   menuItems = [
@@ -40,7 +37,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.notifications$ = this.notificationsService.getNotifications({limit: 3});
+    this.notifications$ = this.notificationsService.getNotifications({isNew: true});
   }
 
   openNotificationsPage(refNotesPopover): void {
