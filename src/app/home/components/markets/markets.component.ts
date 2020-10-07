@@ -83,7 +83,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
 
   orderBy(value: string): void {
-    debugger;
     switch (this.currentOrdering) {
       case value:
         this.currentOrdering = `-${value}`;
