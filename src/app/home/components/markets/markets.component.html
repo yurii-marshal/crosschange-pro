@@ -45,8 +45,8 @@
           <ng-container matColumnDef="favorite">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-icon [svgIcon]="element.favorite ? 'icon_fill_star' : 'icon_star'"
-                        (click)="addToFavorite(element)">
+              <mat-icon [svgIcon]="element.is_favorite ? 'icon_fill_star' : 'icon_star'"
+                        (click)="setFavourite(element)">
               </mat-icon>
             </mat-cell>
           </ng-container>
@@ -70,7 +70,7 @@
 
           <!-- 24h Cng column -->
           <ng-container matColumnDef="change_perce_24">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('change_perce_24')">
               {{ 'markets_page.24cng' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
@@ -84,7 +84,7 @@
 
           <!-- 24h High column -->
           <ng-container matColumnDef="high_24">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('high_24')">
               {{ 'markets_page.24high' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
@@ -93,7 +93,7 @@
 
           <!-- 24h Low column -->
           <ng-container matColumnDef="low_24">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('low_24')">
               {{ 'markets_page.24low' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
@@ -102,7 +102,7 @@
 
           <!-- Mkt Cap column -->
           <ng-container matColumnDef="market_cap">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('market_cap')">
               {{ 'markets_page.mktCap' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
@@ -111,7 +111,7 @@
 
           <!-- 24h Vol column -->
           <ng-container matColumnDef="vol_24">
-            <mat-header-cell *matHeaderCellDef>
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('vol_24')">
               {{ 'markets_page.24vol' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
