@@ -8,7 +8,7 @@ import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 
 const mockData: IWidget[] = [
   {
-    icon: 'icon_bitcoin',
+    icon: 'icon_btc',
     currencyType: 'BND / USD',
     amount: '14.4062',
     change: '-4.02%',
@@ -29,7 +29,7 @@ const mockData: IWidget[] = [
     volume: '70,219,049.03 USDT',
   },
   {
-    icon: 'icon_bitcoin_cash',
+    icon: 'icon_bch',
     currencyType: 'BCH / USD',
     amount: '14.4062',
     change: '-5.09%',
