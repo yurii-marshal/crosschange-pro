@@ -1,5 +1,5 @@
 export interface IExchangeData {
-  favorite: boolean;
+  is_favorite: boolean;
   exchange_type?: string;
   last: string;
   exchange_rate?: string;

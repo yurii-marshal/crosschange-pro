@@ -9,6 +9,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { FakeMatIconRegistry } from '@angular/material/icon/testing';
+import { environment } from '../../../../environments/environment';
+import {
+  ENVIRONMENT,
+  IEnvironment
+} from 'shared-kuailian-lib';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MarketsComponent', () => {
   let component: MarketsComponent;
@@ -21,7 +27,8 @@ describe('MarketsComponent', () => {
         TranslateModule.forRoot(),
         MatTabsModule,
         NoopAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        RouterTestingModule,
       ],
       declarations: [
         MarketsComponent,
@@ -29,7 +36,8 @@ describe('MarketsComponent', () => {
       ],
       providers: [
         MarketsService,
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry }
+        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
+        { provide: ENVIRONMENT, useValue: environment as IEnvironment },
       ]
     })
     .compileComponents();
