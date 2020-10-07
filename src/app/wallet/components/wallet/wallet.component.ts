@@ -6,6 +6,7 @@ import { IUserBalance, WalletService } from '../../services/wallet.service';
 import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
+import { SsoUser } from 'shared-kuailian-lib';
 
 @Component({
   selector: 'app-wallet',
@@ -43,7 +44,8 @@ export class WalletComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.walletBalance$ = this.walletService.getWalletBalance(this.route.snapshot.data.user.id).pipe(share());
+    const user: SsoUser = this.route.snapshot.data.user;
+    this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
 
     this.cryptoBalanceSource = combineLatest([
       this.searchInputControl.valueChanges
