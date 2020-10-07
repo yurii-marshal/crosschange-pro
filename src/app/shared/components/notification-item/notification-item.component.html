@@ -1,6 +1,6 @@
 <div class="text-block" [class.short]="short">
   <div class="fx-row fx-v-align-center header-container">
-    <div class="active-label" [class.active]="notification?.active"></div>
+    <div class="active-label" [class.active]="notification?.isNew"></div>
     <div class="header">{{notification?.header}}</div>
   </div>
   <div class="message">{{notification?.message}}</div>

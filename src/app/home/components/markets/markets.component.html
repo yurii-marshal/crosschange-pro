@@ -20,32 +20,18 @@
           {{ 'markets_page.tab_favorite' | translate }}
         </a>
         <a mat-tab-link
-           [active]="activeLink === 'btc_markets'"
-           (click)="activeLink = 'btc_markets'"
+           [active]="activeLink === 'btc'"
+           (click)="activeLink = 'btc'"
            [routerLink]="['.']"
            [queryParams]="{tab: 'btc', offset: 0, limit: limit}">
           {{ 'markets_page.tab_btc_markets' | translate }}
         </a>
         <a mat-tab-link
-           [active]="activeLink === 'alts_markets'"
-           (click)="activeLink = 'alts_markets'"
+           [active]="activeLink === 'alts'"
+           (click)="activeLink = 'alts'"
            [routerLink]="['.']"
            [queryParams]="{tab: 'alts', offset: 0, limit: limit}">
           {{ 'markets_page.tab_alts_markets' | translate }}
-        </a>
-        <a mat-tab-link
-           [active]="activeLink === 'history'"
-           (click)="activeLink = 'history'"
-           [routerLink]="['.']"
-           [queryParams]="{tab: 'history', offset: 0, limit: limit}">
-          {{ 'markets_page.tab_history' | translate }}
-        </a>
-        <a mat-tab-link
-           [active]="activeLink === 'profit'"
-           (click)="activeLink = 'profit'"
-           [routerLink]="['.']"
-           [queryParams]="{tab: 'profit', offset: 0, limit: limit}">
-          {{ 'markets_page.tab_profit' | translate }}
         </a>
       </nav>
 
@@ -91,7 +77,7 @@
             <mat-cell *matCellDef="let element">
               <span class="custom-cell"
                    [ngClass]="(element.change_perce_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
-                {{ element.change_perce_24 > 0 ? '+' + element.change_perce_24 : element.change_perce_24  }}
+                {{element.change_perce_24 > 0 ? '+' : ''}}{{element.change_perce_24 | number: '1.2-2'}}
               </span>
             </mat-cell>
           </ng-container>

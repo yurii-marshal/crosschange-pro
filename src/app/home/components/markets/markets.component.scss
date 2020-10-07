@@ -22,10 +22,8 @@
 
     .widget {
       width: 295px;
-      height: 116px;
+      height: 189px;
       margin-right: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      border-radius: 4px;
 
       &:last-child {
         margin-right: 0;
@@ -45,6 +43,10 @@
       margin-bottom: 16px;
     }
   }
+}
+
+.mat-table {
+  overflow-x: auto;
 }
 
 .mat-table__search {

@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.notifications$ = this.notificationsService.getNotifications({limit: 3});
+    this.notifications$ = this.notificationsService.getNotifications({isNew: true});
   }
 
   openNotificationsPage(refNotesPopover): void {

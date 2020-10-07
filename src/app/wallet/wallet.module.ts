@@ -11,21 +11,23 @@ import { DepositComponent } from './components/deposit/deposit.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { SelectedWalletPipe } from './pipes/selected-wallet.pipe';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
+import { UserDataResolver } from '../core/services/user-data-resolver.service';
 
 
 export const routes = [
   {
     path: '',
-    canActivate: [ AuthGuard ],
     component: MainComponent,
+    canActivate: [ AuthGuard ],
     children: [
       {
         path: 'balance',
-        component: WalletComponent
+        component: WalletComponent,
+        resolve: {user: UserDataResolver},
       },
       {
         path: 'deposit',
-        component: DepositComponent
+        component: DepositComponent,
       },
       {
         path: 'withdraw',
@@ -48,7 +50,7 @@ export const routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     AngularMaterialModule,
-    ClipboardModule
+    ClipboardModule,
   ]
 })
 export class WalletModule { }
