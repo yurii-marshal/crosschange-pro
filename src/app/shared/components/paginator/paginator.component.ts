@@ -20,8 +20,8 @@ import { GridService } from '../../services/grid.service';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() count = 0;
-  @Input() limit = 9;
+  @Input() count;
+  @Input() limit = this.route.snapshot.queryParams.limit || defaultPagination.limit;
   @Input() visiblePagesCount = 3;
 
   @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
@@ -48,7 +48,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
     ).subscribe((params: Pagination) => {
       this.params = {
         offset: +params.offset || defaultPagination.offset,
-        limit: +params.limit || this.limit || defaultPagination.limit
+        limit: +params.limit || defaultPagination.limit,
       };
     });
 
@@ -122,8 +122,11 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getVisiblePages(firstElement: number): void {
+    let fromStart = 0;
     firstElement = firstElement <= 0 ? 0 : firstElement >= this.totalPages - 1 ? this.totalPages - this.visiblePagesCount : firstElement;
-    this.currentVisiblePages = [...Array(this.visiblePagesCount).keys()].map(() => firstElement++);
+
+    this.currentVisiblePages = [...Array(this.visiblePagesCount).keys()]
+      .map(() => firstElement < this.totalPages - this.visiblePagesCount ? firstElement++ : fromStart++);
   }
 
   ngOnDestroy(): void {
