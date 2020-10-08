@@ -16,7 +16,7 @@
         </div>
 
         <div class="sub-menu" [class.open]="item.active" *ngIf="item.subItems">
-          <div class="sub-link" (click)="openPage(subItem)" routerLink="{{item.link}}" *ngFor="let subItem of item.subItems">
+          <div class="sub-link" (click)="openPage(subItem)" routerLink="{{subItem.link}}" *ngFor="let subItem of item.subItems">
             <mat-icon class="icon" svgIcon="{{subItem.icon}}"></mat-icon>
             <div>{{subItem.label | translate }}</div>
           </div>
