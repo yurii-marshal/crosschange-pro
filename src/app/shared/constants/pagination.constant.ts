@@ -5,5 +5,5 @@ export interface Pagination {
 
 export const defaultPagination: Pagination = {
   offset: 0,
-  limit: 9
+  limit: 4,
 };
