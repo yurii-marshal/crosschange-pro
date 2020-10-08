@@ -291,7 +291,7 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <div class="no-data-splash" *ngIf="!(cryptoBalanceSource | async)?.data?.length">{{'wallet_page.no_data_available' | translate}}</div>
-        <app-paginator [count]="count" class="paginator"></app-paginator>
+        <app-paginator [count]="cryptoBalanceCount" class="paginator"></app-paginator>
       </div>
     </div>
   </div>
