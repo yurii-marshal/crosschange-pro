@@ -103,7 +103,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!(fiatBalanceSource | async)?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
+        <div class="no-data-splash" *ngIf="!(fiatBalanceSource | async)?.data?.length">{{'wallet_page.no_data_available' | translate}}</div>
       </div>
     </div>
   </div>
@@ -192,7 +192,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!(euroAccountBalanceSource | async)?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
+        <div class="no-data-splash" *ngIf="!(euroAccountBalanceSource | async)?.data?.length">{{'wallet_page.no_data_available' | translate}}</div>
       </div>
     </div>
   </div>
@@ -290,7 +290,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!(cryptoBalanceSource | async)?.data?.length">{{'wallet_page.noDataAvailable' | translate}}</div>
+        <div class="no-data-splash" *ngIf="!(cryptoBalanceSource | async)?.data?.length">{{'wallet_page.no_data_available' | translate}}</div>
         <app-paginator [count]="count" class="paginator"></app-paginator>
       </div>
     </div>
