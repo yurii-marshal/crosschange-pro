@@ -18,8 +18,8 @@ export class MenuMobileComponent implements OnInit {
       active: false,
       link: '.',
       subItems: [
-        {label: 'menu_mobile.spot_wallet', icon: 'icon_wallet', link: '/wallet'},
-        {label: 'menu_mobile.margin_wallet', icon: 'icon_meter', link: '/wallet'},
+        {label: 'menu_mobile.spot_wallet', icon: 'icon_wallet', link: '/wallet/balance'},
+        {label: 'menu_mobile.margin_wallet', icon: 'icon_meter', link: '/wallet/balance'},
       ],
     },
     {label: 'menu_mobile.exchange', active: false, link: '/exchange'},
