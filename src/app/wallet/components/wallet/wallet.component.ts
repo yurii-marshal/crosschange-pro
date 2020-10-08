@@ -73,8 +73,6 @@ export class WalletComponent implements OnInit {
         return new MatTableDataSource(result.results);
       }),
     );
-    this.hideLowBalance$.subscribe(() => {
-    });
   }
 
   toggleNumVisibility(): void {
