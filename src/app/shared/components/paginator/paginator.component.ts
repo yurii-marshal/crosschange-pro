@@ -54,11 +54,10 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.count.currentValue) {
-      this.currentPage = +this.route.snapshot.queryParams.offset / this.limit || 0;
+      this.currentPage = Math.ceil(+this.route.snapshot.queryParams.offset / this.limit) || 0;
       this.totalPages = Math.ceil(this.count / this.limit);
 
       if (this.currentPage > this.totalPages - 1) {
-        Error('Trying to retrieve a wrong page!');
         this.currentPage = 0;
       }
 
@@ -121,16 +120,19 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
 
   getVisiblePages(firstElement: number): void {
     this.currentVisiblePages = [...Array(Math.ceil(this.totalPages / this.visiblePagesCount)).keys()]
-      .map((set) => [...Array(this.visiblePagesCount).keys()]
-        .map((order) => {
+      .map((set: number) => {
+        const pagesInSet = [...Array(this.visiblePagesCount).keys()];
+
+        return pagesInSet.map((order: number) => {
           const page = set * this.visiblePagesCount + order;
+
           if (page <= this.totalPages - 1) {
             return page;
           }
-        })
-        .filter((order) => !isNaN(order)))
-      .filter((set) => set.includes(firstElement))
-      .reduce((accumulator, value) => accumulator.concat(value), []);
+        }).filter((order: number) => !isNaN(order));
+      })
+      .filter((set: number[]) => set.includes(firstElement))
+      .reduce((accumulator: number[], value: number[]) => accumulator.concat(value), []);
   }
 
   ngOnDestroy(): void {
