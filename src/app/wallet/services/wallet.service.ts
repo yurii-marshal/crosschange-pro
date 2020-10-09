@@ -8,9 +8,9 @@ import {
   TransactionType,
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { map, share, shareReplay } from 'rxjs/operators';
+import { share } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
-import { RequestCacheService } from '../../core/services/request-cache.service';
+import { Cacheable } from 'ngx-cacheable';
 
 // TODO: DELETE WHEN API IS READY
 const walletMock = {
@@ -81,10 +81,8 @@ export class WalletService extends ApiService {
 
   constructor(
     protected injector: Injector,
-    private requestCacheService: RequestCacheService,
-    ) {
+  ) {
     super(injector);
-    this.requestCacheService.addToCache('exchanges/pair-list/');
   }
 
   getWallets(refresh = false): Observable<IWallet[]> {
@@ -129,9 +127,11 @@ export class WalletService extends ApiService {
     return of(this.deposits);
   }
 
-  getPairs(coinType: string): Observable<string[]> {
-    return super.get('exchanges/pair-list')
-      .pipe(map((res: string[]) => res.filter(pair => pair.split('/')[0] === coinType.toUpperCase())));
+  @Cacheable({
+    maxAge: 5 * 60 * 1000,
+  })
+  getCryptoPairs(): Observable<any> {
+    return super.get('exchanges/pair-list');
   }
 
   getWalletBalance(userId: string): Observable<IUserBalance> {

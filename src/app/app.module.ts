@@ -20,7 +20,6 @@ import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ng
 import { environment } from '../environments/environment';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
-import { CachingInterceptor } from './core/interceptors/caching.interceptor';
 
 @NgModule({
   declarations: [
@@ -74,11 +73,6 @@ import { CachingInterceptor } from './core/interceptors/caching.interceptor';
       useClass: AcceptLanguageInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CachingInterceptor,
-      multi: true
-    }
   ],
   bootstrap: [AppComponent]
 })

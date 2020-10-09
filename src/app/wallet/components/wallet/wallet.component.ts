@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { IUserBalance, WalletService } from '../../services/wallet.service';
-import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { SsoUser } from 'shared-kuailian-lib';
@@ -32,9 +32,9 @@ export class WalletComponent implements OnInit {
 
   searchInputControl = new FormControl();
 
-  coinTypes;
   walletBalance$: Observable<IUserBalance>;
-  coinPairs$: Observable<string[]>;
+  cryptoPairs: string[];
+  pairs: string[];
 
   hideLowBalance$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideLowBalance')) || false);
   hideNumbers$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideNumbers')));
@@ -49,7 +49,6 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
     const user: SsoUser = this.route.snapshot.data.user;
     this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
-    this.coinPairs$ = this.walletService.getPairs('');
 
     const queryParams = this.route.snapshot.queryParams;
 
@@ -66,9 +65,12 @@ export class WalletComponent implements OnInit {
         ),
       this.route.queryParams,
       this.hideLowBalance$,
+      this.walletService.getCryptoPairs(),
     ]).pipe(
-      switchMap(([search, params, hideLowBalance]) =>
-        this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}})),
+      switchMap(([search, params, hideLowBalance, cryptoPairs]) => {
+        this.cryptoPairs = cryptoPairs;
+        return this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}});
+      }),
       share(),
       map(result => {
         this.cryptoBalanceCount = result.count;
@@ -88,7 +90,7 @@ export class WalletComponent implements OnInit {
   }
 
   getCryptoPairs(coinType: string): void {
-    this.coinPairs$ = this.walletService.getPairs(coinType);
+    this.pairs = this.cryptoPairs.filter(pair => pair.split('/')[0] === coinType.toUpperCase());
   }
 
   private navigateDefault(): void {
