@@ -51,10 +51,10 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
     this.widgets = this.marketsService.loadWidgetsData();
 
-    this.dataSource = combineLatest(
+    this.dataSource = combineLatest([
       this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
       this.route.queryParams
-    ).pipe(
+    ]).pipe(
       switchMap(([query, params]) =>
         this.marketsService.loadPairs(query, params)),
       map(result => {

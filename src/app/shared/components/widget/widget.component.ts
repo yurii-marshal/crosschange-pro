@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { IExchangeData } from '../../interfaces/exchange-data.interface';
 
 @Component({
@@ -7,10 +7,16 @@ import { IExchangeData } from '../../interfaces/exchange-data.interface';
   styleUrls: ['./widget.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WidgetComponent {
+export class WidgetComponent implements OnInit {
   @Input() widgetInfo: IExchangeData;
 
+  currencyType: any;
+
   constructor() { }
+
+  ngOnInit(): void {
+    this.currencyType = this.widgetInfo.exchange_type.split('/')[0].toLocaleLowerCase();
+  }
 
   isPositiveChange(): boolean {
     return +this.widgetInfo.change_perce_24 >= 0;
