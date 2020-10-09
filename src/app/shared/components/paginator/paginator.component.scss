@@ -28,15 +28,16 @@
     color: $color-brand;
   }
 
-  .previous-page,
-  .next-page {
-    cursor: pointer;
+  .control-btn {
+    &[disabled] {
+      cursor: default;
+    }
   }
 }
 
 @media all and (max-width: $media-mobile) {
   :host {
     justify-content: flex-start;
-    padding-left: 4px;
+    padding-left: 12px;
   }
 }

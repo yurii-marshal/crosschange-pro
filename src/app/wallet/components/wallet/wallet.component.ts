@@ -24,7 +24,7 @@ export class WalletComponent implements OnInit {
     'action',
   ];
 
-  count: number;
+  cryptoBalanceCount: number;
 
   fiatBalanceSource: Observable<MatTableDataSource<IWallet>>;
   euroAccountBalanceSource: Observable<MatTableDataSource<IWallet>>;
@@ -69,12 +69,10 @@ export class WalletComponent implements OnInit {
         this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}})),
       share(),
       map(result => {
-        this.count = result.count;
+        this.cryptoBalanceCount = result.count;
         return new MatTableDataSource(result.results);
       }),
     );
-    this.hideLowBalance$.subscribe(() => {
-    });
   }
 
   toggleNumVisibility(): void {

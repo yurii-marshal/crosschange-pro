@@ -1,5 +1,5 @@
 <div *ngIf="count && count > limit" class="pagination">
-  <button mat-icon-button (click)="prevPage()" [disabled]="currentPage === 0">
+  <button class="control-btn" mat-icon-button (click)="prevPage()" [disabled]="currentPage === 0">
     <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page"></mat-icon>
   </button>
 
@@ -8,7 +8,7 @@
   </div>
 
   <div class="page"
-       *ngIf="currentVisiblePages.length < totalPages && currentVisiblePages[0] !== 0"
+       *ngIf="currentVisiblePages.length < totalPages && currentVisiblePages[0] > visiblePagesCount - 1"
        (click)="switchVisiblePages(currentVisiblePages[0] - visiblePagesCount)"
   > ... </div>
 
@@ -20,8 +20,7 @@
   </div>
 
   <div class="page"
-       *ngIf="currentVisiblePages.length < totalPages
-        && currentVisiblePages[currentVisiblePages.length - 1] !== totalPages - 1"
+       *ngIf="currentVisiblePages.length < totalPages && currentVisiblePages[currentVisiblePages.length - 1] !== totalPages - 1"
        (click)="switchVisiblePages(currentVisiblePages[currentVisiblePages.length - 1] + 1)"
   > ... </div>
 
@@ -30,7 +29,7 @@
     {{ totalPages }}
   </div>
 
-  <button mat-icon-button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+  <button class="control-btn" mat-icon-button (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
     <mat-icon [svgIcon]="'icon_arrow_right'" class="next-page"></mat-icon>
   </button>
 </div>
