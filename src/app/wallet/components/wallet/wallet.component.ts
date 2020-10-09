@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { IUserBalance, WalletService } from '../../services/wallet.service';
-import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { SsoUser } from 'shared-kuailian-lib';
@@ -34,6 +34,7 @@ export class WalletComponent implements OnInit {
 
   coinTypes;
   walletBalance$: Observable<IUserBalance>;
+  coinPairs$: Observable<string[]>;
 
   hideLowBalance$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideLowBalance')) || false);
   hideNumbers$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideNumbers')));
@@ -48,6 +49,7 @@ export class WalletComponent implements OnInit {
   ngOnInit(): void {
     const user: SsoUser = this.route.snapshot.data.user;
     this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
+    this.coinPairs$ = this.walletService.getPairs('');
 
     const queryParams = this.route.snapshot.queryParams;
 
@@ -85,8 +87,8 @@ export class WalletComponent implements OnInit {
     localStorage.setItem('hideLowBalance', JSON.stringify(this.hideLowBalance$.getValue()));
   }
 
-  getCoinTypes(balanceType: string, currencyType: string): void {
-    this.coinTypes = this.walletService.serializedCoinsMockData;
+  getCryptoPairs(coinType: string): void {
+    this.coinPairs$ = this.walletService.getPairs(coinType);
   }
 
   private navigateDefault(): void {

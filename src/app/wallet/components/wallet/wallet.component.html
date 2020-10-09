@@ -272,18 +272,21 @@
 
               <a>{{ 'wallet_page.withdraw' | translate }}</a>
 
-              <a (menuOpened)="getCoinTypes('crypto', element.coin)"
+              <a (menuOpened)="getCryptoPairs(element.cryptocurrency)"
                  #tradeTrigger="matMenuTrigger"
                  [matMenuTriggerFor]="tradeSelect"
               >{{ 'wallet_page.trade' | translate }}</a>
 
               <mat-menu #tradeSelect="matMenu" xPosition="before" class="trade-select">
-                <div class="link" routerLink="/some-page/{{item.id}}"
-                     *ngFor="let item of coinTypes; let last = last">
+                <div class="link" routerLink="/markets" [queryParams]="{pair: item}"
+                     *ngFor="let item of (coinPairs$ | async); let last = last">
                   <div class="label">
-                    {{element.cryptocurrency + '/' + item.label}}
+                    {{item}}
                   </div>
                   <div class="divider" *ngIf="!last"></div>
+                </div>
+                <div class="empty" *ngIf="(coinPairs$ | async)?.length === 0">
+                  {{'wallet_page.no-pairs' | translate}}
                 </div>
               </mat-menu>
             </mat-cell>
