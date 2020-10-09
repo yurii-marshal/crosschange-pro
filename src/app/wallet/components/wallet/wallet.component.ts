@@ -32,8 +32,9 @@ export class WalletComponent implements OnInit {
 
   searchInputControl = new FormControl();
 
-  coinTypes;
   walletBalance$: Observable<IUserBalance>;
+  cryptoPairs: string[];
+  pairs: string[];
 
   hideLowBalance$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideLowBalance')) || false);
   hideNumbers$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideNumbers')));
@@ -64,9 +65,12 @@ export class WalletComponent implements OnInit {
         ),
       this.route.queryParams,
       this.hideLowBalance$,
+      this.walletService.getCryptoPairs(),
     ]).pipe(
-      switchMap(([search, params, hideLowBalance]) =>
-        this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}})),
+      switchMap(([search, params, hideLowBalance, cryptoPairs]) => {
+        this.cryptoPairs = cryptoPairs;
+        return this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}});
+      }),
       share(),
       map(result => {
         this.cryptoBalanceCount = result.count;
@@ -85,8 +89,8 @@ export class WalletComponent implements OnInit {
     localStorage.setItem('hideLowBalance', JSON.stringify(this.hideLowBalance$.getValue()));
   }
 
-  getCoinTypes(balanceType: string, currencyType: string): void {
-    this.coinTypes = this.walletService.serializedCoinsMockData;
+  getCryptoPairs(coinType: string): void {
+    this.pairs = this.cryptoPairs.filter(pair => pair.split('/')[0] === coinType.toUpperCase());
   }
 
   private navigateDefault(): void {
