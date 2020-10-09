@@ -131,10 +131,7 @@ export class WalletService extends ApiService {
 
   getPairs(coinType: string): Observable<string[]> {
     return super.get('exchanges/pair-list')
-      .pipe(
-        map((res: string[]) => res.filter(pair => pair.split('/')[0] === coinType.toUpperCase())),
-        shareReplay(1),
-      );
+      .pipe(map((res: string[]) => res.filter(pair => pair.split('/')[0] === coinType.toUpperCase())));
   }
 
   getWalletBalance(userId: string): Observable<IUserBalance> {
