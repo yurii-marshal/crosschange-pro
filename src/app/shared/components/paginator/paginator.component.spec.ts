@@ -11,36 +11,16 @@ import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { IconService } from '../../../core/services/icon.service';
 import { FakeMatIconRegistry } from '@angular/material/icon/testing';
-import { Component } from '@angular/core';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { WalletServiceMock } from '../../../../../testing/WalletServiceMock';
 import { ActivatedRouteStub } from '../../../../../testing/ActivatedRouteStub';
+import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { ActivatedRoute, Router } from '@angular/router';
 
-@Component({
-  selector: 'app-test-host',
-  template: `
-    <app-paginator
-      [count]="pagesCount"
-      [limit]="limit"
-      [visiblePagesCount]="visiblePagesCount"
-      (pageChanged)="onPageChange($event)"
-    ></app-paginator>`
-})
-class TestHostComponent {
-  public pagesCount: number;
-  public limit: number;
-  public visiblePagesCount: number;
-
-  private onPageChange(page: number): void {
-  }
-}
-
-describe('PaginatorComponent', () => {
+fdescribe('PaginatorComponent', () => {
   let component: PaginatorComponent;
   let fixture: ComponentFixture<PaginatorComponent>;
   let httpMock: HttpTestingController;
-  let hostFixture: ComponentFixture<TestHostComponent>;
-  let testHostComponent: TestHostComponent;
 
   let routeStub: ActivatedRouteStub;
   const router = {
@@ -51,30 +31,33 @@ describe('PaginatorComponent', () => {
     routeStub = new ActivatedRouteStub();
     TestBed.resetTestEnvironment();
 
-    TestBed.configureTestingModule({
-      declarations: [
-        PaginatorComponent,
-        NgModel,
-      ],
-      imports: [
-        HttpClientTestingModule,
-        MatIconModule,
-        FormsModule,
-        ReactiveFormsModule
-      ],
-      providers: [
-        {
-          provide: ENVIRONMENT,
-          useValue: environment as IEnvironment
-        },
-        IconService,
-        {
-          provide: WalletService,
-          useClass: WalletServiceMock
-        },
-        {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
-      ]
-    }).compileComponents();
+    TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting())
+      .configureTestingModule({
+        declarations: [
+          PaginatorComponent,
+          NgModel,
+        ],
+        imports: [
+          HttpClientTestingModule,
+          MatIconModule,
+          FormsModule,
+          ReactiveFormsModule
+        ],
+        providers: [
+          {
+            provide: ENVIRONMENT,
+            useValue: environment as IEnvironment
+          },
+          IconService,
+          {
+            provide: WalletService,
+            useClass: WalletServiceMock
+          },
+          {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
+          {provide: ActivatedRoute, useValue: routeStub},
+          {provide: Router, useValue: router},
+        ]
+      });
 
     httpMock = TestBed.inject(HttpTestingController);
   }));
@@ -83,10 +66,10 @@ describe('PaginatorComponent', () => {
     fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
 
-    hostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = hostFixture.componentInstance;
-    hostFixture.detectChanges();
+  afterEach(() => {
+    router.navigate.calls.reset();
   });
 
   it('should create', () => {
@@ -94,12 +77,7 @@ describe('PaginatorComponent', () => {
   });
 
 
-  it('should get count of all table items', (done) => {
-    component.ngOnInit();
-    component.count = testHostComponent.pagesCount;
-  });
-
-  it('should change offset on button Next', (done) => {
+  fit('should change offset on button Next', (done) => {
     routeStub.setQueryParamMap({offset: 0, limit: 15});
     fixture.whenStable().then(() => {
       fixture.ngZone.run(() => {
