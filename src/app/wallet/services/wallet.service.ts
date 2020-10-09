@@ -1,45 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { TradeType } from '../../core/interfaces/trade-type.interface';
-import { Memoized } from '../../core/decorators/memoized.decorator';
 import { ApiService } from 'shared-kuailian-lib';
 import { IWallet } from '../../shared/interfaces/wallet.interface';
 import {
   ITransactionItem,
   TransactionStatus,
-  TransactionType
+  TransactionType,
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { share, tap } from 'rxjs/operators';
-import { ICoin } from '../../shared/interfaces/coin.interface';
+import { share } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
-
-const mockDataBalanceTypes = [
-  {id: 0, label: 'AUD'},
-  {id: 1, label: 'BIDR'},
-  {id: 2, label: 'BKRW'},
-  {id: 3, label: 'BTC'},
-  {id: 4, label: 'BUSD'},
-  {id: 5, label: 'DAI'},
-  {id: 6, label: 'XXO'},
-];
-
-const mockDataTable = [
-  {
-    coin: 'eur',
-    total: '0',
-    available: '0',
-    inOrder: '0',
-    btcValue: '0',
-  },
-  {
-    coin: 'usd',
-    total: '0',
-    available: '0',
-    inOrder: '0',
-    btcValue: '0',
-  },
-];
+import { Cacheable } from 'ngx-cacheable';
 
 // TODO: DELETE WHEN API IS READY
 const walletMock = {
@@ -88,10 +59,6 @@ export interface IDepositHistoryRequest {
   ordering?: string;
 }
 
-export interface ISerializedCoins {
-  balanceType: ICoin[];
-}
-
 export interface IUserBalance {
   available_balance: number;
   total_balance: number;
@@ -102,8 +69,6 @@ export interface IUserBalance {
   providedIn: 'root'
 })
 export class WalletService extends ApiService {
-  serializedCoins: ISerializedCoins;
-  serializedCoinsMockData = mockDataBalanceTypes;
 
   private wallets: IWallet[] | null = null;
 
@@ -114,13 +79,10 @@ export class WalletService extends ApiService {
     results: []
   };
 
-  constructor(protected injector: Injector) {
+  constructor(
+    protected injector: Injector,
+  ) {
     super(injector);
-  }
-
-  @Memoized()
-  getTradeTypes(balanceType: string, currencyType: string): Observable<TradeType[]> {
-    return of(mockDataBalanceTypes);
   }
 
   getWallets(refresh = false): Observable<IWallet[]> {
@@ -165,10 +127,11 @@ export class WalletService extends ApiService {
     return of(this.deposits);
   }
 
-  @Memoized()
-  getCoinTypes(params?): Observable<ICoin[]> {
-    return super.get('exchanges/rates', params) // ?pairs=USD
-      .pipe(tap((coinTypes: ICoin[]) => this.serializedCoins = serializeCoins(coinTypes)));
+  @Cacheable({
+    maxAge: 5 * 60 * 1000,
+  })
+  getCryptoPairs(): Observable<any> {
+    return super.get('exchanges/pair-list');
   }
 
   getWalletBalance(userId: string): Observable<IUserBalance> {
@@ -186,19 +149,4 @@ export class WalletService extends ApiService {
 
     return super.get('spot-wallets', {params: parameters});
   }
-}
-
-function serializeCoins(coinTypes: ICoin[]): ISerializedCoins {
-  let serializedCoins = {} as ISerializedCoins;
-
-  coinTypes
-    .map((coin: ICoin) => coin.balance_type)
-    .forEach((balanceType: string) => {
-      serializedCoins = {
-        ...serializedCoins,
-        ...{[balanceType]: coinTypes.filter((item: ICoin) => item.balance_type === balanceType)},
-      };
-    });
-
-  return serializedCoins;
 }
