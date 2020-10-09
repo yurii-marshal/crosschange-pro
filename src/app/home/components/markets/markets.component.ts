@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
+import {UserService} from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-markets',
@@ -43,17 +44,21 @@ export class MarketsComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService
   ) {
   }
 
   ngOnInit(): void {
+
     this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
 
     this.widgets = this.marketsService.loadWidgetsData();
 
     this.dataSource = combineLatest(
-      this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
-      this.route.queryParams
+      [
+        this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
+        this.route.queryParams
+      ]
     ).pipe(
       switchMap(([query, params]) =>
         this.marketsService.loadPairs(query, params)),
@@ -62,6 +67,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
         return new MatTableDataSource(result.results);
       })
     );
+
+    this.userService.getUserInfo().subscribe(() => {});
   }
 
   setFavourite(element): void {
