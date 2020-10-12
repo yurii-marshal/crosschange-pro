@@ -1,7 +1,7 @@
 <div class="widget">
   <div class="widget__header">
     <div class="widget__header-currency">
-      <mat-icon [svgIcon]="'icon_btc'" class="widget__header-icon"></mat-icon>
+      <mat-icon [svgIcon]="'icon_' + currencyType" class="widget__header-icon"></mat-icon>
       {{ widgetInfo.exchange_type }}
     </div>
     <div class="widget__header-last24">Last 24h</div>

@@ -33,20 +33,6 @@
            [queryParams]="{tab: 'alts', offset: 0, limit: limit}">
           {{ 'markets_page.tab_alts_markets' | translate }}
         </a>
-        <a mat-tab-link
-           [active]="activeLink === 'history'"
-           (click)="activeLink = 'history'"
-           [routerLink]="['.']"
-           [queryParams]="{tab: 'history', offset: 0, limit: limit}">
-          {{ 'markets_page.tab_history' | translate }}
-        </a>
-        <a mat-tab-link
-           [active]="activeLink === 'profit'"
-           (click)="activeLink = 'profit'"
-           [routerLink]="['.']"
-           [queryParams]="{tab: 'profit', offset: 0, limit: limit}">
-          {{ 'markets_page.tab_profit' | translate }}
-        </a>
       </nav>
 
       <div class="mat-table__search">
