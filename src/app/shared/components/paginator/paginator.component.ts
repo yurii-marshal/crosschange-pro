@@ -54,17 +54,22 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.count.currentValue) {
-      this.currentPage = Math.ceil(+this.route.snapshot.queryParams.offset / this.limit) || 0;
-      this.totalPages = Math.ceil(this.count / this.limit);
-
-      if (this.currentPage > this.totalPages - 1) {
-        this.currentPage = 0;
-      }
-
-      this.getVisiblePages(this.currentPage);
-
-      this.setPage(this.currentPage);
+      this.onDetectCountChanges(changes.count.currentValue);
     }
+  }
+
+  onDetectCountChanges(count: number): void {
+    this.count = count;
+    this.currentPage = Math.ceil(+this.route.snapshot.queryParams.offset / this.limit) || 0;
+    this.totalPages = Math.ceil(count / this.limit);
+
+    if (this.currentPage > this.totalPages - 1) {
+      this.currentPage = 0;
+    }
+
+    this.getVisiblePages(this.currentPage);
+
+    this.setPage(this.currentPage);
   }
 
   setPage(page: number): void {
@@ -118,7 +123,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
     this.getVisiblePages(this.totalPages - 1);
   }
 
-  getVisiblePages(firstElement: number): void {
+  getVisiblePages(currentElement: number): void {
     this.currentVisiblePages = [...Array(Math.ceil(this.totalPages / this.visiblePagesCount)).keys()]
       .map((set: number) => {
         const pagesInSet = [...Array(this.visiblePagesCount).keys()];
@@ -131,7 +136,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
           }
         }).filter((order: number) => !isNaN(order));
       })
-      .filter((set: number[]) => set.includes(firstElement))
+      .filter((set: number[]) => set.includes(currentElement))
       .reduce((accumulator: number[], value: number[]) => accumulator.concat(value), []);
   }
 
