@@ -31,7 +31,7 @@ export class WidgetComponent implements OnInit {
     this.colorScheme.domain.push(color);
     const series = this.widgetInfo.prices.map(((v, i) => {
       return { name: i + '', value: v || 0 };
-    })).filter((v, i) => i % 30 === 0) || [];
+    })) || [];
     this.chartData = [
       {
         name: this.widgetInfo.exchange_type,

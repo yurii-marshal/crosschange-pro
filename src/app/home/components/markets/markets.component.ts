@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface
 import { ActivatedRoute, Router } from '@angular/router';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import {UserService} from '../../../shared/services/user.service';
+import {SocketService} from '../../../shared/services/socket.service';
 
 @Component({
   selector: 'app-markets',
@@ -36,7 +37,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   count: number;
   activeLink: string;
 
-  widgets: Observable<IExchangeData[]>;
+  widgets: BehaviorSubject<IExchangeData[]> = new BehaviorSubject([]);
   onDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -44,7 +45,8 @@ export class MarketsComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private socket: SocketService
   ) {
   }
 
@@ -52,7 +54,22 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
     this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
 
-    this.widgets = this.marketsService.loadWidgetsData();
+    this.marketsService.loadWidgetsData().subscribe(v => {
+      this.widgets.next(v);
+    });
+    this.socket.tradingPairs$
+      .pipe(takeUntil(this.onDestroyed$))
+      .subscribe((data) => {
+        const currentData = this.widgets.getValue();
+        for (let i = 0; i > currentData.length; i++) {
+          const itm = currentData[i];
+          if (itm.exchange_type === data.exchange_type) {
+            currentData[i] = data;
+            break;
+          }
+        }
+        this.widgets.next(currentData);
+      });
 
     this.dataSource = combineLatest(
       [

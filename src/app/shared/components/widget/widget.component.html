@@ -16,6 +16,7 @@
   <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
   <div class="widget__chart" #chart>
     <ngx-charts-line-chart
+      [view]="[chart.offsetWidth, 60]"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
       [scheme]="colorScheme"
@@ -27,8 +28,7 @@
       [timeline]="false"
       [results]="chartData"
       [autoScale]="true"
-      [tooltipDisabled]="true"
-    >
+      [tooltipDisabled]="true">
     </ngx-charts-line-chart>
   </div>
 </div>

@@ -1,25 +1,20 @@
-/*import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ApiService, IUser, CentrifugeService, SsoService, SsoUser } from 'shared-kuailian-lib';
 import { environment } from '../../../environments/environment';
+import { NotificationsService } from '../../notifications/services/notifications.service';
+import { BehaviorSubject } from 'rxjs';
+import { IExchangeData } from '../interfaces/exchange-data.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class SocketService {
-  private cf: any;
+export class SocketService extends CentrifugeService {
+  tradingPairs$ = new BehaviorSubject<IExchangeData | undefined>(undefined);
+  constructor(
+    private notifications: NotificationsService
+  ) {
 
-  constructor() {
+    // @ts-ignore
+    super(notifications, environment);
+    this.cf.subscribe('trading_pairs', (data) => this.tradingPairs$.next(data));
   }
-
-  connectWebSocket(user) {
-    if (this.cf) {
-      return;
-    }
-    this.cf = new Centrifuge(`${environment.centrifugeUrl}/connection/websocket`, {
-      subscribeEndpoint: `${environment.apiUrl}/api/v1/centrifugo/subscribe/`
-    });
-
-    this.cf.setToken(user.ws_token);
-
-    this.cf.connect();
-  }
-}*/
+}

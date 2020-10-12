@@ -41,7 +41,7 @@ export class MarketsService extends ApiService {
 
   loadWidgetsData(): Observable<IExchangeData[]> {
     let params = new HttpParams();
-    params = params.set('pairs', 'BTCUSD,ETHUSD,LTCUSD,DASHUSD').set('provider', 'kraken');
+    params = params.set('pairs', 'BTCUSD,ETHUSD,LTCUSD,DASHUSD').set('provider', 'kraken').set('step', '30');
 
     return super.get('exchanges/rates', {params});
   }

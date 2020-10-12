@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Notification } from '../../core/interfaces/notification.interface';
 import { NotificationCategory } from '../../core/interfaces/notification-category.interface';
 import { map } from 'rxjs/operators';
-
+import { INotificationService, INotification, ApiService } from 'shared-kuailian-lib';
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationsService {
+export class NotificationsService implements INotificationService {
 
   notifications: Notification[] = [
     {
@@ -54,8 +54,10 @@ export class NotificationsService {
     },
   ];
 
-  constructor() {
-  }
+  newNotification = new Subject<INotification>();
+  unreadNotificationCountChanged = new Subject<number>();
+  unreadNotificationsCount = 0;
+  constructor() {}
 
   get notificationCategories(): NotificationCategory[] {
     return [
@@ -99,4 +101,9 @@ export class NotificationsService {
       })
     );
   }
+
+  emitNewNotification(notification: INotification): void {
+    // TODO: implement
+  }
+
 }
