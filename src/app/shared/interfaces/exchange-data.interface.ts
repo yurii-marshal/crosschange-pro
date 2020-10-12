@@ -8,8 +8,8 @@ export interface IExchangeData {
   low_24?: string;
   market_cap?: string;
   vol_24?: string;
-  pair: string;
-  cng: string;
+  pair?: string;
+  cng?: string;
   high?: string;
   low?: string;
   vol?: string;
