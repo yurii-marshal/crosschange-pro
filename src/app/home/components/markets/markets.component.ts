@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,8 +7,8 @@ import { FormControl } from '@angular/forms';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
-import {UserService} from '../../../shared/services/user.service';
-import {SocketService} from '../../../shared/services/socket.service';
+import { UserService } from '../../../shared/services/user.service';
+import { SocketService } from '../../../shared/services/socket.service';
 
 @Component({
   selector: 'app-markets',
@@ -60,11 +60,14 @@ export class MarketsComponent implements OnInit, OnDestroy {
     this.socket.tradingPairs$
       .pipe(takeUntil(this.onDestroyed$))
       .subscribe((data) => {
+        if (!data) {
+          return;
+        }
         const currentData = this.widgets.getValue();
         for (let i = 0; i > currentData.length; i++) {
           const itm = currentData[i];
           if (itm.exchange_type === data.exchange_type) {
-            currentData[i] = data;
+            currentData[i] = Object.assign({}, currentData[i], data);
             break;
           }
         }
@@ -84,8 +87,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
         return new MatTableDataSource(result.results);
       })
     );
-
-    this.userService.getUserInfo().subscribe(() => {});
   }
 
   setFavourite(element): void {

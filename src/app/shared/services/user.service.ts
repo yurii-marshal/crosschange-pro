@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { ApiService, CentrifugeService, SsoService, SsoUser } from 'shared-kuailian-lib';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SocketService } from './socket.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,8 +10,8 @@ export class UserService extends ApiService {
   private user: SsoUser;
   constructor(
     protected injector: Injector,
-    private centrifugeService: CentrifugeService,
-    private sso: SsoService
+    private sso: SsoService,
+    private socket: SocketService
   ) {
     super(injector);
   }
@@ -25,7 +26,6 @@ export class UserService extends ApiService {
         this.user = {
           ...userInfo,
         };
-        this.centrifugeService.connectWebSocket(userInfo);
         return this.user;
       })
     );
