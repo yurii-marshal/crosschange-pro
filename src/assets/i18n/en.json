@@ -1,6 +1,8 @@
 {
   "crypto_widget": {
-    "volume": "Volume"
+    "last24": "Last 24h",
+    "volume": "Volume",
+    "trade": "Trade"
   },
   "deposit_page": {
     "available_balance": "Available Balance",
@@ -92,8 +94,7 @@
     "tab_alts_markets": "ALTS Markets",
     "tab_btc_markets": "BTC Markets",
     "tab_favorite": "Favorite",
-    "tab_history": "History",
-    "tab_profit": "Profit"
+    "tab_fiat_markets": "FIAT Markets"
   },
   "menu_mobile": {
     "exchange": "Exchange",
@@ -140,6 +141,7 @@
     "fiat_balance": "Fiat balance",
     "hide_low_balance_assets": "Hide low balance assets",
     "inOrder": "In Order",
+    "no-pairs": "No pairs for this coin",
     "no_data_available": "No data available",
     "show_all_balance_assets": "Show all balance assets",
     "spot_wallet": "Spot wallet",

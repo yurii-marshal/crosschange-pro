@@ -1,23 +1,36 @@
 <div class="widget">
   <div class="widget__header">
     <div class="widget__header-currency">
-      <mat-icon [svgIcon]="'icon_btc'" class="widget__header-icon"></mat-icon>
+      <mat-icon [svgIcon]="'icon_' + currencyType" class="widget__header-icon"></mat-icon>
       {{ widgetInfo.exchange_type }}
     </div>
-    <div class="widget__header-last24">Last 24h</div>
+    <!--<div class="widget__header-last24">{{'crypto_widget.last24' | translate}}</div>-->
   </div>
   <div class="widget__content">
     <div class="widget__content-amount">{{ widgetInfo.last }}</div>
-    <div class="widget__content-change"
-         [ngClass]="isPositiveChange() ? 'widget__content-change--positive' : 'widget__content-change--negative'">
+    <div class="widget__content-change widget__content-change--negative"
+         [class.widget__content-change--positive]="(this.widgetInfo.change_perce_24 | number) >= 0">
       {{ widgetInfo.change_perce_24 }}
     </div>
   </div>
   <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
   <div class="widget__chart">
-    <img src="assets/images/dummy-chart.png" alt="chart" class="widget__chart-image">
+    <ngx-charts-line-chart
+      [showXAxisLabel]="false"
+      [showYAxisLabel]="false"
+      [scheme]="colorScheme"
+      [curve]="d3.curveBasis"
+      [xAxis]="false"
+      [yAxis]="false"
+      [xAxisLabel]="false"
+      [yAxisLabel]="false"
+      [timeline]="false"
+      [results]="chartData"
+      [autoScale]="true"
+      [tooltipDisabled]="true">
+    </ngx-charts-line-chart>
   </div>
 </div>
 <div class="widget-hover">
-  <button class="widget__trade-btn">Trade</button>
+  <button class="widget__trade-btn">{{'crypto_widget.trade' | translate}}</button>
 </div>

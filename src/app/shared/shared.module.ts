@@ -21,6 +21,7 @@ import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
 import { PopoverModule } from './popover/popover.module';
 import { CoinSelectComponent } from './components/coin-select/coin-select.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const components = [
   HeaderComponent,
@@ -55,7 +56,8 @@ const pipes = [
     MatSidenavModule,
     ReactiveFormsModule,
     PopoverModule.forRoot(),
-    LayoutModule
+    LayoutModule,
+    NgxChartsModule,
   ],
   exports: [
     ...components,

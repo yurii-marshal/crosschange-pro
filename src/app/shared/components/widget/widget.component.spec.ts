@@ -24,13 +24,6 @@ describe('WidgetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WidgetComponent);
     component = fixture.componentInstance;
-    // component.widgetInfo = {
-    //   icon: '',
-    //   currencyType: '',
-    //   amount: '',
-    //   change: '',
-    //   volume: '',
-    // };
     fixture.detectChanges();
   });
 

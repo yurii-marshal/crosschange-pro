@@ -28,32 +28,35 @@ export class MarketsComponent implements OnInit, OnDestroy {
   limit = this.route.snapshot.queryParams.limit || defaultPagination.limit;
   currentOrdering = '';
 
-  dataSource: Observable<MatTableDataSource<IExchangeData>>;
+  dataSource$: Observable<MatTableDataSource<IExchangeData>>;
 
   searchInputControl = new FormControl();
 
   count: number;
   activeLink: string;
 
-  widgets: Observable<IExchangeData[]>;
+  widgets$: Observable<IExchangeData[]>;
   onDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private marketsService: MarketsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
+
+    this.widgets$ = this.marketsService.loadWidgetsData();
+
     this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
 
-    this.widgets = this.marketsService.loadWidgetsData();
-
-    this.dataSource = combineLatest(
-      this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
-      this.route.queryParams
+    this.dataSource$ = combineLatest(
+      [
+        this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
+        this.route.queryParams
+      ]
     ).pipe(
       switchMap(([query, params]) =>
         this.marketsService.loadPairs(query, params)),

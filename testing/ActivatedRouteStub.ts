@@ -15,7 +15,6 @@ export class ActivatedRouteStub {
   private params$ = new ReplaySubject<ParamMap>(1);
   private queryParams$ = new ReplaySubject<ParamMap>(1);
 
-  paramMap = this.params$.asObservable();
   queryParams = this.queryParams$.asObservable();
 
   get snapshot(): ActivatedRouteSnapshot {

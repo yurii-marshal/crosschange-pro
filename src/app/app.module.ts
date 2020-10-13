@@ -72,7 +72,7 @@ import { CoreModule } from './core/core.module';
       provide: HTTP_INTERCEPTORS,
       useClass: AcceptLanguageInterceptor,
       multi: true
-    }
+    },
   ],
   bootstrap: [AppComponent]
 })
