@@ -1,0 +1,17 @@
+.chart-container {
+  height: 900px;
+}
+
+::ng-deep ngx-charts-chart {
+  .gridline-path-vertical {
+    display: none;
+  }
+  .gridline-path-horizontal {
+    stroke-dasharray: 7,5;
+  }
+  /*[ngx-charts-area] path {
+    stroke: #22CF63;
+    stroke-width: 2px;
+    transform: translateY(6px);
+  }*/
+}

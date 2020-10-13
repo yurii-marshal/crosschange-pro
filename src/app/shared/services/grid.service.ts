@@ -13,7 +13,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
   {
     is_favorite: false,
@@ -23,7 +24,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
   {
     is_favorite: false,
@@ -33,7 +35,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
   {
     is_favorite: true,
@@ -43,7 +46,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
   {
     is_favorite: false,
@@ -53,7 +57,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
   {
     is_favorite: true,
@@ -63,7 +68,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
   {
     is_favorite: false,
@@ -73,7 +79,8 @@ const mockTable: IExchangeData[] = [
     high: '0.015974',
     low: '0.015974',
     mktCap: '$967.17M',
-    vol: '995.26'
+    vol: '995.26',
+    prices: []
   },
 ];
 

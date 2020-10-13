@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { combineLatest, Subject } from 'rxjs';
 import { filter, switchMap, takeUntil } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
+import * as d3Shape from 'd3-shape';
 
 @Component({
   selector: 'app-main',
@@ -16,11 +17,28 @@ export class MainComponent implements OnInit, OnDestroy {
   loading = false;
   onDestroy$ = new Subject<void>();
   exchangeInfo: IExchangeData;
+  chartData: {
+    name: string,
+    series: { name: string, value: number }[]
+  }[];
+  colorScheme = {
+    domain: ['#22CF63', '#52C676'],
+  };
+  currencyType: any;
+
+  get d3(): any {
+    return d3Shape;
+  }
+
   constructor(
     private coins: CoinsService
   ) { }
 
   ngOnInit(): void {
+    this.chartData = [{
+      name: '',
+      series: new Array(36).fill(1).map( (v, i) => { return { name: i + '', value: Math.random() * (3000 - 1) + 1 }; } )
+    }];
     this.createForm();
     combineLatest(
       [

@@ -1,7 +1,7 @@
 <div class="widgets-container">
   <div class="wrapper">
     <div class="widgets-content">
-      <ng-container *ngFor="let widget of (widgets | async)">
+      <ng-container *ngFor="let widget of (widgets$ | async)">
         <app-widget class="widget" [widgetInfo]="widget"></app-widget>
       </ng-container>
     </div>
@@ -33,6 +33,13 @@
            [queryParams]="{tab: 'alts', offset: 0, limit: limit}">
           {{ 'markets_page.tab_alts_markets' | translate }}
         </a>
+        <a mat-tab-link
+           [active]="activeLink === 'fiat_markets'"
+           (click)="activeLink = 'fiat_markets'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'fiat', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_fiat_markets' | translate }}
+        </a>
       </nav>
 
       <div class="mat-table__search">
@@ -40,7 +47,7 @@
         <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
       </div>
       <div class="table-responsive">
-        <mat-table mat-table [dataSource]="dataSource | async">
+        <mat-table mat-table [dataSource]="dataSource$ | async">
           <!-- Favorite column -->
           <ng-container matColumnDef="favorite">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
