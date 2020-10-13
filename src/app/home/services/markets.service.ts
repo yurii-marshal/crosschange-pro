@@ -5,6 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -18,16 +19,15 @@ export class MarketsService extends ApiService {
   ) {
     super(injector);
     this.socket.tradingPairs$
-      .subscribe((data) => {
-        const currentData = this.widgets$.getValue();
-        currentData.forEach((itm, i) => {
-          const dataItm = data.find((d) => d.exchange_type === itm.exchange_type);
-          if (dataItm) {
-            currentData[i] = Object.assign({}, currentData[i], dataItm);
-          }
-        });
-        this.widgets$.next(currentData);
-      });
+      .pipe(
+        map((data) => {
+          return this.widgets$.getValue().map((oldItem) => {
+            const newItem = data.find((d) => d.exchange_type === oldItem.exchange_type);
+            return newItem ? Object.assign({}, oldItem, newItem) : oldItem;
+          });
+        })
+      )
+      .subscribe((data) => this.widgets$.next(data));
   }
 
   loadPairs(query: string, params): Observable<{ results: IExchangeData[], count: number }> {

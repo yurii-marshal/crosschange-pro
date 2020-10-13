@@ -36,7 +36,8 @@ export class WidgetComponent implements OnInit, OnChanges {
     // https://swimlane.gitbook.io/ngx-charts/examples/line-area-charts/line-chart
     // https://swimlane.github.io/ngx-charts/#/ngx-charts/line-chart
     // curve: https://github.com/d3/d3-shape#curves
-    this.setColorScheme(this.widgetInfo.change_perce_24);
+
+    this.colorScheme.domain = [+this.widgetInfo.change_perce_24 >= 0 ? '#52C676' : '#DB1C27'];
     const series = this.widgetInfo.prices.map(((v, i) => {
       return { name: i + '', value: v || 0 };
     })) || [];
@@ -50,12 +51,8 @@ export class WidgetComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.widgetInfo && changes.widgetInfo.currentValue) {
-      this.setColorScheme(changes.widgetInfo.currentValue.change_perce_24);
+      this.colorScheme.domain = [+changes.widgetInfo.currentValue.change_perce_24 >= 0 ? '#52C676' : '#DB1C27'];
     }
-  }
-
-  setColorScheme(changePerce24: number): void {
-    this.colorScheme.domain = [changePerce24 >= 0 ? '#52C676' : '#DB1C27'];
   }
 
 }

@@ -7,7 +7,7 @@
     <!--<div class="widget__header-last24">{{'crypto_widget.last24' | translate}}</div>-->
   </div>
   <div class="widget__content">
-    <div class="widget__content-amount">{{ widgetInfo.last }}</div>
+    <div class="widget__content-amount">{{ widgetInfo.exchange_rate }}</div>
     <div class="widget__content-change widget__content-change--negative"
          [class.widget__content-change--positive]="this.widgetInfo.change_perce_24 >= 0">
       {{ widgetInfo.change_perce_24 }}
