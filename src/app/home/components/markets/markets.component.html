@@ -1,7 +1,7 @@
 <div class="widgets-container">
   <div class="wrapper">
     <div class="widgets-content">
-      <ng-container *ngFor="let widget of (widgets | async)">
+      <ng-container *ngFor="let widget of (widgets$ | async)">
         <app-widget class="widget" [widgetInfo]="widget"></app-widget>
       </ng-container>
     </div>
@@ -54,7 +54,7 @@
         <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
       </div>
       <div class="table-responsive">
-        <mat-table mat-table [dataSource]="dataSource | async">
+        <mat-table mat-table [dataSource]="dataSource$ | async">
           <!-- Favorite column -->
           <ng-container matColumnDef="favorite">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>

@@ -8,15 +8,14 @@
   </div>
   <div class="widget__content">
     <div class="widget__content-amount">{{ widgetInfo.last }}</div>
-    <div class="widget__content-change"
-         [ngClass]="isPositiveChange() ? 'widget__content-change--positive' : 'widget__content-change--negative'">
+    <div class="widget__content-change widget__content-change--negative"
+         [class.widget__content-change--positive]="this.widgetInfo.change_perce_24 >= 0">
       {{ widgetInfo.change_perce_24 }}
     </div>
   </div>
   <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
-  <div class="widget__chart" #chart>
+  <div class="widget__chart">
     <ngx-charts-line-chart
-      [view]="[chart.offsetWidth, 60]"
       [showXAxisLabel]="false"
       [showYAxisLabel]="false"
       [scheme]="colorScheme"

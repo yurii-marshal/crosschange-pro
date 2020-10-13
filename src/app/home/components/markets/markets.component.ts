@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -7,8 +7,6 @@ import { FormControl } from '@angular/forms';
 import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
-import { UserService } from '../../../shared/services/user.service';
-import { SocketService } from '../../../shared/services/socket.service';
 
 @Component({
   selector: 'app-markets',
@@ -30,51 +28,31 @@ export class MarketsComponent implements OnInit, OnDestroy {
   limit = this.route.snapshot.queryParams.limit || defaultPagination.limit;
   currentOrdering = '';
 
-  dataSource: Observable<MatTableDataSource<IExchangeData>>;
+  dataSource$: Observable<MatTableDataSource<IExchangeData>>;
 
   searchInputControl = new FormControl();
 
   count: number;
   activeLink: string;
 
-  widgets: BehaviorSubject<IExchangeData[]> = new BehaviorSubject([]);
+  widgets$: Observable<IExchangeData[]>;
   onDestroyed$: Subject<void> = new Subject<void>();
 
   constructor(
     private marketsService: MarketsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router,
-    private userService: UserService,
-    private socket: SocketService
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
 
+    this.widgets$ = this.marketsService.loadWidgetsData();
+
     this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
 
-    this.marketsService.loadWidgetsData().subscribe(v => {
-      this.widgets.next(v);
-    });
-    this.socket.tradingPairs$
-      .pipe(takeUntil(this.onDestroyed$))
-      .subscribe((data) => {
-        if (!data) {
-          return;
-        }
-        const currentData = this.widgets.getValue();
-        for (let i = 0; i > currentData.length; i++) {
-          const itm = currentData[i];
-          if (itm.exchange_type === data.exchange_type) {
-            currentData[i] = Object.assign({}, currentData[i], data);
-            break;
-          }
-        }
-        this.widgets.next(currentData);
-      });
-
-    this.dataSource = combineLatest(
+    this.dataSource$ = combineLatest(
       [
         this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
         this.route.queryParams
