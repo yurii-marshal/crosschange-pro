@@ -21,6 +21,10 @@ export const routes: Routes = [
         path: 'wallet',
         loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletModule),
       },
+      {
+        path: 'trade',
+        loadChildren: () => import('./exchange/exchange.module').then((m) => m.ExchangeModule),
+      },
     ]
   },
   {

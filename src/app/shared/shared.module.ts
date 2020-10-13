@@ -21,6 +21,7 @@ import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
 import { PopoverModule } from './popover/popover.module';
 import { CoinSelectComponent } from './components/coin-select/coin-select.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 
 const components = [
   HeaderComponent,
@@ -31,7 +32,8 @@ const components = [
   NotificationItemComponent,
   PaginatorComponent,
   MenuMobileComponent,
-  CoinSelectComponent
+  CoinSelectComponent,
+  CurrencySelectComponent
 ];
 
 const pipes = [
