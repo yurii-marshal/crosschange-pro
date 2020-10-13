@@ -1,6 +1,8 @@
 {
   "crypto_widget": {
-    "volume": "Volume"
+    "last24": "Last 24h",
+    "volume": "Volume",
+    "trade": "Trade"
   },
   "deposit_page": {
     "available_balance": "Available Balance",
