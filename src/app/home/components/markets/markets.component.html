@@ -33,6 +33,13 @@
            [queryParams]="{tab: 'alts', offset: 0, limit: limit}">
           {{ 'markets_page.tab_alts_markets' | translate }}
         </a>
+        <a mat-tab-link
+           [active]="activeLink === 'fiat_markets'"
+           (click)="activeLink = 'fiat_markets'"
+           [routerLink]="['.']"
+           [queryParams]="{tab: 'fiat', offset: 0, limit: limit}">
+          {{ 'markets_page.tab_fiat_markets' | translate }}
+        </a>
       </nav>
 
       <div class="mat-table__search">
