@@ -92,8 +92,7 @@
     "tab_alts_markets": "ALTS Markets",
     "tab_btc_markets": "BTC Markets",
     "tab_favorite": "Favorite",
-    "tab_history": "History",
-    "tab_profit": "Profit"
+    "tab_fiat_markets": "FIAT Markets"
   },
   "menu_mobile": {
     "exchange": "Exchange",
