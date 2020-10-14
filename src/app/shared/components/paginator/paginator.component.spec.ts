@@ -24,11 +24,9 @@ fdescribe('PaginatorComponent', () => {
   let httpMock: HttpTestingController;
 
   let routeStub: ActivatedRouteStub;
+
   const router = {
-    navigate: (params) => {
-      console.log(params);
-      routeStub.setParamMap(params);
-    }
+    navigate: jasmine.createSpy('navigate'),
   };
 
   beforeEach(async(() => {
@@ -43,7 +41,17 @@ fdescribe('PaginatorComponent', () => {
         imports: [
           HttpClientTestingModule,
           MatIconModule,
-          RouterTestingModule,
+          RouterTestingModule.withRoutes([
+            {
+              path: '',
+              component: PaginatorComponent
+            },
+            {
+              path: '**',
+              redirectTo: '',
+              pathMatch: 'full'
+            }
+          ]),
         ],
         providers: [
           {
@@ -56,15 +64,15 @@ fdescribe('PaginatorComponent', () => {
             useClass: WalletServiceMock
           },
           {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
-          {provide: Router, useValue: router},
           {provide: ActivatedRoute, useValue: routeStub},
+          {provide: Router, useValue: router},
         ]
       });
 
     httpMock = TestBed.inject(HttpTestingController);
   }));
 
-  beforeEach(async () => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
     component.count = 100;
@@ -75,7 +83,6 @@ fdescribe('PaginatorComponent', () => {
     });
 
     fixture.detectChanges();
-    await fixture.whenStable();
   });
 
   it('should create component PaginatorComponent', () => {
@@ -83,12 +90,12 @@ fdescribe('PaginatorComponent', () => {
   });
 
 
-  xit('should navigate to the same page with custom URL parameters and set currentPage', () => {
-    routeStub.setParamMap({offset: 15, limit: 15});
-    component.ngOnInit();
+  fit('should set currentPage accordingly to params values on component init', () => {
+    routeStub.setQueryParamMap({offset: 30, limit: 10});
 
-    expect(routeStub).toHaveBeenCalledWith([window.location.pathname], { queryParams: { offset: 15, limit: 15 }});
-    expect(component.currentPage).toBe(1);
+    fixture.detectChanges();
+
+    expect(component.currentPage).toEqual(3);
   });
 
   it('should change offset on button Next', () => {
