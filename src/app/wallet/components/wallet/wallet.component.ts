@@ -24,7 +24,7 @@ export class WalletComponent implements OnInit {
     'action',
   ];
 
-  cryptoBalanceCount: number;
+  cryptoBalanceCount = 0;
 
   fiatBalanceSource: Observable<MatTableDataSource<IWallet>>;
   euroAccountBalanceSource: Observable<MatTableDataSource<IWallet>>;
