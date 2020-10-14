@@ -2,9 +2,10 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ApiService } from 'shared-kuailian-lib';
 import { IWallet } from '../../shared/interfaces/wallet.interface';
-import { share } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
 import { Cacheable } from 'ngx-cacheable';
+import { IApiResponse } from 'shared-kuailian-lib';
 
 // TODO: DELETE WHEN API IS READY
 const walletMock = {
@@ -58,7 +59,7 @@ export class WalletService extends ApiService {
     }
 
     // TODO: UNCOMMENT WHEN API IS READY
-    /*return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
+    return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
       tap((v) => {
         this.wallets = v.results;
       }),
@@ -66,11 +67,11 @@ export class WalletService extends ApiService {
         return v.results;
       }),
       share()
-    );*/
+    );
 
     // TODO: DELETE WHEN API IS READY
-    this.wallets = walletsMock;
-    return of(this.wallets).pipe(share());
+    // this.wallets = walletsMock;
+    // return of(this.wallets).pipe(share());
   }
 
   @Cacheable({

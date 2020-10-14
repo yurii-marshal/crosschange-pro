@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { ITransactionItem, TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 import { ApiService } from 'shared-kuailian-lib';
 import { IApiResponse } from 'shared-kuailian-lib';
+import { share } from 'rxjs/operators';
 
 const depositsMock: IApiResponse<ITransactionItem> = {
   count: 50,
@@ -49,18 +50,18 @@ export class DepositService extends ApiService {
       return of(this.deposits);
     }
     // TODO: UNCOMMENT WHEN API IS READY
-    /*const req = {
+    const req = {
       type: 'deposit',
         ...params
     };
-    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());*/
+    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());
 
     // TODO: DELETE WHEN API IS READY
-    depositsMock.results = depositsMock.results.map(v => {
-      v.cryptocurrency = params.cryptocurrency;
-      return v;
-    });
-    this.deposits = depositsMock;
-    return of(this.deposits);
+    // depositsMock.results = depositsMock.results.map(v => {
+    //   v.cryptocurrency = params.cryptocurrency;
+    //   return v;
+    // });
+    // this.deposits = depositsMock;
+    // return of(this.deposits);
   }
 }
