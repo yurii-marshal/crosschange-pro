@@ -2,7 +2,8 @@ import {
   ActivatedRouteSnapshot,
   convertToParamMap,
   ParamMap,
-  Params } from '@angular/router';
+  Params
+} from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 
 /**
@@ -17,6 +18,11 @@ export class ActivatedRouteStub {
 
   queryParams = this.queryParams$.asObservable();
 
+  constructor(initialParams?: Params, queryParams?: Params) {
+    this.setParamMap(initialParams);
+    this.setQueryParamMap(queryParams);
+  }
+
   get snapshot(): ActivatedRouteSnapshot {
     const snapshot: Partial<ActivatedRouteSnapshot> = {
       paramMap: this.localParamMap,
@@ -24,11 +30,6 @@ export class ActivatedRouteStub {
     };
 
     return snapshot as ActivatedRouteSnapshot;
-  }
-
-  constructor(initialParams?: Params, queryParams?: Params) {
-    this.setParamMap(initialParams);
-    this.setQueryParamMap(queryParams);
   }
 
   setParamMap(params?: Params): void {
@@ -39,7 +40,7 @@ export class ActivatedRouteStub {
 
   setQueryParamMap(params?: Params): void {
     const paramMap = convertToParamMap(params);
-    this.localQueryParams = paramMap['params'];
-    this.queryParams$.next(paramMap['params']);
+    this.localQueryParams = paramMap.params;
+    this.queryParams$.next(paramMap.params);
   }
 }

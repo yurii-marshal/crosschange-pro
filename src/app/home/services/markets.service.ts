@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -13,6 +13,7 @@ import {map} from 'rxjs/operators';
 })
 export class MarketsService extends ApiService {
   private widgets$: BehaviorSubject<IExchangeData[]> = new BehaviorSubject([]);
+
   constructor(
     protected injector: Injector,
     private socket: SocketService
@@ -51,7 +52,7 @@ export class MarketsService extends ApiService {
   deleteFromFavourite(pair: string): Observable<any> {
     const url = 'exchanges/rates/favorites';
 
-    return super.delete(url, { body : { exchange_type: pair } });
+    return super.delete(url, {body: {exchange_type: pair}});
   }
 
   loadWidgetsData(): Observable<IExchangeData[]> {
