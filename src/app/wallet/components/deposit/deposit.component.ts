@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Devices } from '../../../shared/services/media-breakpoints.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { FormControl } from '@angular/forms';
+import { DepositService } from '../../services/deposit.service';
 
 @Component({
   selector: 'app-deposit',
@@ -31,6 +32,7 @@ export class DepositComponent implements OnInit, OnDestroy {
 
   constructor(
     private coinService: CoinsService,
+    private depositService: DepositService,
     private walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
@@ -60,7 +62,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
-    return this.walletService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
+    return this.depositService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
   }
 
   onCoinSelect(coin: ICoin): void {
