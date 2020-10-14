@@ -111,7 +111,7 @@
   },
   "qr_code": {
     "address_short": "{{crypto}} Address",
-    "copy_address": "Copy address",
+    "copy_address": "Copy code",
     "copy_tag": "Copy destination tag",
     "tag_short": "{{crypto}} Tag"
   },
