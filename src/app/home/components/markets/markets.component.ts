@@ -19,7 +19,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
     'favorite',
     'exchange_type',
     'exchange_rate',
-    'change_perce_24',
+    'change_percent_24',
     'high_24',
     'low_24',
     'market_cap',

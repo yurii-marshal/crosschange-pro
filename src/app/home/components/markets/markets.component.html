@@ -76,15 +76,15 @@
           </ng-container>
 
           <!-- 24h Cng column -->
-          <ng-container matColumnDef="change_perce_24">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('change_perce_24')">
+          <ng-container matColumnDef="change_percent_24">
+            <mat-header-cell *matHeaderCellDef (click)="orderBy('change_percent_24')">
               {{ 'markets_page.24cng' | translate }}
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
               <div class="custom-cell"
-                   [ngClass]="(element.change_perce_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
-                {{element.change_perce_24 > 0 ? '+' : ''}}{{element.change_perce_24 | number: '1.2-2'}}
+                   [ngClass]="(element.change_percent_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
+                {{element.change_percent_24 > 0 ? '+' : ''}}{{element.change_percent_24 | number: '1.2-2'}}
               </div>
             </mat-cell>
           </ng-container>
