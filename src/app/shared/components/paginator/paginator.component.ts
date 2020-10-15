@@ -20,7 +20,7 @@ import { GridService } from '../../services/grid.service';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() count;
+  @Input() count = 0;
   @Input() limit = defaultPagination.limit;
   @Input() visiblePagesCount = 3;
 
@@ -55,12 +55,12 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.count.currentValue && changes.count.currentValue !== this.count) {
+    if (changes.count.currentValue) {
       this.onDetectCountChanges(changes.count.currentValue);
     }
   }
 
-  onDetectCountChanges(count = 0): void {
+  onDetectCountChanges(count): void {
     this.count = count;
     this.currentPage = Math.ceil(this.params.offset / this.params.limit) || 0;
     this.totalPages = Math.ceil(count / this.params.limit);
@@ -126,19 +126,25 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getVisiblePages(currentElement: number): void {
-    this.currentVisiblePages = [...Array(Math.ceil(this.totalPages / this.visiblePagesCount)).keys()]
-      .map((set: number) => {
-        const pagesInSet = [...Array(this.visiblePagesCount).keys()];
-
-        return pagesInSet.map((order: number) => {
-          const page = set * this.visiblePagesCount + order;
+    const pagesInGroup = [...Array(this.visiblePagesCount).keys()];
+    const groups = [...Array(Math.ceil(this.totalPages / this.visiblePagesCount)).keys()]
+      .map((group: number) => {
+        return pagesInGroup.map((order: number) => {
+          const page = group * this.visiblePagesCount + order;
 
           if (page <= this.totalPages - 1) {
             return page;
           }
         }).filter((order: number) => !isNaN(order));
-      })
-      .filter((set: number[]) => set.includes(currentElement))
+      });
+
+    if (groups.length && groups[groups.length - 1][0] === this.totalPages - 1) {
+      groups.splice(groups.length - 1, 1);
+      groups[groups.length - 1].push(this.totalPages - 1);
+    }
+
+    this.currentVisiblePages = groups
+      .filter((item: number[]) => item.includes(currentElement))
       .reduce((accumulator: number[], value: number[]) => accumulator.concat(value), []);
   }
 
