@@ -9,11 +9,12 @@ import { IWallet } from '../../../shared/interfaces/wallet.interface';
 })
 export class QrCodeComponent implements OnInit {
   @Input() wallet: IWallet;
-  constructor(
-  ) { }
 
-  ngOnInit(): void {
+  constructor() {
   }
 
+  ngOnInit(): void {
+    console.log(this.wallet);
+  }
 
 }

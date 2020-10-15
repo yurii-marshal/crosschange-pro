@@ -9,7 +9,7 @@ import { ITransactionItem } from '../../../shared/interfaces/transaction-item.in
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Devices } from '../../../shared/services/media-breakpoints.service';
-import { IApiResponse } from 'shared-kuailian-lib';
+import { IApiResponse, QrCodeService, CryptoQRData } from 'shared-kuailian-lib';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -26,6 +26,8 @@ export class DepositComponent implements OnInit, OnDestroy {
   popularSelected: ICoin;
   onDestroy$ = new Subject<void>();
   device$: Observable<Devices>;
+  qrCode$: Observable<any>;
+  qrUrl: string[] = [];
   coinSelect = new FormControl();
   private readonly LIMIT = 10;
 
@@ -35,7 +37,8 @@ export class DepositComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private qrCodeService: QrCodeService,
   ) { }
 
   ngOnInit(): void {
@@ -50,12 +53,19 @@ export class DepositComponent implements OnInit, OnDestroy {
     combineLatest(
       [
         this.selected$,
-        this.route.queryParams
+        this.route.queryParams,
       ]
     ).pipe(
       takeUntil(this.onDestroy$)
     ).subscribe(([selected, qParams]) => {
       this.deposits$ = this.getHistory(selected, qParams);
+      this.qrCode$ = this.qrCodeService.generateQRCode(null);
+      this.qrCodeService.generateQRCode(null)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((qr: string) => {
+          // todo: secure url by qr base64
+          this.qrUrl = [qr];
+        });
     });
   }
 

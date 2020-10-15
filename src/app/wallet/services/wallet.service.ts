@@ -8,7 +8,7 @@ import {
   TransactionType,
 } from '../../shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { share } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
 import { Cacheable } from 'ngx-cacheable';
 
@@ -92,7 +92,7 @@ export class WalletService extends ApiService {
     }
 
     // TODO: UNCOMMENT WHEN API IS READY
-    /*return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
+    return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
       tap((v) => {
         this.wallets = v.results;
       }),
@@ -100,11 +100,11 @@ export class WalletService extends ApiService {
         return v.results;
       }),
       share()
-    );*/
+    );
 
     // TODO: DELETE WHEN API IS READY
-    this.wallets = walletsMock;
-    return of(this.wallets).pipe(share());
+    // this.wallets = walletsMock;
+    // return of(this.wallets).pipe(share());
   }
 
   getDepositHistory(params: IDepositHistoryRequest): Observable<IApiResponse<ITransactionItem>> {
@@ -112,19 +112,19 @@ export class WalletService extends ApiService {
       return of(this.deposits);
     }
     // TODO: UNCOMMENT WHEN API IS READY
-    /*const req = {
+    const req = {
       type: 'deposit',
         ...params
     };
-    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());*/
+    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());
 
     // TODO: DELETE WHEN API IS READY
-    depositsMock.results = depositsMock.results.map(v => {
-      v.cryptocurrency = params.cryptocurrency;
-      return v;
-    });
-    this.deposits = depositsMock;
-    return of(this.deposits);
+    // depositsMock.results = depositsMock.results.map(v => {
+    //   v.cryptocurrency = params.cryptocurrency;
+    //   return v;
+    // });
+    // this.deposits = depositsMock;
+    // return of(this.deposits);
   }
 
   @Cacheable({
