@@ -60,7 +60,7 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  onDetectCountChanges(count: number): void {
+  onDetectCountChanges(count = 0): void {
     this.count = count;
     this.currentPage = Math.ceil(this.params.offset / this.params.limit) || 0;
     this.totalPages = Math.ceil(count / this.params.limit);
