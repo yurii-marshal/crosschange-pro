@@ -5,19 +5,5 @@
   <input type="number" formControlName="toAmount">
 </form>
 <div class="chart-container">
-  <ngx-charts-area-chart
-    [showXAxisLabel]="false"
-    [showYAxisLabel]="false"
-    [scheme]="colorScheme"
-    [xAxis]="true"
-    [yAxis]="true"
-    [xAxisLabel]="false"
-    [yAxisLabel]="true"
-    [timeline]="true"
-    [results]="chartData"
-    [gradient]="true"
-    [autoScale]="true"
-    [showGridLines]="true"
-    [tooltipDisabled]="true">
-  </ngx-charts-area-chart>
+  <div echarts [options]="option" class="chart" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
 </div>

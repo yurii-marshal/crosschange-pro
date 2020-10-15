@@ -21,9 +21,8 @@ import { ToggleSecretTextPipe } from './pipes/toggle-secret-text.pipe';
 import { PopoverModule } from './popover/popover.module';
 import { CoinSelectComponent } from './components/coin-select/coin-select.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
-
+import { NgxEchartsModule } from 'ngx-echarts';
 const components = [
   HeaderComponent,
   FooterComponent,
@@ -59,7 +58,14 @@ const pipes = [
     ReactiveFormsModule,
     PopoverModule.forRoot(),
     LayoutModule,
-    NgxChartsModule,
+    NgxEchartsModule.forRoot({
+      /**
+       * This will import all modules from echarts.
+       * If you only need custom modules,
+       * please refer to [Custom Build] section.
+       */
+      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+    }),
   ],
   exports: [
     ...components,
@@ -72,7 +78,7 @@ const pipes = [
     MatMenuModule,
     PopoverModule,
     LayoutModule,
-    NgxChartsModule
+    NgxEchartsModule
   ],
   providers: [
     DatePipe

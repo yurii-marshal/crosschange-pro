@@ -15,22 +15,10 @@
   </div>
   <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
   <div class="widget__chart">
-    <ngx-charts-line-chart
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [scheme]="colorScheme"
-      [curve]="d3.curveBasis"
-      [xAxis]="false"
-      [yAxis]="false"
-      [xAxisLabel]="false"
-      [yAxisLabel]="false"
-      [timeline]="false"
-      [results]="chartData"
-      [autoScale]="true"
-      [tooltipDisabled]="true">
-    </ngx-charts-line-chart>
+    <div echarts [options]="option" class="chart" [autoResize]="true"></div>
   </div>
 </div>
+
 <div class="widget-hover">
   <button class="widget__trade-btn">{{'crypto_widget.trade' | translate}}</button>
 </div>
