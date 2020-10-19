@@ -70,6 +70,9 @@
 
       &--negative {
         color: #DB1C27;
+        &.widget__content-change--positive {
+          color: $color-green-100;
+        }
       }
     }
   }

@@ -1,5 +1,6 @@
 {
   "crypto_widget": {
+    "trade": "Trade",
     "volume": "Volume"
   },
   "deposit_page": {

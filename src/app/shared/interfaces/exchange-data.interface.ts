@@ -14,4 +14,5 @@ export interface IExchangeData {
   low?: string;
   vol?: string;
   mktCap?: string;
+  prices: number[];
 }
