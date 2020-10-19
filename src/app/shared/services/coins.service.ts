@@ -61,6 +61,7 @@ const coinsMock: ICoin[] = [
 })
 export class CoinsService extends ApiService {
   private coins: ICoin[] = [];
+
   constructor(protected injector: Injector) {
     super(injector);
   }
@@ -89,7 +90,7 @@ export class CoinsService extends ApiService {
     let params = new HttpParams();
     fromCoin = fromCoin.toUpperCase();
     toCoin = toCoin.toUpperCase();
-    params = params.set('pairs', fromCoin + toCoin).set('provider', 'kraken');
+    params = params.set('pairs', fromCoin + toCoin);
     if (step) {
       params = params.set('step', step + '');
     }

@@ -5,6 +5,7 @@ import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 export const routes = [
   {
@@ -22,6 +23,7 @@ export const routes = [
     SharedModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
+    MatButtonToggleModule
   ],
 })
 export class ExchangeModule { }

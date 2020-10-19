@@ -1,6 +1,162 @@
-.chart-container {
-  height: 500px;
+@import "../../../../assets/styles/variables";
+.content-container {
+  padding-left: 100px;
+  padding-right: 100px;
+  padding-top: 36px;
+  padding-bottom: 128px;
 }
-.chart {
-  height: 500px;
+h1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 44px;
+  margin-bottom: 56px;
+}
+.flex {
+  display: flex;
+}
+.left {
+  width: 39%;
+  margin-right: 39px;
+  label {
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    color: $color-grey-80;
+  }
+  app-currency-select {
+    margin-bottom: 8px;
+  }
+  .max {
+    .max-label {
+      color: $color-grey-40;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      margin-right: 3px;
+    }
+    .max-balance {
+      color: $color-brand;
+    }
+  }
+  .form-field {
+    margin-bottom: 27px;
+  }
+  .direction {
+    margin-bottom: 31px;
+    color: $color-grey-40;
+    width: 18px;
+    height: 18px;
+  }
+  button {
+    width: 100%;
+    padding-bottom: 21px;
+    padding-top: 21px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FAFBFC;
+    margin-bottom: 8px;
+  }
+  .fee {
+    text-align: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-grey-40;
+  }
+}
+.right {
+  width: 61%;
+  ::ng-deep mat-button-toggle-group {
+    border: 0;
+    border-radius: 0;
+    &.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+      border: 0;
+    }
+  }
+  ::ng-deep {
+    mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standard:not(.mat-button-toggle-disabled):hover .mat-button-toggle-focus-overlay {
+      opacity: 0;
+    }
+  }
+  ::ng-deep mat-button-toggle {
+    border: 0;
+    background: transparent;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-right: 6px;
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    &.mat-button-toggle-checked {
+      background-color: $color-trading-green;
+      color: $color-white-100;
+      .mat-button-toggle-label-content {
+        color: $color-white-100;
+      }
+    }
+    .mat-button-toggle-label-content {
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: $color-grey-40;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0;
+    }
+    &:hover {
+      .mat-button-toggle-label-content {
+        color: $color-grey-100;
+        background-color: transparent;
+      }
+      &.mat-button-toggle-checked {
+        .mat-button-toggle-label-content {
+          color: $color-white-100;
+        }
+
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 27px;
+  }
+  .status {
+    display: flex;
+    .status-item:first-of-type {
+      margin-right: 38px;
+    }
+    label {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-grey-40;
+      display: block;
+    }
+    span {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 28px;
+      color: $color-trading-dark;
+    }
+  }
+  .chart-container {
+    height: 400px;
+  }
+  .chart {
+    height: 400px;
+  }
 }

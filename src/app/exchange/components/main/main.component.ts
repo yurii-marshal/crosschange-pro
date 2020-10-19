@@ -1,10 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { combineLatest, Subject } from 'rxjs';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
-import {WalletService} from '../../../wallet/services/wallet.service';
+import { WalletService } from '../../../wallet/services/wallet.service';
+import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
+import { IChartData } from '../../../shared/interfaces/chart-data.interface';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { chartOptions } from './chartOptions';
 
 @Component({
   selector: 'app-main',
@@ -16,102 +20,23 @@ export class MainComponent implements OnInit, OnDestroy {
   form: FormGroup;
   loading = false;
   onDestroy$ = new Subject<void>();
-  exchangeInfo: IExchangeData;
-  option = {
-    backgroundColor: 'white',
-    responsive: true,
-    tooltip: {
-      show: false
-    },
-    grid: { // https://echarts.apache.org/en/option.html#grid
-      left: '50px', // Distance between grid component and the left side of the container.
-      right: '10px',
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: [],
-      axisLine: {
-        show: false,
-        lineStyle: {
-          backgroundColor: 'white'
-        }
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        showMinLabel: false,
-      }
-    },
-    yAxis: {
-      type: 'value',
-      axisLine: {
-        show: false,
-      },
-      axisTick: {
-        show: false
-      },
-      axisLabel: {
-        showMinLabel: false,
-      },
-      splitLine: {
-        lineStyle: {
-          color: 'rgba(34, 207, 99, 0.12)',
-          type: 'dashed'
-        }
-      },
-      min: 0
-    },
-    series: [],
-    color: {
-      type: 'linear',
-      x: 0,
-      y: 0,
-      x2: 0,
-      y2: 1,
-      colorStops: [{
-        offset: 0, color: 'rgba(23, 199, 89, 0.15)' // color at 0% position
-      }, {
-        offset: 1, color: 'rgba(30, 182, 87, 0.01)' // color at 100% position
-      }],
-      global: false // false by default
-    }
-  };
+  exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
+  option = chartOptions;
   currencyType: any;
-  chart;
-
+  chartInstance;
+  chartPeriods = IChartPeriods;
+  chartPeriod: IChartPeriods = IChartPeriods.DAY;
   constructor(
     private coins: CoinsService,
-    private wallets: WalletService
+    private wallets: WalletService,
+    private exchange: ExchangeService
   ) { }
 
   onChartInit(e): void {
-   this.chart = e;
+   this.chartInstance = e;
   }
 
   ngOnInit(): void {
-    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
-    this.coins.getRate('BTC', 'USD', 30).subscribe(v => {
-      /*this.option.color = [+v.change_perce_24 >= 0 ? '#52C676' : '#DB1C27'];*/
-      this.option.series = [{
-        data: v.prices,
-        type: 'line',
-        symbol: 'none',
-        areaStyle: {},
-        lineStyle: {
-          color: '#22CF63'
-        }
-      }];
-      this.option.yAxis.min = Math.min(...v.prices) / 1.02;
-      this.option.xAxis.data = new Array(v.prices.length).fill(1).map((_, i) => i + '');
-      this.chart.setOption({
-        series: this.option.series,
-        xAxis: this.option.xAxis,
-        yAxis: this.option.yAxis,
-      });
-    });
-
     this.createForm();
     combineLatest(
       [
@@ -123,26 +48,63 @@ export class MainComponent implements OnInit, OnDestroy {
       filter(([fromCurrency, toCurrency]) => {
         return fromCurrency && toCurrency;
       }),
+      map(([from, to]) => {
+        return [from.currency, to.currency];
+      }),
+      distinctUntilChanged(([fOld, tOld], [fNew, tNew]) => {
+        return fOld.key === fNew.key && tOld.key === tNew.key;
+      }),
       switchMap(([fromCurrency, toCurrency]) => {
-        return this.coins.getRate(fromCurrency.key, toCurrency.key, 30);
+        return combineLatest([
+          this.coins.getRate(fromCurrency.key, toCurrency.key, 30),
+          this.exchange.getChartData(fromCurrency.key, toCurrency.key, this.chartPeriod, 30)
+        ]);
       })
-    ).subscribe((data) => {
-      this.exchangeInfo = data;
+    ).subscribe(([rateInfo, chartData]) => {
+      this.exchangeInfo$.next(rateInfo);
+      this.setChartInfo(chartData);
+    });
+  }
+
+  onPeriodChange(val: MatButtonToggleChange): void {
+    this.chartPeriod = val.value;
+    const from = this.form.get('fromCurrency').value;
+    const to = this.form.get('toCurrency').value;
+    if (!from || !to) {
+      return;
+    }
+    this.exchange.getChartData(from.currency.key, to.currency.key, this.chartPeriod, 30).subscribe(v => {
+      this.setChartInfo(v);
+    });
+  }
+
+  setChartInfo(data: IChartData[]): void {
+    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
+    const values = data.map(v => v.value);
+    const labels = data.map(v => v.name);
+    this.option.series = [{
+      data: values,
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = Math.min(...values) / 1.02;
+    this.option.xAxis.data = labels;
+    this.chartInstance.setOption({
+      series: this.option.series,
+      xAxis: this.option.xAxis,
+      yAxis: this.option.yAxis,
     });
   }
 
   createForm(): void {
     this.form = new FormGroup({
       fromCurrency: new FormControl(),
-      toCurrency: new FormControl(),
-      fromAmount: new FormControl(),
-      toAmount: new FormControl(),
-      exchangeRate: new FormControl()
+      toCurrency: new FormControl()
     });
-  }
-
-  isPositiveChange(): boolean {
-    return +this.exchangeInfo.change_perce_24 >= 0;
   }
 
   ngOnDestroy(): void {

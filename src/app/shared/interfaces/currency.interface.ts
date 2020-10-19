@@ -1,6 +1,7 @@
 export interface ICurrency {
   key: string; // BTC, USD
   fields: {
-   isFiat: boolean;
+    name: string;
+    isFiat: boolean;
   };
 }

@@ -4,6 +4,7 @@ export interface IExchangeData {
   last: string;
   exchange_rate?: string;
   change_perce_24?: string;
+  change_percent_24?: string;
   high_24?: string;
   low_24?: string;
   market_cap?: string;

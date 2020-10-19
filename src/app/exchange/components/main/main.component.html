@@ -1,9 +1,66 @@
-<form [formGroup]="form">
-  <app-currency-select formControlName="fromCurrency"></app-currency-select>
-  <app-currency-select formControlName="toCurrency"></app-currency-select>
-  <input type="number" formControlName="fromAmount">
-  <input type="number" formControlName="toAmount">
-</form>
-<div class="chart-container">
-  <div echarts [options]="option" class="chart" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+<div class="content-container">
+  <h1> {{'exchange.title' | translate}} </h1>
+
+  <div class="flex">
+    <div class="left">
+      <form [formGroup]="form">
+        <div class="form-field">
+          <label>{{'exchange.for' | translate}}</label>
+          <app-currency-select formControlName="fromCurrency"></app-currency-select>
+          <div class="max">
+            <span class="max-label">{{'exchange.max' | translate}}:</span>
+            <span class="max-balance">0.12345678</span>
+          </div>
+        </div>
+        <mat-icon class="direction" svgIcon="icon_direction"></mat-icon>
+        <div class="form-field">
+          <label>{{'exchange.you_will_get' | translate}}</label>
+          <app-currency-select formControlName="toCurrency"></app-currency-select>
+          <div class="max">
+            <span class="max-label">{{'exchange.balance' | translate}}:</span>
+            <span>0.12345678</span>
+          </div>
+        </div>
+      </form>
+      <button mat-raised-button color="primary">{{'exchange.exchange' | translate}}</button>
+      <div class="fee">
+        {{'exchange.fee' | translate}}: 2.69 USDT
+      </div>
+    </div>
+    <div class="right">
+      <div class="buttons">
+        <div>
+          <mat-button-toggle-group name="period" aria-label="Period" [value]="chartPeriod" (change)="onPeriodChange($event)">
+            <mat-button-toggle [value]="chartPeriods.DAY">{{'exchange.24h' | translate}}</mat-button-toggle>
+            <mat-button-toggle [value]="chartPeriods.WEEK">{{'exchange.1w' | translate}}</mat-button-toggle>
+            <mat-button-toggle [value]="chartPeriods.MONTH">{{'exchange.1m' | translate}}</mat-button-toggle>
+            <mat-button-toggle [value]="chartPeriods.YEAR">{{'exchange.1y' | translate}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="status">
+          <div class="status-item">
+            <label>{{'exchange.current_rate' | translate}}</label>
+            <span>{{(exchangeInfo$ | async)?.last || 0}}</span>
+          </div>
+          <div class="status-item">
+            <label>{{'exchange.today_change' | translate}}</label>
+            <span>
+              <ng-container *ngIf="exchangeInfo$ | async">
+                <span>
+                  {{(((exchangeInfo$ | async)?.high_24) - ((exchangeInfo$ | async)?.low_24)) | number:'1.1-8'}}
+                </span>
+                <span>({{(exchangeInfo$ | async)?.change_percent_24}}%)</span>
+              </ng-container>
+              <ng-container *ngIf="!(exchangeInfo$ | async)">0</ng-container>
+            </span>
+
+          </div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <div echarts [options]="option" class="chart" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -2,27 +2,41 @@
 :host {
   position: relative;
   display: block;
+  box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
+  border-radius: 8px;
 }
 .flex {
   display: flex;
 }
+
 .switcher {
+  min-height: 80px;
   display: flex;
   align-items: center;
   background: $color-white-100;
-  border: 1px solid $color-grey-20;
   box-sizing: border-box;
-  border-radius: 4px;
-  padding: 10px 16px 10px 8px;
+  border-radius: 8px;
+  padding: 12px 20px 8px 20px;
   cursor: pointer;
+  position: relative;
+  z-index: 3;
   & > .flex {
     align-items: center;
   }
   ::ng-deep .icon-trigger {
-    width: 10px;
-    path {
-      fill: $color-trading-dark;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: rgba(134, 134, 155, 0.5);
+    &:hover {
+      background-color: $color-grey-60;
     }
+    path {
+      fill: $color-white-100;
+    }
+  }
+  .icon-trigger {
+    transition: all .3s linear;
   }
   &.opened {
     .icon-trigger {
@@ -30,42 +44,65 @@
       transition: all .3s linear;
     }
   }
+  .coin-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: $color-grey-40;
+    display: block;
+  }
+  .coin-icon {
+    margin-right: 12px;
+    width: 36px;
+    height: 36px;
+  }
+  .amount-input {
+    border: 0;
+    font-size: 24px;
+    line-height: 36px;
+    color: $color-trading-dark;
+  }
 }
-.coin-icon {
-  margin-right: 8px;
-}
-.coin-title {
-  margin-right: 4px;
-  font-size: 16px;
-  line-height: 28px;
-  color: $color-trading-dark;
-}
-.coin-subtitle {
-  font-size: 16px;
-  line-height: 28px;
-  color: $color-grey-60;
-}
-.menu-item {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
+
 .coins-menu {
   position: absolute;
   width: 100%;
   top: calc(100% + 4px);
-  border-radius: 4px;
-  z-index: 2;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(143, 149, 158, 0.25);
+  z-index: 4;
   left: 0;
   display: none;
   background-color: $color-white-100;
-  max-height: 240px;
+  max-height: 242px;
   overflow: auto;
   &.visible {
     display: block;
   }
+  .currency-search-container {
+    position: relative;
+    padding: 8px;
+    margin-bottom: 7px;
+    mat-icon {
+      position: absolute;
+      left: 13px;
+      top: 13px;
+      color: $color-grey-40;
+    }
+    .currency-search {
+      border: 1px solid $color-grey-10;
+      background-color: $color-grey-5;
+      width: 100%;
+      border-radius: 8px;
+      padding: 6px 6px 6px 30px;
+    }
+  }
   .menu-item {
-    padding: 10px 7px;
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    cursor: pointer;
     &:hover {
       background-color: $color-grey-10;
     }
@@ -76,6 +113,25 @@
     &:last-of-type {
       border-bottom-left-radius: 4px;
       border-bottom-right-radius: 4px;
+    }
+
+    mat-icon {
+      margin-right: 9px;
+    }
+    .coin-title {
+      margin-right: 4px;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 28px;
+      color: $color-trading-dark;
+    }
+    .coin-subtitle {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 28px;
+      color: $color-grey-60;
     }
   }
 
@@ -109,6 +165,7 @@
   background: transparent;
   top: 0;
   left: 0;
+  z-index: 2;
   display: none;
   &.overlay-visible {
     display: block;

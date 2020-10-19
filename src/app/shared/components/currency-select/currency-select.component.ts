@@ -1,14 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  forwardRef,
+  forwardRef, OnDestroy,
   OnInit
 } from '@angular/core';
-import { CoinsService } from '../../services/coins.service';
-import { ICoin } from '../../interfaces/coin.interface';
-import {Observable, Subject, zip} from 'rxjs';
-import {map, switchMap, take, tap} from 'rxjs/operators';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { debounceTime, take, takeUntil } from 'rxjs/operators';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ICurrency } from '../../interfaces/currency.interface';
+import { ExchangeService } from '../../services/exchange.service';
 
 @Component({
   selector: 'app-currency-select',
@@ -23,31 +23,45 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/for
     }
   ]
 })
-export class CurrencySelectComponent implements OnInit, ControlValueAccessor {
+export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueAccessor {
   opened = false;
-  coins$: Observable<ICoin[]>;
-  selected: ICoin;
+  currencies: ICurrency[];
+  currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
+  selected: ICurrency;
   amount: FormControl = new FormControl();
-  onDestroy$: Subject<void> = new Subject()
-  onChange = (coin: ICoin) => {};
+  onDestroy$: Subject<void> = new Subject();
+  value: {
+    currency: ICurrency,
+    amount: number
+  };
+  searchValue = '';
+  onChange = (value: { currency: ICurrency, amount: number }) => {};
   onTouched = () => {};
   constructor(
-    private coinsService: CoinsService
+    private exchange: ExchangeService
   ) { }
 
   ngOnInit(): void {
-    this.coins$ = zip(
-      this.coinsService.getCoins()
-    )
+    this.exchange.getCurrencies()
       .pipe(
         take(1),
-        map(([coins]) => {
-          return coins;
-        })
-      );
+      ).subscribe(v => {
+      this.currenciesFiltered$.next(v);
+      this.currencies = v;
+    });
+
+    this.amount.valueChanges.pipe(
+      takeUntil(this.onDestroy$),
+      debounceTime(300)
+    ).subscribe(v => {
+      this.writeValue({
+        currency: this.selected,
+        amount: parseInt(v, 10)
+      });
+    });
   }
 
-  registerOnChange(fn: (coin: ICoin) => void): void {
+  registerOnChange(fn: (value: { currency: ICurrency, amount: number }) => void): void {
     this.onChange = fn;
   }
 
@@ -55,15 +69,45 @@ export class CurrencySelectComponent implements OnInit, ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  writeValue(coin: ICoin): void {
-    if (!coin) {
-      return;
-    }
-    this.selected = coin;
-    this.onChange(coin);
+  setCurrency(currency: ICurrency): void {
+    this.selected = currency;
+    this.writeValue({currency: this.selected, amount: parseInt(this.amount.value, 10) });
   }
 
-  onDestroy(): void {
+  writeValue(value: { currency: ICurrency, amount: number }): void {
+    if (!value) {
+      return;
+    }
+    this.selected = value.currency;
+    this.onChange({
+      currency: this.selected,
+      amount: parseInt(this.amount.value, 10)
+    });
+  }
 
+  onCloseDropdown(): void {
+    if (this.opened) {
+      return;
+    }
+    this.currenciesFiltered$.next(this.currencies);
+    this.searchValue = '';
+  }
+
+  search(input: string): void {
+    input = input || '';
+    if (!input) {
+      this.currenciesFiltered$.next(this.currencies);
+      return;
+    }
+    const res = this.currencies.filter((currency) => {
+      return currency.key.toLowerCase().indexOf(input.toLowerCase()) > -1
+        || currency.fields.name.toLowerCase().indexOf(input.toLowerCase()) > -1;
+    });
+    this.currenciesFiltered$.next(res);
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
