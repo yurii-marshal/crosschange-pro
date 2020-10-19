@@ -1,23 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ITransactionItem, TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
+import { ITransactionItem } from '../../shared/interfaces/transaction-item.interface';
 import { ApiService } from 'shared-kuailian-lib';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share } from 'rxjs/operators';
-
-const depositsMock: IApiResponse<ITransactionItem> = {
-  count: 50,
-  next: '',
-  previous: '',
-  results: new Array(10).fill({
-    date: new Date().toString(),
-    cryptocurrency: 'btc',
-    amount: 1,
-    status: TransactionStatus.NEW,
-    tx_hash: '234jl6k23j4kl6j2346j',
-    type: TransactionType.DEPOSIT
-  })
-};
 
 export interface IDepositHistoryRequest {
   cryptocurrency: string;
@@ -25,7 +11,6 @@ export interface IDepositHistoryRequest {
   limit?: number;
   ordering?: string;
 }
-
 
 @Injectable({
   providedIn: 'root'
