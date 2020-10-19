@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   forwardRef, OnDestroy,
   OnInit
@@ -27,7 +27,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
   opened = false;
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
-  selected: ICurrency;
+  selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amount: FormControl = new FormControl();
   onDestroy$: Subject<void> = new Subject();
   value: {
@@ -38,7 +38,8 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
   onChange = (value: { currency: ICurrency, amount: number }) => {};
   onTouched = () => {};
   constructor(
-    private exchange: ExchangeService
+    private exchange: ExchangeService,
+    private ref: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -55,8 +56,8 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
       debounceTime(300)
     ).subscribe(v => {
       this.writeValue({
-        currency: this.selected,
-        amount: parseInt(v, 10)
+        currency: this.selected$.getValue(),
+        amount: parseInt(v, 10) || 0
       });
     });
   }
@@ -70,18 +71,19 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
   }
 
   setCurrency(currency: ICurrency): void {
-    this.selected = currency;
-    this.writeValue({currency: this.selected, amount: parseInt(this.amount.value, 10) });
+    this.selected$.next(currency);
+    this.writeValue({ currency, amount: parseInt(this.amount.value, 10) || 0 });
   }
 
   writeValue(value: { currency: ICurrency, amount: number }): void {
     if (!value) {
       return;
     }
-    this.selected = value.currency;
+    this.selected$.next(value.currency);
+    this.amount.setValue(parseInt(value.amount + '', 10) || '');
     this.onChange({
-      currency: this.selected,
-      amount: parseInt(this.amount.value, 10)
+      currency: value.currency,
+      amount: parseInt(this.amount.value, 10) || 0
     });
   }
 

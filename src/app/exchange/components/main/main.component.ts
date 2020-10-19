@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
@@ -9,6 +9,7 @@ import { ExchangeService, IChartPeriods } from '../../../shared/services/exchang
 import { IChartData } from '../../../shared/interfaces/chart-data.interface';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { chartOptions } from './chartOptions';
+import { IWallet } from '../../../shared/interfaces/wallet.interface';
 
 @Component({
   selector: 'app-main',
@@ -21,6 +22,7 @@ export class MainComponent implements OnInit, OnDestroy {
   loading = false;
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
+  wallets$: Observable<IWallet[]>;
   option = chartOptions;
   currencyType: any;
   chartInstance;
@@ -28,7 +30,7 @@ export class MainComponent implements OnInit, OnDestroy {
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
   constructor(
     private coins: CoinsService,
-    private wallets: WalletService,
+    private walletService: WalletService,
     private exchange: ExchangeService
   ) { }
 
@@ -38,6 +40,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createForm();
+    this.wallets$ = this.walletService.getWallets();
     combineLatest(
       [
         this.form.get('fromCurrency').valueChanges,
@@ -104,6 +107,16 @@ export class MainComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       fromCurrency: new FormControl(),
       toCurrency: new FormControl()
+    });
+  }
+
+  swapCurrencies(): void {
+    if (!this.form.get('fromCurrency').value || !this.form.get('toCurrency').value) {
+      return;
+    }
+    this.form.patchValue({
+      toCurrency: this.form.get('fromCurrency').value,
+      fromCurrency: this.form.get('toCurrency').value
     });
   }
 

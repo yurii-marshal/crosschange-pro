@@ -1,10 +1,10 @@
 <div class="overlay" [class.overlay-visible]="opened" (click)="opened = false; onCloseDropdown()"></div>
 <div class="switcher" (click)="opened = !opened; onCloseDropdown()" [class.opened]="opened">
   <div class="flex">
-    <mat-icon *ngIf="selected" class="coin-icon" [svgIcon]="'icon_' + (selected?.key | lowercase)">
+    <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
     </mat-icon>
     <div class="input-container">
-      <span class="coin-title" *ngIf="selected">{{selected?.fields.name}}</span>
+      <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
       <input class="amount-input" type="text" placeholder="0.00000000" [formControl]="amount" (click)="$event.stopPropagation()">
     </div>
   </div>
