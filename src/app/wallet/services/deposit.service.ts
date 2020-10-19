@@ -49,19 +49,10 @@ export class DepositService extends ApiService {
     if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {
       return of(this.deposits);
     }
-    // TODO: UNCOMMENT WHEN API IS READY
     const req = {
       type: 'deposit',
         ...params
     };
-    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());
-
-    // TODO: DELETE WHEN API IS READY
-    // depositsMock.results = depositsMock.results.map(v => {
-    //   v.cryptocurrency = params.cryptocurrency;
-    //   return v;
-    // });
-    // this.deposits = depositsMock;
-    // return of(this.deposits);
+    return super.get<IApiResponse<ITransactionItem>>('spot-wallets/transactions', req).pipe(share());
   }
 }
