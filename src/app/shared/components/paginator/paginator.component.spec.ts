@@ -76,7 +76,6 @@ fdescribe('PaginatorComponent', () => {
     fixture = TestBed.createComponent(PaginatorComponent);
     component = fixture.componentInstance;
     component.count = 100;
-    component.visiblePagesCount = 3;
 
     component.ngOnChanges({
       count: new SimpleChange(null, component.count, true)
@@ -128,7 +127,7 @@ fdescribe('PaginatorComponent', () => {
   it('should change offset on first page select if left ellipses are available', () => {
     component.currentPage = 5;
     component.params.offset = 75;
-    component.getFirstPage();
+    component.setPage(0);
 
     expect(component.currentPage).toBe(0);
     expect(component.params.offset).toBe(0);
@@ -137,34 +136,9 @@ fdescribe('PaginatorComponent', () => {
   it('should change offset on last page select if right ellipses are available', () => {
     component.currentPage = 5;
     component.params.offset = 75;
-    component.getLastPage();
+    component.setPage(component.pages.length - 1);
 
     expect(component.currentPage).toBe(6);
     expect(component.params.offset).toBe(90);
-  });
-
-  it('should change offset on left ellipses select', () => {
-    component.currentPage = 5;
-    component.params.offset = 75;
-    component.switchVisiblePages(2);
-
-    expect(component.currentPage).toBe(0);
-    expect(component.params.offset).toBe(0);
-  });
-
-  it('should change offset on right ellipses select', () => {
-    component.currentPage = 1;
-    component.params.offset = 15;
-    component.switchVisiblePages(6);
-
-    expect(component.currentPage).toBe(6);
-    expect(component.params.offset).toBe(90);
-  });
-
-  it('function getVisiblePages should evaluate a set of visible pages', () => {
-    component.currentVisiblePages = [0, 1, 2];
-    component.getVisiblePages(5);
-
-    expect(component.currentVisiblePages).toEqual([3, 4, 5]);
   });
 });
