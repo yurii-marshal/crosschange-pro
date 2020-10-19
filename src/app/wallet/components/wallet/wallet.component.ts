@@ -6,8 +6,8 @@ import { IUserBalance, WalletService } from '../../services/wallet.service';
 import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
-import { SsoUser } from 'shared-kuailian-lib';
 import { defaultPagination } from '../../../shared/constants/pagination.constant';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-wallet',
@@ -24,7 +24,7 @@ export class WalletComponent implements OnInit {
     'action',
   ];
 
-  cryptoBalanceCount: number;
+  cryptoBalanceCount = 0;
 
   fiatBalanceSource: Observable<MatTableDataSource<IWallet>>;
   euroAccountBalanceSource: Observable<MatTableDataSource<IWallet>>;
@@ -42,14 +42,12 @@ export class WalletComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private userService: UserService,
     public walletService: WalletService,
   ) {
   }
 
   ngOnInit(): void {
-    const user: SsoUser = this.route.snapshot.data.user;
-    this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
-
     const queryParams = this.route.snapshot.queryParams;
 
     if (!('offset' in queryParams) || !('limit' in queryParams)) {
@@ -66,9 +64,11 @@ export class WalletComponent implements OnInit {
       this.route.queryParams,
       this.hideLowBalance$,
       this.walletService.getCryptoPairs(),
+      this.userService.getUserInfo(),
     ]).pipe(
-      switchMap(([search, params, hideLowBalance, cryptoPairs]) => {
+      switchMap(([search, params, hideLowBalance, cryptoPairs, user]) => {
         this.cryptoPairs = cryptoPairs;
+        this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
         return this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}});
       }),
       share(),

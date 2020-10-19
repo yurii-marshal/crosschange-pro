@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Devices } from '../../../shared/services/media-breakpoints.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { FormControl } from '@angular/forms';
+import { DepositService } from '../../services/deposit.service';
 
 @Component({
   selector: 'app-deposit',
@@ -27,16 +28,19 @@ export class DepositComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   device$: Observable<Devices>;
   coinSelect = new FormControl();
+
   private readonly LIMIT = 10;
 
   constructor(
     private coinService: CoinsService,
+    private depositService: DepositService,
     private walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
     private ref: ChangeDetectorRef
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
@@ -60,7 +64,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
-    return this.walletService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
+    return this.depositService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
   }
 
   onCoinSelect(coin: ICoin): void {
@@ -71,14 +75,18 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   navigateDefault(): void {
-    this.router.navigate([window.location.pathname], {queryParams: { offset: 0, limit: this.LIMIT } });
+    this.router.navigate(
+      [window.location.pathname],
+      {queryParams: {offset: 0, limit: this.route.snapshot.queryParams.limit || this.LIMIT}}
+    );
   }
 
   selectPopular(coin: ICoin): void {
     this.coinSelect.setValue(coin);
   }
 
-  sort(field: 'date' | 'amount' | 'status'): void {}
+  sort(field: 'date' | 'amount' | 'status'): void {
+  }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();

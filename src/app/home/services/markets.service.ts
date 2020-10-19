@@ -5,7 +5,8 @@ import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 
 
 @Injectable({
@@ -13,6 +14,7 @@ import {map} from 'rxjs/operators';
 })
 export class MarketsService extends ApiService {
   private widgets$: BehaviorSubject<IExchangeData[]> = new BehaviorSubject([]);
+
   constructor(
     protected injector: Injector,
     private socket: SocketService
@@ -30,10 +32,11 @@ export class MarketsService extends ApiService {
       .subscribe((data) => this.widgets$.next(data));
   }
 
-  loadPairs(query: string, params): Observable<{ results: IExchangeData[], count: number }> {
+  loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
     let parameters = new HttpParams();
     parameters = parameters
       .set('search', query || '')
+      .set('currency', filter || '')
       .set('type', params.tab || 'favorite')
       .set('orderby', params.orderby || 'last')
       .set('offset', params.offset || defaultPagination.offset)
@@ -51,7 +54,7 @@ export class MarketsService extends ApiService {
   deleteFromFavourite(pair: string): Observable<any> {
     const url = 'exchanges/rates/favorites';
 
-    return super.delete(url, { body : { exchange_type: pair } });
+    return super.delete(url, {body: {exchange_type: pair}});
   }
 
   loadWidgetsData(): Observable<IExchangeData[]> {
@@ -63,5 +66,10 @@ export class MarketsService extends ApiService {
       this.widgets$.next(v);
     });
     return this.widgets$.asObservable();
+  }
+
+  loadDropdownData(): Observable<ICurrency[]> {
+
+    return super.get('exchanges/currencies');
   }
 }

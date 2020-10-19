@@ -59,8 +59,7 @@ export class WidgetComponent implements OnInit, OnChanges {
     // https://echarts.apache.org/examples/en/index.html#chart-type-line
     // https://echarts.apache.org/en/option.html#title
     this.currencyType = this.widgetInfo.exchange_type.split('/')[0].toLocaleLowerCase();
-
-    this.option.color = [+this.widgetInfo.change_perce_24 >= 0 ? '#52C676' : '#DB1C27'];
+    this.option.color = [+this.widgetInfo.change_percent_24 >= 0 ? '#52C676' : '#DB1C27'];
     this.option.series = [{
       data: this.widgetInfo.prices,
       type: 'line',
@@ -70,12 +69,11 @@ export class WidgetComponent implements OnInit, OnChanges {
     }];
     /*this.option.yAxis['min'] = Math.min(...this.widgetInfo.prices);*/
     this.option.xAxis.data = new Array(this.widgetInfo.prices.length).fill(1).map((v, i) => i + '');
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.widgetInfo && changes.widgetInfo.currentValue) {
-      this.option.color = [+this.widgetInfo.change_perce_24 >= 0 ? '#52C676' : '#DB1C27'];
+      this.option.color = [+this.widgetInfo.change_percent_24 >= 0 ? '#52C676' : '#DB1C27'];
     }
   }
 

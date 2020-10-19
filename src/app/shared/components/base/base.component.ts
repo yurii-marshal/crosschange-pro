@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { filter, map, mergeMap, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Subject } from 'rxjs';
-import {UserService} from '../../services/user.service';
-import {SocketService} from '../../services/socket.service';
+import { UserService } from '../../services/user.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-base',
@@ -39,7 +39,8 @@ export class BaseComponent implements OnInit, OnDestroy {
           this.socket.init(user);
           return user;
         }
-      )).subscribe(() => {});
+      )).subscribe(() => {
+    });
   }
 
   extractCurrentRoute(): ActivatedRoute {
