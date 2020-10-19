@@ -32,7 +32,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   searchInputControl = new FormControl();
 
-  count: number;
+  count = 0;
   activeLink: string;
 
   widgets$: Observable<IExchangeData[]>;

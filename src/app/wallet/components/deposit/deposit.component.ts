@@ -27,6 +27,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   device$: Observable<Devices>;
   coinSelect = new FormControl();
+
   private readonly LIMIT = 10;
 
   constructor(
@@ -36,7 +37,8 @@ export class DepositComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
     private ref: ChangeDetectorRef
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
@@ -60,7 +62,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
-    return this.walletService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
+    return this.walletService.getDepositHistory({cryptocurrency: selected && selected.key, ...qParams});
   }
 
   onCoinSelect(coin: ICoin): void {
@@ -71,14 +73,18 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   navigateDefault(): void {
-    this.router.navigate([window.location.pathname], {queryParams: { offset: 0, limit: this.LIMIT } });
+    this.router.navigate(
+      [window.location.pathname],
+      {queryParams: {offset: 0, limit: this.route.snapshot.queryParams.limit || this.LIMIT}}
+    );
   }
 
   selectPopular(coin: ICoin): void {
     this.coinSelect.setValue(coin);
   }
 
-  sort(field: 'date' | 'amount' | 'status'): void {}
+  sort(field: 'date' | 'amount' | 'status'): void {
+  }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
