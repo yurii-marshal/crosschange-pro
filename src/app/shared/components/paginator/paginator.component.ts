@@ -1,11 +1,9 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   SimpleChanges,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -20,17 +18,12 @@ import { GridService } from '../../services/grid.service';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() count;
+  @Input() count = 0;
   @Input() limit = defaultPagination.limit;
-  @Input() visiblePagesCount = 3;
-
-  @Output() pageChanged: EventEmitter<number> = new EventEmitter<number>();
 
   params = defaultPagination;
 
-  currentVisiblePages: number[] = [];
-
-  totalPages = 1;
+  pages = [];
   currentPage = 0;
 
   private onDestroyed: Subject<void> = new Subject<void>();
@@ -55,21 +48,19 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.count.currentValue && changes.count.currentValue !== this.count) {
+    if (changes.count.currentValue) {
       this.onDetectCountChanges(changes.count.currentValue);
     }
   }
 
-  onDetectCountChanges(count: number): void {
+  onDetectCountChanges(count): void {
     this.count = count;
     this.currentPage = Math.ceil(this.params.offset / this.params.limit) || 0;
-    this.totalPages = Math.ceil(count / this.params.limit);
+    this.pages = [...Array(Math.ceil(count / this.params.limit)).keys()];
 
-    if (this.currentPage > this.totalPages - 1) {
+    if (this.currentPage > this.pages.length - 1) {
       this.currentPage = 0;
     }
-
-    this.getVisiblePages(this.currentPage);
 
     this.setPage(this.currentPage);
   }
@@ -82,64 +73,19 @@ export class PaginatorComponent implements OnInit, OnChanges, OnDestroy {
       limit: this.params.limit,
     };
 
-    this.onPageChanged(page);
-  }
-
-  onPageChanged(page: number): void {
     this.gridService.navigate(this.params);
-    this.pageChanged.emit(page + 1);
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPages - 1) {
+    if (this.currentPage < this.pages.length - 1) {
       this.setPage(++this.currentPage);
-
-      if (this.currentPage > this.currentVisiblePages[this.currentVisiblePages.length - 1]) {
-        this.getVisiblePages(this.currentPage);
-      }
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 0) {
       this.setPage(--this.currentPage);
-
-      if (this.currentPage < this.currentVisiblePages[0]) {
-        this.getVisiblePages((this.currentPage + 1) - this.visiblePagesCount);
-      }
     }
-  }
-
-  switchVisiblePages(firstElement): void {
-    this.getVisiblePages(firstElement);
-    this.setPage(this.currentVisiblePages[0]);
-  }
-
-  getFirstPage(): void {
-    this.setPage(0);
-    this.getVisiblePages(0);
-  }
-
-  getLastPage(): void {
-    this.setPage(this.totalPages - 1);
-    this.getVisiblePages(this.totalPages - 1);
-  }
-
-  getVisiblePages(currentElement: number): void {
-    this.currentVisiblePages = [...Array(Math.ceil(this.totalPages / this.visiblePagesCount)).keys()]
-      .map((set: number) => {
-        const pagesInSet = [...Array(this.visiblePagesCount).keys()];
-
-        return pagesInSet.map((order: number) => {
-          const page = set * this.visiblePagesCount + order;
-
-          if (page <= this.totalPages - 1) {
-            return page;
-          }
-        }).filter((order: number) => !isNaN(order));
-      })
-      .filter((set: number[]) => set.includes(currentElement))
-      .reduce((accumulator: number[], value: number[]) => accumulator.concat(value), []);
   }
 
   ngOnDestroy(): void {

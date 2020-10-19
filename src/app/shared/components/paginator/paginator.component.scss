@@ -16,21 +16,41 @@
   line-height: 28px;
   color: $color-grey-60;
 
-  .page {
-    display: flex;
+  .page, .bounder {
     align-items: center;
     justify-content: center;
     width: 32px;
+    display: flex;
+  }
+
+  .page {
     cursor: pointer;
   }
 
-  .active-page {
+  .page.long {
+    display: none;
+  }
+
+  .current {
     color: $color-brand;
   }
 
-  .control-btn {
-    &[disabled] {
-      cursor: default;
+  .long.current,
+  .long.side,
+  .long.first,
+  .long.last,
+  .long.prev,
+  .long.next {
+    display: flex;
+  }
+
+  .control-btn[disabled] {
+    cursor: default;
+
+    ::ng-deep .mat-icon {
+      svg {
+        fill-opacity: 0.5;
+      }
     }
   }
 }

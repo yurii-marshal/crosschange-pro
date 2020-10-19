@@ -117,10 +117,6 @@ export class MarketsComponent implements OnInit, OnDestroy {
     });
   }
 
-  test(value): void {
-
-  }
-
   ngOnDestroy(): void {
     this.onDestroyed$.next();
     this.onDestroyed$.complete();
