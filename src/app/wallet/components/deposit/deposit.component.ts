@@ -92,6 +92,4 @@ export class DepositComponent implements OnInit, OnDestroy {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
-
-
 }
