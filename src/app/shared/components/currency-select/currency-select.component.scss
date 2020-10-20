@@ -77,9 +77,12 @@
   display: none;
   background-color: $color-white-100;
   max-height: 242px;
-  overflow: auto;
   &.visible {
     display: block;
+  }
+  .items-container {
+    overflow: auto;
+    max-height: 186px;
   }
   .currency-search-container {
     position: relative;
