@@ -9,28 +9,16 @@
   <div class="widget__content">
     <div class="widget__content-amount">{{ widgetInfo.last }}</div>
     <div class="widget__content-change widget__content-change--negative"
-         [class.widget__content-change--positive]="(this.widgetInfo.change_perce_24 | number) >= 0">
-      {{ widgetInfo.change_perce_24 }}
+         [class.widget__content-change--positive]="(this.widgetInfo.change_percent_24 | number) >= 0">
+      {{ widgetInfo.change_percent_24 }}
     </div>
   </div>
   <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
   <div class="widget__chart">
-    <ngx-charts-line-chart
-      [showXAxisLabel]="false"
-      [showYAxisLabel]="false"
-      [scheme]="colorScheme"
-      [curve]="d3.curveBasis"
-      [xAxis]="false"
-      [yAxis]="false"
-      [xAxisLabel]="false"
-      [yAxisLabel]="false"
-      [timeline]="false"
-      [results]="chartData"
-      [autoScale]="true"
-      [tooltipDisabled]="true">
-    </ngx-charts-line-chart>
+    <div echarts [options]="option" class="chart" [autoResize]="true"></div>
   </div>
 </div>
+
 <div class="widget-hover">
   <button class="widget__trade-btn">{{'crypto_widget.trade' | translate}}</button>
 </div>

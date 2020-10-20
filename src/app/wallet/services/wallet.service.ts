@@ -2,15 +2,10 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ApiService } from 'shared-kuailian-lib';
 import { IWallet } from '../../shared/interfaces/wallet.interface';
-import {
-  ITransactionItem,
-  TransactionStatus,
-  TransactionType,
-} from '../../shared/interfaces/transaction-item.interface';
-import { IApiResponse } from 'shared-kuailian-lib';
-import { share } from 'rxjs/operators';
+import { map, share, tap } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
 import { Cacheable } from 'ngx-cacheable';
+import { IApiResponse } from 'shared-kuailian-lib';
 
 // TODO: DELETE WHEN API IS READY
 const walletMock = {
@@ -38,27 +33,6 @@ const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 
 });
 
 
-const depositsMock: IApiResponse<ITransactionItem> = {
-  count: 50,
-  next: '',
-  previous: '',
-  results: new Array(10).fill({
-    date: new Date().toString(),
-    cryptocurrency: 'btc',
-    amount: 1,
-    status: TransactionStatus.NEW,
-    tx_hash: '234jl6k23j4kl6j2346j',
-    type: TransactionType.DEPOSIT
-  })
-};
-
-export interface IDepositHistoryRequest {
-  cryptocurrency: string;
-  offset?: number;
-  limit?: number;
-  ordering?: string;
-}
-
 export interface IUserBalance {
   available_balance: number;
   total_balance: number;
@@ -71,13 +45,6 @@ export interface IUserBalance {
 export class WalletService extends ApiService {
 
   private wallets: IWallet[] | null = null;
-
-  private deposits: IApiResponse<ITransactionItem> = {
-    count: 0,
-    next: '',
-    previous: '',
-    results: []
-  };
 
   constructor(
     protected injector: Injector,
@@ -92,7 +59,7 @@ export class WalletService extends ApiService {
     }
 
     // TODO: UNCOMMENT WHEN API IS READY
-    /*return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
+    return super.get<IApiResponse<IWallet>>('spot-wallets', {offset: 0, limit: 100}).pipe(
       tap((v) => {
         this.wallets = v.results;
       }),
@@ -100,31 +67,11 @@ export class WalletService extends ApiService {
         return v.results;
       }),
       share()
-    );*/
+    );
 
     // TODO: DELETE WHEN API IS READY
-    this.wallets = walletsMock;
-    return of(this.wallets).pipe(share());
-  }
-
-  getDepositHistory(params: IDepositHistoryRequest): Observable<IApiResponse<ITransactionItem>> {
-    if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {
-      return of(this.deposits);
-    }
-    // TODO: UNCOMMENT WHEN API IS READY
-    /*const req = {
-      type: 'deposit',
-        ...params
-    };
-    return super.get<IApiResponse<ITransactionItem>>(`transactions`, req).pipe(share());*/
-
-    // TODO: DELETE WHEN API IS READY
-    depositsMock.results = depositsMock.results.map(v => {
-      v.cryptocurrency = params.cryptocurrency;
-      return v;
-    });
-    this.deposits = depositsMock;
-    return of(this.deposits);
+    // this.wallets = walletsMock;
+    // return of(this.wallets).pipe(share());
   }
 
   @Cacheable({

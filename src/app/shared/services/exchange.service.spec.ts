@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserDataResolver } from './user-data-resolver.service';
+import { ExchangeService } from './exchange.service';
 
-describe('UserDataResolverService', () => {
-  let service: UserDataResolver;
+describe('ExchangeService', () => {
+  let service: ExchangeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserDataResolver);
+    service = TestBed.inject(ExchangeService);
   });
 
   it('should be created', () => {

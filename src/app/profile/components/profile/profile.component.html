@@ -1,0 +1,28 @@
+<div class="main-container">
+  <aside>
+    <div class="profile">
+      <div class="profile__header">{{'profile_page.profile' | translate}}</div>
+
+      <ul class="profile__options-list">
+        <li class="profile__options-item" [routerLink]="['user']" [routerLinkActive]="['active']">
+          {{'profile_page.profile' | translate}}
+        </li>
+        <li class="profile__options-item" [routerLink]="['security/address']" [routerLinkActive]="['active']">
+          {{'profile_page.security' | translate}}
+        </li>
+        <li class="profile__options-item" [routerLink]="['api_keys']" [routerLinkActive]="['active']">
+          {{'profile_page.api_keys' | translate}}
+        </li>
+        <li class="profile__options-item" [routerLink]="['report']" [routerLinkActive]="['active']">
+          {{'profile_page.report' | translate}}
+        </li>
+      </ul>
+
+    </div>
+  </aside>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

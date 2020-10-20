@@ -85,7 +85,7 @@
         {{'deposit_page.history_transaction_hash' | translate}}
       </div>
     </div>
-    <div class="table-row" *ngFor="let item of (deposits$ | async).results">
+    <div class="table-row" *ngFor="let item of (deposits$ | async)?.results">
       <div class="table-cell">{{item.date | date: 'MM/dd/yyyy'}}</div>
       <div class="table-cell">
         <div class="cell-crypto">

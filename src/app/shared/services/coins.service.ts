@@ -3,6 +3,8 @@ import { Observable, of } from 'rxjs';
 import { ApiService } from 'shared-kuailian-lib';
 import { ICoin } from '../interfaces/coin.interface';
 import { map, share } from 'rxjs/operators';
+import { IExchangeData } from '../interfaces/exchange-data.interface';
+import { HttpParams } from '@angular/common/http';
 
 
 // TODO: DELETE WHEN API IS READY
@@ -59,6 +61,7 @@ const coinsMock: ICoin[] = [
 })
 export class CoinsService extends ApiService {
   private coins: ICoin[] = [];
+
   constructor(protected injector: Injector) {
     super(injector);
   }
@@ -81,5 +84,17 @@ export class CoinsService extends ApiService {
     return this.getCoins().pipe(
       map((res: ICoin[]) => res.filter(v => v.is_popular))
     );
+  }
+
+  getRate(fromCoin: string, toCoin: string, step?: number): Observable<IExchangeData> {
+    let params = new HttpParams();
+    fromCoin = fromCoin.toUpperCase();
+    toCoin = toCoin.toUpperCase();
+    params = params.set('pairs', fromCoin + toCoin);
+    if (step) {
+      params = params.set('step', step + '');
+    }
+
+    return super.get('exchanges/rates', {params}).pipe(map((data: IExchangeData[]) => data.shift()) );
   }
 }

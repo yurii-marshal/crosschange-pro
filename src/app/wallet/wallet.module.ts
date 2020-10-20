@@ -11,7 +11,6 @@ import { DepositComponent } from './components/deposit/deposit.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { SelectedWalletPipe } from './pipes/selected-wallet.pipe';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
-import { UserDataResolver } from '../core/services/user-data-resolver.service';
 
 
 export const routes = [
@@ -23,7 +22,6 @@ export const routes = [
       {
         path: 'balance',
         component: WalletComponent,
-        resolve: {user: UserDataResolver},
       },
       {
         path: 'deposit',
