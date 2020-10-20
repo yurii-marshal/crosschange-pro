@@ -53,7 +53,7 @@
                 <span>({{info.change_percent_24 | number:'1.2-2'}}%)</span>
                 <mat-icon *ngIf="+info.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
-              <ng-container *ngIf="!(exchangeInfo$ | async)?.change_percent_24">
+              <ng-container *ngIf="(exchangeInfo$ | async) === null">
                 <span>0</span>
               </ng-container>
             </div>
