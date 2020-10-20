@@ -18,7 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SimpleChange } from '@angular/core';
 
-fdescribe('PaginatorComponent', () => {
+describe('PaginatorComponent', () => {
   let component: PaginatorComponent;
   let fixture: ComponentFixture<PaginatorComponent>;
   let httpMock: HttpTestingController;
@@ -89,7 +89,7 @@ fdescribe('PaginatorComponent', () => {
   });
 
 
-  fit('should set currentPage accordingly to params values on component init', () => {
+  it('should set currentPage accordingly to params values on component init', () => {
     routeStub.setQueryParamMap({offset: 30, limit: 10});
 
     fixture.detectChanges();

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CurrencySelectComponent } from './currency-select.component';
 
-describe('CurrencySelectComponent', () => {
+fdescribe('CurrencySelectComponent', () => {
   let component: CurrencySelectComponent;
   let fixture: ComponentFixture<CurrencySelectComponent>;
 
