@@ -69,7 +69,7 @@ export class MainComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.onDestroy$),
       filter(([fromCurrency, toCurrency]) => {
-        return fromCurrency && toCurrency;
+        return fromCurrency && fromCurrency.currency && toCurrency && toCurrency.currency;
       }),
       map(([from, to]) => {
         return [from.currency, to.currency];
