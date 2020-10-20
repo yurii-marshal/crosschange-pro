@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import {distinctUntilChanged, filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -53,7 +53,7 @@ export class MainComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.onDestroy$),
       filter(([fromCurrency, toCurrency]) => {
-        return fromCurrency && toCurrency;
+        return fromCurrency && fromCurrency.currency && toCurrency && toCurrency.currency;
       }),
       map(([from, to]) => {
         return [from.currency, to.currency];
