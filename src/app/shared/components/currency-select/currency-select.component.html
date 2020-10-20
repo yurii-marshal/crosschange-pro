@@ -24,9 +24,11 @@
     <mat-icon svgIcon="icon_search"></mat-icon>
     <input class="currency-search" type="text" (keyup)="search($event.target.value)" [(ngModel)]="searchValue">
   </div>
-  <span *ngFor="let coin of currenciesFiltered$ | async" (click)="setCurrency(coin); opened = false" class="menu-item">
+  <div class="items-container">
+    <span *ngFor="let coin of currenciesFiltered$ | async" (click)="setCurrency(coin); opened = false" class="menu-item">
         <mat-icon class="coin-icon" [svgIcon]="'icon_' + (coin.key | lowercase)"></mat-icon>
         <span class="coin-title">{{coin.key | uppercase }}</span>
         <span class="coin-subtitle">{{coin.fields.name}}</span>
     </span>
+  </div>
 </div>
