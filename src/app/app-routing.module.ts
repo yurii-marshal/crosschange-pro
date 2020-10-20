@@ -24,7 +24,11 @@ export const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then((m) => m.ProfileModule)
-      }
+      },
+      {
+        path: 'trade',
+        loadChildren: () => import('./exchange/exchange.module').then((m) => m.ExchangeModule),
+      },
     ]
   },
   {

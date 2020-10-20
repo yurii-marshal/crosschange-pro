@@ -158,5 +158,20 @@
     "trade": "Trade",
     "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
+  },
+  "exchange": {
+    "title": "Quick Exchange",
+    "for": "For",
+    "you_will_get": "You will get",
+    "max": "Max",
+    "balance": "Balance",
+    "exchange": "Exchange",
+    "24h": "24h",
+    "1w": "1w",
+    "1m": "1m",
+    "1y": "1y",
+    "current_rate": "Current rate",
+    "today_change": "Today's change",
+    "fee": "Fee"
   }
 }
