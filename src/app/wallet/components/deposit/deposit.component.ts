@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,10 +17,9 @@ import { DepositService } from '../../services/deposit.service';
   selector: 'app-deposit',
   templateUrl: './deposit.component.html',
   styleUrls: ['./deposit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepositComponent implements OnInit, OnDestroy {
-  selected$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin | null>(null);
+  selected$: ReplaySubject<ICoin> = new ReplaySubject<ICoin | null>(null);
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
   deposits$: Observable<IApiResponse<ITransactionItem>>;
@@ -40,12 +39,13 @@ export class DepositComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private ref: ChangeDetectorRef,
     private qrCodeService: QrCodeService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const params = this.route.snapshot.queryParams;
+
     if (!('offset' in params) || !('limit' in params)) {
       this.navigateDefault();
     }
@@ -53,34 +53,31 @@ export class DepositComponent implements OnInit, OnDestroy {
     this.popular$ = this.coinService.getPopular();
     this.wallets$ = this.walletService.getWallets();
 
-    combineLatest(
-      [
-        this.selected$,
-        this.route.queryParams,
-      ]
-    ).pipe(
-      takeUntil(this.onDestroy$)
-    ).subscribe(([selected, qParams]) => {
-      this.deposits$ = this.getHistory(selected, qParams);
-      this.qrCode$ = this.qrCodeService.generateQRCode(null);
-      this.qrCodeService.generateQRCode(null)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((qr: string) => {
-          // todo: secure url by qr base64
-          this.qrUrl = [qr];
-        });
-    });
+    combineLatest([
+      this.route.queryParams,
+      this.selected$,
+    ])
+      .pipe(takeUntil(this.onDestroy$), distinctUntilChanged())
+      .subscribe(([qParams, selected]) => {
+        this.deposits$ = this.getHistory(selected, qParams);
+
+        const cryptoQRData: CryptoQRData = {
+          currency: selected.key,
+          wallet: selected.name,
+          amount: 0,
+        };
+
+        this.qrCode$ = this.qrCodeService.generateQRCode(cryptoQRData);
+      });
   }
 
   getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
-    return this.depositService.getDepositHistory({ cryptocurrency: selected && selected.key, ...qParams });
+    return this.depositService.getDepositHistory({cryptocurrency: selected && selected.key, ...qParams});
   }
 
   onCoinSelect(coin: ICoin): void {
-    this.selected$.next(coin);
     this.navigateDefault();
-    // TODO: REFACTOR
-    setTimeout(() => this.ref.markForCheck());
+    this.selected$.next(coin);
   }
 
   navigateDefault(): void {

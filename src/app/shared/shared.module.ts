@@ -22,6 +22,7 @@ import { PopoverModule } from './popover/popover.module';
 import { CoinSelectComponent } from './components/coin-select/coin-select.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { SafePipe } from './pipes/safe.pipe';
 
 const components = [
   HeaderComponent,
@@ -43,7 +44,8 @@ const pipes = [
 @NgModule({
   declarations: [
     ...components,
-    ...pipes
+    ...pipes,
+    SafePipe
   ],
   imports: [
     CommonModule,
