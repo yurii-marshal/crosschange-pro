@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CurrencySelectComponent } from './currency-select.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  ENVIRONMENT,
+  IEnvironment
+} from 'shared-kuailian-lib';
+import { environment } from '../../../../environments/environment';
 
 fdescribe('CurrencySelectComponent', () => {
   let component: CurrencySelectComponent;
@@ -8,7 +14,14 @@ fdescribe('CurrencySelectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CurrencySelectComponent ]
+      declarations: [ CurrencySelectComponent ],
+      imports: [ HttpClientTestingModule ],
+      providers: [
+        {
+          provide: ENVIRONMENT,
+          useValue: environment as IEnvironment
+        },
+      ]
     })
     .compileComponents();
   }));
