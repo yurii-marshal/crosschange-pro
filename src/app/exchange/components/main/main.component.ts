@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -12,6 +12,7 @@ import { chartOptions } from './chartOptions';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange-confirmation.component';
+import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 
 @Component({
   selector: 'app-main',
@@ -34,25 +35,37 @@ export class MainComponent implements OnInit, OnDestroy {
     [this.chartPeriods.MONTH]: 30,
     [this.chartPeriods.YEAR]: 30,
   };
+
   constructor(
     private coins: CoinsService,
     private walletService: WalletService,
     private exchange: ExchangeService,
+    private mediaBreakpointsService: MediaBreakpointsService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {
+  }
 
   onChartInit(e): void {
-   this.chartInstance = e;
+    this.chartInstance = e;
   }
 
   ngOnInit(): void {
     this.createForm();
     this.wallets$ = this.walletService.getWallets();
+
+    this.mediaBreakpointsService.device
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((device) => {
+        if (device === Devices.MOBILE) {
+          this.option.xAxis.axisLabel.rotate = 45;
+        }
+      });
+
     combineLatest(
       [
         this.form.get('fromCurrency').valueChanges,
-        this.form.get('toCurrency').valueChanges
+        this.form.get('toCurrency').valueChanges,
       ]
     ).pipe(
       takeUntil(this.onDestroy$),
@@ -142,7 +155,7 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!val || !val.currency) {
       return;
     }
-    const selected = { ...val.currency };
+    const selected = {...val.currency};
     this.wallets$.pipe(
       take(1),
       map((wallets) => {

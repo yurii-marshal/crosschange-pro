@@ -23,6 +23,7 @@ import { CoinSelectComponent } from './components/coin-select/coin-select.compon
 import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+
 const components = [
   HeaderComponent,
   FooterComponent,
@@ -46,28 +47,28 @@ const pipes = [
     ...components,
     ...pipes
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        TranslateModule,
-        AngularMaterialModule,
-        MatIconModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatSidenavModule,
-        ReactiveFormsModule,
-        PopoverModule.forRoot(),
-        LayoutModule,
-        NgxEchartsModule.forRoot({
-            /**
-             * This will import all modules from echarts.
-             * If you only need custom modules,
-             * please refer to [Custom Build] section.
-             */
-            echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
-        }),
-        FormsModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    AngularMaterialModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatSidenavModule,
+    ReactiveFormsModule,
+    PopoverModule.forRoot(),
+    LayoutModule,
+    NgxEchartsModule.forRoot({
+      /**
+       * This will import all modules from echarts.
+       * If you only need custom modules,
+       * please refer to [Custom Build] section.
+       */
+      echarts: () => import('echarts'), // or import('./path-to-my-custom-echarts')
+    }),
+    FormsModule,
+  ],
   exports: [
     ...components,
     ...pipes,
@@ -85,4 +86,5 @@ const pipes = [
     DatePipe
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

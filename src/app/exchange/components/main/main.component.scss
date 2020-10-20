@@ -1,27 +1,23 @@
 @import "../../../../assets/styles/variables";
+
 .content-container {
-  padding-left: 100px;
-  padding-right: 100px;
-  padding-top: 36px;
-  padding-bottom: 128px;
+  padding: 36px 100px 128px;
 }
+
 h1 {
-  font-style: normal;
   font-weight: bold;
   font-size: 32px;
   line-height: 44px;
   margin-bottom: 56px;
+  font-family: IBM Plex Sans;
 }
-.flex {
-  display: flex;
-}
+
 .left {
   width: 39%;
   margin-right: 39px;
   label {
     text-transform: uppercase;
     margin-bottom: 8px;
-    font-style: normal;
     font-weight: bold;
     font-size: 12px;
     line-height: 16px;
@@ -33,8 +29,6 @@ h1 {
   .max {
     .max-label {
       color: $color-grey-40;
-      font-style: normal;
-      font-weight: normal;
       font-size: 14px;
       line-height: 20px;
       margin-right: 3px;
@@ -59,7 +53,6 @@ h1 {
     border-radius: 8px;
     padding-bottom: 17px;
     padding-top: 18px;
-    font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
@@ -68,8 +61,6 @@ h1 {
   }
   .fee {
     text-align: center;
-    font-style: normal;
-    font-weight: normal;
     font-size: 14px;
     line-height: 20px;
     color: $color-grey-40;
@@ -110,7 +101,6 @@ h1 {
       letter-spacing: 0.7px;
       text-transform: uppercase;
       color: $color-grey-40;
-      font-style: normal;
       font-weight: bold;
       font-size: 12px;
       line-height: 16px;
@@ -174,15 +164,12 @@ h1 {
       }
     }
     label {
-      font-style: normal;
-      font-weight: normal;
       font-size: 12px;
       line-height: 16px;
       color: $color-grey-40;
       display: block;
     }
     span {
-      font-style: normal;
       font-weight: bold;
       font-size: 20px;
       line-height: 28px;
@@ -199,4 +186,70 @@ h1 {
 
 ::ng-deep .confirmation .mat-dialog-container {
   padding: 0;
+}
+
+@media all and (max-width: $media-tablet) {
+  .content-container {
+    padding: 20px 16px 100px;
+    background-color: $color-white-100;
+  }
+
+  h1 {
+    font-size: 20px;
+    line-height: 140%;
+    margin-bottom: 32px;
+  }
+
+  form {
+    margin-bottom: 40px;
+  }
+
+  .left {
+    width: 100%;
+
+    label {
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 20px;
+      color: $color-brand-dark;
+    }
+
+    app-currency-select {
+      margin-top: 8px;
+    }
+
+    .form-field {
+      margin-bottom: 4px;
+    }
+
+    .max {
+      text-align: right;
+    }
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .buttons {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    overflow: hidden;
+
+    .controls {
+      width: 100%;
+      padding-left: 5px;
+    }
+
+    .status {
+      margin-top: 24px;
+      width: 100%;
+    }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .left {
+    margin-right: 0;
+  }
 }

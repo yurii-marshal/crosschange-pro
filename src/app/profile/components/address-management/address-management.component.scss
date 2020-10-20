@@ -1,0 +1,54 @@
+@import "../../../../assets/styles/variables";
+
+.address-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 36px 22px 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid $color-grey-20;
+
+  &__label {
+    font-size: 32px;
+    line-height: 44px;
+    font-weight: bold;
+    color: $color-trading-dark;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__toggle-whitelist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    padding: 12px 24px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: $color-brand;
+    background-color: transparent;
+    border: 1px solid $color-brand;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &__add-address {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: $color-white-100;
+    background-color: $color-brand;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}

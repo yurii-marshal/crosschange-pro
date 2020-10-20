@@ -133,6 +133,15 @@
     "title": "notifications",
     "view_all": "View all"
   },
+  "profile_page": {
+    "add_address": "Add Withdraw Address",
+    "address_label": "Address Management",
+    "api_keys": "API Keys",
+    "disable_whitelist": "Disable Whitelist",
+    "profile": "Profile",
+    "report": "Report",
+    "security": "Security"
+  },
   "qr_code": {
     "address_short": "{{crypto}} Address",
     "copy_address": "Copy address",
