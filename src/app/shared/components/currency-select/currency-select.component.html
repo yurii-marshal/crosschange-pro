@@ -1,8 +1,12 @@
 <div class="overlay" [class.overlay-visible]="opened" (click)="opened = false; onCloseDropdown()"></div>
+
 <div class="switcher" (click)="opened = !opened; onCloseDropdown()" [class.opened]="opened">
-  <div class="flex">
+  <div class="fx-row">
     <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
     </mat-icon>
+    <div class="coin-abbr">
+      <span class="coin-key" *ngIf="selected$">{{(selected$ | async)?.key}}</span>
+    </div>
     <div class="input-container">
       <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
       <input class="amount-input" type="text" placeholder="0.00000000" [formControl]="amount" (click)="$event.stopPropagation()">
@@ -10,6 +14,11 @@
   </div>
   <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
 </div>
+
+<div class="input-mobile">
+  <input class="amount-input" type="text" placeholder="0.00000000" [formControl]="amount" (click)="$event.stopPropagation()">
+</div>
+
 <div class="coins-menu" [class.visible]="opened">
   <div class="currency-search-container">
     <mat-icon svgIcon="icon_search"></mat-icon>

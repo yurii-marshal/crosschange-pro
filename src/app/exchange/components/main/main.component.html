@@ -1,7 +1,7 @@
 <div class="content-container">
   <h1> {{'exchange.title' | translate}} </h1>
 
-  <div class="flex">
+  <div class="fx-row fx-column-xs">
     <div class="left">
       <form [formGroup]="form">
         <div class="form-field">
@@ -31,8 +31,8 @@
       </div>
     </div>
     <div class="right">
-      <div class="buttons">
-        <div>
+      <div class="buttons fx-row fx-column-xs fx-h-align-start-xs">
+        <div class="controls">
           <mat-button-toggle-group name="period" aria-label="Period" [value]="chartPeriod" (change)="onPeriodChange($event)">
             <mat-button-toggle [value]="chartPeriods.DAY">{{'exchange.24h' | translate}}</mat-button-toggle>
             <mat-button-toggle [value]="chartPeriods.WEEK">{{'exchange.1w' | translate}}</mat-button-toggle>
@@ -43,16 +43,16 @@
         <div class="status">
           <div class="status-item">
             <label>{{'exchange.current_rate' | translate}}</label>
-            <span>{{(exchangeInfo$ | async)?.last || 0}}</span>
+            <span>{{(exchangeInfo$ | async)?.last || 0 | number: '1.4-4'}}</span>
           </div>
           <div class="status-item today-change">
             <label>{{'exchange.today_change' | translate}}</label>
             <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0" [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
               <ng-container *ngIf="exchangeInfo$ | async">
                 <span>
-                  {{(((exchangeInfo$ | async)?.high_24) - ((exchangeInfo$ | async)?.low_24)) | number:'1.1-8'}}
+                  {{(((exchangeInfo$ | async)?.high_24) - ((exchangeInfo$ | async)?.low_24)) | number:'1.4-4'}}
                 </span>
-                <span>({{(exchangeInfo$ | async)?.change_percent_24}}%)</span>
+                <span>({{(exchangeInfo$ | async)?.change_percent_24 | number: '1.2-2'}}%)</span>
                 <mat-icon *ngIf="+(exchangeInfo$ | async)?.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
               <ng-container *ngIf="!(exchangeInfo$ | async)">

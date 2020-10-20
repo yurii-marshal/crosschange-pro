@@ -6,7 +6,7 @@ export const chartOptions = {
   },
   grid: { // https://echarts.apache.org/en/option.html#grid
     left: '10px', // Distance between grid component and the left side of the container.
-    right: '50px',
+    right: '0px',
   },
   xAxis: {
     type: 'category',
@@ -28,7 +28,8 @@ export const chartOptions = {
       fontWeight: 'normal',
       fontSize: '14px',
       lineHeight: '20',
-      color: '#353A3E'
+      color: '#353A3E',
+      rotate: 0,
     }
   },
   yAxis: {
@@ -47,7 +48,8 @@ export const chartOptions = {
       fontWeight: 'normal',
       fontSize: '12px',
       lineHeight: '20',
-      color: '#353A3E'
+      color: '#353A3E',
+      inside: true,
     },
     splitLine: {
       lineStyle: {
