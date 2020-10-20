@@ -196,3 +196,7 @@ h1 {
     height: 400px;
   }
 }
+
+::ng-deep .confirmation .mat-dialog-container {
+  padding: 0;
+}

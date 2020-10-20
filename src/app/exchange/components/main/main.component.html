@@ -22,7 +22,7 @@
           </div>
         </div>
       </form>
-      <button mat-raised-button color="primary">{{'exchange.exchange' | translate}}</button>
+      <button mat-raised-button color="primary" (click)="openDialog()">{{'exchange.exchange' | translate}}</button>
       <div class="fee">
         <ng-container *ngIf="form.get('fromCurrency').value">
           {{'exchange.fee' | translate}}: 2.69
@@ -55,7 +55,7 @@
                 <span>({{(exchangeInfo$ | async)?.change_percent_24}}%)</span>
                 <mat-icon *ngIf="+(exchangeInfo$ | async)?.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
-              <ng-container *ngIf="!(exchangeInfo$ | async)">
+              <ng-container *ngIf="(exchangeInfo$ | async) === null">
                 <span>0</span>
               </ng-container>
             </div>

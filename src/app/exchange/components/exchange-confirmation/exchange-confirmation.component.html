@@ -1,0 +1,80 @@
+<div class="confirmation-popup">
+  <div class="confirmation-popup__header">
+    <mat-icon [svgIcon]="'icon_arrows'"
+              class="confirmation-popup__icon-arrows"
+              *ngIf="confirmationStage === 1">
+    </mat-icon>
+    <mat-icon [svgIcon]="'icon_hourglass'"
+              class="confirmation-popup__icon-hourglass spin"
+              *ngIf="confirmationStage === 2">
+    </mat-icon>
+    <mat-icon [svgIcon]="'icon_checkmark'"
+              class="confirmation-popup__icon-checkmark"
+              *ngIf="confirmationStage === 3">
+    </mat-icon>
+
+    <div class="confirmation-popup__header-info show-header-info" *ngIf="confirmationStage === 2">
+      <div class="confirmation-popup__header-label">{{'exchange.processing' | translate}}</div>
+      <div class="confirmation-popup__header-text">{{'exchange.wait' | translate}}</div>
+    </div>
+  </div>
+
+  <div class="confirmation-popup__info"
+       [ngClass]="{'hide-info': confirmationStage === 2}"
+       *ngIf="confirmationStage !== 3">
+    <div class="confirmation-popup__info-header">{{'exchange.review' | translate}}</div>
+
+    <div class="confirmation-popup__for">
+      <div class="confirmation-popup__for-label">{{'exchange.for' | translate}}</div>
+      <div class="confirmation-popup__for-value">
+        {{ data.fromCurrencyAmount }} {{ data.fromCurrencyKey }}
+      </div>
+    </div>
+    <div class="confirmation-popup__get">
+      <div class="confirmation-popup__get-label">{{'exchange.get' | translate}}</div>
+      <div class="confirmation-popup__get-value">
+        {{ data.toCurrencyAmount }} {{ data.toCurrencyKey }}
+      </div>
+    </div>
+    <div class="confirmation-popup__rate">
+      <div class="confirmation-popup__rate-label">{{'exchange.exchange_rate' | translate}}</div>
+      <div class="confirmation-popup__rate-value">{{ data.rate }}</div>
+    </div>
+    <div class="confirmation-popup__fee">
+      <div class="confirmation-popup__fee-label">{{'exchange.fee' | translate}}</div>
+      <div class="confirmation-popup__fee-value">{{ data.fee }} {{ data.fromCurrencyKey }}</div>
+    </div>
+
+    <div class="confirmation-popup__buttons">
+      <button class="confirmation-popup__btn confirmation-popup__cancel-btn" (click)="closeDialog()">
+        {{'exchange.cancel' | translate}}
+      </button>
+      <button class="confirmation-popup__btn confirmation-popup__exchange-btn" (click)="confirmExchange()">
+        {{'exchange.exchange' | translate}}
+      </button>
+    </div>
+  </div>
+
+  <div class="confirmation-popup__info show-info" *ngIf="confirmationStage === 3">
+    <div class="confirmation-popup__info-header">{{'exchange.complete' | translate}}</div>
+
+    <div class="confirmation-popup__for">
+      <div class="confirmation-popup__for-label">{{'exchange.for' | translate}}</div>
+      <div class="confirmation-popup__for-value">
+        {{ data.fromCurrencyAmount }} {{ data.fromCurrencyKey }}
+      </div>
+    </div>
+    <div class="confirmation-popup__get">
+      <div class="confirmation-popup__get-label">{{'exchange.got' | translate}}</div>
+      <div class="confirmation-popup__get-value">
+        {{ data.toCurrencyAmount }} {{ data.toCurrencyKey }}
+      </div>
+    </div>
+
+    <div class="confirmation-popup__buttons">
+      <button class="confirmation-popup__btn confirmation-popup__exchange-btn" (click)="closeDialog()">
+        {{'exchange.done' | translate}}
+      </button>
+    </div>
+  </div>
+</div>

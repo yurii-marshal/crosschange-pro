@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SelectedWalletBalancePipe } from './pipes/selected-wallet-balance.pipe';
 import { SelectedWalletKeyPipe } from './pipes/selected-wallet-key.pipe';
+import { ExchangeConfirmationComponent } from './components/exchange-confirmation/exchange-confirmation.component';
 
 export const routes = [
   {
@@ -19,7 +20,7 @@ export const routes = [
 
 
 @NgModule({
-  declarations: [MainComponent, SelectedWalletBalancePipe, SelectedWalletKeyPipe],
+  declarations: [MainComponent, SelectedWalletBalancePipe, SelectedWalletKeyPipe, ExchangeConfirmationComponent],
   imports: [
     CommonModule,
     SharedModule,
