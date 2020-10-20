@@ -1,31 +1,33 @@
 @import "../../../../assets/styles/variables";
+
 :host {
-  position: relative;
   display: block;
-  box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
-  border-radius: 8px;
-}
-.flex {
-  display: flex;
+  position: relative;
 }
 
 .switcher {
+  position: relative;
+  box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
+  border-radius: 8px;
+
   min-height: 80px;
   display: flex;
   align-items: center;
   background: $color-white-100;
   box-sizing: border-box;
-  border-radius: 8px;
   padding: 12px 20px 8px 20px;
   cursor: pointer;
-  position: relative;
   z-index: 3;
-  & > .flex {
+
+  & > .fx-row {
     align-items: center;
+    width: 100%;
   }
+
   ::ng-deep .icon-trigger {
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    min-width: 24px;
+    height: 24px;
     border-radius: 100%;
     background-color: rgba(134, 134, 155, 0.5);
     &:hover {
@@ -43,6 +45,9 @@
       transform: rotateX(180deg);
       transition: all .3s linear;
     }
+  }
+  .coin-abbr {
+    display: none;
   }
   .coin-title {
     font-style: normal;
@@ -64,6 +69,10 @@
     color: $color-trading-dark;
     width: 100%;
   }
+}
+
+.input-mobile {
+  display: none;
 }
 
 .coins-menu {
@@ -141,7 +150,7 @@
     width: 2px;
   }
   ::ng-deep {
-    .ps--active-y>.ps__rail-y {
+    .ps--active-y > .ps__rail-y {
       background-color: transparent;
     }
   }
@@ -157,6 +166,7 @@
   }
 
 }
+
 .overlay {
   height: 100%;
   width: 100%;
@@ -170,5 +180,76 @@
   display: none;
   &.overlay-visible {
     display: block;
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  :host {
+    display: flex;
+  }
+
+  .switcher {
+    width: 50%;
+    padding: 12px 8px;
+    min-height: 44px;
+
+    ::ng-deep .icon-trigger {
+      background-color: transparent;
+
+      &:hover {
+        background-color: transparent;
+      }
+      path {
+        fill: $color-grey-100;
+      }
+    }
+
+    .coin-abbr {
+      display: inline-block;
+
+      .coin-key {
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 28px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: $color-brand-dark;
+      }
+    }
+    .coin-icon {
+      margin-right: 4px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .input-container {
+    display: none;
+  }
+
+  .input-mobile {
+    width: 50%;
+    display: inline-block;
+    margin-left: 12px;
+
+    .amount-input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-bottom: 1px solid $color-grey-20;
+
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 52px;
+      color: $color-trading-dark;
+
+      &::placeholder {
+        color: $color-trading-dark;
+      }
+    }
+  }
+
+  .currency-search-container {
+    display: none;
   }
 }
