@@ -1,5 +1,5 @@
 export interface ICurrency {
-  key: string;
+  key: string; // BTC, USD
   fields: {
     name: string;
     isFiat: boolean;

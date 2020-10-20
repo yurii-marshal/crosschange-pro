@@ -1,0 +1,23 @@
+<div class="overlay" [class.overlay-visible]="opened" (click)="opened = false; onCloseDropdown()"></div>
+<div class="switcher" (click)="opened = !opened; onCloseDropdown()" [class.opened]="opened">
+  <div class="flex">
+    <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
+    </mat-icon>
+    <div class="input-container">
+      <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
+      <input class="amount-input" type="text" placeholder="0.00000000" [formControl]="amount" (click)="$event.stopPropagation()">
+    </div>
+  </div>
+  <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
+</div>
+<div class="coins-menu" [class.visible]="opened">
+  <div class="currency-search-container">
+    <mat-icon svgIcon="icon_search"></mat-icon>
+    <input class="currency-search" type="text" (keyup)="search($event.target.value)" [(ngModel)]="searchValue">
+  </div>
+  <span *ngFor="let coin of currenciesFiltered$ | async" (click)="setCurrency(coin); opened = false" class="menu-item">
+        <mat-icon class="coin-icon" [svgIcon]="'icon_' + (coin.key | lowercase)"></mat-icon>
+        <span class="coin-title">{{coin.key | uppercase }}</span>
+        <span class="coin-subtitle">{{coin.fields.name}}</span>
+    </span>
+</div>
