@@ -43,17 +43,15 @@
         <div class="status">
           <div class="status-item">
             <label>{{'exchange.current_rate' | translate}}</label>
-            <span>{{(exchangeInfo$ | async)?.last || 0}}</span>
+            <span>{{((exchangeInfo$ | async)?.last || 0) | number:'1.1-8'}}</span>
           </div>
           <div class="status-item today-change">
             <label>{{'exchange.today_change' | translate}}</label>
             <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0" [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
-              <ng-container *ngIf="exchangeInfo$ | async">
-                <span>
-                  {{(((exchangeInfo$ | async)?.high_24) - ((exchangeInfo$ | async)?.low_24)) | number:'1.1-8'}}
-                </span>
-                <span>({{(exchangeInfo$ | async)?.change_percent_24}}%)</span>
-                <mat-icon *ngIf="+(exchangeInfo$ | async)?.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
+              <ng-container *ngIf="exchangeInfo$ | async as info">
+                <span>{{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.1-8'}}</span>
+                <span>({{info.change_percent_24 | number:'1.1-8'}}%)</span>
+                <mat-icon *ngIf="+info.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
               <ng-container *ngIf="!(exchangeInfo$ | async)">
                 <span>0</span>
