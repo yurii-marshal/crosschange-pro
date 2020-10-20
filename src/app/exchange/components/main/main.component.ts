@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, takeUntil } from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, switchMap, take, takeUntil} from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -130,6 +130,31 @@ export class MainComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       toCurrency: this.form.get('fromCurrency').value,
       fromCurrency: this.form.get('toCurrency').value
+    });
+  }
+
+  setFromMaxValue(): void {
+    const val = this.form.get('fromCurrency').value;
+    if (!val || !val.currency) {
+      return;
+    }
+    const selected = { ...val.currency };
+    this.wallets$.pipe(
+      take(1),
+      map((wallets) => {
+        const wallet = wallets.filter(v => v.cryptocurrency === selected.key).shift();
+        if (!wallet) {
+          return 0;
+        }
+        return wallet.balance.available;
+      })
+    ).subscribe(amount => {
+      this.form.patchValue({
+        fromCurrency: {
+          currency: selected,
+          amount
+        }
+      });
     });
   }
 

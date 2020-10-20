@@ -9,7 +9,7 @@
           <app-currency-select formControlName="fromCurrency"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.max' | translate}}:</span>
-            <span class="max-balance">{{form.get('fromCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
+            <span class="max-balance" (click)="setFromMaxValue()">{{form.get('fromCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
           </div>
         </div>
         <mat-icon class="direction" svgIcon="icon_direction" (click)="swapCurrencies()"></mat-icon>
