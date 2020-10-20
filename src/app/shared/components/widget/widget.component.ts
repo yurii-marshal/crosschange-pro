@@ -67,7 +67,6 @@ export class WidgetComponent implements OnInit, OnChanges {
       smooth: true,
       symbol: 'none'
     }];
-    /*this.option.yAxis['min'] = Math.min(...this.widgetInfo.prices);*/
     this.option.xAxis.data = new Array(this.widgetInfo.prices.length).fill(1).map((v, i) => i + '');
   }
 

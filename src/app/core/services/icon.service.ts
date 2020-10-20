@@ -50,7 +50,8 @@ const icons: string[] = [
   'icon_sort',
   'icon_chevron_up',
   'icon_chevron_down',
-  'icon_direction'
+  'icon_direction',
+  'icon_triangle_up'
 ];
 
 @Injectable({

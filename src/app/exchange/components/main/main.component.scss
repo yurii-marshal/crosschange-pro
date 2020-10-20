@@ -52,6 +52,7 @@ h1 {
     color: $color-grey-40;
     width: 18px;
     height: 18px;
+    cursor: pointer;
   }
   button {
     width: 100%;
@@ -138,6 +139,39 @@ h1 {
     display: flex;
     .status-item:first-of-type {
       margin-right: 38px;
+    }
+    .status-item.today-change {
+      & .positive span {
+        color: $color-trading-green;
+      }
+      & .negative span {
+        color: $color-red-100;
+      }
+    }
+    .status-item.today-change > div {
+      display: flex;
+      align-items: center;
+      ::ng-deep mat-icon {
+        margin-left: 10px;
+        svg {
+          width: 12px;
+        }
+      }
+      &.positive {
+        color: $color-trading-green;
+        ::ng-deep mat-icon path {
+          fill: $color-trading-green;
+        }
+      }
+      &.negative {
+        color: $color-red-100;
+        ::ng-deep mat-icon {
+          transform: rotateX(180deg);
+        }
+        ::ng-deep mat-icon path {
+          fill: $color-red-100;
+        }
+      }
     }
     label {
       font-style: normal;

@@ -19,15 +19,19 @@ import { IWallet } from '../../../shared/interfaces/wallet.interface';
 })
 export class MainComponent implements OnInit, OnDestroy {
   form: FormGroup;
-  loading = false;
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
   wallets$: Observable<IWallet[]>;
   option = chartOptions;
-  currencyType: any;
   chartInstance;
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
+  periodSteps = {
+    [this.chartPeriods.DAY]: 30,
+    [this.chartPeriods.WEEK]: 30,
+    [this.chartPeriods.MONTH]: 30,
+    [this.chartPeriods.YEAR]: 30,
+  };
   constructor(
     private coins: CoinsService,
     private walletService: WalletService,
@@ -59,8 +63,12 @@ export class MainComponent implements OnInit, OnDestroy {
       }),
       switchMap(([fromCurrency, toCurrency]) => {
         return combineLatest([
-          this.coins.getRate(fromCurrency.key, toCurrency.key, 30),
-          this.exchange.getChartData(fromCurrency.key, toCurrency.key, this.chartPeriod, 30)
+          this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
+          this.exchange.getChartData(
+            fromCurrency.key,
+            toCurrency.key,
+            this.chartPeriod,
+            this.periodSteps[this.chartPeriod])
         ]);
       })
     ).subscribe(([rateInfo, chartData]) => {
@@ -76,7 +84,12 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!from || !to) {
       return;
     }
-    this.exchange.getChartData(from.currency.key, to.currency.key, this.chartPeriod, 30).subscribe(v => {
+    this.exchange.getChartData(
+      from.currency.key,
+      to.currency.key,
+      this.chartPeriod,
+      this.periodSteps[this.chartPeriod]
+    ).subscribe(v => {
       this.setChartInfo(v);
     });
   }
