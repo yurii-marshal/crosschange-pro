@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -41,8 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
     private exchange: ExchangeService,
     private mediaBreakpointsService: MediaBreakpointsService,
-    private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private dialog: MatDialog
   ) {
   }
 
