@@ -5,7 +5,7 @@ import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 
 
@@ -14,7 +14,7 @@ import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 })
 export class MarketsService extends ApiService {
   private widgets$: BehaviorSubject<IExchangeData[]> = new BehaviorSubject([]);
-  private tradingPairs$: BehaviorSubject<IExchangeData[]> = new BehaviorSubject([]);
+
   constructor(
     protected injector: Injector,
     private socket: SocketService
@@ -22,9 +22,6 @@ export class MarketsService extends ApiService {
     super(injector);
     this.socket.tradingPairs$
       .pipe(
-        tap((data) => {
-          this.tradingPairs$.next(data);
-        }),
         map((data) => {
           return this.widgets$.getValue().map((oldItem) => {
             const newItem = data.find((d) => d.exchange_type === oldItem.exchange_type);
@@ -35,12 +32,7 @@ export class MarketsService extends ApiService {
       .subscribe((data) => this.widgets$.next(data));
   }
 
-  // TODO: REFACTOR
-  getPairs(): Observable<IExchangeData[]> {
-    return this.tradingPairs$.asObservable();
-  }
-
-    loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
+  loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
     let parameters = new HttpParams();
     parameters = parameters
       .set('search', query || '')
