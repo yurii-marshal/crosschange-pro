@@ -22,7 +22,7 @@
           </div>
         </div>
       </form>
-      <button mat-raised-button color="primary">{{'exchange.exchange' | translate}}</button>
+      <button mat-raised-button color="primary" (click)="openDialog()">{{'exchange.exchange' | translate}}</button>
       <div class="fee">
         <ng-container *ngIf="form.get('fromCurrency').value">
           {{'exchange.fee' | translate}}: 2.69

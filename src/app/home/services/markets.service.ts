@@ -41,7 +41,6 @@ export class MarketsService extends ApiService {
   }
 
   loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
-
     let parameters = new HttpParams();
     parameters = parameters
       .set('search', query || '')

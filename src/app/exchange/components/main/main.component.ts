@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -10,6 +10,8 @@ import { IChartData } from '../../../shared/interfaces/chart-data.interface';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { chartOptions } from './chartOptions';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange-confirmation.component';
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 
 @Component({
@@ -39,6 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
     private exchange: ExchangeService,
     private mediaBreakpointsService: MediaBreakpointsService,
+    private dialog: MatDialog
   ) {
   }
 
@@ -168,6 +171,26 @@ export class MainComponent implements OnInit, OnDestroy {
           amount
         }
       });
+    });
+  }
+
+  openDialog(): void {
+    if (!this.form.valid) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(ExchangeConfirmationComponent, {
+      width: '400px',
+      panelClass: 'confirmation',
+      data: {
+        confirmationStage: 1,
+        fromCurrencyAmount: this.form.value.fromCurrency.amount,
+        fromCurrencyKey: this.form.value.fromCurrency.currency.key,
+        toCurrencyAmount: this.form.value.toCurrency.amount,
+        toCurrencyKey: this.form.value.toCurrency.currency.key,
+        rate: this.exchangeInfo$.getValue().exchange_rate,
+        fee: 2.69
+      }
     });
   }
 

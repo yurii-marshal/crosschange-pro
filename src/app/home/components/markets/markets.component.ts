@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -96,7 +96,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
       switchMap(([query, dropdown, params]) => {
         this.isFiat = params.tab === 'fiat';
         return this.marketsService.loadPairs(query, dropdown.key, params);
-      })
+      }),
     ).subscribe(result => {
       this.count = result.count;
       this.dataSource$.next(new MatTableDataSource(result.results));

@@ -184,6 +184,10 @@ h1 {
   }
 }
 
+::ng-deep .confirmation .mat-dialog-container {
+  padding: 0;
+}
+
 @media all and (max-width: $media-tablet) {
   .content-container {
     padding: 20px 16px 100px;
