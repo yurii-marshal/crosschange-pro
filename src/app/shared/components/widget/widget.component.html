@@ -1,0 +1,24 @@
+<div class="widget">
+  <div class="widget__header">
+    <div class="widget__header-currency">
+      <mat-icon [svgIcon]="'icon_' + currencyType" class="widget__header-icon"></mat-icon>
+      {{ widgetInfo.exchange_type }}
+    </div>
+    <!--<div class="widget__header-last24">{{'crypto_widget.last24' | translate}}</div>-->
+  </div>
+  <div class="widget__content">
+    <div class="widget__content-amount">{{ widgetInfo.last }}</div>
+    <div class="widget__content-change widget__content-change--negative"
+         [class.widget__content-change--positive]="(this.widgetInfo.change_percent_24 | number) >= 0">
+      {{ widgetInfo.change_percent_24 }}
+    </div>
+  </div>
+  <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
+  <div class="widget__chart">
+    <div echarts [options]="option" class="chart" [autoResize]="true"></div>
+  </div>
+</div>
+
+<div class="widget-hover">
+  <button class="widget__trade-btn">{{'crypto_widget.trade' | translate}}</button>
+</div>

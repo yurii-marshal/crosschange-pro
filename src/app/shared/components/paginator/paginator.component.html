@@ -1,0 +1,33 @@
+<div *ngIf="count && count > limit" class="pagination">
+  <button class="control-btn" mat-icon-button (click)="prevPage()" [disabled]="currentPage === 0">
+    <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page"></mat-icon>
+  </button>
+
+  <div class="page" *ngIf="pages.length > 7 && currentPage > 2" (click)="setPage(0)">{{ 1 }}</div>
+
+  <div class="bounder" *ngIf="pages.length > 7 && currentPage > 2"> ... </div>
+
+  <ng-container *ngFor="let page of pages; let i = index; let first = first; let last = last;">
+    <span
+      class="page"
+      [class.long]="pages.length > 7"
+      [class.current]="currentPage === i"
+      [class.next]="currentPage === i + 1"
+      [class.prev]="currentPage === i - 1"
+      [class.first]="first && currentPage < 3"
+      [class.last]="last && currentPage >= pages.length - 3"
+      [class.side]="(currentPage === 0 && page === 2) || (currentPage === pages.length - 1 && page === pages.length - 3)"
+      (click)="setPage(i)"
+    >{{i + 1}}</span>
+  </ng-container>
+
+  <div class="bounder" *ngIf="pages.length > 7 && currentPage < pages.length - 3"> ... </div>
+
+  <div class="page" *ngIf="pages.length > 7 && currentPage < pages.length - 3" (click)="setPage(pages.length - 1)">
+    {{ pages.length }}
+  </div>
+
+  <button class="control-btn" mat-icon-button (click)="nextPage()" [disabled]="currentPage === pages.length - 1">
+    <mat-icon [svgIcon]="'icon_arrow_right'" class="next-page"></mat-icon>
+  </button>
+</div>

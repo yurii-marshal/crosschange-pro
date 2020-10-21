@@ -1,0 +1,328 @@
+@import "../../../../assets/styles/variables";
+
+.wrapper {
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.widgets-container {
+  display: flex;
+  align-items: center;
+  min-height: 188px;
+  padding: 36px 0;
+  background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
+              linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+
+  .widgets-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .widget {
+      width: 295px;
+      height: 189px;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.tabs-container {
+  background-color: #fafbfc;
+
+  .tabs-content {
+    position: relative;
+    padding: 68px 0 80px;
+
+    .mat-tab-group {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+.mat-table {
+  overflow-x: auto;
+}
+
+.mat-table__search {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  height: 52px;
+  background: $color-white-100;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  &-block {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &-dropdown {
+    display: flex;
+    align-items: center;
+    margin-right: 23px;
+  }
+
+  &-icon {
+    position: absolute;
+    left: 20px;
+  }
+
+  &-input {
+    margin-left: 12px;
+    padding-left: 35px;
+    width: 200px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 20px;
+    background: $color-grey-5;
+    border: 1px solid $color-grey-10;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+}
+
+.exchange-rate {
+  color: $color-grey-60;
+}
+
+.mat-header__icon {
+  margin-top: -10px;
+  margin-left: 8px;
+  width: 8px;
+  height: 9.5px;
+}
+
+::ng-deep .mat-tab-list .mat-tab-link {
+  min-width: 0;
+  padding: 0 36px 0;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #000000;
+  opacity: 1;
+}
+
+::ng-deep .mat-tab-list .mat-tab-links .mat-tab-label-active {
+  color: $color-brand;
+}
+
+.mat-column-favorite {
+  flex: 1;
+  padding-left: 12px;
+  cursor: pointer;
+}
+
+.mat-column-exchange_type {
+ flex: 4;
+}
+
+.mat-column-exchange_rate {
+  flex: 5;
+}
+
+.mat-column-change_percent_24,
+.mat-column-high_24,
+.mat-column-low_24,
+.mat-column-market_cap,
+.mat-column-vol_24 {
+  flex: 3;
+  justify-content: flex-end;
+  padding-right: 12px;
+}
+
+.custom-cell {
+  padding: 3px 7px;
+  border-radius: 4px;
+
+  &--positive {
+    color: $color-green-100;
+    background-color: rgba($color-trading-green, 0.1);
+  }
+
+  &--negative {
+    color: #DD4662;
+    background-color: rgba(#DD4662, 0.1);
+  }
+}
+
+::ng-deep .mat-form-field {
+  position: relative;
+}
+
+::ng-deep .mat-select-panel {
+  position: absolute;
+  top: 32px;
+  right: -16px;
+
+  .mat-option {
+    margin: 0 16px;
+    height: 48px !important;
+    background-color: $color-white-100;
+    border-bottom: 1px solid $color-grey-20;
+
+    &:first-child {
+      margin-top: 16px;
+    }
+
+    &:last-child {
+      margin-bottom: 16px;
+      border-bottom: none;
+    }
+
+    .mat-option-text {
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+}
+
+::ng-deep mat-select-trigger {
+  display: flex;
+  align-items: center;
+  height: 25px;
+
+  .mat-icon {
+    margin-right: 9px;
+  }
+}
+
+@media screen and(max-width: 1280px) {
+  .widgets-container {
+    .widgets-content {
+      flex-wrap: wrap;
+
+      .widget {
+        margin: 20px 10%;
+
+        &:last-child {
+          margin-right: 10%;
+        }
+      }
+    }
+  }
+
+  .mat-column-favorite {
+    min-width: 45px;
+  }
+
+  .mat-column-exchange_type,
+  .mat-column-exchange_rate,
+  .mat-column-change_percent_24,
+  .mat-column-high_24,
+  .mat-column-low_24,
+  .mat-column-market_cap,
+  .mat-column-vol_24 {
+    min-width: 160px;
+  }
+}
+
+@media all and (max-width: $media-tablet) {
+  .widgets-container {
+    .widgets-content {
+
+      .widget {
+        margin: 15px 3%;
+
+        &:last-child {
+          margin-right: 3%;
+        }
+      }
+    }
+  }
+}
+
+@media all and (max-width: 685px) {
+  .widgets-container {
+    .widgets-content {
+      flex-direction: column;
+      align-items: center;
+
+      .widget {
+        margin: 10px 0 20px;
+
+        &:last-child {
+          margin-right: 0;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .mat-table__search {
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+
+    &-dropdown {
+      margin-right: 0;
+    }
+
+    &-icon {
+      left: 7px;
+    }
+
+    &-input {
+      margin-left: 0;
+    }
+  }
+
+  ::ng-deep .mat-form-field {
+    width: 200px;
+  }
+
+  ::ng-deep .mat-select-panel {
+    width: 280px;
+    left: -23px;
+  }
+}
+
+@media all and (max-width: 1301px){
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    .mat-table {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 1rem;
+      display: table;
+      border-collapse: collapse;
+      margin: 0px;
+    }
+    .mat-row,
+    .mat-header-row {
+      display: table-row;
+    }
+    .mat-cell,
+    .mat-header-cell {
+      word-wrap: initial;
+      display: table-cell;
+      padding-left: 5px;
+      padding-right: 5px;
+      line-break: unset;
+      width: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+
+    .mat-column-change_percent_24,
+    .mat-column-high_24,
+    .mat-column-low_24,
+    .mat-column-market_cap,
+    .mat-column-vol_24 {
+      text-align: right;
+    }
+  }
+
+}

@@ -1,0 +1,26 @@
+<div class="notifications-shell fx-row">
+
+  <div class="notifications-sidebar">
+    <div class="header">{{'notifications.title' | translate}}</div>
+    <div class="category"
+         *ngFor="let category of categories"
+         [class.active]="currentType === category.value"
+         [routerLink]="['/notifications']"
+         [queryParams]="{type: category.value}"
+    >
+      {{category.label}}
+    </div>
+  </div>
+
+  <div class="mobile gradient-hide"></div>
+
+  <div class="notifications-list">
+    <div class="notification fx-row" *ngFor="let item of notifications$ | async">
+      <app-notification-item
+        [notification]="item"
+        (click)="openPopupNotification(item)"
+      ></app-notification-item>
+    </div>
+  </div>
+
+</div>

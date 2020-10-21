@@ -1,0 +1,18 @@
+<div (click)="close()"
+  [className]="'app-popover fx-row ' + popoverConfig.type + ' ' + popoverConfig.horizontalAlign + ' ' + popoverConfig.verticalAlign"
+  [@translatePopover]="{value: animationState, params:
+        {
+        shiftIn: popoverConfig.animation.transitionStart,
+        shiftOut: popoverConfig.animation.transitionEnd
+        }}"
+  (@translatePopover.done)="onFadeFinished($event)"
+>
+  <div class="color-strip"></div>
+  <div class="content fx-row fx-align-center">
+    <mat-icon class="icon fx-row" svgIcon="icon_notification"></mat-icon>
+    <div class="message">
+      <div class="header">{{data?.content?.header}}</div>
+      <div class="text">{{data?.content?.message}}</div>
+    </div>
+  </div>
+</div>

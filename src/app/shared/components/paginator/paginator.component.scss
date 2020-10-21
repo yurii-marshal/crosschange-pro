@@ -1,0 +1,63 @@
+@import "../../../../assets/styles/variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  background-color: $color-white-100;
+  border-top: 1px solid $color-grey-20;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  line-height: 28px;
+  color: $color-grey-60;
+
+  .page, .bounder {
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    display: flex;
+  }
+
+  .page {
+    cursor: pointer;
+  }
+
+  .page.long {
+    display: none;
+  }
+
+  .current {
+    color: $color-brand;
+  }
+
+  .long.current,
+  .long.side,
+  .long.first,
+  .long.last,
+  .long.prev,
+  .long.next {
+    display: flex;
+  }
+
+  .control-btn[disabled] {
+    cursor: default;
+
+    ::ng-deep .mat-icon {
+      svg {
+        fill-opacity: 0.5;
+      }
+    }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  :host {
+    justify-content: flex-start;
+    padding-left: 12px;
+  }
+}

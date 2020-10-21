@@ -1,0 +1,11 @@
+<div class="text-block" [class.short]="short">
+  <div class="fx-row fx-v-align-center header-container">
+    <div class="active-label" [class.active]="notification?.isNew"></div>
+    <div class="header">{{notification?.header}}</div>
+  </div>
+  <div class="message">{{notification?.message}}</div>
+</div>
+
+<div class="time fx-row fx-v-align-center fx-h-align-end" [class.short]="short">
+  {{notification?.date | timeBefore | translate: { minutes: 22, hours: 2, days: 3, months: 2, years: 0 } }}
+</div>

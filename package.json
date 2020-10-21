@@ -1,0 +1,72 @@
+{
+  "name": "crosschange-pro-frontend",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve --port=4200",
+    "build": "ng build --prod",
+    "build:develop": "ng build --configuration=develop",
+    "build:stage": "ng build --prod --configuration=stage",
+    "build:production": "ng build --prod --configuration=production",
+    "test": "ng test",
+    "test:coverage": "ng test --no-watch --code-coverage",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "extract-i18n": "ngx-translate-extract --input ./src --output ./src/assets/i18n/en.json --sort --format namespaced-json --clean --marker _ --format-indentation \"  \""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run extract-i18n",
+      "pre-push": "npm run lint"
+    }
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "~9.1.4",
+    "@angular/cdk": "^9.2.4",
+    "@angular/common": "~9.1.4",
+    "@angular/compiler": "~9.1.4",
+    "@angular/core": "~9.1.4",
+    "@angular/forms": "~9.1.4",
+    "@angular/material": "^9.2.1",
+    "@angular/material-moment-adapter": "^9.2.1",
+    "@angular/platform-browser": "~9.1.4",
+    "@angular/platform-browser-dynamic": "~9.1.4",
+    "@angular/router": "~9.1.4",
+    "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
+    "@ngx-translate/core": "^12.1.2",
+    "@ngx-translate/http-loader": "^4.0.0",
+    "echarts": "^4.9.0",
+    "ngx-cacheable": "^1.4.3",
+    "ngx-clipboard": "^13.0.1",
+    "ngx-echarts": "^5.1.2",
+    "rxjs": "~6.5.4",
+    "shared-kuailian-lib": "git+ssh://git@bitbucket.org/ouadreams/kuailian-shared-lib.git#v0.0.23",
+    "tslib": "^1.10.0",
+    "zone.js": "~0.10.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "~0.901.4",
+    "@angular/cdk": "^9.2.4",
+    "@angular/cli": "~9.1.4",
+    "@angular/compiler-cli": "~9.1.4",
+    "@biesbjerg/ngx-translate-extract": "^6.0.3",
+    "@brainly/onesky-utils": "^1.4.1",
+    "@types/jasmine": "~3.5.0",
+    "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.12.59",
+    "codelyzer": "^5.1.2",
+    "husky": "^4.2.5",
+    "jasmine-core": "~3.5.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~4.4.1",
+    "karma-chrome-launcher": "~3.1.0",
+    "karma-coverage-istanbul-reporter": "~2.1.0",
+    "karma-jasmine": "~3.0.1",
+    "karma-jasmine-html-reporter": "^1.4.2",
+    "protractor": "~5.4.3",
+    "ts-node": "~8.3.0",
+    "tslint": "~6.1.0",
+    "typescript": "~3.8.3"
+  }
+}

@@ -1,0 +1,87 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+:host {
+  display: flex;
+  height: 100%;
+}
+
+aside {
+  width: 240px;
+  height: 100%;
+  background-color: $color-white-100;
+  min-width: 123px;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  background-color: #fafbfc;
+}
+.main-container {
+  display: flex;
+  width: 100%;
+  justify-content: stretch;
+}
+
+.spot-wallet {
+  display: flex;
+  flex-direction: column;
+  padding-top: 32px;
+  padding-left: 40px;
+
+  &__header {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: bold;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+  }
+
+  &__services-list {
+    margin-top: 8px;
+  }
+
+  &__services-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-grey-60;
+    cursor: pointer;
+  }
+
+  .active {
+    color: $color-brand;
+  }
+}
+@media all and (max-width: $media-small-tablet) {
+  .main-container {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  aside {
+    width: 100%;
+    height: auto;
+    background: $color-aside-background;
+    .spot-wallet {
+      padding: 0;
+      &__header {
+        display: none;
+      }
+      &__services-list {
+        padding: 16px;
+        display: flex;
+      }
+      &__services-item {
+        color: $color-white-60;
+        margin-right: 24px;
+        &:last-of-type {
+          margin-right: 0;
+        }
+        &.active {
+          color: $color-white-100;
+        }
+      }
+    }
+  }
+}

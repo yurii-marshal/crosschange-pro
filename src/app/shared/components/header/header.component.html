@@ -1,0 +1,78 @@
+<header [class.logged-in]="isLoggedIn">
+  <div class="left">
+    <div class="logo" routerLink="/">
+      <img src="/assets/images/logo-white.svg" alt="logo">
+    </div>
+    <ul>
+      <li *ngFor="let item of menuItems; let i = index"
+          (mouseover)="item.active = true"
+          (mouseleave)="item.active = false"
+      >
+        <a class="menu-trigger" [routerLink]="[item.link]">
+          {{item.label | translate}}
+        </a>
+        <div *ngIf="i === 1" class="menu" [class.closed]="!item.active">
+          <div class="menu-container">
+            <div class="menu-item" routerLink="/wallet/balance">
+              <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
+              <span>{{'header.spot_wallet' | translate }}</span>
+            </div>
+            <div class="menu-item">
+              <mat-icon class="icon" svgIcon="icon_meter"></mat-icon>
+              <span>{{'header.margin_wallet' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="right">
+    <button mat-button class="exchange-btn" routerLink="/trade">{{'header.exchange' | translate}}</button>
+
+    <button [appPopover]="refNotesPopover" (click)="refNotesPopover.toggle()" class="notifications-btn" mat-icon-button>
+      <mat-icon class="icon notes" [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
+    </button>
+
+    <app-popover-template
+      #refNotesPopover
+      [placement]="'bottom-right'"
+      [hasBackdrop]="true"
+      [forceAlignment]="true"
+      [panelClass]="'notes-popover-panel'"
+      scrollStrategy="reposition"
+      (backdropClicked)="refNotesPopover.close()"
+    >
+      <div class="notifications-popup">
+        <div class="popup-header fx-row fx-v-align-center-xs fx-h-align-space-between">
+          <div class="header">{{'notifications.title' | translate}}</div>
+          <a class="link" (click)="openNotificationsPage(refNotesPopover)">{{'notifications.view_all' | translate}}</a>
+        </div>
+        <div class="notifications">
+          <div class="notification fx-row" *ngFor="let item of notifications$ | async">
+            <app-notification-item [notification]="item" [short]="true"></app-notification-item>
+          </div>
+        </div>
+      </div>
+    </app-popover-template>
+
+    <button class="user-btn" mat-icon-button>
+      <mat-icon class="icon user" svgIcon="icon_user" routerLink="/profile"></mat-icon>
+    </button>
+
+    <ul *ngIf="isLoggedIn">
+      <li>
+        <button class="logout-btn" mat-button mat-flat-button (click)="logout()">{{'header.logout' | translate}}</button>
+      </li>
+    </ul>
+  </div>
+  <div class="right mobile">
+    <button mat-icon-button (click)="refNotesPopover.toggle()">
+      <mat-icon [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
+    </button>
+    <button mat-icon-button>
+      <mat-icon svgIcon="icon_menu" (click)="openMenuMobile(menuMobile)"></mat-icon>
+    </button>
+  </div>
+
+  <div class="bgr-img"></div>
+</header>

@@ -1,0 +1,46 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'assets/styles/reset';
+@import 'assets/styles/flex';
+@import "assets/styles/variables";
+@import "assets/styles/animations";
+@import "~@angular/cdk/overlay-prebuilt.css";
+@import "~@angular/cdk/overlay";
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,400,500,600&display=swap');
+
+body * {
+  font-family: 'IBM Plex Sans', sans-serif;
+  //@include cdk-overlay();
+}
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+button {
+  transition: background 0.3s;
+
+  &:hover {
+    transition: background 0.3s;
+  }
+}
+
+.mat-menu-panel.languages {
+  min-width: 148px;
+}
+
+.mat-drawer-container {
+  background-color: transparent;
+  z-index: 999 !important;
+}
+
+.mobile {
+  display: none;
+}
+
+@media all and (max-width: $media-mobile) {
+  .mobile {
+    display: block;
+  }
+}

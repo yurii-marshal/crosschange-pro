@@ -1,0 +1,258 @@
+@import "../../../../assets/styles/variables";
+
+.content-container {
+  padding: 36px 100px 128px;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 44px;
+  margin-bottom: 56px;
+  font-family: IBM Plex Sans;
+}
+
+.left {
+  width: 39%;
+  margin-right: 39px;
+  label {
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    color: $color-grey-80;
+  }
+  app-currency-select {
+    margin-bottom: 8px;
+  }
+  .max {
+    .max-label {
+      color: $color-grey-40;
+      font-size: 14px;
+      line-height: 20px;
+      margin-right: 3px;
+    }
+    .max-balance {
+      color: $color-brand;
+      cursor: pointer;
+    }
+  }
+  .form-field {
+    margin-bottom: 27px;
+  }
+  .direction {
+    margin-bottom: 31px;
+    color: $color-grey-40;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  button {
+    width: 100%;
+    border-radius: 8px;
+    padding-bottom: 17px;
+    padding-top: 18px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FAFBFC;
+    margin-bottom: 8px;
+  }
+  .fee {
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-grey-40;
+  }
+}
+.right {
+  width: 61%;
+  ::ng-deep mat-button-toggle-group {
+    border: 0;
+    border-radius: 0;
+    &.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
+      border: 0;
+    }
+  }
+  ::ng-deep {
+    mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standard:not(.mat-button-toggle-disabled):hover .mat-button-toggle-focus-overlay {
+      opacity: 0;
+    }
+  }
+  ::ng-deep mat-button-toggle {
+    border: 0;
+    background: transparent;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-right: 6px;
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    &.mat-button-toggle-checked {
+      background-color: $color-trading-green;
+      color: $color-white-100;
+      .mat-button-toggle-label-content {
+        color: $color-white-100;
+      }
+    }
+    .mat-button-toggle-label-content {
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: $color-grey-40;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 16px;
+      padding: 0;
+    }
+    &:hover {
+      .mat-button-toggle-label-content {
+        color: $color-grey-100;
+        background-color: transparent;
+      }
+      &.mat-button-toggle-checked {
+        .mat-button-toggle-label-content {
+          color: $color-white-100;
+        }
+
+      }
+    }
+  }
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 27px;
+  }
+  .status {
+    display: flex;
+    .status-item:first-of-type {
+      margin-right: 38px;
+    }
+    .status-item.today-change {
+      & .positive span {
+        color: $color-trading-green;
+      }
+      & .negative span {
+        color: $color-red-100;
+      }
+    }
+    .status-item.today-change > div {
+      display: flex;
+      align-items: center;
+      ::ng-deep mat-icon {
+        margin-left: 10px;
+        svg {
+          width: 12px;
+        }
+      }
+      &.positive {
+        color: $color-trading-green;
+        ::ng-deep mat-icon path {
+          fill: $color-trading-green;
+        }
+      }
+      &.negative {
+        color: $color-red-100;
+        ::ng-deep mat-icon {
+          transform: rotateX(180deg);
+        }
+        ::ng-deep mat-icon path {
+          fill: $color-red-100;
+        }
+      }
+    }
+    label {
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-grey-40;
+      display: block;
+    }
+    span {
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 28px;
+      color: $color-trading-dark;
+    }
+  }
+  .chart-container {
+    height: 400px;
+  }
+  .chart {
+    height: 400px;
+  }
+}
+
+::ng-deep .confirmation .mat-dialog-container {
+  padding: 0;
+}
+
+@media all and (max-width: $media-tablet) {
+  .content-container {
+    padding: 20px 16px 100px;
+    background-color: $color-white-100;
+  }
+
+  h1 {
+    font-size: 20px;
+    line-height: 140%;
+    margin-bottom: 32px;
+  }
+
+  form {
+    margin-bottom: 40px;
+  }
+
+  .left {
+    width: 100%;
+
+    label {
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 20px;
+      color: $color-brand-dark;
+    }
+
+    app-currency-select {
+      margin-top: 8px;
+    }
+
+    .form-field {
+      margin-bottom: 4px;
+    }
+
+    .max {
+      text-align: right;
+    }
+  }
+
+  .right {
+    width: 100%;
+  }
+
+  .buttons {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    overflow: hidden;
+
+    .controls {
+      width: 100%;
+      padding-left: 5px;
+    }
+
+    .status {
+      margin-top: 24px;
+      width: 100%;
+    }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .left {
+    margin-right: 0;
+  }
+  ::ng-deep .confirmation {
+    max-width: 90vw !important;
+  }
+}

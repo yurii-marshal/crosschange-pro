@@ -1,0 +1,48 @@
+@import '~@angular/cdk/_overlay';
+@import "../../../../assets/styles/variables";
+
+// Include overlay styles
+@include cdk-overlay();
+
+// mixin to reset previous styles
+@mixin clear-border-color() {
+  border-color: transparent;
+}
+
+.app-popover-container {
+  // defaults
+  .wrapper {
+  }
+
+  // placement 'top'
+  &.v-top {
+    .wrapper {
+    }
+  }
+
+  // placement 'bottom'
+  &.v-bottom {
+    .wrapper {
+    }
+  }
+
+  // placement 'left'
+  &.h-left {
+    .wrapper {
+    }
+  }
+
+  // placement 'right'
+  &.h-right {
+    .wrapper {
+    }
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .app-popover-container {
+    position: fixed;
+    top: 96px;
+    margin: auto 5%;
+  }
+}

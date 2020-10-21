@@ -1,0 +1,97 @@
+@import "../../../assets/styles/variables";
+@import "../../../assets/styles/mixins";
+
+.notifications-shell {
+  font-family: IBM Plex Sans;
+  height: calc(100vh - #{$header-height});
+
+  .notifications-sidebar {
+    min-width: 240px;
+    padding: 32px 40px;
+    display: block;
+
+    .header {
+      display: block;
+      font-weight: bold;
+      font-size: 12px;
+      line-height: 133%;
+      align-items: center;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: $color-grey-100;
+    }
+
+    .category {
+      cursor: pointer;
+      color: $color-grey-60;
+      margin-top: 8px;
+
+      &.active {
+        color: $color-grey-100;
+      }
+    }
+  }
+
+  .notifications-list {
+    width: 100%;
+    overflow-y: auto;
+    background-color: #F8FAFB;
+    padding: 50px 22px;
+  }
+}
+
+@media all and (max-width: $media-small-tablet) {
+}
+
+@media all and (max-width: $media-mobile) {
+  .notifications-shell {
+    display: block;
+    position: relative;
+    //overflow-y: auto;
+    background-color: $color-white-100;
+    height: calc(100vh - #{$header-height-mobile});
+
+    .notifications-sidebar {
+      background: #1D2235;
+      display: flex;
+      padding: 16px 0 16px 16px;
+      overflow-x: scroll;
+      flex-wrap: nowrap;
+
+      .header {
+        display: none;
+      }
+
+      .category {
+        margin-top: 0;
+        padding-right: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 143%;
+        color: $color-white-60;
+        min-width: max-content;
+
+        &.active {
+          color: $color-white-100;
+        }
+      }
+    }
+
+    .gradient-hide {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 52px;
+      width: 37px;
+      background: linear-gradient(270deg, #1D2235 20.27%, rgba(29, 34, 53, 0.06) 100%);
+    }
+
+    .notifications-list {
+      height: calc(100vh - #{$header-height-mobile} - 52px);
+      overflow-y: auto;
+      width: 100%;
+      background-color: $color-white-100;
+      padding: 8px 16px 32px;
+    }
+  }
+}
