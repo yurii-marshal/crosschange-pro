@@ -32,7 +32,7 @@
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-icon [svgIcon]="'icon_' + element.cryptocurrency"></mat-icon>
+              <mat-icon [svgIcon]="'icon_' + element.cryptocurrency | lowercase"></mat-icon>
               {{ element.cryptocurrency }}
             </mat-cell>
           </ng-container>
@@ -121,7 +121,7 @@
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-icon [svgIcon]="'icon_' + element.cryptocurrency"></mat-icon>
+              <mat-icon [svgIcon]="'icon_' + element.cryptocurrency | lowercase"></mat-icon>
               {{ element.cryptocurrency }}
             </mat-cell>
           </ng-container>
@@ -216,7 +216,7 @@
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-icon [svgIcon]="'icon_' + element.cryptocurrency"></mat-icon>
+              <mat-icon [svgIcon]="'icon_' + element.cryptocurrency | lowercase"></mat-icon>
               {{ element.cryptocurrency }}
             </mat-cell>
           </ng-container>
