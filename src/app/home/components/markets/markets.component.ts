@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
 import { MarketsService } from 'src/app/home/services/markets.service';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
@@ -29,7 +29,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
   limit = this.route.snapshot.queryParams.limit || defaultPagination.limit;
   currentOrdering = '';
 
-  dataSource$: Observable<MatTableDataSource<IExchangeData>>;
+  dataSource$: BehaviorSubject<MatTableDataSource<IExchangeData>> = new BehaviorSubject(new MatTableDataSource([]));
 
   searchInputControl = new FormControl();
 
@@ -67,24 +67,40 @@ export class MarketsComponent implements OnInit, OnDestroy {
       map(currency => currency.filter(item => !item.fields.isFiat))
     );
 
+    // TODO: REFACTOR
+    this.marketsService.getPairs()
+      .pipe(
+        takeUntil(this.onDestroyed$),
+        map((newData) => {
+          const data = this.dataSource$.getValue().data;
+          return data.map((oldItem) => {
+            const newItem = newData.find((d) => d.exchange_type === oldItem.exchange_type);
+            return newItem ? Object.assign({}, oldItem, newItem) : oldItem;
+          });
+        })
+      )
+      .subscribe((v) => {
+        this.dataSource$.next(new MatTableDataSource<IExchangeData>(v));
+      });
+
     this.activeLink = this.route.snapshot.queryParams.tab || 'favorite';
 
-    this.dataSource$ = combineLatest(
+    combineLatest(
       [
         this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
         this.searchFilterControl.valueChanges.pipe(startWith(''), distinctUntilChanged()),
         this.route.queryParams
       ]
     ).pipe(
+      takeUntil(this.onDestroyed$),
       switchMap(([query, dropdown, params]) => {
         this.isFiat = params.tab === 'fiat';
         return this.marketsService.loadPairs(query, dropdown.key, params);
       }),
-      map(result => {
-        this.count = result.count;
-        return new MatTableDataSource(result.results);
-      })
-    );
+    ).subscribe(result => {
+      this.count = result.count;
+      this.dataSource$.next(new MatTableDataSource(result.results));
+    });
   }
 
   setFavourite(element): void {
@@ -115,6 +131,10 @@ export class MarketsComponent implements OnInit, OnDestroy {
         orderby: this.currentOrdering,
       }
     });
+  }
+
+  widgetTracker(item: IExchangeData): string {
+    return item.exchange_type;
   }
 
   ngOnDestroy(): void {

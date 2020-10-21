@@ -22,7 +22,7 @@ export class MenuMobileComponent implements OnInit {
         {label: 'menu_mobile.margin_wallet', icon: 'icon_meter', link: '/wallet/balance'},
       ],
     },
-    {label: 'menu_mobile.exchange', active: false, link: '/exchange'},
+    {label: 'menu_mobile.exchange', active: false, link: '/trade'},
     {label: 'menu_mobile.history', active: false, link: '/history'},
     {label: '', active: false, link: ''},
   ];
