@@ -167,6 +167,17 @@
   }
 }
 
+@keyframes show-info-mobile {
+  from {
+    height: 0;
+    padding: 0;
+  }
+  to {
+    height: 220px;
+    padding: 20px 8px 8px 8px
+  }
+}
+
 @keyframes show-header-info {
   from {
     bottom: -100px;
@@ -191,5 +202,15 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .confirmation-popup__header-text {
+    padding: 0 5px;
+    text-align: center;
+  }
+  .show-info {
+    animation: show-info 0.5s linear;
   }
 }
