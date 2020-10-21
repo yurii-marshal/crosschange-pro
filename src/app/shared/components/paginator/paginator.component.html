@@ -1,4 +1,4 @@
-<div *ngIf="count && count > limit" class="pagination">
+<div *ngIf="count && count > params.limit" class="pagination">
   <button class="control-btn" mat-icon-button (click)="prevPage()" [disabled]="currentPage === 0">
     <mat-icon [svgIcon]="'icon_arrow_left'" class="previous-page"></mat-icon>
   </button>
