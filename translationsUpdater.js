@@ -423,7 +423,7 @@ const updater = new TranslationsUpdater(
 
 (async(env) => {
 
-  if (env === 'prod') {
+  if (env === 'production') {
     await updater.syncAll();
   } else {
     await updater.postBaseAndSyncAll();
