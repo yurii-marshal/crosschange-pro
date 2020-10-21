@@ -11,6 +11,7 @@ import { DepositComponent } from './components/deposit/deposit.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { SelectedWalletPipe } from './pipes/selected-wallet.pipe';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
+import { WithdrawComponent } from './components/withdraw/withdraw.component';
 
 
 export const routes = [
@@ -40,7 +41,8 @@ export const routes = [
     MainComponent,
     DepositComponent,
     SelectedWalletPipe,
-    QrCodeComponent
+    QrCodeComponent,
+    WithdrawComponent
   ],
   imports: [
     CommonModule,
