@@ -399,7 +399,7 @@ const c_publicKey = process.env.OS_PUBLIC_KEY;
 const c_baseFile = process.env.OS_BASE_FILE;
 const c_oneSkyBaseFileName = process.env.ONE_SKY_BASE_FILE_NAME;
 const c_baseLang = process.env.BASE_LANG;
-const envs = new Set(['local', 'stage', 'develop', 'prod']);
+const envs = new Set(['local', 'stage', 'develop', 'production']);
 
 if (!c_projectID || !envs.has(env)) {
   console.error(`Error: Invalid OS_PROJECT_ID OR NODE_ENV var`);
