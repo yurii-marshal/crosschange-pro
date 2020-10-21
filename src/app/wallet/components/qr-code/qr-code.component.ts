@@ -8,15 +8,21 @@ import { IWallet } from '../../../shared/interfaces/wallet.interface';
 })
 export class QrCodeComponent implements OnInit {
   code: string;
+  currentWallet: IWallet;
 
   constructor() {
   }
 
   @Input() set wallet(value: IWallet) {
-    console.log(value);
+    this.currentWallet = value;
+    this.getQRCode(value);
   }
 
   ngOnInit(): void {
+  }
+
+  private getQRCode(value): void {
+    this.code = value.tag;
   }
 
 }

@@ -53,7 +53,7 @@
 
   </div>
   <div class="qr-code">
-    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
+    <ng-container *ngFor="let wallet of (wallets$ | async) | selectedWallet:(selected$ | async) | slice: 0: 1">
       <app-qr-code [wallet]="wallet"></app-qr-code>
     </ng-container>
   </div>

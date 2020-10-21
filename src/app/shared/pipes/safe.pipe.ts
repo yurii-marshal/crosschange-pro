@@ -6,7 +6,7 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl, SafeUrl } from '@angular/platf
 })
 export class SafePipe implements PipeTransform {
 
-  constructor(private sanitizer: DomSanitizer)
+  constructor(private sanitizer: DomSanitizer) {}
 
   transform(value: string, mode: string): SafeResourceUrl | SafeHtml | SafeUrl {
     switch (mode) {

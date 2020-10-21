@@ -76,8 +76,8 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   onCoinSelect(coin: ICoin): void {
-    this.navigateDefault();
     this.selected$.next(coin);
+    this.navigateDefault();
   }
 
   navigateDefault(): void {
