@@ -1,7 +1,7 @@
 <div class="widgets-container">
   <div class="wrapper">
     <div class="widgets-content">
-      <ng-container *ngFor="let widget of (widgets$ | async)">
+      <ng-container *ngFor="let widget of (widgets$ | async); trackBy: widgetTracker;">
         <app-widget class="widget" [widgetInfo]="widget"></app-widget>
       </ng-container>
     </div>
