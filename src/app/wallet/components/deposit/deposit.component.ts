@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
-import { combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { DepositService } from '../../services/deposit.service';
   styleUrls: ['./deposit.component.scss'],
 })
 export class DepositComponent implements OnInit, OnDestroy {
-  selected$: ReplaySubject<ICoin> = new ReplaySubject<ICoin | null>(null);
+  selected$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin | null>(null);
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
   deposits$: Observable<IApiResponse<ITransactionItem>>;
@@ -27,7 +27,6 @@ export class DepositComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   device$: Observable<Devices>;
   qrCode$: Observable<any>;
-  qrUrl: string[] = [];
   coinSelect = new FormControl();
 
   private readonly LIMIT = 10;
@@ -61,13 +60,13 @@ export class DepositComponent implements OnInit, OnDestroy {
       .subscribe(([qParams, selected]) => {
         this.deposits$ = this.getHistory(selected, qParams);
 
-        const cryptoQRData: CryptoQRData = {
-          currency: selected.key,
-          wallet: selected.name,
-          amount: 0,
-        };
-
-        this.qrCode$ = this.qrCodeService.generateQRCode(cryptoQRData);
+        // const cryptoQRData: CryptoQRData = {
+        //   currency: selected.key,
+        //   wallet: selected.name,
+        //   amount: 0,
+        // };
+        //
+        // this.qrCode$ = this.qrCodeService.generateQRCode(cryptoQRData);
       });
   }
 
