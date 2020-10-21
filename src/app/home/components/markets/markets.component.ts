@@ -113,6 +113,10 @@ export class MarketsComponent implements OnInit, OnDestroy {
     });
   }
 
+  widgetTracker(item: IExchangeData): string {
+    return item.exchange_type;
+  }
+
   ngOnDestroy(): void {
     this.onDestroyed$.next();
     this.onDestroyed$.complete();
