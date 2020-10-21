@@ -70,7 +70,7 @@ export class MainComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.onDestroy$),
       filter(([fromCurrency, toCurrency]) => {
-        return fromCurrency && toCurrency;
+        return fromCurrency && fromCurrency.currency && toCurrency && toCurrency.currency;
       }),
       map(([from, to]) => {
         return [from.currency, to.currency];
@@ -103,7 +103,7 @@ export class MainComponent implements OnInit, OnDestroy {
     ).pipe(
       takeUntil(this.onDestroy$),
     ).subscribe(([from, to]) => {
-      this.isValid = from && to && from.currency && to.currency && (!!parseInt(from.amount,  10) || !!parseInt(to.amount,  10));
+      this.isValid = from && to && from.currency && to.currency && (!!+from.amount || !!+to.amount);
     });
   }
 
