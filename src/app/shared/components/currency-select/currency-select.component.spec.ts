@@ -95,19 +95,23 @@ fdescribe('CurrencySelectComponent', () => {
     hostFixture.detectChanges();
   });
 
-  /*it('should have Bitcoin selected in template', async () => {
-    const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
-    MainTestHelper.click(switcher);
-    fixture.detectChanges();
-    const menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
-    const btcIdx = currenciesMock.findIndex((v) => v.key === 'btc');
-    MainTestHelper.click(menuItems[btcIdx]);
-    fixture.detectChanges();
-    await fixture.whenStable();
-    expect(component.selected$.getValue().key).toEqual('btc');
-    const title = fixture.elementRef.nativeElement.querySelector('.coin-title');
-    expect(title.innerText).toEqual('Bitcoin');
-  });*/
+  it('should have Bitcoin selected in template', (done) => {
+    component.currenciesFiltered$.subscribe(res => {
+      const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
+      MainTestHelper.click(switcher);
+      fixture.detectChanges();
+      const menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
+      const btcIdx = currenciesMock.findIndex((v) => v.key === 'btc');
+      MainTestHelper.click(menuItems[btcIdx]);
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(component.selected$.getValue().key).toEqual('btc');
+        const title = fixture.elementRef.nativeElement.querySelector('.coin-title');
+        expect(title.innerText).toEqual('Bitcoin');
+        done();
+      });
+    });
+  });
 
 
 });
