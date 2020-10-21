@@ -104,13 +104,48 @@ fdescribe('CurrencySelectComponent', () => {
       const btcIdx = currenciesMock.findIndex((v) => v.key === 'btc');
       MainTestHelper.click(menuItems[btcIdx]);
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
-        expect(component.selected$.getValue().key).toEqual('btc');
-        const title = fixture.elementRef.nativeElement.querySelector('.coin-title');
-        expect(title.innerText).toEqual('Bitcoin');
-        done();
-      });
+      expect(component.selected$.getValue().key).toEqual('btc');
+      const title = fixture.elementRef.nativeElement.querySelector('.coin-title');
+      expect(title.innerText).toEqual('Bitcoin');
+      done();
     });
+  });
+
+
+  it('should selected value in variable', (done) => {
+    component.currenciesFiltered$.subscribe(res => {
+      const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
+      expect(component.opened).toEqual(false);
+      MainTestHelper.click(switcher);
+      fixture.detectChanges();
+      expect(component.opened).toEqual(true);
+      const menu: HTMLElement = fixture.elementRef.nativeElement.querySelector('.coins-menu');
+      expect(menu.classList.contains('visible')).toEqual(true);
+      const menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
+      MainTestHelper.click(menuItems[1]);
+      expect(component.selected$.getValue()).toEqual(res[1]);
+      done();
+    });
+  });
+
+  it('should perform search in dropdown', async() => {
+    console.log('-1');
+    await fixture.whenStable();
+    console.log('0');
+    const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
+    MainTestHelper.click(switcher);
+    fixture.detectChanges();
+    const input = fixture.elementRef.nativeElement.querySelector('.amount-input');
+    console.log('1');
+    input.value = 'bt';
+    input.dispatchEvent(new Event('input'));
+    console.log('2');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    console.log('3');
+    const menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
+    expect(menuItems.length).toEqual(1);
+    console.log('4');
   });
 
 

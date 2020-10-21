@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   forwardRef, OnDestroy,
   OnInit
@@ -38,8 +38,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
   onChange = (value: { currency: ICurrency, amount: number }) => {};
   onTouched = () => {};
   constructor(
-    private exchange: ExchangeService,
-    private ref: ChangeDetectorRef
+    private exchange: ExchangeService
   ) { }
 
   ngOnInit(): void {
