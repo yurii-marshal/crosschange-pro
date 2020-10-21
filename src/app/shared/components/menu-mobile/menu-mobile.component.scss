@@ -73,6 +73,7 @@
       max-height: 0;
       opacity: 0;
       transition: max-height 0.25s;
+      overflow: hidden;
 
       &.open {
         max-height: 100px;
@@ -86,7 +87,6 @@
         font-size: 16px;
         line-height: 150%;
         color: rgba(255, 255, 255, 0.8);
-
         .icon {
           width: 20px;
           margin-right: 8px;
