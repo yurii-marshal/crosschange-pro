@@ -35,6 +35,7 @@ export class MainComponent implements OnInit, OnDestroy {
     [this.chartPeriods.MONTH]: 30,
     [this.chartPeriods.YEAR]: 30,
   };
+  isValid = false;
 
   constructor(
     private coins: CoinsService,
@@ -90,6 +91,19 @@ export class MainComponent implements OnInit, OnDestroy {
     ).subscribe(([rateInfo, chartData]) => {
       this.exchangeInfo$.next(rateInfo);
       this.setChartInfo(chartData);
+    });
+
+
+    // TODO: DELETE THIS WHEN IMPLEMENTING RECALCULATION !
+    combineLatest(
+      [
+        this.form.get('fromCurrency').valueChanges,
+        this.form.get('toCurrency').valueChanges,
+      ]
+    ).pipe(
+      takeUntil(this.onDestroy$),
+    ).subscribe(([from, to]) => {
+      this.isValid = from && to && from.currency && to.currency && (!!parseInt(from.amount,  10) || !!parseInt(to.amount,  10));
     });
   }
 
