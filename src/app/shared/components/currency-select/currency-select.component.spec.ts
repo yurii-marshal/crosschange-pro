@@ -26,7 +26,7 @@ class TestHostComponent {
   public ctrl: FormControl = new FormControl({value: null, disabled: false});
 }
 
-fdescribe('CurrencySelectComponent', () => {
+describe('CurrencySelectComponent', () => {
   let component: CurrencySelectComponent;
   let testHostComponent: TestHostComponent;
   let fixture: ComponentFixture<CurrencySelectComponent>;
@@ -128,24 +128,25 @@ fdescribe('CurrencySelectComponent', () => {
     });
   });
 
-  it('should perform search in dropdown', async() => {
-    console.log('-1');
+  it('should perform search in dropdown', async () => {
     await fixture.whenStable();
-    console.log('0');
     const switcher = fixture.elementRef.nativeElement.querySelector('.switcher');
     MainTestHelper.click(switcher);
     fixture.detectChanges();
-    const input = fixture.elementRef.nativeElement.querySelector('.amount-input');
-    console.log('1');
+    const input = fixture.elementRef.nativeElement.querySelector('.currency-search');
     input.value = 'bt';
-    input.dispatchEvent(new Event('input'));
-    console.log('2');
+    input.dispatchEvent(new Event('keyup'));
     fixture.detectChanges();
     await fixture.whenStable();
-    console.log('3');
-    const menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
+    let menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
     expect(menuItems.length).toEqual(1);
-    console.log('4');
+    expect(menuItems[0].querySelector('.coin-title').innerText).toEqual('BTC');
+    input.value = '';
+    input.dispatchEvent(new Event('keyup'));
+    fixture.detectChanges();
+    await fixture.whenStable();
+    menuItems = fixture.elementRef.nativeElement.querySelectorAll('.menu-item');
+    expect(menuItems.length).toEqual(3);
   });
 
 

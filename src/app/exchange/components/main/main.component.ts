@@ -59,6 +59,8 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe((device) => {
         if (device === Devices.MOBILE) {
           this.option.xAxis.axisLabel.rotate = 45;
+        } else {
+          this.option.xAxis.axisLabel.rotate = 0;
         }
       });
 
@@ -139,11 +141,13 @@ export class MainComponent implements OnInit, OnDestroy {
     }];
     this.option.yAxis.min = Math.min(...values) / 1.02;
     this.option.xAxis.data = labels;
-    this.chartInstance.setOption({
-      series: this.option.series,
-      xAxis: this.option.xAxis,
-      yAxis: this.option.yAxis,
-    });
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
   }
 
   createForm(): void {
