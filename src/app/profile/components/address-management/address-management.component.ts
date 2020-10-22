@@ -27,7 +27,7 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
 
   dataSource: MatTableDataSource<IAddress>;
   count = 0;
-  showWhitelistedOnly$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('showWhitelistedOnly')) || false);
+  showWhitelistedOnly$ = new BehaviorSubject<boolean>(false);
 
   onDestroy$ = new Subject<void>();
 
@@ -83,13 +83,10 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
 
   toggleWhitelistedOnly(): void {
     this.showWhitelistedOnly$.next(!this.showWhitelistedOnly$.getValue());
-    localStorage.setItem('showWhitelistedOnly', JSON.stringify(this.showWhitelistedOnly$.getValue()));
   }
 
   isAllSelected(): boolean {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 
   masterToggle(): void {
