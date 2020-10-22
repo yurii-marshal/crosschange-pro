@@ -35,12 +35,12 @@ export class MarketsService extends ApiService {
       .subscribe((data) => this.widgets$.next(data));
   }
 
-
+  // TODO: REFACTOR
   getPairs(): Observable<IExchangeData[]> {
     return this.tradingPairs$.asObservable();
   }
 
-  loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
+    loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
     let parameters = new HttpParams();
     parameters = parameters
       .set('search', query || '')
@@ -68,7 +68,7 @@ export class MarketsService extends ApiService {
   loadWidgetsData(): Observable<IExchangeData[]> {
     let params = new HttpParams();
     // FIXME: GET RID OF HARDCODE
-    params = params.set('pairs', 'BTCUSDT,ETHUSDT,LTCUSDT,DASHUSDT').set('provider', 'kraken').set('step', '30');
+    params = params.set('pairs', 'BTCUSDT,ETHUSDT,LTCUSDT,DASHUSDT').set('provider', 'kraken').set('step', '300');
 
     super.get('exchanges/rates', {params}).subscribe((v: IExchangeData[]) => {
       this.widgets$.next(v);

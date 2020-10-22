@@ -1,0 +1,216 @@
+@import "../../../../assets/styles/variables";
+
+.confirmation-popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 215px;
+    background-color: $color-brand;
+
+    &-info {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    &-label {
+      margin-bottom: 4px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-white-100;
+    }
+
+    &-text {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: normal;
+      color: rgba($color-white-100, 0.8);
+    }
+  }
+
+  &__icon-arrows {
+    width: 120px;
+    height: 120px;
+  }
+
+  &__icon-hourglass {
+    margin-bottom: 10px;
+    width: 92px;
+    height: 92px;
+  }
+
+  &__icon-checkmark {
+    width: 108px;
+    height: 108px;
+  }
+
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 100%;
+    background-color: $color-white-100;
+    overflow: hidden;
+
+    &-header {
+      margin-bottom: 15px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-trading-dark;
+    }
+  }
+
+  &__for,
+  &__get,
+  &__rate,
+  &__fee {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    &-label {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      color: $color-trading-dark;
+    }
+
+    &-value {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: normal;
+      color: $color-trading-dark;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 26px;
+  }
+
+  &__btn {
+    padding: 12px 24px;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    border-radius: 4px;
+  }
+
+  &__cancel-btn {
+    color: $color-brand;
+    background-color: $color-white-100;
+    border: 1px solid $color-brand;
+    cursor: pointer;
+  }
+
+  &__exchange-btn {
+    margin-left: 16px;
+    color: $color-white-100;
+    background-color: $color-brand;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.hide-info {
+  animation: hide-info 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.show-info {
+  animation: show-info 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+.show-header-info {
+  animation: show-header-info 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes hide-info {
+  from {
+    height: 290px;
+  }
+  to {
+    height: 0;
+    padding: 0;
+  }
+}
+
+@keyframes show-info {
+  from {
+    height: 0;
+    padding: 0;
+  }
+  to {
+    height: 220px;
+    padding: 20px;
+  }
+}
+
+@keyframes show-info-mobile {
+  from {
+    height: 0;
+    padding: 0;
+  }
+  to {
+    height: 220px;
+    padding: 20px 8px 8px 8px
+  }
+}
+
+@keyframes show-header-info {
+  from {
+    bottom: -100px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .confirmation-popup__header-text {
+    padding: 0 5px;
+    text-align: center;
+  }
+  .show-info {
+    animation: show-info 0.5s linear;
+  }
+}

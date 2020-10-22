@@ -57,7 +57,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
     ).subscribe(v => {
       this.writeValue({
         currency: this.selected$.getValue(),
-        amount: parseInt(v, 10) || 0
+        amount: v
       });
     });
   }
@@ -72,7 +72,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
 
   setCurrency(currency: ICurrency): void {
     this.selected$.next(currency);
-    this.writeValue({ currency, amount: parseInt(this.amount.value, 10) || 0 });
+    this.writeValue({ currency, amount: this.amount.value });
   }
 
   writeValue(value: { currency: ICurrency, amount: number }): void {
@@ -80,10 +80,10 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
       return;
     }
     this.selected$.next(value.currency);
-    this.amount.setValue(parseInt(value.amount + '', 10) || '');
+    this.amount.setValue(value.amount);
     this.onChange({
       currency: value.currency,
-      amount: parseInt(this.amount.value, 10) || 0
+      amount: this.amount.value
     });
   }
 
@@ -96,7 +96,6 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
   }
 
   search(input: string): void {
-    input = input || '';
     if (!input) {
       this.currenciesFiltered$.next(this.currencies);
       return;

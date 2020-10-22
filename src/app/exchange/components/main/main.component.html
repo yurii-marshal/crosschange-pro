@@ -22,7 +22,7 @@
           </div>
         </div>
       </form>
-      <button mat-raised-button color="primary">{{'exchange.exchange' | translate}}</button>
+      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!isValid">{{'exchange.exchange' | translate}}</button>
       <div class="fee">
         <ng-container *ngIf="form.get('fromCurrency').value">
           {{'exchange.fee' | translate}}: 2.69
@@ -43,19 +43,17 @@
         <div class="status">
           <div class="status-item">
             <label>{{'exchange.current_rate' | translate}}</label>
-            <span>{{(exchangeInfo$ | async)?.last || 0 | number: '1.4-4'}}</span>
+            <span>{{((exchangeInfo$ | async)?.last || 0) | number:'1.4-4'}}</span>
           </div>
           <div class="status-item today-change">
             <label>{{'exchange.today_change' | translate}}</label>
             <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0" [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
-              <ng-container *ngIf="exchangeInfo$ | async">
-                <span>
-                  {{(((exchangeInfo$ | async)?.high_24) - ((exchangeInfo$ | async)?.low_24)) | number:'1.4-4'}}
-                </span>
-                <span>({{(exchangeInfo$ | async)?.change_percent_24 | number: '1.2-2'}}%)</span>
-                <mat-icon *ngIf="+(exchangeInfo$ | async)?.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
+              <ng-container *ngIf="exchangeInfo$ | async as info">
+                <span>{{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.4-4'}}</span>
+                <span>({{info.change_percent_24 | number:'1.2-2'}}%)</span>
+                <mat-icon *ngIf="+info.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
-              <ng-container *ngIf="!(exchangeInfo$ | async)?.change_percent_24">
+              <ng-container *ngIf="(exchangeInfo$ | async) === null">
                 <span>0</span>
               </ng-container>
             </div>

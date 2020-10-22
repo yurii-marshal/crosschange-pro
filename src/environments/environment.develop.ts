@@ -8,7 +8,7 @@ export const environment = {
   kuailianMarketplaceUrl: 'https://dev-market.kuailiandp.net',
   kuailianAcademyUrl: 'https://dev-academy.kuailiandp.net',
   kuailianPurposeUrl: 'https://dev-purpose.kuailiandp.net',
-  zendeskUrl: 'https://kuailian.zendesk.com/',
+  zendeskUrl: 'https://crosschange-bank.zendesk.com/',
   recaptchaKey: '6LdfE5gUAAAAANkTBbWl1FHLVjQBoQeBiWu8QIjV',
   centrifugeUrl: 'wss://dev-websocket.kuailiandp.net',
   poolMonitoringUrl: 'https://stage-mn.kuailiandp.net',
