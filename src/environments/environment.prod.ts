@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  apiUrl: '',
+  apiUrl: 'https://pro-back.crosschange.exchange',
   bankUrl: 'https://crosschange-back.kuailiandp.net',
-  projectApiUrl: '',
+  projectApiUrl: 'https://pro-back.crosschange.exchange',
   kuailianBankUrl: 'https://bank.crosschange.exchange',
   // kuailianAcademyUrl: 'https://kuailianacademy.com',
   kuailianAcademyUrl: 'https://academy.kuailiandp.com/',
