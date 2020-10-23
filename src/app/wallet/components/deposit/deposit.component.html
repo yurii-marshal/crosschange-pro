@@ -1,3 +1,6 @@
+<div class="deposit-page">
+
+</div>
 <span class="page-title">
   {{'deposit_page.title' | translate}}
 </span>
@@ -7,7 +10,7 @@
 </span>
 
 <div class="flex-container coin-select-container">
-  <app-coin-select [formControl]="coinSelect" (ngModelChange)="onCoinSelect($event)"></app-coin-select>
+  <app-coin-select class="coin-select deposit" [formControl]="coinSelect" (ngModelChange)="onCoinSelect($event)"></app-coin-select>
 
   <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
     <div class="balance">

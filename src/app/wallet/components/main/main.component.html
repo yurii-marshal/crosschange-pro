@@ -1,16 +1,28 @@
 <div class="main-container">
   <aside>
-    <div class="spot-wallet">
-      <div class="spot-wallet__header">{{'wallet_page.spot_wallet' | translate}}</div>
-      <ul class="spot-wallet__services-list">
-        <li class="spot-wallet__services-item" [routerLink]="['balance']" [routerLinkActive]="['active']">
+    <div class="wallet">
+      <div class="wallet__header">{{'wallet_page.spot_wallet' | translate}}</div>
+      <ul class="wallet__services-list">
+        <li class="wallet__services-item" [routerLink]="['balance']" [routerLinkActive]="['active']">
           {{'wallet_page.balance' | translate}}
         </li>
-        <li class="spot-wallet__services-item" [routerLink]="['deposit']" [routerLinkActive]="['active']">
+        <li class="wallet__services-item" [routerLink]="['deposit']" [routerLinkActive]="['active']">
           {{'wallet_page.deposit' | translate}}
         </li>
-        <li class="spot-wallet__services-item" [routerLink]="['withdraw']" [routerLinkActive]="['active']">
+        <li class="wallet__services-item" [routerLink]="['withdraw']" [routerLinkActive]="['active']">
           {{'wallet_page.withdraw' | translate}}
+        </li>
+      </ul>
+    </div>
+
+    <div class="wallet">
+      <div class="wallet__header">{{'wallet_page.margin_wallet' | translate}}</div>
+      <ul class="wallet__services-list">
+        <li class="wallet__services-item" [routerLink]="['cors']" [routerLinkActive]="['active']">
+          {{'wallet_page.cors' | translate}}
+        </li>
+        <li class="wallet__services-item" [routerLink]="['isolated']" [routerLinkActive]="['active']">
+          {{'wallet_page.isolated' | translate}}
         </li>
       </ul>
     </div>

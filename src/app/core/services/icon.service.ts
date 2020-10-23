@@ -57,6 +57,7 @@ const icons: string[] = [
   'icon_checkmark',
   'icon_security',
   'icon_logout',
+  'icon_warning_circle',
 ];
 
 @Injectable({

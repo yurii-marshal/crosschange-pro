@@ -30,6 +30,7 @@ export const routes = [
       },
       {
         path: 'withdraw',
+        component: WithdrawComponent,
       },
     ],
   }
@@ -42,7 +43,7 @@ export const routes = [
     DepositComponent,
     SelectedWalletPipe,
     QrCodeComponent,
-    WithdrawComponent
+    WithdrawComponent,
   ],
   imports: [
     CommonModule,

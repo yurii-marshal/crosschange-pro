@@ -1,15 +1,108 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ICoin } from '../../../shared/interfaces/coin.interface';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CoinsService } from '../../../shared/services/coins.service';
+import { IApiResponse } from 'shared-kuailian-lib';
+import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
+import { WithdrawService } from '../../services/withdraw.service';
+import { IWallet } from '../../../shared/interfaces/wallet.interface';
+import { WalletService } from '../../services/wallet.service';
+import { IAddress } from '../../../shared/interfaces/address.interface';
 
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
-  styleUrls: ['./withdraw.component.scss']
+  styleUrls: ['./withdraw.component.scss', './../deposit/deposit.component.scss']
 })
-export class WithdrawComponent implements OnInit {
+export class WithdrawComponent implements OnInit, OnDestroy {
+  transactionFee = 0;
+  finalAmount = 0;
+  selectedCoin$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin | null>(null);
+  selectedAddress$: BehaviorSubject<IAddress> = new BehaviorSubject<IAddress | null>(null);
+  popular$: Observable<ICoin[]>;
+  wallets$: Observable<IWallet[]>;
+  withdraws$: Observable<IApiResponse<IWithdrawItem>>;
+  onDestroy$ = new Subject<void>();
 
-  constructor() { }
+  withdrawForm: FormGroup;
 
-  ngOnInit(): void {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private coinsService: CoinsService,
+    private withdrawService: WithdrawService,
+    private walletService: WalletService,
+  ) {
   }
 
+  ngOnInit(): void {
+    const params = this.route.snapshot.queryParams;
+
+    if (!('offset' in params) || !('limit' in params)) {
+      this.navigateDefault();
+    }
+
+    this.withdrawForm = new FormGroup({
+      tag: new FormControl(),
+      amount: new FormControl(),
+      coinSelect: new FormControl(),
+      recipientAddressSelect: new FormControl(),
+    });
+
+    this.popular$ = this.coinsService.getPopular();
+    this.wallets$ = this.walletService.getWallets();
+
+    combineLatest([
+      this.route.queryParams,
+      this.selectedCoin$,
+    ])
+      .pipe(takeUntil(this.onDestroy$), distinctUntilChanged())
+      .subscribe(([qParams, selected]) => {
+        this.withdraws$ = this.getHistory(selected, qParams);
+      });
+  }
+
+  getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
+    return this.withdrawService.getWithdrawHistory({cryptocurrency: selected && selected.key, ...qParams});
+  }
+
+  selectPopular(coin: ICoin): void {
+    this.withdrawForm.get('coinSelect').setValue(coin);
+  }
+
+  onCoinSelect(coin: ICoin): void {
+    this.selectedCoin$.next(coin);
+    this.navigateDefault();
+  }
+
+  onAddressSelect(address: IAddress): void {
+    this.selectedAddress$.next(address);
+    this.navigateDefault();
+  }
+
+  navigateDefault(): void {
+    this.router.navigate(
+      [window.location.pathname],
+      {queryParams: {offset: 0, limit: this.route.snapshot.queryParams.limit}}
+    );
+  }
+
+  sort(field: 'date' | 'amount' | 'status'): void {
+  }
+
+  submitWithdraw(): void {
+    console.log(this.withdrawForm);
+  }
+
+  addressManagement(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
 }

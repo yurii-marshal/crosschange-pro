@@ -24,6 +24,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SafePipe } from './pipes/safe.pipe';
+import { AddressSelectComponent } from './components/address-select/address-select.component';
 
 const components = [
   HeaderComponent,
@@ -35,6 +36,7 @@ const components = [
   PaginatorComponent,
   MenuMobileComponent,
   CoinSelectComponent,
+  AddressSelectComponent,
   CurrencySelectComponent
 ];
 
@@ -47,7 +49,8 @@ const pipes = [
   declarations: [
     ...components,
     ...pipes,
-    SafePipe
+    SafePipe,
+    AddressSelectComponent
   ],
   imports: [
     CommonModule,
