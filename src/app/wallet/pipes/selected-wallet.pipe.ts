@@ -11,7 +11,7 @@ export class SelectedWalletPipe implements PipeTransform {
     if (!value || !filter) {
       return value;
     }
-    return value.filter(v => v.cryptocurrency === filter.key);
+    return value.filter(v => v.cryptocurrency.toLowerCase() === filter.key.toLowerCase());
   }
 
 }

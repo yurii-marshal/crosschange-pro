@@ -2,9 +2,9 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ApiService } from 'shared-kuailian-lib';
 import { ICoin } from '../interfaces/coin.interface';
-import { map, share } from 'rxjs/operators';
 import { IExchangeData } from '../interfaces/exchange-data.interface';
 import { HttpParams } from '@angular/common/http';
+import { map, share, tap } from 'rxjs/operators';
 
 
 // TODO: DELETE WHEN API IS READY
@@ -70,14 +70,13 @@ export class CoinsService extends ApiService {
     if (this.coins.length) {
       return of(this.coins);
     }
-    // TODO: UNCOMMENT WHEN API IS READY
-    /*return super.get<ICoin[]>('exchanges/coins').pipe(
-      tap((v) => this.coins = v),
-      share()
-    );*/
-    // TODO: DELETE WHEN API IS READY
     this.coins = coinsMock;
     return of(coinsMock).pipe(share());
+
+    // return super.get<ICoin[]>('exchanges/coins').pipe(
+    //   tap((v) => this.coins = v),
+    //   share()
+    // );
   }
 
   getPopular(): Observable<ICoin[]> {
