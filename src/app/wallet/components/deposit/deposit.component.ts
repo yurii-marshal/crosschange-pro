@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
-import { BehaviorSubject, combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
