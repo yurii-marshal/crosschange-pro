@@ -6,7 +6,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
 import {FakeMatIconRegistry} from '@angular/material/icon/testing';
 
-fdescribe('ExchangeConfirmationComponent', () => {
+describe('ExchangeConfirmationComponent', () => {
   let component: ExchangeConfirmationComponent;
   let fixture: ComponentFixture<ExchangeConfirmationComponent>;
 
