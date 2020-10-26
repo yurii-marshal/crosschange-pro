@@ -1,0 +1,18 @@
+<div class="overlay" [class.overlay-visible]="opened" (click)="opened = false"></div>
+<ng-container *ngIf="addresses$ | async">
+  <div class="switcher" (click)="opened = !opened" [class.opened]="opened">
+    <div class="flex">
+      <mat-icon *ngIf="selected" class="address-icon" [svgIcon]="'icon_' + selected?.key">
+      </mat-icon>
+      <span class="address-title">{{selected?.name}}/{{selected?.key | uppercase}}</span>
+    </div>
+    <mat-icon class="icon-trigger" svgIcon="icon_arrow_down"></mat-icon>
+  </div>
+  <div class="addresses-menu" [class.visible]="opened">
+    <span *ngFor="let address of addresses$ | async" (click)="writeValue(address); opened = false" class="menu-item">
+        <mat-icon class="address-icon" [svgIcon]="'icon_' + address.key"></mat-icon>
+        <span class="address-title">{{address.key | uppercase }}</span>
+        <span class="address-subtitle">{{address.name}}</span>
+    </span>
+  </div>
+</ng-container>
