@@ -149,14 +149,20 @@ header {
     }
 
     &.user {
-      padding-top: 8px;
-      left: 15%;
+      transform: translateX(-32%) rotateX(0);
+      padding-top: 10px;
+
+      &.closed {
+        transform-origin: center -50px; /* Axis moved up to create a larger arc of movement. */
+        transform: translateX(-32%) rotateX(5deg);
+      }
 
       .menu-container {
         min-width: 110px;
 
         &::after {
-          transform: translateX(123%);
+          left: 50%;
+          transform: translateX(-50%);
         }
       }
     }
