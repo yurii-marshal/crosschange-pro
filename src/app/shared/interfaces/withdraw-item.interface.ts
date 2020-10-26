@@ -3,6 +3,5 @@ export interface IWithdrawItem {
   cryptocurrency: string; // e.g. 'btc', 'eth'
   amount: number; // amount in cryptocurrency
   status: string;
-  tx_hash: string;
-  type: string;
+  details: string;
 }

@@ -39,6 +39,16 @@ button {
   display: none;
 }
 
+.desktop {
+  display: block !important;
+}
+
+@media all and (max-width: $media-tablet) {
+  .desktop {
+    display: none !important;
+  }
+}
+
 @media all and (max-width: $media-mobile) {
   .mobile {
     display: block;

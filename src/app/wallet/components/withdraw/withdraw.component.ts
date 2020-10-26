@@ -1,17 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, take, takeUntil, tap } from 'rxjs/operators';
 import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
 import { IAddress } from '../../../shared/interfaces/address.interface';
+import { AddressService } from '../../../shared/services/address.service';
 
 @Component({
   selector: 'app-withdraw',
@@ -25,7 +26,8 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   selectedAddress$: BehaviorSubject<IAddress> = new BehaviorSubject<IAddress | null>(null);
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
-  withdraws$: Observable<IApiResponse<IWithdrawItem>>;
+  addresses$: Observable<IAddress[]>;
+  withdraws$: Observable<IApiResponse<ITransactionItem>>;
   onDestroy$ = new Subject<void>();
 
   withdrawForm: FormGroup;
@@ -36,6 +38,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     private coinsService: CoinsService,
     private withdrawService: WithdrawService,
     private walletService: WalletService,
+    private addressService: AddressService,
   ) {
   }
 
@@ -47,14 +50,15 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     }
 
     this.withdrawForm = new FormGroup({
-      tag: new FormControl(),
-      amount: new FormControl(),
-      coinSelect: new FormControl(),
-      recipientAddressSelect: new FormControl(),
+      tag: new FormControl('', []),
+      amount: new FormControl('', [Validators.required]),
+      coinSelect: new FormControl('', [Validators.required]),
+      recipientAddressSelect: new FormControl('', [Validators.required]),
     });
 
     this.popular$ = this.coinsService.getPopular();
     this.wallets$ = this.walletService.getWallets();
+    this.addresses$ = this.addressService.getRecipientAddresses().pipe(take(1));
 
     combineLatest([
       this.route.queryParams,
@@ -95,10 +99,10 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   }
 
   submitWithdraw(): void {
-    console.log(this.withdrawForm);
   }
 
   addressManagement(): void {
+    this.router.navigateByUrl(`somewhere/address-management`);
   }
 
   ngOnDestroy(): void {

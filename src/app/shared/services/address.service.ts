@@ -4,7 +4,40 @@ import { IAddress } from '../interfaces/address.interface';
 import { share } from 'rxjs/operators';
 import { ApiService } from 'shared-kuailian-lib';
 
-const addressesMock: IAddress[] = [];
+const addressesMock: IAddress[] = [
+  {
+    cryptocurrency: 'eth',
+    wallet_label: 'Wallet Label 1',
+    address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
+    memo: 'one',
+    tag: 'tagg1',
+    whitelist: true,
+  },
+  {
+    cryptocurrency: 'eth',
+    wallet_label: 'Wallet Label 2',
+    address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
+    memo: 'one',
+    tag: 'tagg2',
+    whitelist: true,
+  },
+  {
+    cryptocurrency: 'eth',
+    wallet_label: 'Wallet Label 3',
+    address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
+    memo: 'one',
+    tag: 'tagg3',
+    whitelist: true,
+  },
+  {
+    cryptocurrency: 'eth',
+    wallet_label: 'Wallet Label 4',
+    address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
+    memo: 'one',
+    tag: 'tagg4',
+    whitelist: true,
+  },
+];
 
 @Injectable({
   providedIn: 'root'
