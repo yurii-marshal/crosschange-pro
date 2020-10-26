@@ -33,7 +33,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   searchInputControl = new FormControl();
 
-  defaultFilterValue = {key: '', fields: {name: 'All Coins', isFiat: false}};
+  defaultFilterValue = {key: 'All Coins', fields: {name: 'All Coins', isFiat: false}};
   searchFilterControl = new FormControl(this.defaultFilterValue);
 
   count = 0;
