@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
-import { distinctUntilChanged, take, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, share, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
@@ -20,8 +20,7 @@ import { AddressService } from '../../../shared/services/address.service';
   styleUrls: ['./withdraw.component.scss', './../deposit/deposit.component.scss']
 })
 export class WithdrawComponent implements OnInit, OnDestroy {
-  transactionFee = 0;
-  finalAmount = 0;
+  transactionFee$: Observable<number>;
   selectedCoin$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin | null>(null);
   selectedAddress$: BehaviorSubject<IAddress> = new BehaviorSubject<IAddress | null>(null);
   popular$: Observable<ICoin[]>;
@@ -59,6 +58,15 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     this.popular$ = this.coinsService.getPopular();
     this.wallets$ = this.walletService.getWallets();
     this.addresses$ = this.addressService.getRecipientAddresses().pipe(take(1));
+
+    this.transactionFee$ = combineLatest([
+      this.withdrawForm.get('coinSelect').valueChanges.pipe(startWith('')),
+      this.withdrawForm.get('amount').valueChanges.pipe(startWith(0)),
+    ])
+      .pipe(
+        map(([selected, amount]) => (+selected.fee * +amount) || 0),
+        share(),
+      );
 
     combineLatest([
       this.route.queryParams,
