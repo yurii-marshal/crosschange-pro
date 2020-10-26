@@ -135,3 +135,63 @@ form {
 .address-select {
   width: 100%;
 }
+
+@media all and (max-width: 612px) {
+
+}
+
+@media all and (max-width: $media-mobile) {
+  .withdraw-page {
+    padding-left: 16px;
+    padding-right: 16px;
+
+    .page-title {
+      margin-top: 30px;
+      margin-bottom: 16px;
+    }
+
+    form {
+      width: 100%;
+
+      .balance-item.withdraw {
+        margin-bottom: 15px;
+
+        .value {
+          font-size: 20px;
+          line-height: 28px;
+        }
+      }
+
+      .warning-text {
+        margin-top: 0;
+      }
+
+      .address-management {
+        display: none;
+      }
+
+      .warning-area {
+        height: auto;
+        padding: 20px 0;
+        align-items: flex-start;
+
+        mat-icon {
+          margin-top: 2px;
+        }
+      }
+    }
+
+    .popular {
+      display: none;
+    }
+
+    .section-title.coin {
+      display: none;
+    }
+
+    .balance.withdraw {
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+  }
+}

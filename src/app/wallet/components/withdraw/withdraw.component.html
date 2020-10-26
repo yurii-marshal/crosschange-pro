@@ -21,7 +21,7 @@
     </div>
 
     <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selectedCoin$ | async) | slice: 0: 1">
-      <span class="section-title">
+      <span class="section-title coin">
         {{wallet.cryptocurrency | uppercase}}
       </span>
       <div class="balance withdraw">
@@ -46,53 +46,58 @@
       </div>
       <div class="warning-text">{{'withdraw_page.warning_text' | translate}}</div>
 
-      <div class="address-management" (click)="addressManagement()">
-        {{'withdraw_page.address_management' | translate}}
-      </div>
-
-      <div class="empty-whitelisted">
-        <div class="warning-area">
-          <mat-icon svgIcon="icon_warning_circle"></mat-icon>
-          <div class="message">
-            {{'withdraw_page.not_whitelisted_yet' | translate}}
-          </div>
-        </div>
-        <button type="button" (click)="addressManagement()" mat-raised-button color="primary" class="submit-btn">
+      <div *ngIf="!(addresses$ | async).length">
+        <div class="address-management" (click)="addressManagement()">
           {{'withdraw_page.address_management' | translate}}
-        </button>
-      </div>
-
-      <div class="coin-select-container withdraw">
-        <div class="form-field-title withdraw">
-          {{'withdraw_page.recipients_address' | translate}}
         </div>
-        <app-address-select class="address-select"
-                            formControlName="recipientAddressSelect"
-                            (ngModelChange)="onAddressSelect($event)"
-        ></app-address-select>
-      </div>
 
-      <div class="coin-select-container withdraw">
-        <div class="form-field-title withdraw">
-          {{'withdraw_page.tag' | translate}}
+        <div class="empty-whitelisted">
+          <div class="warning-area">
+            <mat-icon svgIcon="icon_warning_circle"></mat-icon>
+            <div class="message">
+              {{'withdraw_page.not_whitelisted_yet' | translate}}
+            </div>
+          </div>
+          <button type="button" (click)="addressManagement()" mat-raised-button color="primary" class="submit-btn">
+            {{'withdraw_page.address_management' | translate}}
+          </button>
         </div>
-        <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text" formControlName="tag"/>
       </div>
 
-      <div class="coin-select-container withdraw">
-        <div class="form-field-title withdraw">
-          {{'withdraw_page.amount' | translate}}
+      <div *ngIf="(addresses$ | async).length">
+        <div class="coin-select-container withdraw">
+          <div class="form-field-title withdraw">
+            {{'withdraw_page.recipients_address' | translate}}
+          </div>
+          <app-address-select class="address-select"
+                              [addresses]="addresses$ | async"
+                              formControlName="recipientAddressSelect"
+                              (ngModelChange)="onAddressSelect($event)"
+          ></app-address-select>
         </div>
-        <input placeholder="0" class="control" type="text" formControlName="amount"/>
-      </div>
 
-      <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee}} {{wallet.cryptocurrency | uppercase}}</span>
-      </div>
-      <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{finalAmount}} {{wallet.cryptocurrency | uppercase}}</span>
+        <div class="coin-select-container withdraw">
+          <div class="form-field-title withdraw">
+            {{'withdraw_page.tag' | translate}}
+          </div>
+          <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text" formControlName="tag"/>
+        </div>
+
+        <div class="coin-select-container withdraw">
+          <div class="form-field-title withdraw">
+            {{'withdraw_page.amount' | translate}}
+          </div>
+          <input placeholder="0" class="control" type="text" formControlName="amount"/>
+        </div>
+
+        <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee}} {{wallet.cryptocurrency | uppercase}}</span>
+        </div>
+        <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{finalAmount}} {{wallet.cryptocurrency | uppercase}}</span>
+        </div>
       </div>
     </ng-container>
 
-    <button mat-raised-button color="primary" class="submit-btn">
+    <button *ngIf="(addresses$ | async).length" [disabled]="withdrawForm.invalid" mat-raised-button color="primary" class="submit-btn">
       {{'withdraw_page.submit' | translate}}
     </button>
   </form>
@@ -137,7 +142,7 @@
         {{item.status}}
       </span>
         </div>
-        <div class="table-cell">{{item.information}}</div>
+        <div class="table-cell">{{item.details}}</div>
       </div>
     </div>
   </div>
