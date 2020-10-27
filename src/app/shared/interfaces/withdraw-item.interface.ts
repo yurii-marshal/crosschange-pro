@@ -1,9 +1,9 @@
 export interface IWithdrawItem {
-  date: string; // operation date
+  date: number; // operation date
   cryptocurrency: string; // e.g. 'btc', 'eth'
   amount: number; // amount in cryptocurrency
   status: string;
-  details: string;
+  hash: string;
 }
 
 export interface IWithdraw {

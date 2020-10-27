@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   forwardRef,
   OnInit
@@ -27,17 +27,22 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
   opened = false;
   coins$: Observable<ICoin[]>;
   selected: ICoin;
-  onChange = (coin: ICoin) => {};
-  onTouched = () => {};
+  onChange = (coin: ICoin) => {
+  }
+  onTouched = () => {
+  }
+
   constructor(
-    private coinsService: CoinsService
-  ) { }
+    private coinsService: CoinsService,
+    private cdr: ChangeDetectorRef,
+  ) {
+  }
 
   ngOnInit(): void {
     this.coins$ = this.coinsService.getCoins()
       .pipe(
         take(1),
-        tap(v  => !this.selected && this.writeValue(v[0]))
+        tap(v => !this.selected && this.writeValue(v[0]))
       );
   }
 
@@ -55,6 +60,7 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
     }
     this.selected = coin;
     this.onChange(coin);
+    this.cdr.markForCheck();
   }
 
 }

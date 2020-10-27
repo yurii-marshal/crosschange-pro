@@ -9,9 +9,7 @@
 
   <form [formGroup]="withdrawForm" (submit)="submitWithdraw()">
     <div class="flex-container coin-select-container withdraw">
-      <app-coin-select class="coin-select withdraw"
-                       ngDefaultControl formControlName="coinSelect"
-      ></app-coin-select>
+      <app-coin-select class="coin-select withdraw" formControlName="coinSelect"></app-coin-select>
     </div>
 
     <div class="popular">
@@ -20,7 +18,8 @@
       </div>
     </div>
 
-    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coinSelect').value) | slice: 0: 1">
+    <ng-container
+      *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coinSelect').value) | slice: 0: 1">
       <span class="section-title coin">
         {{wallet.cryptocurrency | uppercase}}
       </span>
@@ -64,14 +63,15 @@
         </div>
       </div>
 
-      <div *ngIf="(addresses$ | async).length">
+      <div *ngIf="(addresses$ | async) as addresses">
         <div class="coin-select-container withdraw">
           <div class="form-field-title withdraw">
             {{'withdraw_page.recipients_address' | translate}}
           </div>
-          <app-address-select class="address-select"
-                              [addresses]="addresses$ | async"
-                              formControlName="recipientAddressSelect"
+          <app-address-select
+            [addresses]="addresses"
+            class="address-select"
+            formControlName="recipientAddressSelect"
           ></app-address-select>
         </div>
 
@@ -79,7 +79,8 @@
           <div class="form-field-title withdraw">
             {{'withdraw_page.tag' | translate}}
           </div>
-          <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text" formControlName="tag"/>
+          <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text"
+                 formControlName="tag"/>
         </div>
 
         <div class="coin-select-container withdraw">
@@ -89,17 +90,18 @@
           <input [appOnlyNumbers] placeholder="0" class="control" type="text" formControlName="amount"/>
         </div>
 
-        <ng-container *ngIf="transactionFee$ | async as fee">
-          <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{fee | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
-          </div>
-          <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{+withdrawForm.get('amount').value - (fee | number:'1.8-8')}} {{wallet.cryptocurrency | uppercase}}</span>
-          </div>
-        </ng-container>
+        <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
+        </div>
+        <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{(+withdrawForm.get('amount').value - transactionFee) | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
+        </div>
 
       </div>
     </ng-container>
 
-    <button *ngIf="(addresses$ | async).length" [disabled]="withdrawForm.invalid" mat-raised-button color="primary" class="submit-btn">
+    <button *ngIf="(addresses$ | async).length"
+            [disabled]="withdrawForm.invalid"
+            mat-raised-button color="primary"
+            class="submit-btn">
       {{'withdraw_page.submit' | translate}}
     </button>
   </form>
@@ -127,10 +129,10 @@
           <mat-icon svgIcon="icon_sort" (click)="sort('status')"></mat-icon>
         </div>
         <div class="table-header">
-          {{'withdraw_page.history_information' | translate}}
+          {{'withdraw_page.history_hash' | translate}}
         </div>
       </div>
-      <div class="table-row" *ngFor="let item of (withdraws$ | async)?.results">
+      <div class="table-row" *ngFor="let item of withdraws?.results">
         <div class="table-cell">{{item.date | date: 'MM/dd/yyyy'}}</div>
         <div class="table-cell">
           <div class="cell-crypto">
@@ -140,14 +142,14 @@
         </div>
         <div class="table-cell">{{item.amount | number:'1.8-8'}}</div>
         <div class="table-cell">
-      <span class="status">
-        {{item.status}}
-      </span>
+        <span class="status">
+          {{item.status}}
+        </span>
         </div>
-        <div class="table-cell">{{item.details}}</div>
+        <div class="table-cell">{{item.hash}}</div>
       </div>
     </div>
   </div>
-  <app-paginator [count]="(withdraws$ | async)?.count"></app-paginator>
+  <app-paginator [count]="withdraws?.count"></app-paginator>
 
 </div>

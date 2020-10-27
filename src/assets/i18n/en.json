@@ -206,7 +206,7 @@
     "history_amount": "Amount",
     "history_coin": "Coin",
     "history_date": "Date",
-    "history_information": "Information",
+    "history_hash": "Hash",
     "history_status": "Status",
     "history_title": "Withdraw history",
     "in_order": "In order",

@@ -1,20 +1,75 @@
 import { Injectable, Injector } from '@angular/core';
-import { ITransactionItem } from '../../shared/interfaces/transaction-item.interface';
 import { Observable, of } from 'rxjs';
-import { share } from 'rxjs/operators';
 import { ApiService } from 'shared-kuailian-lib';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { IWithdraw } from '../../shared/interfaces/withdraw-item.interface';
+import { IWithdraw, IWithdrawItem } from '../../shared/interfaces/withdraw-item.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WithdrawService extends ApiService {
-  private withdraws: IApiResponse<ITransactionItem> = {
+  private withdrawsMock: IApiResponse<IWithdrawItem> = {
     count: 0,
     next: '',
     previous: '',
-    results: []
+    results: [
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: 48394895,
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+    ]
   };
 
   constructor(
@@ -24,23 +79,23 @@ export class WithdrawService extends ApiService {
   }
 
   // TODO: API
-  getWithdrawHistory(params): Observable<IApiResponse<ITransactionItem>> {
-    if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {
-      return of(this.withdraws);
-    }
+  getWithdrawHistory(params): Observable<IApiResponse<IWithdrawItem>> {
+    console.log(params);
     const req = {
       type: 'deposit',
       ...params
     };
-    return super.get<IApiResponse<ITransactionItem>>('spot-wallets/transactions', req).pipe(share());
+    this.withdrawsMock.results.forEach((item) => item.cryptocurrency = params.coin);
+    return of(this.withdrawsMock);
+    // return super.get<IApiResponse<IWithdrawItem>>('spot-wallets/withdraws', req).pipe(share());
   }
 
   // TODO: API
   getWithdrawFee(coin: string, amount: number): Observable<number> {
-    console.log(coin, amount);
     return of(amount ? Math.random() * 0.1 : 0);
   }
 
+  // TODO: API
   sendWithdraw(withdraw: IWithdraw): Observable<any> {
     return of('done');
   }

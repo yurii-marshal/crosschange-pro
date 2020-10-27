@@ -6,8 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
-import { debounceTime, distinctUntilChanged, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
-import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
+import {
+  distinctUntilChanged,
+  skip,
+  startWith,
+  switchMap,
+  takeUntil,
+} from 'rxjs/operators';
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
@@ -21,11 +26,11 @@ import { defaultPagination } from '../../../shared/constants/pagination.constant
   styleUrls: ['./withdraw.component.scss', './../deposit/deposit.component.scss']
 })
 export class WithdrawComponent implements OnInit, OnDestroy {
-  transactionFee$: Observable<number>;
+  transactionFee = 0;
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
   addresses$: Observable<IAddress[]>;
-  withdraws$: Observable<IApiResponse<ITransactionItem>>;
+  withdraws: IApiResponse<IWithdrawItem>;
   onDestroy$ = new Subject<void>();
 
   withdrawForm: FormGroup;
@@ -44,8 +49,10 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     const params = this.route.snapshot.queryParams;
 
     if (!('offset' in params) || !('limit' in params)) {
-      params.offset = defaultPagination.offset;
-      params.limit = defaultPagination.limit;
+      this.router.navigate(['.'], {
+        relativeTo: this.route, queryParams:
+          {offset: defaultPagination.offset, limit: defaultPagination.limit}
+      });
     }
 
     this.withdrawForm = new FormGroup({
@@ -57,35 +64,39 @@ export class WithdrawComponent implements OnInit, OnDestroy {
 
     this.popular$ = this.coinsService.getPopular();
     this.wallets$ = this.walletService.getWallets();
-    this.addresses$ = this.addressService.getRecipientAddresses().pipe(take(1));
+    this.addresses$ = this.addressService.getRecipientAddresses();
 
     const addressChanges$ = this.withdrawForm.get('recipientAddressSelect').valueChanges.pipe(startWith(''), distinctUntilChanged());
     const coinChanges$ = this.withdrawForm.get('coinSelect').valueChanges.pipe(startWith(''), distinctUntilChanged());
-    const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), debounceTime(100), distinctUntilChanged());
+    const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged());
 
-    this.transactionFee$ = combineLatest([
-      coinChanges$,
-      amountChanges$,
-    ]).pipe(switchMap(([coin, amount]) => this.withdrawService.getWithdrawFee(coin.key, amount)));
-
-    // TODO
-    this.withdraws$ = combineLatest([
-      addressChanges$,
-      coinChanges$,
-    ])
+    combineLatest([coinChanges$, amountChanges$])
       .pipe(
         takeUntil(this.onDestroy$),
-        distinctUntilChanged(),
-        switchMap(([addresses, coin]) => this.getHistory(coin, params)),
-      );
+        switchMap(([coin, amount]) => this.withdrawService.getWithdrawFee(coin.key, amount)),
+      )
+      .subscribe((fee) => {
+        this.transactionFee = fee;
+      });
+
+    combineLatest([addressChanges$, coinChanges$])
+      .pipe(
+        takeUntil(this.onDestroy$),
+        skip(2),
+        switchMap(([address, coin]) => this.getHistory(address, coin, params)),
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this.withdraws = res;
+      });
   }
 
-  getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
-    return this.withdrawService.getWithdrawHistory({cryptocurrency: selected && selected.key, ...qParams});
+  getHistory(address, coin, qParams): Observable<IApiResponse<IWithdrawItem>> {
+    return this.withdrawService.getWithdrawHistory({address: address.address, coin: coin && coin.key, ...qParams});
   }
 
   selectPopular(coin: ICoin): void {
-    this.withdrawForm.get('coinSelect').setValue(coin);
+    this.withdrawForm.get('coinSelect').patchValue(coin);
   }
 
   sort(field: 'date' | 'amount' | 'status'): void {
@@ -94,11 +105,12 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   submitWithdraw(): void {
     this.withdrawService.sendWithdraw(this.withdrawForm.value)
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {});
+      .subscribe(() => {
+      });
   }
 
   addressManagement(): void {
-    this.router.navigateByUrl(`somewhere/address-management`);
+    this.router.navigateByUrl(`profile/security/address`);
   }
 
   ngOnDestroy(): void {
