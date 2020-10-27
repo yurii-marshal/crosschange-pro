@@ -19,6 +19,14 @@ interface IPrecheckResponse {
   fee?: number;
 }
 
+export interface IExchangeRequest {
+  from: string;
+  to: string;
+  amount: number;
+  rate: number;
+  fee: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -74,7 +82,7 @@ export class ExchangeService extends ApiService {
     return of(res).pipe(delay(2000));
   }
 
-  exchange(from: string, to: string, amount: number, rate: number, fee: number): Observable<void> {
+  exchange(request: IExchangeRequest): Observable<void> {
     // TODO: UNCOMMENT
     /*return super.post('/quick-exchange', { from, to, amount, rate, fee });*/
     // TODO: DELETE

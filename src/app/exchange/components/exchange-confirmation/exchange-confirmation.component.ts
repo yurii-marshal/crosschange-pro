@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ExchangeService } from '../../../shared/services/exchange.service';
+import {ExchangeService, IExchangeRequest} from '../../../shared/services/exchange.service';
 
 @Component({
   selector: 'app-exchange-confirmation',
@@ -20,13 +20,14 @@ export class ExchangeConfirmationComponent {
 
   confirmExchange(): void {
     this.confirmationStage = 2;
-    this.exchangeService.exchange(
-      this.data.fromCurrencyKey,
-      this.data.toCurrencyKey,
-      this.data.fromCurrencyAmount,
-      this.data.rate,
-      this.data.fee
-    ).subscribe(_ => {
+    const req: IExchangeRequest = {
+      from: this.data.fromCurrencyKey,
+      to: this.data.toCurrencyKey,
+      amount: this.data.fromCurrencyAmount,
+      rate: this.data.rate,
+      fee: this.data.fee
+    };
+    this.exchangeService.exchange(req).subscribe(_ => {
       this.confirmationStage = 3;
     });
   }
