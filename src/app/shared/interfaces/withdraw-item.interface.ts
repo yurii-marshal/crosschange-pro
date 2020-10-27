@@ -1,3 +1,5 @@
+import { FormControl, Validators } from '@angular/forms';
+
 export interface IWithdrawItem {
   date: string; // operation date
   cryptocurrency: string; // e.g. 'btc', 'eth'
@@ -7,5 +9,8 @@ export interface IWithdrawItem {
 }
 
 export interface IWithdraw {
-  
+  tag: string;
+  amount: number;
+  coinSelect: string;
+  recipientAddressSelect: string;
 }
