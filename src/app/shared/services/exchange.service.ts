@@ -12,6 +12,12 @@ export enum IChartPeriods {
   MONTH = '1m',
   YEAR = '1y'
 }
+interface IPrecheckResponse {
+  amount: number;
+  valid: boolean;
+  rate: number;
+  fee?: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +54,31 @@ export class ExchangeService extends ApiService {
     const subj = new BehaviorSubject(mock as IChartData[]);
     return subj.asObservable().pipe(delay(200));
   }
+
+  precheck(from: string, to: string, amount: number, baseCurrency: string): Observable<IPrecheckResponse> {
+    // TODO: UNCOMMENT
+    /*return super.get('/exchange-precheck', {
+      from,
+      to,
+      amount,
+      baseCurrency
+    });*/
+
+    // TODO: DELETE
+    const res = {
+      amount:  Math.random() * (100 - 1) + 1,
+      valid: true,
+      rate: Math.random() * (100 - 1) + 1,
+      fee: Math.random() * (100 - 1) + 1
+    };
+    return of(res).pipe(delay(2000));
+  }
+
+  exchange(from: string, to: string, amount: number, rate: number, fee: number): Observable<void> {
+    // TODO: UNCOMMENT
+    /*return super.post('/quick-exchange', { from, to, amount, rate, fee });*/
+    // TODO: DELETE
+    return of(undefined).pipe(delay(2000));
+  }
+
 }
