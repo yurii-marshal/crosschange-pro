@@ -23,6 +23,7 @@ import { CoinSelectComponent } from './components/coin-select/coin-select.compon
 import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SafePipe } from './pipes/safe.pipe';
 
 const components = [
   HeaderComponent,
@@ -45,7 +46,8 @@ const pipes = [
 @NgModule({
   declarations: [
     ...components,
-    ...pipes
+    ...pipes,
+    SafePipe
   ],
   imports: [
     CommonModule,
