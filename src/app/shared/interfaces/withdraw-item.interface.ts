@@ -5,3 +5,7 @@ export interface IWithdrawItem {
   status: string;
   details: string;
 }
+
+export interface IWithdraw {
+  
+}

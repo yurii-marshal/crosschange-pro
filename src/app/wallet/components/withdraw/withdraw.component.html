@@ -9,8 +9,8 @@
 
   <form [formGroup]="withdrawForm" (submit)="submitWithdraw()">
     <div class="flex-container coin-select-container withdraw">
-      <app-coin-select class="coin-select withdraw" ngDefaultControl formControlName="coinSelect"
-                       (ngModelChange)="onCoinSelect($event)"
+      <app-coin-select class="coin-select withdraw"
+                       ngDefaultControl formControlName="coinSelect"
       ></app-coin-select>
     </div>
 
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selectedCoin$ | async) | slice: 0: 1">
+    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coinSelect').value) | slice: 0: 1">
       <span class="section-title coin">
         {{wallet.cryptocurrency | uppercase}}
       </span>
@@ -72,7 +72,6 @@
           <app-address-select class="address-select"
                               [addresses]="addresses$ | async"
                               formControlName="recipientAddressSelect"
-                              (ngModelChange)="onAddressSelect($event)"
           ></app-address-select>
         </div>
 
@@ -87,13 +86,16 @@
           <div class="form-field-title withdraw">
             {{'withdraw_page.amount' | translate}}
           </div>
-          <input placeholder="0" class="control" type="text" formControlName="amount"/>
+          <input [appOnlyNumbers] placeholder="0" class="control" type="text" formControlName="amount"/>
         </div>
 
-        <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee$ | async}} {{wallet.cryptocurrency | uppercase}}</span>
-        </div>
-        <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{+withdrawForm.get('amount').value - (transactionFee$ | async)}} {{wallet.cryptocurrency | uppercase}}</span>
-        </div>
+        <ng-container *ngIf="transactionFee$ | async as fee">
+          <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{fee | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
+          </div>
+          <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{+withdrawForm.get('amount').value - (fee | number:'1.8-8')}} {{wallet.cryptocurrency | uppercase}}</span>
+          </div>
+        </ng-container>
+
       </div>
     </ng-container>
 

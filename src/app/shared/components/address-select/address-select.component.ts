@@ -49,9 +49,9 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
     } else {
       this.addresses$ = of(this.addresses);
 
-      if (!this.selected) {
-        this.writeValue(this.addresses[0]);
-      }
+      // if (!this.selected) {
+      //   this.writeValue(this.addresses[0]);
+      // }
     }
   }
 
