@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BaseComponent } from './shared/components/base/base.component';
-import { CanShowProGuard } from './core/guards/can-show-pro/can-show-pro.guard';
 import { AuthGuard } from './auth-module/guards/auth/auth.guard';
 import { JwtResolver } from 'shared-kuailian-lib';
 export const routes: Routes = [
