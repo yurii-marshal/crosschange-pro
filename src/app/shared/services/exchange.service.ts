@@ -84,7 +84,7 @@ export class ExchangeService extends ApiService {
 
   exchange(request: IExchangeRequest): Observable<void> {
     // TODO: UNCOMMENT
-    /*return super.post('/quick-exchange', { from, to, amount, rate, fee });*/
+    /*return super.post('/quick-exchange', request);*/
     // TODO: DELETE
     return of(undefined).pipe(delay(2000));
   }
