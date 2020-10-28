@@ -80,12 +80,10 @@ export class WithdrawService extends ApiService {
 
   // TODO: API
   getWithdrawHistory(params): Observable<IApiResponse<IWithdrawItem>> {
-    console.log(params);
     const req = {
       type: 'deposit',
       ...params
     };
-    this.withdrawsMock.results.forEach((item) => item.cryptocurrency = params.coin);
     return of(this.withdrawsMock);
     // return super.get<IApiResponse<IWithdrawItem>>('spot-wallets/withdraws', req).pipe(share());
   }

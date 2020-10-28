@@ -7,7 +7,8 @@ import { CoinsService } from '../../../shared/services/coins.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
 import {
-  distinctUntilChanged,
+  debounceTime,
+  distinctUntilChanged, map, shareReplay,
   skip,
   startWith,
   switchMap,
@@ -30,7 +31,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
   addresses$: Observable<IAddress[]>;
-  withdraws: IApiResponse<IWithdrawItem>;
+  withdraws$: Observable<IApiResponse<IWithdrawItem>>;
   onDestroy$ = new Subject<void>();
 
   withdrawForm: FormGroup;
@@ -68,6 +69,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
 
     const addressChanges$ = this.withdrawForm.get('recipientAddressSelect').valueChanges.pipe(startWith(''), distinctUntilChanged());
     const coinChanges$ = this.withdrawForm.get('coinSelect').valueChanges.pipe(startWith(''), distinctUntilChanged());
+    // TODO: debounceTime causes pause in rendering of calculation
     const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged());
 
     combineLatest([coinChanges$, amountChanges$])
@@ -79,16 +81,12 @@ export class WithdrawComponent implements OnInit, OnDestroy {
         this.transactionFee = fee;
       });
 
-    combineLatest([addressChanges$, coinChanges$])
+    // TODO: check requests when API is ready, few calls on initialization
+    this.withdraws$ = combineLatest([addressChanges$, coinChanges$])
       .pipe(
-        takeUntil(this.onDestroy$),
-        skip(2),
         switchMap(([address, coin]) => this.getHistory(address, coin, params)),
-      )
-      .subscribe((res) => {
-        console.log(res);
-        this.withdraws = res;
-      });
+        shareReplay(),
+      );
   }
 
   getHistory(address, coin, qParams): Observable<IApiResponse<IWithdrawItem>> {
