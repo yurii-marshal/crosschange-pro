@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -8,7 +9,7 @@ import {
 import { CoinsService } from '../../services/coins.service';
 import { ICoin } from '../../interfaces/coin.interface';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { delay, take, tap } from 'rxjs/operators';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -24,7 +25,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     }
   ]
 })
-export class CoinSelectComponent implements OnInit, ControlValueAccessor {
+export class CoinSelectComponent implements OnInit, AfterViewChecked, ControlValueAccessor {
   opened = false;
   coins$: Observable<ICoin[]>;
   selected: ICoin;
@@ -43,8 +44,13 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
     this.coins$ = this.coinsService.getCoins()
       .pipe(
         take(1),
+        delay(0),
         tap(v => !this.selected && this.writeValue(v[0]))
       );
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
   }
 
   registerOnChange(fn: (coin: ICoin) => void): void {
@@ -62,8 +68,6 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
     this.selected = coin;
 
     this.onChange(coin);
-
-    this.cdr.markForCheck();
   }
 
 }

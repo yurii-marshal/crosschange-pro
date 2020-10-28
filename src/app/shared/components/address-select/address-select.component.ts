@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { shareReplay, tap } from 'rxjs/operators';
+import { delay, shareReplay, tap } from 'rxjs/operators';
 import { IAddress } from '../../interfaces/address.interface';
 import { AddressService } from '../../services/address.service';
 
@@ -18,7 +28,7 @@ import { AddressService } from '../../services/address.service';
     }
   ]
 })
-export class AddressSelectComponent implements OnInit, ControlValueAccessor {
+export class AddressSelectComponent implements OnInit, AfterViewChecked, ControlValueAccessor {
   @Input() addresses$: Observable<IAddress[]> = this.addressService.getRecipientAddresses();
   selected: IAddress;
   opened = false;
@@ -39,12 +49,17 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     this.addresses$ = this.addresses$
       .pipe(
+        delay(0),
         tap(v => {
           this.countChanged.emit(v.length);
           return !this.selected && this.writeValue(v[0]);
         }),
         shareReplay(),
       );
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
   }
 
   registerOnChange(fn: (address: IAddress) => void): void {
@@ -62,8 +77,6 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
     this.selected = address;
 
     this.onChange(address);
-
-    this.cdr.markForCheck();
   }
 
 }

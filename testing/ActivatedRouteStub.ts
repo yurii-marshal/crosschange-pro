@@ -40,7 +40,7 @@ export class ActivatedRouteStub {
 
   setQueryParamMap(params?: Params): void {
     const paramMap = convertToParamMap(params);
-    this.localQueryParams = paramMap.params;
-    this.queryParams$.next(paramMap.params);
+    this.localQueryParams = paramMap['params'];
+    this.queryParams$.next(paramMap['params']);
   }
 }
