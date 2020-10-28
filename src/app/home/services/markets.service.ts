@@ -40,7 +40,7 @@ export class MarketsService extends ApiService {
     return this.tradingPairs$.asObservable();
   }
 
-  loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
+    loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
     let parameters = new HttpParams();
     parameters = parameters
       .set('search', query || '')

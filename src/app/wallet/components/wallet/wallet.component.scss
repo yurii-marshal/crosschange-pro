@@ -39,7 +39,7 @@
 }
 
 .total-balance {
-  margin: 36px 22px;
+  margin: 36px 62px;
 
   &__header {
     font-size: 32px;
@@ -88,14 +88,14 @@
   }
 }
 
-.balances {
-  margin: 0 22px 107px;
+.balances, .addresses {
+  margin: 0 22px 107px 62px;
 
-  .balance {
+  .balance, .address {
     margin-bottom: 40px;
   }
 
-  .balance-info {
+  .balance-info, .address-info {
     color: $color-brand-dark;
 
     &__name {
@@ -113,6 +113,17 @@
       &.with-controls {
 
         .mat-table__search {
+
+          &.controls {
+            display: flex;
+            justify-content: space-between;
+
+            .left {
+              display: flex;
+              align-items: center;
+            }
+          }
+
           border-radius: 4px 4px 0 0;
           border: 0.5px solid $color-grey-20;
           border-bottom-color: $color-grey-10;
@@ -185,7 +196,8 @@ app-paginator {
     border-radius: 4px;
   }
 
-  .hide-balance-btn {
+  .hide-balance-btn,
+  .control-btn {
     margin-left: 12px;
     padding: 6px 8px;
     background-color: $color-white-100;
@@ -197,6 +209,23 @@ app-paginator {
       color: $color-brand;
       background: rgba($color-brand, 0.05);
       border: 1px solid $color-brand;
+    }
+  }
+
+  .control-btn {
+    margin-left: 0;
+    margin-right: 12px;
+
+    &.delete {
+      width: 66px;
+      border: 1px solid $color-trading-red-100;
+      color: $color-trading-red-100;
+    }
+
+    &[disabled] {
+      color: $color-grey-30;
+      background-color: $color-grey-10;
+      border: none;
     }
   }
 }
@@ -255,6 +284,16 @@ mat-row:last-child {
     font-size: 14px;
     line-height: 20px;
     color: $color-brand;
+  }
+}
+
+.mat-column-checkboxes {
+  max-width: 45px;
+
+  ::ng-deep mat-checkbox {
+    .mat-checkbox-frame {
+      border-color: $color-grey-30;
+    }
   }
 }
 
@@ -366,12 +405,12 @@ mat-row:last-child {
     }
   }
 
-  .balances {
+  .balances, .addresses {
     margin: 0;
   }
 
-  .balance {
-    .balance-info {
+  .balance, .address {
+    .balance-info, .address-info {
       overflow-x: auto;
 
       &__name {
@@ -403,8 +442,8 @@ mat-row:last-child {
 }
 
 @media all and (max-width: $media-mobile) {
-  .balances {
-    .balance {
+  .balances, .addresses {
+    .balance, .address {
       margin-bottom: 32px;
     }
   }

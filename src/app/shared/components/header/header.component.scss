@@ -31,7 +31,7 @@ header {
   align-items: center;
   justify-content: space-between;
   color: $color-grey-5;
-  padding: 0 52px 0 40px;
+  padding: 0 44px 0 40px;
   height: 72px;
   background: $color-crosspro-linear;
 
@@ -120,22 +120,18 @@ header {
     margin-right: 10px;
   }
 
-  .user-btn {
-    margin-right: 10px;
-  }
-
-  .logout-btn {
-    height: 32px;
+  .user-item {
+    position: relative;
   }
 
   .menu {
-    position: fixed;
+    position: absolute;
     background-color: transparent;
     padding-top: 15px;
 
     -ms-flex-positive: 1;
     flex-grow: 1;
-    transform: translateX(-35%) rotateX(0);
+    transform: translateX(-37%) rotateX(0);
     transform-origin: 100% 0;
     opacity: 1;
     will-change: transform, opacity;
@@ -144,12 +140,31 @@ header {
 
     &.closed {
       transform-origin: center -100px; /* Axis moved up to create a larger arc of movement. */
-      transform: translateX(-35%) rotateX(-15deg);
+      transform: translateX(-37%) rotateX(-15deg);
       opacity: 0;
       pointer-events: none;
       will-change: transform, opacity;
       transition-property: transform, opacity;
       transition-duration: .25s;
+    }
+
+    &.user {
+      transform: translateX(-32%) rotateX(0);
+      padding-top: 10px;
+
+      &.closed {
+        transform-origin: center -50px; /* Axis moved up to create a larger arc of movement. */
+        transform: translateX(-32%) rotateX(5deg);
+      }
+
+      .menu-container {
+        min-width: 110px;
+
+        &::after {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
     }
 
     .menu-container {
