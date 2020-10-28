@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { IAddress } from '../../interfaces/address.interface';
 import { AddressService } from '../../services/address.service';
 
@@ -33,26 +33,20 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
 
   constructor(
     private addressService: AddressService,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
   ngOnInit(): void {
-    if (!this.addresses) {
-      this.addresses$ = this.addressService.getRecipientAddresses()
-        .pipe(
-          take(1),
-          tap(v => {
-            this.countChanged.emit(v.length);
-            return !this.selected && this.writeValue(v[0]);
-          })
-        );
-    } else {
-      this.addresses$ = of(this.addresses);
+    const getAddresses = this.addresses ? of(this.addresses) : this.addressService.getRecipientAddresses();
 
-      if (!this.selected) {
-        this.writeValue(this.addresses[0]);
-      }
-    }
+    this.addresses$ = getAddresses
+      .pipe(
+        tap(v => {
+          this.countChanged.emit(v.length);
+          return !this.selected && this.writeValue(v[0]);
+        })
+      );
   }
 
   registerOnChange(fn: (address: IAddress) => void): void {
@@ -69,6 +63,7 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
     }
     this.selected = address;
     this.onChange(address);
+    this.cdr.markForCheck();
   }
 
 }
