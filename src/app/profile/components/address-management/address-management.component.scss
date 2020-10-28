@@ -30,11 +30,19 @@
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;
-    color: $color-brand;
-    background-color: transparent;
     border: 1px solid $color-brand;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  &__enable-whitelist {
+    color: $color-white-100;
+    background-color: $color-brand;
+  }
+
+  &__disable-whitelist {
+    color: $color-brand;
+    background-color: transparent;
   }
 
   &__add-address {
@@ -47,8 +55,70 @@
     font-weight: 500;
     color: $color-white-100;
     background-color: $color-brand;
-    border: none;
+    border: 1px solid $color-brand;
     border-radius: 4px;
     cursor: pointer;
   }
+}
+
+.addresses {
+  .address {
+    .address-info {
+      &__table {
+        ::ng-deep {
+
+          .mat-column-coin {
+            flex: 2;
+
+            .mat-body-coin {
+              margin-right: 12px;
+              width: 24px;
+              height: 24px;
+            }
+
+            span {
+              text-transform: uppercase;
+            }
+          }
+
+          .mat-column-wallet_label {
+            flex: 3;
+          }
+
+          .mat-column-memo_tag {
+            flex: 2;
+          }
+
+          .mat-column-address {
+            flex: 6;
+          }
+
+          .mat-column-whitelist {
+            flex: 2;
+
+            mat-icon {
+              cursor: pointer;
+            }
+          }
+
+          .mat-column-action {
+            flex: 2;
+            justify-content: flex-start;
+
+            a {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .confirmation .mat-dialog-container {
+  padding: 0;
+}
+
+.pointer {
+  cursor: pointer;
 }
