@@ -63,6 +63,7 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
     }
     this.selected = address;
     this.onChange(address);
+    // TODO: refactor
     this.cdr.markForCheck();
   }
 
