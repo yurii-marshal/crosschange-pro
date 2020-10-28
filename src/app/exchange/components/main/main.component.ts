@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange-confirmation.component';
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
+import { ExchangeHelperService } from '../../services/exchange-helper.service';
 
 @Component({
   selector: 'app-main',
@@ -46,14 +47,13 @@ export class MainComponent implements OnInit, OnDestroy {
   };
   inputsEnabled = true;
   maxDisabled = false;
-  skipNext = false;
-  prevValues = ['', ''];
   constructor(
     private coins: CoinsService,
     private walletService: WalletService,
     private exchange: ExchangeService,
     private mediaBreakpointsService: MediaBreakpointsService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private helper: ExchangeHelperService
   ) {
   }
 
@@ -71,28 +71,19 @@ export class MainComponent implements OnInit, OnDestroy {
           this.option.xAxis.axisLabel.rotate = 45;
         }
       });
-    this.preCheckSubscribe();
 
-    combineLatest(
-      [
+    this.subscribeToConvert('fromCurrency', 'toCurrency');
+    this.subscribeToConvert('toCurrency', 'fromCurrency');
+
+    combineLatest([
         this.form.get('fromCurrency').valueChanges.pipe(share()),
         this.form.get('toCurrency').valueChanges.pipe(share()),
-      ]
-    ).pipe(
+      ])
+    .pipe(
       takeUntil(this.onDestroy$),
-      distinctUntilChanged(([fOld, tOld], [fNew, tNew]) => {
-        return (fOld && fOld.currency && fOld.currency.key) === (fNew && fNew.currency && fNew.currency.key)
-          && (tOld && tOld.currency && tOld.currency.key) === (tNew && tNew.currency && tNew.currency.key);
-      }),
-      filter(([fromCurrency, toCurrency]) => {
-        return fromCurrency
-          && fromCurrency.currency
-          && toCurrency
-          && toCurrency.currency;
-      }),
-      map(([from, to]) => {
-        return [from.currency, to.currency];
-      }),
+      distinctUntilChanged(this.helper.distinctCurrency),
+      filter(this.helper.bothCurrenciesSet),
+      map(([from, to]) => [from.currency, to.currency]),
       switchMap(([fromCurrency, toCurrency]) => {
         return combineLatest([
           this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
@@ -116,82 +107,20 @@ export class MainComponent implements OnInit, OnDestroy {
       });
   }
 
-  preCheckSubscribe(): void {
-    combineLatest(
-      [
-        this.form.get('fromCurrency').valueChanges,
-        this.form.get('toCurrency').valueChanges,
-      ]
-    ).pipe(
+  subscribeToConvert(target, toUpdate): void {
+    this.form.get(target).valueChanges.pipe(
       takeUntil(this.onDestroy$),
-      distinctUntilChanged(([oldFrom, oldTo], [newFrom, newTo]) => {
-        return (oldFrom.currency && oldFrom.currency.key) === (newFrom.currency && newFrom.currency.key)
-        && (oldTo.currency && oldTo.currency.key) === (newTo.currency && newTo.currency.key)
-        && +oldFrom.amount === +newFrom.amount
-        && +oldTo.amount === +newTo.amount;
-      }),
-      pairwise(),
-      filter(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => {
-        if (this.skipNext) {
-          this.skipNext = false;
-          this.prevValues = [fromCurrency.amount, toCurrency.amount];
-          return false;
-        }
-        return fromCurrency
-          && fromCurrency.currency
-          && toCurrency
-          && toCurrency.currency
-          && (fromCurrency.amount || toCurrency.amount);
-      }),
-      map(([[oldFrom, oldTo], [from, to]]) => {
-        let changedKey = '';
-        if ((oldFrom.currency && oldFrom.currency.key) !== (from.currency && from.currency.key)) {
-          changedKey = 'from';
-        }
-        if ((oldTo.currency && oldTo.currency.key) !== (to.currency && to.currency.key)) {
-          changedKey = 'to';
-        }
-        return [this.prevValues, [from.amount, to.amount], changedKey];
-      }),
-      mergeMap(([[fromOld, toOld], [fromNew, toNew], changedKey]) => {
-        this.prevValues = [fromNew, toNew];
-        this.skipNext = true;
+      filter(() => this.helper.convertFilter(this.form, target, toUpdate)),
+      mergeMap((value) => {
         this.inputsEnabled = false;
-        const fromChanged = +fromOld !== +fromNew;
-        const toChanged = +toOld !== +toNew;
-        const mask = (+fromChanged).toString() + (+toChanged).toString();
-        let req: [string, string, number, string];
-        let toUpdate: string;
-        const lastFrom = this.form.get('fromCurrency').value.lastChange;
-        const lastTo = this.form.get('toCurrency').value.lastChange;
-        const from = this.form.get('fromCurrency').value.currency.key;
-        const to = this.form.get('toCurrency').value.currency.key;
-        switch (mask) {
-          case '10':
-          case '11':
-            toUpdate = 'toCurrency';
-            req = [from, to, fromNew, from];
-            break;
-          case '01':
-            toUpdate = 'fromCurrency';
-            req = [to, from, toNew, from];
-            break;
-          default:
-            if (lastFrom > lastTo) {
-              toUpdate = 'toCurrency';
-              req = [from, to, fromNew, from];
-            } else {
-              toUpdate = 'fromCurrency';
-              req = [to, from, toNew, from];
-            }
-        }
-        return zip(this.exchange.precheck(...req), of(toUpdate));
+        return this.helper.preCheckRequest(this.form, target, toUpdate);
       }),
-    ).subscribe(([res, updated]) => {
-      this.form.get(updated).setValue({
-        currency: this.form.get(updated).value.currency,
-        amount: res.amount
-      });
+    ).subscribe((res) => {
+      this.form.get(toUpdate).setValue({
+          currency: this.form.get(toUpdate).value.currency,
+          amount: res.amount
+        }, { emitEvent: false, onlySelf: true }
+      );
       this.form.patchValue({
         fee: res.fee,
         rate: res.rate,
@@ -272,7 +201,6 @@ export class MainComponent implements OnInit, OnDestroy {
       rate: 0,
       valid: false
     });
-    this.prevValues = ['', ''];
   }
 
   swapCurrencies(): void {

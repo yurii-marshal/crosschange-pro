@@ -40,7 +40,6 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   value: {
     currency: ICurrency,
     amount: number | string;
-    lastChange: number;
   };
   searchValue = '';
   onChange = (value: ICurrencySelectValue) => {};
@@ -68,8 +67,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       this.mobileInput.nativeElement.value = v;
       this.onChange({
         currency: this.selected$.getValue(),
-        amount: v + '',
-        lastChange: new Date().valueOf()
+        amount: v + ''
       });
     });
   }
@@ -92,8 +90,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     this.selected$.next(currency);
     this.onChange({
       currency,
-      amount: this.input.nativeElement.value,
-      lastChange: new Date().valueOf()
+      amount: this.input.nativeElement.value
     });
   }
 
@@ -106,8 +103,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     this.mobileInput.nativeElement.value = value.amount;
     this.value = {
       currency: value.currency,
-      amount: value.amount,
-      lastChange: new Date().valueOf()
+      amount: value.amount
     };
   }
 

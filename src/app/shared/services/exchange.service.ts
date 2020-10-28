@@ -12,11 +12,18 @@ export enum IChartPeriods {
   MONTH = '1m',
   YEAR = '1y'
 }
-interface IPrecheckResponse {
+export interface IPreCheckResponse {
   amount: number;
   valid: boolean;
   rate: number;
   fee?: number;
+}
+
+interface IPreCheckRequest {
+  from: string;
+  to: string;
+  amount: number;
+  baseCurrency: string;
 }
 
 export interface IExchangeRequest {
@@ -63,14 +70,9 @@ export class ExchangeService extends ApiService {
     return subj.asObservable().pipe(delay(200));
   }
 
-  precheck(from: string, to: string, amount: number, baseCurrency: string): Observable<IPrecheckResponse> {
+  precheck(req: IPreCheckRequest): Observable<IPreCheckResponse> {
     // TODO: UNCOMMENT
-    /*return super.get('/exchange-precheck', {
-      from,
-      to,
-      amount,
-      baseCurrency
-    });*/
+    /*return super.get('/exchange-precheck', req);*/
 
     // TODO: DELETE
     const res = {
