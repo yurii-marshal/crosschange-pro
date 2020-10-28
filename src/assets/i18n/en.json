@@ -181,5 +181,19 @@
     "trade": "Trade",
     "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
+  },
+  "static_pages": {
+    "menu_company": "Company",
+    "menu_about": "About",
+    "menu_faq": "FAQ",
+    "menu_partners": "Partners",
+    "menu_contact": "Contact",
+    "menu_commissions": "Commissions",
+    "commissions": "Commissions",
+    "description": "There is a minimum requirement for each withdrawal, along with a flat fee to cover the transaction costs of moving the cryptocurrency out of your Crosschange Pro account.",
+    "cryptocurrency": "Cryptocurrency",
+    "withdraw_fee": "Withdraw Fee",
+    "deposit_fee": "Deposit fee",
+    "withdrawal_minimum": "Withdrawal Minimum"
   }
 }
