@@ -60,8 +60,9 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.selected = coin;
+
     this.onChange(coin);
-    // TODO: refactor
+
     this.cdr.markForCheck();
   }
 
