@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { commissionsData } from './commissionsData';
 
 export interface ICommissionCoin {
   cryptocurrency: string;
   withdraw_fee: number;
-  deposit_fee: number;
+  deposit_fee: number | 'Free';
   withdrawal_minimum: number;
+  name: string;
 }
 
-const commissionsMock: ICommissionCoin[] = [
-  {
-    cryptocurrency: 'BTC',
-    withdraw_fee: 0,
-    deposit_fee: 0,
-    withdrawal_minimum: 0
-  }
-];
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +20,6 @@ export class StaticPagesService {
 
 
   getCommissionsData(): Observable<ICommissionCoin[]> {
-    return of(commissionsMock);
+    return of(commissionsData);
   }
 }

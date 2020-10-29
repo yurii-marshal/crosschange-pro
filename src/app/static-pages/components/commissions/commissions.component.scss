@@ -1,5 +1,136 @@
+@import "../../../../assets/styles/variables";
 .content-container {
-  padding-top: 36px;
-  padding-left: 62px;
-  padding-right: 38.87%;
+  padding: 36px 37.87% 44px 62px;
+  min-height: 756px;
+  .crypto-icon {
+    margin-right: 13px;
+    width: 22px;
+    height: 22px;
+  }
+  .mat-table__search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    height: 52px;
+    background: $color-white-100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+    &-block {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    &-dropdown {
+      display: flex;
+      align-items: center;
+      margin-right: 23px;
+    }
+
+    ::ng-deep &-icon {
+      position: absolute;
+      left: 20px;
+      svg path {
+        fill: $color-trading-dark;
+      }
+    }
+
+    &-input {
+      margin-left: 12px;
+      padding-left: 35px;
+      width: 200px;
+      height: 32px;
+      font-size: 14px;
+      line-height: 20px;
+      background: $color-grey-5;
+      border: 1px solid $color-grey-10;
+      box-sizing: border-box;
+      border-radius: 4px;
+    }
+  }
+  .title {
+    font-size: 32px;
+    line-height: 44px;
+    color: $color-grey-100;
+    margin-bottom: 26px;
+  }
+  .subtitle {
+    font-size: 16px;
+    line-height: 28px;
+    color: $color-grey-80;
+    display: block;
+    margin-bottom: 44px;
+  }
+  ::ng-deep .mat-header-cell {
+    color: $color-grey-60;
+    font-size: 14px;
+    line-height: 20px;
+    font-style: normal;
+    font-weight: normal;
+  }
+  ::ng-deep .mat-cell {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-trading-dark;
+    height: 52px;
+  }
+  .table-responsive {
+    border: 0;
+  }
+  .coin-container {
+    display: flex;
+    align-items: center;
+    .name-container {
+      .key {
+        display: block;
+      }
+      .name {
+        white-space: nowrap;
+        display: none;
+        font-size: 12px;
+        line-height: 16px;
+        color: $color-grey-60;
+      }
+    }
+  }
+  mat-table {
+    box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
+    border: 0.5px solid #DEE1E6;
+    box-sizing: border-box;
+    border-radius: 4px;
+  }
+  .table-responsive {
+    box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
+  }
+}
+@media all and (max-width: 1140px) {
+  .content-container {
+    padding-right: 16.87%;
+  }
+}
+@media all and (max-width: $media-small-tablet) {
+  .content-container {
+    padding-right: 62px;
+  }
+}
+@media all and (max-width: $media-mobile) {
+  .content-container {
+    padding-left: 16px;
+    padding-right: 0;
+    .coin-container .name-container .name {
+      display: block;
+    }
+  }
+  .table-responsive {
+    box-shadow: none;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .table-container {
+    min-width: 600px;
+    padding-right: 16px;
+  }
 }

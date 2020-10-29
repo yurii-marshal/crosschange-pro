@@ -62,7 +62,13 @@ main {
   aside {
     width: 100%;
     height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
     background: $color-aside-background;
+    & .spot-wallet__services-item:last-of-type {
+      padding-right: 16px;
+    }
     .spot-wallet {
       padding: 0;
       &__header {

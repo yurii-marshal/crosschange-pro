@@ -1,34 +1,47 @@
 <div class="content-container">
-  <h1>{{'static_pages.commissions' | translate}}</h1>
-  <h1>{{'static_pages.description' | translate}}</h1>
+  <h1 class="title">{{'static_pages.commissions' | translate}}</h1>
+  <span class="subtitle">{{'static_pages.description' | translate}}</span>
   <div class="table-responsive">
-    <mat-table mat-table [dataSource]="dataSource$ | async">
-      <!-- Pair column -->
-      <ng-container matColumnDef="cryptocurrency">
-        <mat-header-cell *matHeaderCellDef>{{ 'static_pages.cryptocurrency' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.cryptocurrency }}</mat-cell>
-      </ng-container>
+    <div class="table-container">
 
-      <!-- Pair column -->
-      <ng-container matColumnDef="withdraw_fee">
-        <mat-header-cell *matHeaderCellDef>{{ 'static_pages.withdraw_fee' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.withdraw_fee }}</mat-cell>
-      </ng-container>
+      <mat-table mat-table [dataSource]="dataSource$ | async">
+        <!-- cryptocurrency column -->
+        <ng-container matColumnDef="cryptocurrency">
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'static_pages.cryptocurrency' | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="coin-container">
+              <mat-icon class="crypto-icon" [svgIcon]="'icon_' + element.cryptocurrency | lowercase"></mat-icon>
+              <span class="name-container">
+                <span class="key">{{ element.cryptocurrency }}</span>
+                <span class="name">{{ element.name }}</span>
+              </span>
+            </span>
+          </mat-cell>
+        </ng-container>
 
-      <!-- Pair column -->
-      <ng-container matColumnDef="deposit_fee">
-        <mat-header-cell *matHeaderCellDef>{{ 'static_pages.deposit_fee' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.deposit_fee }}</mat-cell>
-      </ng-container>
+        <!-- withdraw_fee column -->
+        <ng-container matColumnDef="withdraw_fee">
+          <mat-header-cell *matHeaderCellDef>{{ 'static_pages.withdraw_fee' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.withdraw_fee }}</mat-cell>
+        </ng-container>
 
-      <!-- Pair column -->
-      <ng-container matColumnDef="withdrawal_minimum">
-        <mat-header-cell *matHeaderCellDef>{{ 'static_pages.withdrawal_minimum' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{ element.withdrawal_minimum }}</mat-cell>
-      </ng-container>
+        <!-- deposit_fee column -->
+        <ng-container matColumnDef="deposit_fee">
+          <mat-header-cell *matHeaderCellDef>{{ 'static_pages.deposit_fee' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.deposit_fee }}</mat-cell>
+        </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+        <!-- withdrawal_minimum column -->
+        <ng-container matColumnDef="withdrawal_minimum">
+          <mat-header-cell *matHeaderCellDef>{{ 'static_pages.withdrawal_minimum' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.withdrawal_minimum }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
   </div>
 </div>

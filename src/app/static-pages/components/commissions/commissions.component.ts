@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { ICommissionCoin, StaticPagesService } from '../../services/static-pages.service';
 
@@ -9,7 +9,8 @@ import { ICommissionCoin, StaticPagesService } from '../../services/static-pages
   styleUrls: ['./commissions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommissionsComponent implements OnInit {
+export class CommissionsComponent implements OnInit, OnDestroy {
+  onDestroyed$: Subject<void> = new Subject<void>();
   displayedColumns: string[] = [
     'cryptocurrency',
     'withdraw_fee',
@@ -23,9 +24,15 @@ export class CommissionsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.staticPagesService.getCommissionsData().subscribe(v => {
       this.dataSource$.next(new MatTableDataSource<ICommissionCoin>(v));
     });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroyed$.next();
+    this.onDestroyed$.complete();
   }
 
 }

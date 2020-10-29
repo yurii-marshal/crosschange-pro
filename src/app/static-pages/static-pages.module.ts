@@ -6,6 +6,8 @@ import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { CommissionsComponent } from './components/commissions/commissions.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export const routes = [
   {
@@ -30,7 +32,10 @@ export const routes = [
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    MatTableModule
+    MatTableModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class StaticPagesModule { }
