@@ -19,7 +19,7 @@ export interface IPreCheckResponse {
   fee?: number;
 }
 
-interface IPreCheckRequest {
+export interface IPreCheckRequest {
   from: string;
   to: string;
   amount: number;

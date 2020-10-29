@@ -23,11 +23,11 @@ import { WalletServiceMock, walletsMock } from '../../../../../testing/WalletSer
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
 import { of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import { skip } from 'rxjs/operators';
+import {skip, take} from 'rxjs/operators';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
-async function setFormValue(component, fixture, from, to, fromAmount, toAmount): Promise<void> {
+async function setFormValue(component, fixture, from, to, fromAmount, toAmount, fee = 0, rate = 0, valid = true): Promise<void> {
   component.form.setValue({
     fromCurrency: {
       currency: from,
@@ -36,7 +36,10 @@ async function setFormValue(component, fixture, from, to, fromAmount, toAmount):
     toCurrency: {
       currency: to,
       amount: toAmount
-    }
+    },
+    fee,
+    rate,
+    valid
   });
   fixture.detectChanges();
   await fixture.whenStable();
@@ -93,21 +96,28 @@ describe('MainComponent', () => {
   });
 
   it('should have button enabled/disabled', async () => {
-    await setFormValue(component, fixture, currenciesMock[0], currenciesMock[0], 0, 0);
+    await setFormValue(component, fixture, currenciesMock[0], currenciesMock[1], 0, 0, 1, 1, true);
     let button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual('');
 
-    await setFormValue(component, fixture, currenciesMock[0], currenciesMock[0], 1, 0);
+    component.form.get('fromCurrency').setValue({
+      currency: currenciesMock[0],
+      amount: 1
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
     button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual(null);
 
-    await setFormValue(component, fixture, currenciesMock[0], currenciesMock[0], 0, 0);
+    component.form.get('fromCurrency').setValue({
+      currency: currenciesMock[0],
+      amount: '1a'
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
     button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual('');
 
-    await setFormValue(component, fixture, currenciesMock[0], currenciesMock[0], '1a', 0);
-    button = fixture.nativeElement.querySelector('.left button');
-    expect(button.getAttribute('disabled')).toEqual('');
   });
 
   it('should create form', async () => {
@@ -131,7 +141,7 @@ describe('MainComponent', () => {
   });
 
   it('swap input values', async () => {
-    setFormValue(component, fixture, currenciesMock[0], currenciesMock[1], 0, 0);
+    await setFormValue(component, fixture, currenciesMock[0], currenciesMock[1], 0, 0);
     component.swapCurrencies();
     fixture.detectChanges();
     await fixture.whenStable();
@@ -189,6 +199,25 @@ describe('MainComponent', () => {
     expect(input.value).toEqual('100');
   });
 
+  it('should display balance', (done) => {
+    const service = TestBed.inject(WalletService);
+    spyOn(service, 'getWallets').and.returnValue(of(walletsMock.map(v => {
+      v.balance.available = 100;
+      return v;
+    })));
+    setFormValue(component, fixture, currenciesMock[0], currenciesMock[1], 0, 0);
+    component.getWallets();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const fromBalance = fixture.nativeElement.querySelector('.max-balance');
+      const toBalance = fixture.nativeElement.querySelector('.form-field .max span:not(.max-label)');
+      expect(fromBalance.innerText).toEqual('100.0');
+      expect(toBalance.innerText).toEqual('100.0');
+      done();
+    });
+
+  });
+
   it('should open confirm component', (done) => {
     setFormValue(component, fixture, currenciesMock[1], currenciesMock[2], 1, 2).then(() => {
       component.exchangeInfo$.pipe(skip(1)).subscribe((v) => {
@@ -208,6 +237,31 @@ describe('MainComponent', () => {
     });
   });
 
-  // TODO: ADD TESTS AFTER RECALCULATION MECHANISM ON CHANGE CRYPTO AMOUNT IS READY
+  it('should recalculate value', (done) => {
+    setFormValue(component, fixture, currenciesMock[1], currenciesMock[2], 1, 2).then(() => {
+      component.form.get('valid').valueChanges.pipe(take(1)).subscribe(() => {
+        const toCurrValue = component.form.get('toCurrency').value.amount;
+        const fromCurrValue = component.form.get('fromCurrency').value.amount;
+        const notEq = toCurrValue !== 2;
+        expect(notEq).toEqual(true);
+        expect(fromCurrValue).toEqual(1);
+        component.form.get('valid').valueChanges.pipe(take(1)).subscribe(() => {
+          fixture.whenStable().then(() => {
+            expect(component.form.get('toCurrency').value.amount).toEqual(3);
+            expect(fromCurrValue !== component.form.get('fromCurrency').value.amount).toEqual(true);
+            done();
+          });
+        });
+        component.form.get('toCurrency').setValue({
+          currency: currenciesMock[0],
+          amount: 3
+        });
+      });
+      component.form.get('fromCurrency').setValue({
+        currency: currenciesMock[0],
+        amount: 1
+      });
+    });
+  });
 
 });

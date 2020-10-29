@@ -22,10 +22,10 @@ export class ExchangeHelperService {
 
   preCheckRequest(form: FormGroup, target: string, toUpdate: string): Observable<IPreCheckResponse> {
     const req = {
-      from: form.get(target).value.currency,
-      to: form.get(toUpdate).value.currency,
+      from: form.get(target).value.currency.key,
+      to: form.get(toUpdate).value.currency.key,
       amount: form.get(target).value.amount,
-      baseCurrency: form.get('fromCurrency').value.currency
+      baseCurrency: form.get('fromCurrency').value.currency.key
     };
     return this.exchange.precheck(req);
   }
@@ -36,9 +36,9 @@ export class ExchangeHelperService {
   }
 
   bothCurrenciesSet([fromCurrency, toCurrency]): boolean {
-    return fromCurrency
+    return !!(fromCurrency
       && fromCurrency.currency
       && toCurrency
-      && toCurrency.currency;
+      && toCurrency.currency);
   }
 }

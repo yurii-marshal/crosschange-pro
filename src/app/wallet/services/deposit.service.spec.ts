@@ -63,7 +63,7 @@ describe('DepositService', () => {
       done();
     });
 
-    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/transactions/`);
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });
@@ -107,13 +107,13 @@ describe('DepositService', () => {
         expect(res2).toEqual(secondMock);
         done();
       });
-      const secondRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+      const secondRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/transactions/`);
       expect(secondRequest.request.method).toEqual('GET');
       secondRequest.flush(secondMock);
 
     });
 
-    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/transactions/`);
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });

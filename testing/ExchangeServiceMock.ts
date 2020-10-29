@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ICurrency } from '../src/app/shared/interfaces/currency.interface';
 import { delay } from 'rxjs/operators';
 import { IChartData } from '../src/app/shared/interfaces/chart-data.interface';
-import { IChartPeriods } from '../src/app/shared/services/exchange.service';
+import { IChartPeriods, IExchangeRequest, IPreCheckResponse, IPreCheckRequest } from '../src/app/shared/services/exchange.service';
 
 
 export const currenciesMock: ICurrency[] = [
@@ -56,5 +56,21 @@ export class ExchangeServiceMock {
     });
     const subj = new BehaviorSubject(mock as IChartData[]);
     return subj.asObservable().pipe(delay(200));
+  }
+  private generatePreCheck(): IPreCheckResponse {
+    return {
+      amount:  Math.random() * (100 - 1) + 1,
+      valid: true,
+      rate: Math.random() * (100 - 1) + 1,
+      fee: Math.random() * (100 - 1) + 1
+    };
+  }
+
+  precheck(req: IPreCheckRequest): Observable<IPreCheckResponse> {
+    return of(this.generatePreCheck());
+  }
+
+  exchange(request: IExchangeRequest): Observable<void> {
+    return of(undefined);
   }
 }

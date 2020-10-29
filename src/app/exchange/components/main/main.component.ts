@@ -195,6 +195,7 @@ export class MainComponent implements OnInit, OnDestroy {
       rate: new FormControl(null, Validators.required),
       valid: new FormControl(false, [this.exchangeValidValidator])
     });
+
   }
 
   resetForm(): void {

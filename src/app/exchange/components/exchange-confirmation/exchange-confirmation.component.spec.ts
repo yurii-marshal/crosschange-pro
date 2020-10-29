@@ -2,9 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ExchangeConfirmationComponent } from './exchange-confirmation.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {TranslateModule} from '@ngx-translate/core';
-import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
-import {FakeMatIconRegistry} from '@angular/material/icon/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
+import { FakeMatIconRegistry } from '@angular/material/icon/testing';
+import { ExchangeService } from '../../../shared/services/exchange.service';
+import { ExchangeServiceMock } from '../../../../../testing/ExchangeServiceMock';
+import { of } from 'rxjs';
+import { delay, share } from 'rxjs/operators';
 
 describe('ExchangeConfirmationComponent', () => {
   let component: ExchangeConfirmationComponent;
@@ -22,9 +26,12 @@ describe('ExchangeConfirmationComponent', () => {
       providers: [
         { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
         { provide: MatDialogRef, useValue: { close: () => {} } },
-        { provide: MAT_DIALOG_DATA, useValue: {
+        {
+          provide: MAT_DIALOG_DATA, useValue: {
             confirmationStage: 1
-          } }
+          }
+        },
+        { provide: ExchangeService, useClass: ExchangeServiceMock },
         ]
     })
     .compileComponents();
@@ -40,7 +47,16 @@ describe('ExchangeConfirmationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should confirm exchange', () => {
+  it('should confirm exchange', (done) => {
+    const service = TestBed.inject(ExchangeService);
+    spyOn(service, 'exchange').and.callFake(() => {
+      const res = of(undefined).pipe(delay(500), share());
+      res.pipe(delay(1000)).subscribe(() => {
+        expect(component.confirmationStage).toEqual(3);
+        done();
+      });
+      return res;
+    });
     component.confirmExchange();
     expect(component.confirmationStage).toEqual(2);
   });
@@ -51,5 +67,9 @@ describe('ExchangeConfirmationComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  // TODO: ADD TESTS AFTER FURTHER COMPONENT IMPLEMENTATION
+  it('should close dialog with result', () => {
+    const spy = spyOn(component.dialogRef, 'close');
+    component.closeDialog(true);
+    expect(spy).toHaveBeenCalledWith(true);
+  });
 });

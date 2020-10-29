@@ -80,7 +80,7 @@ describe('CurrencySelectComponent', () => {
     component.currenciesFiltered$.subscribe(res => {
       component.writeValue({ currency: res[0], amount: 1 });
       expect(component.selected$.getValue()).toEqual(res[0]);
-      expect(component.amount.value).toEqual(1);
+      expect(component.value.amount).toEqual(1);
       done();
     });
   });
