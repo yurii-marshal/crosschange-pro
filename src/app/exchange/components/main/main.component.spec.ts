@@ -99,6 +99,7 @@ describe('MainComponent', () => {
     await setFormValue(component, fixture, currenciesMock[0], currenciesMock[1], 0, 0, 1, 1, true);
     let button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual('');
+    expect(component.form.valid).toEqual(false);
 
     component.form.get('fromCurrency').setValue({
       currency: currenciesMock[0],
@@ -108,6 +109,7 @@ describe('MainComponent', () => {
     await fixture.whenStable();
     button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual(null);
+    expect(component.form.valid).toEqual(true);
 
     component.form.get('fromCurrency').setValue({
       currency: currenciesMock[0],
@@ -117,6 +119,7 @@ describe('MainComponent', () => {
     await fixture.whenStable();
     button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual('');
+    expect(component.form.valid).toEqual(false);
 
   });
 
