@@ -9,7 +9,11 @@
 
   <form [formGroup]="withdrawForm" (submit)="submitWithdraw()">
     <div class="flex-container coin-select-container withdraw">
-      <app-coin-select class="coin-select withdraw" formControlName="coinSelect"></app-coin-select>
+      <app-coin-select
+        class="coin-select withdraw"
+        formControlName="coinSelect"
+        (ngModelChange)="coinSelectChanged($event)"
+      ></app-coin-select>
     </div>
 
     <div class="popular">
@@ -63,38 +67,38 @@
         </div>
       </div>
 
-      <div *ngIf="(addresses$ | async) as addresses">
-        <div class="coin-select-container withdraw">
-          <div class="form-field-title withdraw">
-            {{'withdraw_page.recipients_address' | translate}}
-          </div>
-          <app-address-select
-            [addresses]="addresses"
-            class="address-select"
-            formControlName="recipientAddressSelect"
-          ></app-address-select>
+      <div class="coin-select-container withdraw">
+        <div class="form-field-title withdraw">
+          {{'withdraw_page.recipients_address' | translate}}
         </div>
+        <app-address-select
+          [addresses$]="addresses$"
+          class="address-select"
+          formControlName="recipientAddressSelect"
+          (ngModelChange)="addressSelectChanged($event)"
+        ></app-address-select>
+      </div>
 
-        <div class="coin-select-container withdraw">
-          <div class="form-field-title withdraw">
-            {{'withdraw_page.tag' | translate}}
-          </div>
-          <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text"
-                 formControlName="tag"/>
+      <div class="coin-select-container withdraw">
+        <div class="form-field-title withdraw">
+          {{'withdraw_page.tag' | translate}}
         </div>
+        <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text"
+               formControlName="tag"/>
+      </div>
 
-        <div class="coin-select-container withdraw">
-          <div class="form-field-title withdraw">
-            {{'withdraw_page.amount' | translate}}
-          </div>
-          <input [appOnlyNumbers] placeholder="0" class="control" type="text" formControlName="amount"/>
+      <div class="coin-select-container withdraw">
+        <div class="form-field-title withdraw">
+          {{'withdraw_page.amount' | translate}}
         </div>
+        <input [appOnlyNumbers] placeholder="0" class="control" type="text" formControlName="amount"/>
+      </div>
 
-        <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
-        </div>
-        <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{(+withdrawForm.get('amount').value - transactionFee) | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
-        </div>
-
+      <div class="text">
+        {{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee$ | async | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
+      </div>
+      <div class="text">
+        {{'withdraw_page.you_will_get' | translate}}: <span>{{(+withdrawForm.get('amount').value - (transactionFee$ | async)) | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
       </div>
     </ng-container>
 

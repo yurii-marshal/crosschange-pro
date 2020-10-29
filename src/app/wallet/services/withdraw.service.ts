@@ -9,61 +9,75 @@ import { IWithdraw, IWithdrawItem } from '../../shared/interfaces/withdraw-item.
 })
 export class WithdrawService extends ApiService {
   private withdrawsMock: IApiResponse<IWithdrawItem> = {
-    count: 0,
+    count: 20,
     next: '',
     previous: '',
     results: [
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
         hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
       },
       {
-        date: 48394895,
+        date: new Date().toString(),
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: new Date().toString(),
+        cryptocurrency: 'eth',
+        amount: 3384,
+        status: 'delivered',
+        hash: 'dj433rh4h55u4y5g5i4gbiu5g45bg',
+      },
+      {
+        date: new Date().toString(),
         cryptocurrency: 'eth',
         amount: 3384,
         status: 'delivered',
@@ -89,12 +103,14 @@ export class WithdrawService extends ApiService {
   }
 
   // TODO: API
-  getWithdrawFee(coin: string, amount: number): Observable<number> {
-    return of(amount ? Math.random() * 0.1 : 0);
+  getWithdrawFee(req): Observable<number> {
+    return of(req.amount ? Math.random() * 0.1 : 0);
+    // return super.get<IApiResponse<IWithdrawItem>>('spot-wallets/withdraw-fee', coin, amount).pipe(share());
   }
 
   // TODO: API
   sendWithdraw(withdraw: IWithdraw): Observable<any> {
     return of('done');
+    // return super.post<IApiResponse<IWithdrawItem>>('spot-wallets/send-withdraw', withdraw).pipe(share());
   }
 }

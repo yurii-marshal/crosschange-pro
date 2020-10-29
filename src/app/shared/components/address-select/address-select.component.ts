@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { shareReplay, tap } from 'rxjs/operators';
 import { IAddress } from '../../interfaces/address.interface';
 import { AddressService } from '../../services/address.service';
 
@@ -18,12 +26,11 @@ import { AddressService } from '../../services/address.service';
     }
   ]
 })
-export class AddressSelectComponent implements OnInit, ControlValueAccessor {
-  opened = false;
-  addresses$: Observable<IAddress[]>;
+export class AddressSelectComponent implements OnChanges, ControlValueAccessor {
+  @Input() addresses$: Observable<IAddress[]> = this.addressService.getRecipientAddresses();
   selected: IAddress;
+  opened = false;
 
-  @Input() addresses: IAddress[];
   @Output() countChanged: EventEmitter<number> = new EventEmitter();
 
   onChange = (address: IAddress) => {
@@ -33,19 +40,17 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
 
   constructor(
     private addressService: AddressService,
-    private cdr: ChangeDetectorRef,
   ) {
   }
 
-  ngOnInit(): void {
-    const getAddresses = this.addresses ? of(this.addresses) : this.addressService.getRecipientAddresses();
-
-    this.addresses$ = getAddresses
+  ngOnChanges(): void {
+    this.addresses$ = this.addresses$
       .pipe(
         tap(v => {
           this.countChanged.emit(v.length);
           return !this.selected && this.writeValue(v[0]);
-        })
+        }),
+        shareReplay(),
       );
   }
 
@@ -62,8 +67,8 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.selected = address;
+
     this.onChange(address);
-    this.cdr.markForCheck();
   }
 
 }
