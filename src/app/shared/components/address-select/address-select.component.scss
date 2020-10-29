@@ -1,4 +1,6 @@
 @import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
 :host {
   position: relative;
   display: block;
@@ -31,16 +33,25 @@
     }
   }
 }
-.coin-icon {
+.address-icon {
   margin-right: 8px;
 }
-.coin-title {
+
+.wallet-label {
+  padding: 0 10px 0 5px;
+}
+
+.wallet-label,
+.address-label {
   margin-right: 4px;
-  font-size: 16px;
-  line-height: 28px;
+  font-size: 14px;
+  line-height: 20px;
   color: $color-trading-dark;
 }
-.coin-subtitle {
+.address-label {
+  color: $color-grey-60;
+}
+.address-subtitle {
   font-size: 16px;
   line-height: 28px;
   color: $color-grey-60;
@@ -50,8 +61,7 @@
   align-items: center;
   cursor: pointer;
 }
-.coins-menu {
-  box-shadow: 0 1px 4px rgba(143, 149, 158, 0.25);
+.addresses-menu {
   position: absolute;
   width: 100%;
   top: calc(100% + 4px);
@@ -59,6 +69,7 @@
   z-index: 2;
   left: 0;
   display: none;
+  box-shadow: 0 1px 4px rgba(143, 149, 158, 0.25);
   background-color: $color-white-100;
   max-height: 240px;
   overflow: auto;
@@ -113,5 +124,17 @@
   display: none;
   &.overlay-visible {
     display: block;
+  }
+}
+
+@media all and (max-width: $media-mobile) {
+  .address-label {
+    max-width: 40%;
+
+    @include text-overflow();
+  }
+
+  .switcher .flex {
+    overflow: hidden;
   }
 }

@@ -11,7 +11,7 @@
         <a class="menu-trigger" [routerLink]="[item.link]">
           {{item.label | translate}}
         </a>
-        <div *ngIf="i === 1" class="menu" [class.closed]="!item.active">
+        <div *ngIf="i === 1" class="menu wallet" [class.closed]="!item.active">
           <div class="menu-container">
             <div class="menu-item" routerLink="/wallet/balance">
               <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
@@ -30,7 +30,8 @@
     <button mat-button class="exchange-btn" routerLink="/trade">{{'header.exchange' | translate}}</button>
 
     <button [appPopover]="refNotesPopover" (click)="refNotesPopover.toggle()" class="notifications-btn" mat-icon-button>
-      <mat-icon class="icon notes" [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
+      <mat-icon class="icon notes"
+                [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
     </button>
 
     <app-popover-template
@@ -55,15 +56,36 @@
       </div>
     </app-popover-template>
 
-    <button class="user-btn" mat-icon-button>
-      <mat-icon class="icon user" svgIcon="icon_user" routerLink="/profile"></mat-icon>
-    </button>
+    <div class="user-item" (mouseenter)="userSubmenu = true" (mouseleave)="userSubmenu = false">
+      <button class="user-btn" routerLink="/profile" mat-icon-button>
+        <mat-icon class="icon user" svgIcon="icon_user"></mat-icon>
+      </button>
 
-    <ul *ngIf="isLoggedIn">
-      <li>
-        <button class="logout-btn" mat-button mat-flat-button (click)="logout()">{{'header.logout' | translate}}</button>
-      </li>
-    </ul>
+      <div *ngIf="isLoggedIn" class="menu user" [class.closed]="!userSubmenu">
+        <div class="menu-container">
+          <div class="menu-item" routerLink="/profile/security/address">
+            <mat-icon class="icon" svgIcon="icon_security"></mat-icon>
+            <span>{{'header.security' | translate }}</span>
+          </div>
+          <div class="menu-item" (click)="logout()">
+            <mat-icon class="icon" svgIcon="icon_logout"></mat-icon>
+            <span>{{'header.log_out' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--<ul *ngIf="isLoggedIn">-->
+      <!--<li>-->
+        <!--<button class="logout-btn"-->
+                <!--mat-button-->
+                <!--mat-flat-button-->
+                <!--(click)="logout()"-->
+        <!--&gt;-->
+          <!--{{'header.logout' | translate}}-->
+        <!--</button>-->
+      <!--</li>-->
+    <!--</ul>-->
   </div>
   <div class="right mobile">
     <button mat-icon-button (click)="refNotesPopover.toggle()">

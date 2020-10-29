@@ -1,0 +1,155 @@
+<div class="withdraw-page">
+  <span class="page-title">
+    {{'withdraw_page.title' | translate}}
+  </span>
+
+  <span class="form-field-title">
+    {{'withdraw_page.coin' | translate}}
+  </span>
+
+  <form [formGroup]="withdrawForm" (submit)="submitWithdraw()">
+    <div class="flex-container coin-select-container withdraw">
+      <app-coin-select class="coin-select withdraw" formControlName="coinSelect"></app-coin-select>
+    </div>
+
+    <div class="popular">
+      <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
+        {{item.key | uppercase}}
+      </div>
+    </div>
+
+    <ng-container
+      *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coinSelect').value) | slice: 0: 1">
+      <span class="section-title coin">
+        {{wallet.cryptocurrency | uppercase}}
+      </span>
+      <div class="balance withdraw">
+        <div class="balance-item withdraw">
+          <div class="title">{{'withdraw_page.total_balance' | translate}}:</div>
+          <div class="value">
+            {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+          </div>
+        </div>
+        <div class="balance-item withdraw">
+          <div class="title">{{'withdraw_page.in_order' | translate}}:</div>
+          <div class="value">
+            {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase }}
+          </div>
+        </div>
+        <div class="balance-item withdraw">
+          <div class="title">{{'withdraw_page.available_balance' | translate}}:</div>
+          <div class="value">
+            {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+          </div>
+        </div>
+      </div>
+      <div class="warning-text">{{'withdraw_page.warning_text' | translate}}</div>
+
+      <div *ngIf="!(addresses$ | async).length">
+        <div class="address-management" (click)="addressManagement()">
+          {{'withdraw_page.address_management' | translate}}
+        </div>
+
+        <div class="empty-whitelisted">
+          <div class="warning-area">
+            <mat-icon svgIcon="icon_warning_circle"></mat-icon>
+            <div class="message">
+              {{'withdraw_page.not_whitelisted_yet' | translate}}
+            </div>
+          </div>
+          <button type="button" (click)="addressManagement()" mat-raised-button color="primary" class="submit-btn">
+            {{'withdraw_page.address_management' | translate}}
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="(addresses$ | async) as addresses">
+        <div class="coin-select-container withdraw">
+          <div class="form-field-title withdraw">
+            {{'withdraw_page.recipients_address' | translate}}
+          </div>
+          <app-address-select
+            [addresses]="addresses"
+            class="address-select"
+            formControlName="recipientAddressSelect"
+          ></app-address-select>
+        </div>
+
+        <div class="coin-select-container withdraw">
+          <div class="form-field-title withdraw">
+            {{'withdraw_page.tag' | translate}}
+          </div>
+          <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text"
+                 formControlName="tag"/>
+        </div>
+
+        <div class="coin-select-container withdraw">
+          <div class="form-field-title withdraw">
+            {{'withdraw_page.amount' | translate}}
+          </div>
+          <input [appOnlyNumbers] placeholder="0" class="control" type="text" formControlName="amount"/>
+        </div>
+
+        <div class="text">{{'withdraw_page.transaction_fee' | translate}}: <span>{{transactionFee | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
+        </div>
+        <div class="text">{{'withdraw_page.you_will_get' | translate}}: <span>{{(+withdrawForm.get('amount').value - transactionFee) | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}</span>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <button *ngIf="(addresses$ | async).length"
+            [disabled]="withdrawForm.invalid"
+            mat-raised-button color="primary"
+            class="submit-btn">
+      {{'withdraw_page.submit' | translate}}
+    </button>
+  </form>
+
+  <span class="section-title">
+    {{'withdraw_page.history_title' | translate}}
+  </span>
+
+  <div class="history-wrapper">
+    <div class="history">
+      <div class="table-row">
+        <div class="table-header">
+          <span>{{'withdraw_page.history_date' | translate}}</span>
+          <mat-icon svgIcon="icon_sort" (click)="sort('date')"></mat-icon>
+        </div>
+        <div class="table-header">
+          {{'withdraw_page.history_coin' | translate}}
+        </div>
+        <div class="table-header">
+          <span>{{'withdraw_page.history_amount' | translate}}</span>
+          <mat-icon svgIcon="icon_sort" (click)="sort('amount')"></mat-icon>
+        </div>
+        <div class="table-header">
+          <span>{{'withdraw_page.history_status' | translate}}</span>
+          <mat-icon svgIcon="icon_sort" (click)="sort('status')"></mat-icon>
+        </div>
+        <div class="table-header">
+          {{'withdraw_page.history_hash' | translate}}
+        </div>
+      </div>
+      <div class="table-row" *ngFor="let item of (withdraws$ | async)?.results">
+        <div class="table-cell">{{item.date | date: 'MM/dd/yyyy'}}</div>
+        <div class="table-cell">
+          <div class="cell-crypto">
+            <mat-icon [svgIcon]="'icon_' + item.cryptocurrency"></mat-icon>
+            <span>{{item.cryptocurrency | uppercase}}</span>
+          </div>
+        </div>
+        <div class="table-cell">{{item.amount | number:'1.8-8'}}</div>
+        <div class="table-cell">
+        <span class="status">
+          {{item.status}}
+        </span>
+        </div>
+        <div class="table-cell">{{item.hash}}</div>
+      </div>
+    </div>
+  </div>
+  <app-paginator [count]="(withdraws$ | async)?.count"></app-paginator>
+
+</div>

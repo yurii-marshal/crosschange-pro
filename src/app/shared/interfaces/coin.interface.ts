@@ -3,4 +3,5 @@ export interface ICoin {
   name: string; // 'Bitcoin'
   is_popular: boolean;
   balance_type?: string; // TODO: check in response
+  fee?: number;
 }

@@ -1,19 +1,28 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 
 @Component({
   selector: 'app-qr-code',
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit {
-  @Input() wallet: IWallet;
-  constructor(
-  ) { }
+  code: string;
+  currentWallet: IWallet;
+
+  constructor() {
+  }
+
+  @Input() set wallet(value: IWallet) {
+    this.currentWallet = value;
+    this.getQRCode(value);
+  }
 
   ngOnInit(): void {
   }
 
+  private getQRCode(value): void {
+    this.code = value.tag;
+  }
 
 }

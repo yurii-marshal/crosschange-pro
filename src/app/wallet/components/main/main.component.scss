@@ -24,7 +24,7 @@ main {
   justify-content: stretch;
 }
 
-.spot-wallet {
+.wallet {
   display: flex;
   flex-direction: column;
   padding-top: 32px;
@@ -48,6 +48,10 @@ main {
     line-height: 20px;
     color: $color-grey-60;
     cursor: pointer;
+
+    &:last-child {
+      margin: 0;
+    }
   }
 
   .active {
@@ -63,7 +67,7 @@ main {
     width: 100%;
     height: auto;
     background: $color-aside-background;
-    .spot-wallet {
+    .wallet {
       padding: 0;
       &__header {
         display: none;
