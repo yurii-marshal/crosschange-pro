@@ -25,6 +25,7 @@ import { CurrencySelectComponent } from './components/currency-select/currency-s
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 const components = [
   HeaderComponent,
@@ -37,7 +38,8 @@ const components = [
   MenuMobileComponent,
   CoinSelectComponent,
   AddressSelectComponent,
-  CurrencySelectComponent
+  CurrencySelectComponent,
+  OnlyNumbersDirective,
 ];
 
 const pipes = [
@@ -50,7 +52,6 @@ const pipes = [
     ...components,
     ...pipes,
     SafePipe,
-    AddressSelectComponent
   ],
   imports: [
     CommonModule,

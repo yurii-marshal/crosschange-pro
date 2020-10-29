@@ -1,32 +1,38 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
 import { IAddress } from '../../../shared/interfaces/address.interface';
+import { AddressService } from '../../../shared/services/address.service';
+import { defaultPagination } from '../../../shared/constants/pagination.constant';
 
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss', './../deposit/deposit.component.scss']
 })
-export class WithdrawComponent implements OnInit, OnDestroy {
-  transactionFee = 0;
-  finalAmount = 0;
-  selectedCoin$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin | null>(null);
-  selectedAddress$: BehaviorSubject<IAddress> = new BehaviorSubject<IAddress | null>(null);
+export class WithdrawComponent implements OnInit {
+  coinSelect$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin>(null);
+  addressSelect$: Subject<IAddress> = new Subject<IAddress>();
+  transactionFee$: Observable<number>;
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
+  addresses$: Observable<IAddress[]>;
   withdraws$: Observable<IApiResponse<IWithdrawItem>>;
-  onDestroy$ = new Subject<void>();
 
   withdrawForm: FormGroup;
 
@@ -36,6 +42,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     private coinsService: CoinsService,
     private withdrawService: WithdrawService,
     private walletService: WalletService,
+    private addressService: AddressService,
   ) {
   }
 
@@ -43,66 +50,72 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     const params = this.route.snapshot.queryParams;
 
     if (!('offset' in params) || !('limit' in params)) {
-      this.navigateDefault();
+      this.router.navigate(['.'], {
+        relativeTo: this.route, queryParams:
+          {offset: defaultPagination.offset, limit: defaultPagination.limit}
+      });
     }
 
     this.withdrawForm = new FormGroup({
-      tag: new FormControl(),
-      amount: new FormControl(),
-      coinSelect: new FormControl(),
-      recipientAddressSelect: new FormControl(),
+      tag: new FormControl('', []),
+      amount: new FormControl('', [Validators.required]),
+      coinSelect: new FormControl('', [Validators.required]),
+      recipientAddressSelect: new FormControl('', [Validators.required]),
     });
 
     this.popular$ = this.coinsService.getPopular();
     this.wallets$ = this.walletService.getWallets();
+    this.addresses$ = this.addressService.getRecipientAddresses();
 
-    combineLatest([
-      this.route.queryParams,
-      this.selectedCoin$,
-    ])
-      .pipe(takeUntil(this.onDestroy$), distinctUntilChanged())
-      .subscribe(([qParams, selected]) => {
-        this.withdraws$ = this.getHistory(selected, qParams);
-      });
+    const addressChanges$ = this.addressSelect$.asObservable().pipe(distinctUntilChanged());
+    const coinChanges$ = this.coinSelect$.asObservable().pipe(distinctUntilChanged());
+    const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged(), debounceTime(200));
+
+    this.transactionFee$ = combineLatest([coinChanges$, addressChanges$, amountChanges$])
+      .pipe(
+        distinctUntilChanged(),
+        switchMap(([coin, address, amount]) =>
+          coin && address && amount
+            ? this.withdrawService.getWithdrawFee({coin, address, amount})
+            : of(0)),
+        shareReplay(),
+      );
+
+    this.withdraws$ = this.withdrawService.getWithdrawHistory(params);
+    // combineLatest([addressChanges$, coinChanges$])
+    //   .pipe(
+    //     switchMap(([address, coin]) => this.getHistory(address, coin, params)),
+    //     shareReplay(),
+    //   );
   }
 
-  getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
-    return this.withdrawService.getWithdrawHistory({cryptocurrency: selected && selected.key, ...qParams});
+  coinSelectChanged(coin: ICoin): void {
+    this.coinSelect$.next(coin);
   }
+
+  addressSelectChanged(address: IAddress): void {
+    this.addressSelect$.next(address);
+  }
+
+  // getHistory(address, coin, qParams): Observable<IApiResponse<IWithdrawItem>> {
+  //   return this.withdrawService.getWithdrawHistory({address: address.address, coin: coin && coin.key, ...qParams});
+  // }
 
   selectPopular(coin: ICoin): void {
-    this.withdrawForm.get('coinSelect').setValue(coin);
-  }
-
-  onCoinSelect(coin: ICoin): void {
-    this.selectedCoin$.next(coin);
-    this.navigateDefault();
-  }
-
-  onAddressSelect(address: IAddress): void {
-    this.selectedAddress$.next(address);
-    this.navigateDefault();
-  }
-
-  navigateDefault(): void {
-    this.router.navigate(
-      [window.location.pathname],
-      {queryParams: {offset: 0, limit: this.route.snapshot.queryParams.limit}}
-    );
+    this.withdrawForm.get('coinSelect').patchValue(coin);
   }
 
   sort(field: 'date' | 'amount' | 'status'): void {
   }
 
   submitWithdraw(): void {
-    console.log(this.withdrawForm);
+    // this.withdrawService.sendWithdraw(this.withdrawForm.value)
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe(() => {
+    //   });
   }
 
   addressManagement(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this.router.navigateByUrl(`profile/security/address`);
   }
 }

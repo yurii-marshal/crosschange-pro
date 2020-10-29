@@ -26,6 +26,7 @@ import { ActivatedRouteStub } from '../../../../../testing/ActivatedRouteStub';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { skip } from 'rxjs/operators';
+import { DepositService } from '../../services/deposit.service';
 
 describe('DepositComponent', () => {
   let component: DepositComponent;
@@ -164,7 +165,7 @@ describe('DepositComponent', () => {
 
   it('should get history with defined parameters', (done) => {
     fixture.whenStable().then(() => {
-      const service = TestBed.inject(WalletService);
+      const service = TestBed.inject(DepositService);
       const spy = spyOn(service, 'getDepositHistory');
       component.getHistory({key: 'btc'}, {offset: 10, limit: 20});
       expect(spy).toHaveBeenCalledWith({
