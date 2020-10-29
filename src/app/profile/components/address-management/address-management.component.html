@@ -1,8 +1,15 @@
 <div class="address-header">
   <div class="address-header__label">{{'profile_page.address_label' | translate}}</div>
   <div class="address-header__actions">
-    <button class="address-header__toggle-whitelist">{{'profile_page.disable_whitelist' | translate}}</button>
-    <button class="address-header__add-address">{{'profile_page.add_address' | translate}}</button>
+    <button [ngClass]="(enableWhitelist$ | async) ?
+            'address-header__disable-whitelist' : 'address-header__enable-whitelist'"
+            class="address-header__toggle-whitelist"
+            (click)="toggleWhitelistEnable()">
+      {{((enableWhitelist$ | async) ? 'profile_page.disable_whitelist' : 'profile_page.enable_whitelist') | translate}}
+    </button>
+    <button class="address-header__add-address" (click)="addWithdrawAddress()">
+      {{'profile_page.add_address' | translate}}
+    </button>
   </div>
 </div>
 
@@ -14,24 +21,25 @@
           <div class="left">
             <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
             <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
-            <button class="hide-balance-btn" (click)="toggleWhitelistedOnly()">
-              {{((showWhitelistedOnly$ | async) ? 'profile_page.display_all_addresses' :
-              'profile_page.display_whitelisted_addresses_only') | translate}}
+            <button [ngClass]="{ 'hide-balance-btn-active': showWhitelistedOnly$ | async }"
+                    class="hide-balance-btn"
+                    (click)="toggleWhitelistedOnly()">
+              {{ 'profile_page.display_whitelisted_addresses_only' | translate}}
             </button>
           </div>
           <div class="right">
-            <button class="control-btn" (click)="addToWhitelist()">
+            <button [disabled]="!isWhitelistedItems()" class="control-btn" (click)="addToWhitelist()">
               {{'profile_page.add_to_whitelist' | translate}}
             </button>
-            <button class="control-btn" (click)="removeFromWhitelist()">
+            <button [disabled]="!isNotWhitelistedItems()" class="control-btn" (click)="removeFromWhitelist()">
               {{'profile_page.remove_from_whitelist' | translate}}
             </button>
-            <button class="control-btn delete" (click)="deleteItems()">
+            <button [disabled]="!selection.hasValue()" class="control-btn delete" (click)="deleteItems()">
               {{'profile_page.delete' | translate}}
             </button>
           </div>
         </div>
-        <mat-table mat-table [dataSource]="dataSource">
+        <mat-table mat-table [dataSource]="dataSource$ | async">
 
           <!-- checkboxes column -->
           <ng-container matColumnDef="checkboxes">
@@ -42,8 +50,7 @@
               </mat-checkbox>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? selection.toggle(element) : null"
+              <mat-checkbox (change)="$event ? selection.toggle(element) : null"
                             [checked]="selection.isSelected(element)">
               </mat-checkbox>
             </mat-cell>
@@ -92,13 +99,14 @@
           </ng-container>
 
           <!-- whitelist -->
-          <ng-container matColumnDef="whitelist">
+          <ng-container matColumnDef="is_whitelisted">
             <mat-header-cell *matHeaderCellDef>
               {{ 'profile_page.whitelist' | translate }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
               <mat-icon [svgIcon]="element.isWhitelisted ? 'icon_fill_star' : 'icon_star'"
-                        (click)="setWhitelist(element)">
+                        (click)="setWhitelisted(element)"
+                        class="pointer">
               </mat-icon>
             </mat-cell>
           </ng-container>
@@ -109,14 +117,14 @@
               {{ 'profile_page.action' | translate }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <a (click)="deleteItems([element])">{{ 'profile_page.delete' | translate }}</a>
+              <a (click)="deleteItems(element)">{{ 'profile_page.delete' | translate }}</a>
             </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div class="no-data-splash" *ngIf="!dataSource?.data?.length">
+        <div class="no-data-splash" *ngIf="!(dataSource$ | async)?.data?.length">
           {{'profile_page.no_data_available' | translate}}
         </div>
         <app-paginator [count]="count" class="paginator"></app-paginator>
