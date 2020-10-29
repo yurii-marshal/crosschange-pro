@@ -41,10 +41,10 @@ describe('MarketsService', () => {
     };
     const mockQuery = 'test';
 
-    // service.loadPairs('test', {offset: pagination.offset, limit: pagination.limit}).subscribe(res => {
-    //   expect(res).toEqual({count: 0, results: []});
-    //   done();
-    // });
+    service.loadPairs('test', {offset: pagination.offset, limit: pagination.limit}).subscribe(res => {
+      expect(res).toEqual({count: 0, results: []});
+      done();
+    });
 
     const httpRequest = httpMock.expectOne(
       `${environment.projectApiUrl}/api/v1/exchanges/markets/?search=${mockQuery}&type=favorite&orderby=last&offset=${pagination.offset}&limit=${pagination.limit}`
