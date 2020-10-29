@@ -27,6 +27,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 const components = [
   HeaderComponent,
@@ -39,7 +40,8 @@ const components = [
   MenuMobileComponent,
   CoinSelectComponent,
   AddressSelectComponent,
-  CurrencySelectComponent
+  CurrencySelectComponent,
+  OnlyNumbersDirective,
 ];
 
 const pipes = [

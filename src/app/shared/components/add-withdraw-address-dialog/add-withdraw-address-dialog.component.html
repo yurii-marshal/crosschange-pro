@@ -6,8 +6,8 @@
       <mat-label class="confirmation-popup__label">Coin</mat-label>
       <mat-select class="confirmation-popup__input" [formControlName]="'coin'" [compareWith]="compare">
         <mat-select-trigger *ngIf="currencies$ | async">
-          <mat-icon [svgIcon]="'icon_' + withdrawalForm.controls['coin'].value.key | lowercase"></mat-icon>
-          {{ withdrawalForm.controls['coin'].value['fields'].name }}
+          <mat-icon [svgIcon]="'icon_' + withdrawalForm.get('coin').value.key | lowercase"></mat-icon>
+          {{ withdrawalForm.get('coin').value['fields'].name }}
         </mat-select-trigger>
 
         <mat-option *ngFor="let item of currencies$ | async" [value]="item">

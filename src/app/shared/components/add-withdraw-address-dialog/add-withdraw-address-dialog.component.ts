@@ -44,7 +44,7 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
 
     this.currencies$.pipe(
       takeUntil(this.onDestroyed$)
-    ).subscribe(items => this.withdrawalForm.controls.coin.patchValue(items[0]));
+    ).subscribe(items => this.withdrawalForm.get('coin').patchValue(items[0]));
   }
 
   closeDialog(): void {
@@ -52,7 +52,7 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
   }
 
   setCurrency(item: ICurrency): void {
-    this.withdrawalForm.controls.coin.patchValue(item);
+    this.withdrawalForm.get('coin').patchValue(item);
   }
 
   compare(object1: ICurrency, object2: ICurrency): boolean {
