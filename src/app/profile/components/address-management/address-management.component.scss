@@ -30,11 +30,19 @@
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;
-    color: $color-brand;
-    background-color: transparent;
     border: 1px solid $color-brand;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  &__enable-whitelist {
+    color: $color-white-100;
+    background-color: $color-brand;
+  }
+
+  &__disable-whitelist {
+    color: $color-brand;
+    background-color: transparent;
   }
 
   &__add-address {
@@ -47,7 +55,7 @@
     font-weight: 500;
     color: $color-white-100;
     background-color: $color-brand;
-    border: none;
+    border: 1px solid $color-brand;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -105,4 +113,12 @@
       }
     }
   }
+}
+
+::ng-deep .confirmation .mat-dialog-container {
+  padding: 0;
+}
+
+.pointer {
+  cursor: pointer;
 }
