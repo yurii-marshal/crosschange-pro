@@ -1,106 +1,110 @@
-<span class="page-title">
-  {{'deposit_page.title' | translate}}
-</span>
+<div class="deposit-page">
+  <span class="page-title">
+    {{'deposit_page.title' | translate}}
+  </span>
 
-<span class="form-field-title">
-  {{'deposit_page.coin' | translate}}
-</span>
+    <span class="form-field-title">
+    {{'deposit_page.coin' | translate}}
+  </span>
 
-<div class="flex-container coin-select-container">
-  <app-coin-select [formControl]="coinSelect" (ngModelChange)="onCoinSelect($event)"></app-coin-select>
+  <div class="flex-container coin-select-container">
+    <app-coin-select class="coin-select deposit" [formControl]="coinSelect"
+                     (ngModelChange)="onCoinSelect($event)"></app-coin-select>
 
-  <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
-    <div class="balance">
-      <div class="balance-item">
-        <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
-        <div class="value">
-          {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
+      <div class="balance">
+        <div class="balance-item">
+          <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
+          <div class="value">
+            {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+          </div>
+        </div>
+        <div class="balance-item">
+          <div class="title">{{'deposit_page.in_order' | translate}}:</div>
+          <div class="value">
+            {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase }}
+          </div>
+        </div>
+        <div class="balance-item">
+          <div class="title">{{'deposit_page.available_balance' | translate}}:</div>
+          <div class="value">
+            {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+          </div>
         </div>
       </div>
-      <div class="balance-item">
-        <div class="title">{{'deposit_page.in_order' | translate}}:</div>
-        <div class="value">
-          {{wallet.balance.in_order | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase }}
-        </div>
-      </div>
-      <div class="balance-item">
-        <div class="title">{{'deposit_page.available_balance' | translate}}:</div>
-        <div class="value">
-          {{wallet.balance.available | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
-        </div>
-      </div>
-    </div>
-  </ng-container>
-</div>
+    </ng-container>
+  </div>
 
-<div class="flex-container qr-code-container">
-  <div class="popular-container">
-    <ul class="info">
-      <li>{{'deposit_page.info_text_1' | translate}}</li>
-      <li>{{'deposit_page.info_text_2' | translate}}</li>
-    </ul>
+  <div class="flex-container qr-code-container">
+    <div class="popular-container">
+      <ul class="info">
+        <li>{{'deposit_page.info_text_1' | translate}}</li>
+        <li>{{'deposit_page.info_text_2' | translate}}</li>
+      </ul>
 
-    <div>
+      <div>
       <span class="form-field-title">
         {{'deposit_page.popular' | translate}}:
       </span>
-      <div class="popular">
-        <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
-          {{item.key | uppercase}}
+        <div class="popular">
+          <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
+            {{item.key | uppercase}}
+          </div>
         </div>
       </div>
+
     </div>
-
+    <div class="qr-code">
+      <ng-container *ngFor="let wallet of (wallets$ | async) | selectedWallet:(selected$ | async) | slice: 0: 1">
+        <app-qr-code [wallet]="wallet"></app-qr-code>
+      </ng-container>
+    </div>
   </div>
-  <div class="qr-code">
-    <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
-      <app-qr-code [wallet]="wallet"></app-qr-code>
-    </ng-container>
-  </div>
-</div>
 
-<span class="section-title">
+  <span class="section-title">
   {{'deposit_page.history_title' | translate}}
 </span>
 
-<div class="history-wrapper">
-  <div class="history">
-    <div class="table-row">
-      <div class="table-header">
-        <span>{{'deposit_page.history_date' | translate}}</span>
-        <mat-icon svgIcon="icon_sort" (click)="sort('date')"></mat-icon>
-      </div>
-      <div class="table-header">
-        {{'deposit_page.history_coin' | translate}}
-      </div>
-      <div class="table-header">
-        <span>{{'deposit_page.history_amount' | translate}}</span>
-        <mat-icon svgIcon="icon_sort" (click)="sort('amount')"></mat-icon>
-      </div>
-      <div class="table-header">
-        <span>{{'deposit_page.history_status' | translate}}</span>
-        <mat-icon svgIcon="icon_sort" (click)="sort('status')"></mat-icon>
-      </div>
-      <div class="table-header">
-        {{'deposit_page.history_transaction_hash' | translate}}
-      </div>
-    </div>
-    <div class="table-row" *ngFor="let item of (deposits$ | async)?.results">
-      <div class="table-cell">{{item.date | date: 'MM/dd/yyyy'}}</div>
-      <div class="table-cell">
-        <div class="cell-crypto">
-          <mat-icon [svgIcon]="'icon_' + item.cryptocurrency"></mat-icon>
-          <span>{{item.cryptocurrency | uppercase}}</span>
+  <div class="history-wrapper">
+    <div class="history">
+      <div class="table-row">
+        <div class="table-header">
+          <span>{{'deposit_page.history_date' | translate}}</span>
+          <mat-icon svgIcon="icon_sort" (click)="sort('date')"></mat-icon>
+        </div>
+        <div class="table-header">
+          {{'deposit_page.history_coin' | translate}}
+        </div>
+        <div class="table-header">
+          <span>{{'deposit_page.history_amount' | translate}}</span>
+          <mat-icon svgIcon="icon_sort" (click)="sort('amount')"></mat-icon>
+        </div>
+        <div class="table-header">
+          <span>{{'deposit_page.history_status' | translate}}</span>
+          <mat-icon svgIcon="icon_sort" (click)="sort('status')"></mat-icon>
+        </div>
+        <div class="table-header">
+          {{'deposit_page.history_transaction_hash' | translate}}
         </div>
       </div>
-      <div class="table-cell">{{item.amount | number:'1.8-8'}}</div>
-      <div class="table-cell">
+      <div class="table-row" *ngFor="let item of (deposits$ | async)?.results">
+        <div class="table-cell">{{item.date | date: 'MM/dd/yyyy'}}</div>
+        <div class="table-cell">
+          <div class="cell-crypto">
+            <mat-icon [svgIcon]="'icon_' + item.cryptocurrency"></mat-icon>
+            <span>{{item.cryptocurrency | uppercase}}</span>
+          </div>
+        </div>
+        <div class="table-cell">{{item.amount | number:'1.8-8'}}</div>
+        <div class="table-cell">
       <span class="status">
         {{item.status}}
       </span>
+        </div>
+        <div class="table-cell">{{item.tx_hash}}</div>
       </div>
-      <div class="table-cell">{{item.tx_hash}}</div>
     </div>
   </div>
+  <app-paginator [count]="(deposits$ | async)?.count"></app-paginator>
+
 </div>
-<app-paginator [count]="(deposits$ | async)?.count"></app-paginator>

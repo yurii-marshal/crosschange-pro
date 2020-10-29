@@ -23,6 +23,9 @@ import { CoinSelectComponent } from './components/coin-select/coin-select.compon
 import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SafePipe } from './pipes/safe.pipe';
+import { AddressSelectComponent } from './components/address-select/address-select.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 const components = [
   HeaderComponent,
@@ -34,7 +37,9 @@ const components = [
   PaginatorComponent,
   MenuMobileComponent,
   CoinSelectComponent,
-  CurrencySelectComponent
+  AddressSelectComponent,
+  CurrencySelectComponent,
+  OnlyNumbersDirective,
 ];
 
 const pipes = [
@@ -45,7 +50,9 @@ const pipes = [
 @NgModule({
   declarations: [
     ...components,
-    ...pipes
+    ...pipes,
+    SafePipe,
+    AddressSelectComponent
   ],
   imports: [
     CommonModule,

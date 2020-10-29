@@ -24,6 +24,8 @@ export class HeaderComponent implements OnInit {
     {active: false, label: 'header.history', link: '/history'},
   ];
 
+  userSubmenu: boolean;
+
   get isLoggedIn(): boolean {
     return this.sessionService.isAuthenticated;
   }
