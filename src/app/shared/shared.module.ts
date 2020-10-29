@@ -52,7 +52,6 @@ const pipes = [
     ...components,
     ...pipes,
     SafePipe,
-    AddressSelectComponent
   ],
   imports: [
     CommonModule,

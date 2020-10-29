@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   forwardRef,
   OnInit
@@ -35,7 +34,6 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
 
   constructor(
     private coinsService: CoinsService,
-    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -60,8 +58,8 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.selected = coin;
+
     this.onChange(coin);
-    this.cdr.markForCheck();
   }
 
 }

@@ -1,18 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { IWithdrawItem } from '../../../shared/interfaces/withdraw-item.interface';
 import {
   debounceTime,
-  distinctUntilChanged, map, shareReplay,
-  skip,
+  distinctUntilChanged,
+  shareReplay,
   startWith,
   switchMap,
-  takeUntil,
 } from 'rxjs/operators';
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
@@ -26,13 +25,14 @@ import { defaultPagination } from '../../../shared/constants/pagination.constant
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss', './../deposit/deposit.component.scss']
 })
-export class WithdrawComponent implements OnInit, OnDestroy {
-  transactionFee = 0;
+export class WithdrawComponent implements OnInit {
+  coinSelect$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin>(null);
+  addressSelect$: Subject<IAddress> = new Subject<IAddress>();
+  transactionFee$: Observable<number>;
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
   addresses$: Observable<IAddress[]>;
   withdraws$: Observable<IApiResponse<IWithdrawItem>>;
-  onDestroy$ = new Subject<void>();
 
   withdrawForm: FormGroup;
 
@@ -67,30 +67,29 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     this.wallets$ = this.walletService.getWallets();
     this.addresses$ = this.addressService.getRecipientAddresses();
 
-    const addressChanges$ = this.withdrawForm.get('recipientAddressSelect').valueChanges.pipe(startWith(''), distinctUntilChanged());
-    const coinChanges$ = this.withdrawForm.get('coinSelect').valueChanges.pipe(startWith(''), distinctUntilChanged());
-    // TODO: debounceTime causes pause in rendering of calculation
-    const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged());
+    const addressChanges$ = this.addressSelect$.asObservable().pipe(distinctUntilChanged());
+    const coinChanges$ = this.coinSelect$.asObservable().pipe(distinctUntilChanged());
+    const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged(), debounceTime(200));
 
-    combineLatest([coinChanges$, amountChanges$])
+    this.transactionFee$ = combineLatest([coinChanges$, addressChanges$, amountChanges$])
       .pipe(
-        takeUntil(this.onDestroy$),
-        switchMap(([coin, amount]) => this.withdrawService.getWithdrawFee(coin.key, amount)),
-      )
-      .subscribe((fee) => {
-        this.transactionFee = fee;
-      });
-
-    // TODO: check requests when API is ready, few calls on initialization
-    this.withdraws$ = combineLatest([addressChanges$, coinChanges$])
-      .pipe(
-        switchMap(([address, coin]) => this.getHistory(address, coin, params)),
+        distinctUntilChanged(),
+        switchMap(([coin, address, amount]) =>
+          coin && address && amount
+            ? this.withdrawService.getWithdrawFee({coin, address, amount})
+            : of(0)),
         shareReplay(),
       );
+
+    this.withdraws$ = this.withdrawService.getWithdrawHistory(params);
   }
 
-  getHistory(address, coin, qParams): Observable<IApiResponse<IWithdrawItem>> {
-    return this.withdrawService.getWithdrawHistory({address: address.address, coin: coin && coin.key, ...qParams});
+  coinSelectChanged(coin: ICoin): void {
+    this.coinSelect$.next(coin);
+  }
+
+  addressSelectChanged(address: IAddress): void {
+    this.addressSelect$.next(address);
   }
 
   selectPopular(coin: ICoin): void {
@@ -101,18 +100,14 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   }
 
   submitWithdraw(): void {
-    this.withdrawService.sendWithdraw(this.withdrawForm.value)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-      });
+    // TODO: uncomment when endpoint is ready
+    // this.withdrawService.sendWithdraw(this.withdrawForm.value)
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe(() => {
+    //   });
   }
 
   addressManagement(): void {
     this.router.navigateByUrl(`profile/security/address`);
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 }
