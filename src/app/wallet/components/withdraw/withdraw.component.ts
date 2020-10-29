@@ -16,7 +16,7 @@ import {
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { WalletService } from '../../services/wallet.service';
-import { IAddress } from '../../../shared/interfaces/address.interface';
+import { IWalletAddress } from '../../../shared/interfaces/address.interface';
 import { AddressService } from '../../../shared/services/address.service';
 import { defaultPagination } from '../../../shared/constants/pagination.constant';
 
@@ -27,11 +27,11 @@ import { defaultPagination } from '../../../shared/constants/pagination.constant
 })
 export class WithdrawComponent implements OnInit {
   coinSelect$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin>(null);
-  addressSelect$: Subject<IAddress> = new Subject<IAddress>();
+  addressSelect$: Subject<IWalletAddress> = new Subject<IWalletAddress>();
   transactionFee$: Observable<number>;
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
-  addresses$: Observable<IAddress[]>;
+  addresses$: Observable<IWalletAddress[]>;
   withdraws$: Observable<IApiResponse<IWithdrawItem>>;
 
   withdrawForm: FormGroup;
@@ -59,8 +59,8 @@ export class WithdrawComponent implements OnInit {
     this.withdrawForm = new FormGroup({
       tag: new FormControl('', []),
       amount: new FormControl('', [Validators.required]),
-      coinSelect: new FormControl('', [Validators.required]),
-      recipientAddressSelect: new FormControl('', [Validators.required]),
+      coin: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
     });
 
     this.popular$ = this.coinsService.getPopular();
@@ -88,12 +88,12 @@ export class WithdrawComponent implements OnInit {
     this.coinSelect$.next(coin);
   }
 
-  addressSelectChanged(address: IAddress): void {
+  addressSelectChanged(address: IWalletAddress): void {
     this.addressSelect$.next(address);
   }
 
   selectPopular(coin: ICoin): void {
-    this.withdrawForm.get('coinSelect').patchValue(coin);
+    this.withdrawForm.get('coin').patchValue(coin);
   }
 
   sort(field: 'date' | 'amount' | 'status'): void {

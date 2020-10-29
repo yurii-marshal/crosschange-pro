@@ -56,8 +56,8 @@
               <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-icon class="mat-body-coin" [svgIcon]="'icon_' + element.cryptocurrency | lowercase"></mat-icon>
-              <span>{{ element.cryptocurrency }}</span>
+              <mat-icon class="mat-body-coin" [svgIcon]="'icon_' + element.key | lowercase"></mat-icon>
+              <span>{{ element.key }}</span>
             </mat-cell>
           </ng-container>
 
@@ -67,7 +67,7 @@
               {{ 'profile_page.wallet_label' | translate }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              {{ element.wallet_label }}
+              {{ element.label }}
             </mat-cell>
           </ng-container>
 
@@ -97,7 +97,7 @@
               {{ 'profile_page.whitelist' | translate }}
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <mat-icon [svgIcon]="element.whitelist ? 'icon_fill_star' : 'icon_star'"
+              <mat-icon [svgIcon]="element.isWhitelisted ? 'icon_fill_star' : 'icon_star'"
                         (click)="setWhitelist(element)">
               </mat-icon>
             </mat-cell>
