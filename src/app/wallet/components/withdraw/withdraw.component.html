@@ -10,9 +10,8 @@
   <form [formGroup]="withdrawForm" (submit)="submitWithdraw()">
     <div class="flex-container coin-select-container withdraw">
       <app-coin-select
-        ngDefaultControl
         class="coin-select withdraw"
-        formControlName="coinSelect"
+        formControlName="coin"
         (ngModelChange)="coinSelectChanged($event)"
       ></app-coin-select>
     </div>
@@ -24,7 +23,7 @@
     </div>
 
     <ng-container
-      *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coinSelect').value) | slice: 0: 1">
+      *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coin').value) | slice: 0: 1">
       <span class="section-title coin">
         {{wallet.cryptocurrency | uppercase}}
       </span>
@@ -75,7 +74,7 @@
         <app-address-select
           [addresses$]="addresses$"
           class="address-select"
-          formControlName="recipientAddressSelect"
+          formControlName="address"
           (ngModelChange)="addressSelectChanged($event)"
         ></app-address-select>
       </div>
@@ -84,7 +83,8 @@
         <div class="form-field-title withdraw">
           {{'withdraw_page.tag' | translate}}
         </div>
-        <input [placeholder]="'withdraw_page.optional' | translate" class="control" type="text"
+        <input [placeholder]="'withdraw_page.optional' | translate"
+               class="control" type="text"
                formControlName="tag"/>
       </div>
 

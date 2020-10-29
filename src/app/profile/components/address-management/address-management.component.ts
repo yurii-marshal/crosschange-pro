@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged, share, startWith, switchMap, takeUn
 import { ActivatedRoute } from '@angular/router';
 import { AddressManagementService } from '../../services/address-management.service';
 import { SelectionModel } from '@angular/cdk/collections';
-import { IAddress } from '../../../shared/interfaces/address.interface';
+import { IWalletAddress } from '../../../shared/interfaces/address.interface';
 
 @Component({
   selector: 'app-address-management',
@@ -25,13 +25,13 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   ];
   searchInputControl = new FormControl();
 
-  dataSource: MatTableDataSource<IAddress>;
+  dataSource: MatTableDataSource<IWalletAddress>;
   count = 0;
   showWhitelistedOnly$ = new BehaviorSubject<boolean>(false);
 
   onDestroy$ = new Subject<void>();
 
-  selection = new SelectionModel<IAddress>(true, []);
+  selection = new SelectionModel<IWalletAddress>(true, []);
 
   constructor(
     private route: ActivatedRoute,
@@ -77,8 +77,8 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   deleteItems(items?): void {
   }
 
-  setWhitelist(element: IAddress): void {
-    element.whitelist = !element.whitelist;
+  setWhitelist(element: IWalletAddress): void {
+    element.isWhitelisted = !element.isWhitelisted;
   }
 
   toggleWhitelistedOnly(): void {

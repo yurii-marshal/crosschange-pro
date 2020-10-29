@@ -12,7 +12,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { delay, shareReplay, tap } from 'rxjs/operators';
-import { IAddress } from '../../interfaces/address.interface';
+import { IWalletAddress } from '../../interfaces/address.interface';
 import { AddressService } from '../../services/address.service';
 
 @Component({
@@ -29,13 +29,13 @@ import { AddressService } from '../../services/address.service';
   ]
 })
 export class AddressSelectComponent implements OnInit, AfterViewChecked, ControlValueAccessor {
-  @Input() addresses$: Observable<IAddress[]> = this.addressService.getRecipientAddresses();
-  selected: IAddress;
+  @Input() addresses$: Observable<IWalletAddress[]> = this.addressService.getRecipientAddresses();
+  selected: IWalletAddress;
   opened = false;
 
   @Output() countChanged: EventEmitter<number> = new EventEmitter();
 
-  onChange = (address: IAddress) => {
+  onChange = (address: IWalletAddress) => {
   }
   onTouched = () => {
   }
@@ -62,7 +62,7 @@ export class AddressSelectComponent implements OnInit, AfterViewChecked, Control
     this.cdr.detectChanges();
   }
 
-  registerOnChange(fn: (address: IAddress) => void): void {
+  registerOnChange(fn: (address: IWalletAddress) => void): void {
     this.onChange = fn;
   }
 
@@ -70,7 +70,7 @@ export class AddressSelectComponent implements OnInit, AfterViewChecked, Control
     this.onTouched = fn;
   }
 
-  writeValue(address: IAddress): void {
+  writeValue(address: IWalletAddress): void {
     if (!address) {
       return;
     }

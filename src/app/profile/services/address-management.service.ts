@@ -1,17 +1,18 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { IAddress } from '../../shared/interfaces/address.interface';
+import { IWalletAddress } from '../../shared/interfaces/address.interface';
 import { ApiService } from 'shared-kuailian-lib';
 import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from '../../shared/constants/pagination.constant';
 
-const addressMock: IAddress = {
-  cryptocurrency: 'usdc',
-  wallet_label: 'Personal Wallet',
+const addressMock: IWalletAddress = {
+  id: 34354,
+  key: 'usdc',
+  label: 'Personal Wallet',
   address: '1658wDe3fGGmYDBszD8uNNXYJfSo8eYmYJ',
   memo: '',
   tag: '',
-  whitelist: true,
+  isWhitelisted: true,
 };
 
 @Injectable({
