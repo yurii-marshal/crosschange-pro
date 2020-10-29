@@ -36,6 +36,10 @@ export const routes: Routes = [
         path: 'trade',
         loadChildren: () => import('./exchange/exchange.module').then((m) => m.ExchangeModule),
       },
+      {
+        path: 'company',
+        loadChildren: () => import('./static-pages/static-pages.module').then((m) => m.StaticPagesModule),
+      },
     ]
   },
   {

@@ -1,0 +1,28 @@
+<div class="main-container">
+  <aside>
+    <div class="spot-wallet">
+      <div class="spot-wallet__header">{{'static_pages.menu_company' | translate}}</div>
+      <ul class="spot-wallet__services-list">
+        <li class="spot-wallet__services-item" [routerLink]="['about']" [routerLinkActive]="['active']">
+          {{'static_pages.menu_about' | translate}}
+        </li>
+        <li class="spot-wallet__services-item" [routerLink]="['faq']" [routerLinkActive]="['active']">
+          {{'static_pages.menu_faq' | translate}}
+        </li>
+        <li class="spot-wallet__services-item" [routerLink]="['partners']" [routerLinkActive]="['active']">
+          {{'static_pages.menu_partners' | translate}}
+        </li>
+        <li class="spot-wallet__services-item" [routerLink]="['contact']" [routerLinkActive]="['active']">
+          {{'static_pages.menu_contact' | translate}}
+        </li>
+        <li class="spot-wallet__services-item" [routerLink]="['commissions']" [routerLinkActive]="['active']">
+          {{'static_pages.menu_commissions' | translate}}
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
