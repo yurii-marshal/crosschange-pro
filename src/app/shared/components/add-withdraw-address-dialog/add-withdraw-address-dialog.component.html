@@ -1,0 +1,64 @@
+<div *ngIf="addAddressStage === 0" class="confirmation-popup">
+  <div class="confirmation-popup__header">Add Withdrawal Address</div>
+
+  <form class="confirmation-popup__form" [formGroup]="withdrawalForm">
+    <div class="confirmation-popup__coin block">
+      <mat-label class="confirmation-popup__label">Coin</mat-label>
+      <mat-select class="confirmation-popup__input" [formControlName]="'coin'" [compareWith]="compare">
+        <mat-select-trigger *ngIf="currencies$ | async">
+          <mat-icon [svgIcon]="'icon_' + withdrawalForm.controls['coin'].value.key | lowercase"></mat-icon>
+          {{ withdrawalForm.controls['coin'].value['fields'].name }}
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let item of currencies$ | async" [value]="item">
+          <mat-icon [svgIcon]="'icon_' + item.key | lowercase"></mat-icon>
+          {{ item.fields.name }}
+        </mat-option>
+      </mat-select>
+
+      <div class="confirmation-popup__tags">
+        <div *ngFor="let item of currencies$ | async"
+             class="confirmation-popup__tags-item"
+             (click)="setCurrency(item)">{{ item.key }}</div>
+      </div>
+    </div>
+
+    <div class="confirmation-popup__wallet block">
+      <mat-label class="confirmation-popup__label">Wallet Label</mat-label>
+      <input matInput class="confirmation-popup__input"
+             [formControlName]="'wallet_label'" placeholder="Your Wallet Label">
+    </div>
+
+    <div class="confirmation-popup__address block">
+      <mat-label class="confirmation-popup__label">Address</mat-label>
+      <input matInput class="confirmation-popup__input" [formControlName]="'address'" placeholder="Your Address">
+    </div>
+
+    <div class="confirmation-popup__tag block" *ngIf="false">
+      <mat-label class="confirmation-popup__label">Tag</mat-label>
+      <input matInput class="confirmation-popup__input" [formControlName]="'tag'" placeholder="Ripple tag">
+    </div>
+
+    <div class="confirmation-popup__memo block" *ngIf="false">
+      <mat-label class="confirmation-popup__label">Memo</mat-label>
+      <input matInput class="confirmation-popup__input" [formControlName]="'memo'" placeholder="Memo">
+    </div>
+
+    <div class="confirmation-popup__whitelist">
+      <input type="checkbox"
+             class="confirmation-popup__whitelist-checkbox"
+             [formControlName]="'add_to_whitelist'">
+      <mat-label class="confirmation-popup__whitelist-label">Add to Whitelist</mat-label>
+    </div>
+  </form>
+
+  <div class="confirmation-popup__actions">
+    <button class="confirmation-popup__btn confirmation-popup__cancel" mat-dialog-close>Cancel</button>
+    <button class="confirmation-popup__btn confirmation-popup__continue"
+            [disabled]="!withdrawalForm.valid"
+            [ngClass]="!withdrawalForm.valid ? 'disabled' : 'enabled'"
+            (click)="addAddressStage = 1">
+      Continue
+    </button>
+  </div>
+</div>

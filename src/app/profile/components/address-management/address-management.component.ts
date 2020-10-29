@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
 import { TranslatePipe } from '@ngx-translate/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { AddWithdrawAddressDialogComponent } from '../../../shared/components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 
 @Component({
   selector: 'app-address-management',
@@ -70,6 +71,16 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  addWithdrawAddress(): void {
+    const dialogRef = this.dialog.open(AddWithdrawAddressDialogComponent, {
+      width: '400px',
+      panelClass: 'confirmation',
+      data: {
+
+      }
+    });
+  }
+
   addToWhitelist(): void {
     const items = this.selection.selected.filter(item => !item.isWhitelisted).map(item => item.id);
 
@@ -124,10 +135,10 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
             this.addressManagementService.deleteItems(this.selection.selected.map(vl => vl.id));
         }
       })
-    ).subscribe(vl => console.log(vl));
+    ).subscribe();
   }
 
-  setWhitelist(element: IWalletAddress): void {
+  setWhitelisted(element: IWalletAddress): void {
     element.isWhitelisted = !element.isWhitelisted;
   }
 

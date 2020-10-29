@@ -27,7 +27,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   popular$: Observable<ICoin[]>;
   wallets$: Observable<IWallet[]>;
   addresses$: Observable<IWalletAddress[]>;
-  withdraws$: Observable<IApiResponse<ITransactionItem>>;
+  withdraws$: Observable<IApiResponse<IWithdrawItem>>;
   onDestroy$ = new Subject<void>();
 
   withdrawForm: FormGroup;
@@ -70,7 +70,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
       });
   }
 
-  getHistory(selected, qParams): Observable<IApiResponse<ITransactionItem>> {
+  getHistory(selected, qParams): Observable<IApiResponse<IWithdrawItem>> {
     return this.withdrawService.getWithdrawHistory({cryptocurrency: selected && selected.key, ...qParams});
   }
 

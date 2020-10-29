@@ -7,7 +7,9 @@
             (click)="toggleWhitelistEnable()">
       {{((enableWhitelist$ | async) ? 'profile_page.disable_whitelist' : 'profile_page.enable_whitelist') | translate}}
     </button>
-    <button class="address-header__add-address">{{'profile_page.add_address' | translate}}</button>
+    <button class="address-header__add-address" (click)="addWithdrawAddress()">
+      {{'profile_page.add_address' | translate}}
+    </button>
   </div>
 </div>
 
@@ -103,7 +105,7 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let element">
               <mat-icon [svgIcon]="element.isWhitelisted ? 'icon_fill_star' : 'icon_star'"
-                        (click)="setWhitelist(element)"
+                        (click)="setWhitelisted(element)"
                         class="pointer">
               </mat-icon>
             </mat-cell>

@@ -98,6 +98,6 @@ export class AddressManagementService extends ApiService {
   deleteItems(items: number[]): Observable<any> {
     return of(true);
 
-    // return super.delete('wallet/address');
+    // return super.delete('wallet/address', { body: items});
   }
 }

@@ -26,6 +26,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 
 const components = [
   HeaderComponent,
@@ -52,7 +53,8 @@ const pipes = [
     ...pipes,
     SafePipe,
     AddressSelectComponent,
-    ConfirmationComponent
+    ConfirmationComponent,
+    AddWithdrawAddressDialogComponent
   ],
   imports: [
     CommonModule,
