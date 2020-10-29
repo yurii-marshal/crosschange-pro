@@ -39,7 +39,7 @@
 }
 
 .total-balance {
-  margin: 36px 22px;
+  margin: 36px 62px;
 
   &__header {
     font-size: 32px;
@@ -89,7 +89,7 @@
 }
 
 .balances, .addresses {
-  margin: 0 22px 107px;
+  margin: 0 22px 107px 62px;
 
   .balance, .address {
     margin-bottom: 40px;
@@ -204,6 +204,12 @@ app-paginator {
     border: 1px solid $color-grey-10;
     border-radius: 4px;
     cursor: pointer;
+
+    &-active {
+      color: $color-brand;
+      background: rgba($color-brand, 0.05);
+      border: 1px solid $color-brand;
+    }
   }
 
   .control-btn {

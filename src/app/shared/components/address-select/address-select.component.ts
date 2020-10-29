@@ -1,12 +1,10 @@
 import {
-  AfterViewChecked,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   forwardRef,
   Input,
-  OnInit,
+  OnChanges,
   Output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -28,7 +26,7 @@ import { AddressService } from '../../services/address.service';
     }
   ]
 })
-export class AddressSelectComponent implements OnInit, AfterViewChecked, ControlValueAccessor {
+export class AddressSelectComponent implements OnChanges, ControlValueAccessor {
   @Input() addresses$: Observable<IWalletAddress[]> = this.addressService.getRecipientAddresses();
   selected: IWalletAddress;
   opened = false;
@@ -42,24 +40,18 @@ export class AddressSelectComponent implements OnInit, AfterViewChecked, Control
 
   constructor(
     private addressService: AddressService,
-    private cdr: ChangeDetectorRef,
   ) {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.addresses$ = this.addresses$
       .pipe(
-        delay(0),
         tap(v => {
           this.countChanged.emit(v.length);
           return !this.selected && this.writeValue(v[0]);
         }),
         shareReplay(),
       );
-  }
-
-  ngAfterViewChecked(): void {
-    this.cdr.detectChanges();
   }
 
   registerOnChange(fn: (address: IWalletAddress) => void): void {

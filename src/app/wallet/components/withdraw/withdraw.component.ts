@@ -100,6 +100,7 @@ export class WithdrawComponent implements OnInit {
   }
 
   submitWithdraw(): void {
+    // TODO: uncomment when endpoint is ready
     // this.withdrawService.sendWithdraw(this.withdrawForm.value)
     //   .pipe(takeUntil(this.onDestroy$))
     //   .subscribe(() => {
