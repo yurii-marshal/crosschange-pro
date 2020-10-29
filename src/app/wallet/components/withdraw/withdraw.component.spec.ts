@@ -80,11 +80,11 @@ fdescribe('WithdrawComponent', () => {
             provide: ENVIRONMENT,
             useValue: environment as IEnvironment
           },
-          { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
-          { provide: WalletService, useClass: WalletServiceMock },
-          { provide: CoinsService, useClass: CoinServiceMock },
-          { provide: ActivatedRoute, useValue: routeStub },
-          { provide: Router, useValue: router }
+          {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
+          {provide: WalletService, useClass: WalletServiceMock},
+          {provide: CoinsService, useClass: CoinServiceMock},
+          {provide: ActivatedRoute, useValue: routeStub},
+          {provide: Router, useValue: router}
         ]
       });
 
@@ -100,13 +100,15 @@ fdescribe('WithdrawComponent', () => {
     });
   });
 
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+
   it('should load withdraw history', (done) => {
-    const expected = { ...withdrawsMock };
-    withdrawService.getWithdrawHistory({ offset: 0, limit: 10 })
+    const expected = {...withdrawsMock};
+    withdrawService.getWithdrawHistory({offset: 0, limit: 10})
       .subscribe(val => {
         expect(val).toEqual(expected);
         done();
@@ -114,17 +116,15 @@ fdescribe('WithdrawComponent', () => {
   });
 
   it('should get history with defined parameters', (done) => {
-    // fixture.whenStable().then(() => {
-    //   const service = TestBed.inject(DepositService);
-    //   const spy = spyOn(service, 'getDepositHistory');
-    //   component.getHistory({key: 'btc'}, {offset: 10, limit: 20});
-    //   expect(spy).toHaveBeenCalledWith({
-    //     cryptocurrency: 'btc',
-    //     offset: 10,
-    //     limit: 20
-    //   });
-    //   done();
-    // });
+    fixture.whenStable().then(() => {
+      const spy = spyOn(withdrawService, 'getWithdrawHistory');
+      withdrawService.getWithdrawHistory({offset: 20, limit: 10});
+      expect(spy).toHaveBeenCalledWith({
+        offset: 20,
+        limit: 10
+      });
+      done();
+    });
   });
 
   it('should establish a coin information on coin change', (done) => {
@@ -180,24 +180,37 @@ fdescribe('WithdrawComponent', () => {
   });
 
   it('should select popular and change fee result when an amount is filled', (done) => {
-    // fixture.whenStable().then(() => {
-    //   fixture.ngZone.run(() => {
-    //     const xrp = coinsMock.filter(v => v.key === 'xrp').shift();
-    //     component.selected$.pipe(skip(1)).subscribe((value) => {
-    //       fixture.whenStable().then(() => {
-    //         expect(value.key).toEqual('xrp');
-    //         const selected = fixture.nativeElement.querySelector('app-coin-select .coin-title');
-    //         expect(selected.innerText).toEqual('Ripple/XRP');
-    //         done();
-    //       });
-    //     });
-    //     component.selectPopular(xrp);
-    //     fixture.detectChanges();
-    //   });
-    // });
+    let prevFee = 0;
+    let transactionFee = 0;
+    component.withdrawForm.get('amount').setValue(100);
+
+    fixture.whenStable().then(() => {
+      fixture.ngZone.run(() => {
+        component.transactionFee$.subscribe((fee) => {
+          fixture.whenStable().then(() => {
+            prevFee = transactionFee;
+            transactionFee = fee;
+          });
+        });
+
+        const xrp = coinsMock.filter(v => v.key === 'xrp').shift();
+        component.coinSelect$.pipe(skip(1)).subscribe((value) => {
+          fixture.whenStable().then(() => {
+            expect(value.key).toEqual('xrp');
+            const selected = fixture.nativeElement.querySelector('app-coin-select .coin-title');
+            expect(selected.innerText).toEqual('Ripple/XRP');
+            expect(transactionFee).not.toEqual(prevFee);
+            done();
+          });
+        });
+
+        component.selectPopular(xrp);
+        fixture.detectChanges();
+      });
+    });
   });
 
-  it('should submit withdraw transaction on button Submit click', (done) => {
+  it('should not change fee result on recipient address change when an amount is empty', (done) => {
     // routeStub.setQueryParamMap({ offset: 10, limit: 10 });
     // fixture.whenStable().then(() => {
     //   fixture.ngZone.run(() => {
@@ -208,6 +221,10 @@ fdescribe('WithdrawComponent', () => {
     //     done();
     //   });
     // });
+  });
+
+  it('should submit withdraw transaction on button Submit click', (done) => {
+
   });
 
 });
