@@ -31,7 +31,7 @@ import { AddressSelectComponent } from '../../../shared/components/address-selec
 import { skip } from 'rxjs/operators';
 import { DepositService } from '../../services/deposit.service';
 
-fdescribe('WithdrawComponent', () => {
+describe('WithdrawComponent', () => {
   let component: WithdrawComponent;
   let fixture: ComponentFixture<WithdrawComponent>;
   let routeStub: ActivatedRouteStub;

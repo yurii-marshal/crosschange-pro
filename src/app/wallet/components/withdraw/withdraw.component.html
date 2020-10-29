@@ -10,7 +10,6 @@
   <form [formGroup]="withdrawForm" (submit)="submitWithdraw()">
     <div class="flex-container coin-select-container withdraw">
       <app-coin-select
-        ngDefaultControl
         class="coin-select withdraw"
         formControlName="coinSelect"
         (ngModelChange)="coinSelectChanged($event)"

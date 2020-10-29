@@ -82,11 +82,6 @@ export class WithdrawComponent implements OnInit {
       );
 
     this.withdraws$ = this.withdrawService.getWithdrawHistory(params);
-    // combineLatest([addressChanges$, coinChanges$])
-    //   .pipe(
-    //     switchMap(([address, coin]) => this.getHistory(address, coin, params)),
-    //     shareReplay(),
-    //   );
   }
 
   coinSelectChanged(coin: ICoin): void {
@@ -97,10 +92,6 @@ export class WithdrawComponent implements OnInit {
     this.addressSelect$.next(address);
   }
 
-  // getHistory(address, coin, qParams): Observable<IApiResponse<IWithdrawItem>> {
-  //   return this.withdrawService.getWithdrawHistory({address: address.address, coin: coin && coin.key, ...qParams});
-  // }
-
   selectPopular(coin: ICoin): void {
     this.withdrawForm.get('coinSelect').patchValue(coin);
   }
@@ -109,6 +100,7 @@ export class WithdrawComponent implements OnInit {
   }
 
   submitWithdraw(): void {
+    // TODO: uncomment when endpoint is ready
     // this.withdrawService.sendWithdraw(this.withdrawForm.value)
     //   .pipe(takeUntil(this.onDestroy$))
     //   .subscribe(() => {
