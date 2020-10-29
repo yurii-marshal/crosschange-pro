@@ -71,6 +71,7 @@ export class AddressManagementService extends ApiService {
     // return super.get('wallet/address', {params: parameters});
   }
 
+  // TODO: Refactor any's
   toggleWhitelistEnable(): Observable<any> {
     return of(true);
 
@@ -99,5 +100,11 @@ export class AddressManagementService extends ApiService {
     return of(true);
 
     // return super.delete('wallet/address', { body: items});
+  }
+
+  addWithdrawalAddress(data): Observable<any> {
+    return of(true);
+
+    // return super.post('wallet/address', data);
   }
 }
