@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {ExchangeService, IExchangeRequest} from '../../../shared/services/exchange.service';
+import { ExchangeService, IExchangeRequest } from '../../../shared/services/exchange.service';
 
 @Component({
   selector: 'app-exchange-confirmation',
