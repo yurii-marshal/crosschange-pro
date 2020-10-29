@@ -1,5 +1,5 @@
 export interface IWithdrawItem {
-  date: number; // operation date
+  date: string; // operation date
   cryptocurrency: string; // e.g. 'btc', 'eth'
   amount: number; // amount in cryptocurrency
   status: string;

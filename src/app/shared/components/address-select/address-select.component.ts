@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnChanges,
+  Output
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { shareReplay, tap } from 'rxjs/operators';
 import { IWalletAddress } from '../../interfaces/address.interface';
 import { AddressService } from '../../services/address.service';
 
@@ -18,12 +26,11 @@ import { AddressService } from '../../services/address.service';
     }
   ]
 })
-export class AddressSelectComponent implements OnInit, ControlValueAccessor {
-  opened = false;
-  addresses$: Observable<IWalletAddress[]>;
+export class AddressSelectComponent implements OnChanges, ControlValueAccessor {
+  @Input() addresses$: Observable<IWalletAddress[]> = this.addressService.getRecipientAddresses();
   selected: IWalletAddress;
+  opened = false;
 
-  @Input() addresses: IWalletAddress[];
   @Output() countChanged: EventEmitter<number> = new EventEmitter();
 
   onChange = (address: IWalletAddress) => {
@@ -36,23 +43,15 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
   ) {
   }
 
-  ngOnInit(): void {
-    if (!this.addresses) {
-      this.addresses$ = this.addressService.getRecipientAddresses()
-        .pipe(
-          take(1),
-          tap(v => {
-            this.countChanged.emit(v.length);
-            return !this.selected && this.writeValue(v[0]);
-          })
-        );
-    } else {
-      this.addresses$ = of(this.addresses);
-
-      if (!this.selected) {
-        this.writeValue(this.addresses[0]);
-      }
-    }
+  ngOnChanges(): void {
+    this.addresses$ = this.addresses$
+      .pipe(
+        tap(v => {
+          this.countChanged.emit(v.length);
+          return !this.selected && this.writeValue(v[0]);
+        }),
+        shareReplay(),
+      );
   }
 
   registerOnChange(fn: (address: IWalletAddress) => void): void {
@@ -68,6 +67,7 @@ export class AddressSelectComponent implements OnInit, ControlValueAccessor {
       return;
     }
     this.selected = address;
+
     this.onChange(address);
   }
 
