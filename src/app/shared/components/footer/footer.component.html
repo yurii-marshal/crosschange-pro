@@ -39,7 +39,7 @@
             <!--<a href="">{{'footer.contact' | translate}}</a>-->
           <!--</li>-->
           <li>
-            <a href="">{{'footer.commission' | translate}}</a>
+            <a routerLink="/company/commissions">{{'footer.commission' | translate}}</a>
           </li>
         </ul>
       </div>
@@ -85,7 +85,7 @@
             <a href="">{{'footer.status_mobile' | translate}}</a>
           </li>
           <li>
-            <a href="">{{'footer.zendesk' | translate}}</a>
+            <a href="{{environment.zendeskUrl}}">{{'footer.zendesk' | translate}}</a>
           </li>
           <li>
             <a href="">{{'footer.terms' | translate}}</a>
@@ -143,7 +143,7 @@
           <a href="https://status.crosschange.exchange/">{{'footer.status' | translate}}</a>
         </li>
         <li>
-          <a href="https://crosschange-bank.zendesk.com/">{{'footer.zendesk' | translate}}</a>
+          <a href="{{environment.zendeskUrl}}">{{'footer.zendesk' | translate}}</a>
         </li>
         <li>
           <a href="">{{'footer.terms' | translate}}</a>
