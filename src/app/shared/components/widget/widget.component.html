@@ -10,7 +10,7 @@
     <div class="widget__content-amount">{{ widgetInfo.last }}</div>
     <div class="widget__content-change widget__content-change--negative"
          [class.widget__content-change--positive]="(this.widgetInfo.change_percent_24 | number) >= 0">
-      {{widgetInfo.change_percent_24 > 0 ? '+' : ''}}{{ widgetInfo.change_percent_24 }}
+      {{(widgetInfo.change_percent_24 | number) > 0 ? '+' : ''}}{{ widgetInfo.change_percent_24 }}
     </div>
   </div>
   <div class="widget__volume">{{ 'crypto_widget.volume' | translate }}: {{ widgetInfo.vol_24 }}</div>
