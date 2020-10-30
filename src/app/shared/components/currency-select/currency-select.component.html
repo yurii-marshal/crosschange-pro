@@ -1,5 +1,3 @@
-<div class="overlay" [class.overlay-visible]="opened" (click)="opened = false; onCloseDropdown()"></div>
-
 <div class="switcher" (click)="!disabled ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened" [class.disabled]="disabled">
   <div class="fx-row">
     <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
