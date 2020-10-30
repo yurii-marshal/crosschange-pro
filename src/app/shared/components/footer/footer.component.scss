@@ -74,6 +74,16 @@ footer {
         margin-bottom: 8px;
       }
     }
+    &.large {
+      margin-bottom: 28px;
+      & > ul {
+        li {
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+    }
   }
 }
 
@@ -164,7 +174,7 @@ footer {
     display: none;
   }
   .top .left {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
   .top {
     flex-direction: column;
@@ -175,6 +185,12 @@ footer {
   }
   .top .right .title {
     display: none;
+  }
+  .section.mobile {
+    display: block;
+  }
+  .top .right ul li{
+    margin-bottom: 16px;
   }
 }
 
