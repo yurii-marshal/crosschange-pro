@@ -27,6 +27,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 import { skip } from 'rxjs/operators';
 import { DepositService } from '../../services/deposit.service';
+import { DepositServiceMock } from '../../../../../testing/DepositServiceMock';
 
 describe('DepositComponent', () => {
   let component: DepositComponent;
@@ -76,6 +77,7 @@ describe('DepositComponent', () => {
           },
           { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
           { provide: WalletService, useClass: WalletServiceMock },
+          { provide: DepositService, useClass: DepositServiceMock },
           { provide: CoinsService, useClass: CoinServiceMock },
           { provide: ActivatedRoute, useValue: routeStub },
           { provide: Router, useValue: router }
