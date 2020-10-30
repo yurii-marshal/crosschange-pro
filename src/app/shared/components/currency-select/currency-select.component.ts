@@ -1,7 +1,8 @@
 import {
+
   ChangeDetectionStrategy,
-  Component,
-  forwardRef, Input, OnChanges, OnDestroy,
+  Component, ElementRef,
+  forwardRef, HostListener, Input, OnChanges, OnDestroy,
   OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -44,9 +45,18 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   searchValue = '';
   onChange = (value: ICurrencySelectValue) => {};
   onTouched = () => {};
+
+  @HostListener('document:click', ['$event.target']) onClick(target): void {
+    if (!this.elRef.nativeElement.contains(target)) {
+      this.opened = false;
+    }
+  }
+
   constructor(
-    private exchange: ExchangeService
+    private exchange: ExchangeService,
+    private elRef: ElementRef
   ) { }
+
 
   ngOnInit(): void {
     this.exchange.getCurrencies()
