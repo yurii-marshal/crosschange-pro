@@ -161,6 +161,20 @@
     "copy_tag": "Copy destination tag",
     "tag_short": "{{crypto}} Tag"
   },
+  "static_pages": {
+    "commissions": "Commissions",
+    "cryptocurrency": "Cryptocurrency",
+    "deposit_fee": "Deposit fee",
+    "description": "There is a minimum requirement for each withdrawal, along with a flat fee to cover the transaction costs of moving the cryptocurrency out of your Crosschange Pro account.",
+    "menu_about": "About",
+    "menu_commissions": "Commissions",
+    "menu_company": "Company",
+    "menu_contact": "Contact",
+    "menu_faq": "FAQ",
+    "menu_partners": "Partners",
+    "withdraw_fee": "Withdraw Fee",
+    "withdrawal_minimum": "Withdrawal Minimum"
+  },
   "time_ago": {
     "day_before": "a day before",
     "days_before": "{{days}} d before",
