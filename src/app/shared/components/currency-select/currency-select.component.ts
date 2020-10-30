@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
 
@@ -28,7 +28,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
-  amount: FormControl = new FormControl();
+  amountForm: FormGroup = new FormGroup({amount: new FormControl()});
   onDestroy$: Subject<void> = new Subject();
   value: {
     currency: ICurrency,
@@ -51,7 +51,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
       this.currencies = v;
     });
 
-    this.amount.valueChanges.pipe(
+    this.amountForm.get('amount').valueChanges.pipe(
       takeUntil(this.onDestroy$),
       debounceTime(300)
     ).subscribe(v => {
@@ -72,7 +72,7 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
 
   setCurrency(currency: ICurrency): void {
     this.selected$.next(currency);
-    this.writeValue({ currency, amount: this.amount.value });
+    this.writeValue({ currency, amount: this.amountForm.get('amount').value });
   }
 
   writeValue(value: { currency: ICurrency, amount: number }): void {
@@ -80,10 +80,10 @@ export class CurrencySelectComponent implements OnInit, OnDestroy, ControlValueA
       return;
     }
     this.selected$.next(value.currency);
-    this.amount.setValue(value.amount);
+    this.amountForm.get('amount').setValue(value.amount);
     this.onChange({
       currency: value.currency,
-      amount: this.amount.value
+      amount: this.amountForm.get('amount').value
     });
   }
 

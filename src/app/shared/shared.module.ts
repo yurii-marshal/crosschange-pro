@@ -39,19 +39,19 @@ const components = [
   CoinSelectComponent,
   AddressSelectComponent,
   CurrencySelectComponent,
-  OnlyNumbersDirective,
 ];
 
 const pipes = [
   TimeBeforePipe,
   ToggleSecretTextPipe,
+  SafePipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
     ...pipes,
-    SafePipe,
+    OnlyNumbersDirective,
   ],
   imports: [
     CommonModule,
@@ -86,7 +86,8 @@ const pipes = [
     MatMenuModule,
     PopoverModule,
     LayoutModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    OnlyNumbersDirective,
   ],
   providers: [
     DatePipe
