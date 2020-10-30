@@ -6,7 +6,7 @@
       <form [formGroup]="form">
         <div class="form-field">
           <label>{{'exchange.for' | translate}}</label>
-          <app-currency-select formControlName="fromCurrency" [disabled]="!inputsEnabled"></app-currency-select>
+          <app-currency-select formControlName="fromCurrency"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.max' | translate}}:</span>
             <span class="max-balance" (click)="setFromMaxValue()">{{form.get('fromCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
@@ -15,7 +15,7 @@
         <mat-icon class="direction" svgIcon="icon_direction" (click)="swapCurrencies()"></mat-icon>
         <div class="form-field">
           <label>{{'exchange.you_will_get' | translate}}</label>
-          <app-currency-select formControlName="toCurrency" [disabled]="!inputsEnabled"></app-currency-select>
+          <app-currency-select formControlName="toCurrency"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.balance' | translate}}:</span>
             <span>{{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>

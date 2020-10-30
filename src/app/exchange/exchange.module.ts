@@ -26,7 +26,7 @@ export const routes = [
     SharedModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
 })
 export class ExchangeModule { }
