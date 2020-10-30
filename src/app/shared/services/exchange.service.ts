@@ -12,6 +12,27 @@ export enum IChartPeriods {
   MONTH = '1m',
   YEAR = '1y'
 }
+export interface IPreCheckResponse {
+  amount: number;
+  valid: boolean;
+  rate: number;
+  fee?: number;
+}
+
+export interface IPreCheckRequest {
+  from: string;
+  to: string;
+  amount: number;
+  baseCurrency: string;
+}
+
+export interface IExchangeRequest {
+  from: string;
+  to: string;
+  amount: number;
+  rate: number;
+  fee: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +60,7 @@ export class ExchangeService extends ApiService {
     if (step) {
       req.step = step;
     }
-    return super.get('/exchanges/graph');*/
+    return super.get('exchanges/graph');*/
     // TODO: DELETE WHEN API IS READY
     const mock = new Array(70).fill(1).map((v, i) => {
       const name = i % 10 === 0 ? i : '';
@@ -48,4 +69,26 @@ export class ExchangeService extends ApiService {
     const subj = new BehaviorSubject(mock as IChartData[]);
     return subj.asObservable().pipe(delay(200));
   }
+
+  precheck(req: IPreCheckRequest): Observable<IPreCheckResponse> {
+    // TODO: UNCOMMENT
+    /*return super.get('/exchange-precheck', req);*/
+
+    // TODO: DELETE
+    const res = {
+      amount:  Math.random() * (100 - 1) + 1,
+      valid: true,
+      rate: Math.random() * (100 - 1) + 1,
+      fee: Math.random() * (100 - 1) + 1
+    };
+    return of(res).pipe(delay(2000));
+  }
+
+  exchange(request: IExchangeRequest): Observable<void> {
+    // TODO: UNCOMMENT
+    /*return super.post('/quick-exchange', request);*/
+    // TODO: DELETE
+    return of(undefined).pipe(delay(2000));
+  }
+
 }

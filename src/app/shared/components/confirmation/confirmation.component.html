@@ -1,0 +1,10 @@
+<div class="confirmation-popup">
+  <mat-icon [svgIcon]="'icon_close_dark'" class="confirmation-popup__close-btn" mat-dialog-close></mat-icon>
+  <mat-icon [svgIcon]="'icon_' + data.icon" class="confirmation-popup__whitelist-icon"></mat-icon>
+
+  <div class="confirmation-popup__label">{{ data.label | translate }}</div>
+  <div class="confirmation-popup__text">{{ data.text | translate }}</div>
+  <button class="confirmation-popup__remove-btn" [ngClass]="data.buttonColor" (click)="doAction()">
+    {{ data.buttonText | translate }}
+  </button>
+</div>

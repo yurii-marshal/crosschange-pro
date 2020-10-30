@@ -12,9 +12,9 @@ import { ReplaySubject } from 'rxjs';
  */
 export class ActivatedRouteStub {
   private localParamMap: ParamMap;
-  private localQueryParams: ParamMap;
+  private localQueryParams: object;
   private params$ = new ReplaySubject<ParamMap>(1);
-  private queryParams$ = new ReplaySubject<ParamMap>(1);
+  private queryParams$ = new ReplaySubject<object>(1);
 
   queryParams = this.queryParams$.asObservable();
 

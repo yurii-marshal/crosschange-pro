@@ -30,7 +30,7 @@ export const routes: Routes = [
 @NgModule({
   declarations: [
     AddressManagementComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

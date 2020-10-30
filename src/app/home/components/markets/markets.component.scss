@@ -155,32 +155,43 @@
 
 ::ng-deep .mat-form-field {
   position: relative;
+  width: 143px;
+}
+
+::ng-deep .mat-ripple-element {
+  background: none;
 }
 
 ::ng-deep .mat-select-panel {
   position: absolute;
-  top: 32px;
+  top: 33px;
   right: -16px;
+  min-width: 0 !important;
 
   .mat-option {
-    margin: 0 16px;
-    height: 48px !important;
+    padding: 0 14px;
+    width: 143px;
+    height: 35px !important;
     background-color: $color-white-100;
     border-bottom: 1px solid $color-grey-20;
 
-    &:first-child {
-      margin-top: 16px;
+    &:hover {
+      background: rgba($color-brand, 0.05);
     }
 
     &:last-child {
-      margin-bottom: 16px;
       border-bottom: none;
     }
 
     .mat-option-text {
-      font-size: 16px;
-      line-height: 28px;
+      font-size: 14px;
+      line-height: 20px;
     }
+  }
+
+  .mat-selected {
+    color: $color-brand-dark !important;
+    background: rgba($color-brand, 0.05) !important;
   }
 }
 
@@ -190,7 +201,18 @@
   height: 25px;
 
   .mat-icon {
-    margin-right: 9px;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+}
+
+::ng-deep .mat-option-text {
+
+  .mat-icon {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 8px !important;
   }
 }
 
@@ -274,15 +296,6 @@
     &-input {
       margin-left: 0;
     }
-  }
-
-  ::ng-deep .mat-form-field {
-    width: 200px;
-  }
-
-  ::ng-deep .mat-select-panel {
-    width: 280px;
-    left: -23px;
   }
 }
 
