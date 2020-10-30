@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, of, Subject, zip } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
-  mergeMap, pairwise,
+  mergeMap,
   share,
-  switchMap, take,
+  switchMap,
+  take,
   takeUntil
 } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
@@ -181,12 +182,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
   createForm(): void {
     this.form = new FormGroup({
-      fromCurrency: new FormControl(null,  [
+      fromCurrency: new FormControl({value: null, disabled: !this.inputsEnabled},  [
         CurrencySelectValidators.amountRequired,
         CurrencySelectValidators.cryptoRequired,
         CurrencySelectValidators.amountNotNumber
       ]),
-      toCurrency: new FormControl(null,  [
+      toCurrency: new FormControl({value: null, disabled: !this.inputsEnabled},  [
         CurrencySelectValidators.amountRequired,
         CurrencySelectValidators.cryptoRequired,
         CurrencySelectValidators.amountNotNumber

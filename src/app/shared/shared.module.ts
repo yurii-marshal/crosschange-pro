@@ -41,22 +41,21 @@ const components = [
   CoinSelectComponent,
   AddressSelectComponent,
   CurrencySelectComponent,
-  OnlyNumbersDirective,
+  ConfirmationComponent,
+  AddWithdrawAddressDialogComponent,
 ];
 
 const pipes = [
   TimeBeforePipe,
   ToggleSecretTextPipe,
+  SafePipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
     ...pipes,
-    SafePipe,
-    AddressSelectComponent,
-    ConfirmationComponent,
-    AddWithdrawAddressDialogComponent
+    OnlyNumbersDirective,
   ],
   imports: [
     CommonModule,
@@ -91,7 +90,8 @@ const pipes = [
     MatMenuModule,
     PopoverModule,
     LayoutModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    OnlyNumbersDirective,
   ],
   providers: [
     DatePipe

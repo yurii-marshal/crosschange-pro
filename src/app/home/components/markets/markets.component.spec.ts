@@ -75,12 +75,12 @@ xdescribe('MarketsComponent', () => {
       ],
       providers: [
         MarketsService,
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
-        { provide: ENVIRONMENT, useValue: environment as IEnvironment },
-        { provide: ActivatedRoute, useValue: routeStub },
+        {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
+        {provide: ENVIRONMENT, useValue: environment as IEnvironment},
+        {provide: ActivatedRoute, useValue: routeStub},
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach((done) => {
@@ -116,12 +116,12 @@ xdescribe('MarketsComponent', () => {
 
   it('should invoke load function when query params changed', async () => {
     const spy = spyOn(service, 'loadPairs').and.returnValue(of({count: 1, results: []}));
-    routeStub.setQueryParamMap({ tab: 'btc', offset: '0', limit: '4' });
+    routeStub.setQueryParamMap({tab: 'btc', offset: '0', limit: '4'});
 
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(spy).toHaveBeenCalledWith('', '', { tab: 'btc', offset: '0', limit: '4'});
+    expect(spy).toHaveBeenCalledWith('', '', {tab: 'btc', offset: '0', limit: '4'});
     expect(component.count).toBe(1);
   });
 
