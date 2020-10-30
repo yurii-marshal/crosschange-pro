@@ -55,7 +55,6 @@ const pipes = [
   declarations: [
     ...components,
     ...pipes,
-    SafePipe,
     OnlyNumbersDirective,
   ],
   imports: [

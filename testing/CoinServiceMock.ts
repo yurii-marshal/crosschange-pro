@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ICoin } from '../src/app/shared/interfaces/coin.interface';
-import {IExchangeData} from '../src/app/shared/interfaces/exchange-data.interface';
+import { IExchangeData } from '../src/app/shared/interfaces/exchange-data.interface';
 
 export const coinsMock: ICoin[] = [
   {
@@ -53,7 +53,8 @@ export const coinsMock: ICoin[] = [
 
 
 @Injectable({
-  providedIn: 'root'})
+  providedIn: 'root'
+})
 export class CoinServiceMock {
   constructor() {
   }
@@ -62,7 +63,7 @@ export class CoinServiceMock {
     return of(coinsMock);
   }
 
-  getPopular(): Observable<ICoin[]>{
+  getPopular(): Observable<ICoin[]> {
     return of(coinsMock.filter(v => v.is_popular));
   }
 

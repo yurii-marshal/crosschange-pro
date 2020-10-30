@@ -1,9 +1,15 @@
 import {
-
   ChangeDetectionStrategy,
-  Component, ElementRef,
-  forwardRef, HostListener, Input, OnChanges, OnDestroy,
-  OnInit, SimpleChanges, ViewChild
+  Component,
+  ElementRef,
+  forwardRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
@@ -36,7 +42,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
-  amountForm: FormGroup = new FormGroup({amount: new FormControl()});
+  amountForm: FormGroup = new FormGroup({amount: new FormControl({value: '', disabled: this.disabled})});
   onDestroy$: Subject<void> = new Subject();
   value: {
     currency: ICurrency,

@@ -41,6 +41,7 @@ export const chartOptions = {
     axisTick: {
       show: false
     },
+    zlevel: 1,
     axisLabel: {
       showMinLabel: false,
       fontFamily: 'IBM Plex Sans, sans-serif',

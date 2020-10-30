@@ -9,11 +9,30 @@
   padding: 16px 20px 20px;
 
   &__header {
-    margin-bottom: 18px;
-    font-size: 20px;
-    line-height: 28px;
-    font-weight: bold;
-    color: $color-grey-100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 215px;
+    background-image: url("../../../../assets/images/modal-background.png");
+    background-size: 100% 215px;
+
+    &-info {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    &-title {
+      margin-bottom: 18px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-grey-100;
+    }
 
     &-description {
       margin-bottom: 28px;
@@ -22,6 +41,32 @@
       font-weight: 500;
       color: $color-grey-80;
     }
+
+    &-label {
+      margin-bottom: 4px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-white-100;
+    }
+
+    &-text {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: normal;
+      color: rgba($color-white-100, 0.8);
+    }
+  }
+
+  &__icon-hourglass {
+    margin-bottom: 10px;
+    width: 92px;
+    height: 92px;
+  }
+
+  &__icon-checkmark {
+    width: 108px;
+    height: 108px;
   }
 
   &__form {
@@ -108,14 +153,81 @@
     border-radius: 4px;
     cursor: pointer;
   }
+
+  &__send-code {
+    position: absolute;
+    top: 36px;
+    right: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-brand;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+    background-color: $color-white-100;
+    overflow: hidden;
+
+    &-header {
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-trading-dark;
+    }
+
+    &-text {
+      margin-bottom: 40px;
+      font-size: 16px;
+      line-height: 28px;
+      color: $color-trading-dark;
+    }
+
+    &-action {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    &-btn {
+      padding: 12px 24px;
+      width: 88px;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      color: $color-white-100;
+      background: $color-brand;
+      border: none;
+      outline: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
 }
 
 .block {
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   margin-bottom: 20px
+}
+
+.hint {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  color: $color-grey-60;
 }
 
 .disabled {
@@ -138,5 +250,57 @@
     width: 24px;
     height: 24px;
     margin-right: 8px;
+  }
+}
+
+.processing {
+  position: relative;
+  padding: 0;
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+  }
+}
+
+.show-info {
+  animation: show-info 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.spin {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes show-info {
+  from {
+    height: 0;
+    padding: 0;
+  }
+  to {
+    height: 192px;
+    padding: 20px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

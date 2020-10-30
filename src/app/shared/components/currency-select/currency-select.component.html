@@ -1,5 +1,3 @@
-<div class="overlay" [class.overlay-visible]="opened" (click)="opened = false; onCloseDropdown()"></div>
-
 <form [formGroup]="amountForm">
   <div class="switcher" (click)="!disabled ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened" [class.disabled]="disabled">
     <div class="fx-row">
@@ -10,14 +8,14 @@
       </div>
       <div class="input-container">
         <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
-        <input class="amount-input" [attr.disabled]="disabled ? true : null" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
+        <input class="amount-input" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
       </div>
     </div>
     <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
   </div>
 
   <div class="input-mobile">
-    <input class="amount-input" [attr.disabled]="disabled ? true : null" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
+    <input class="amount-input" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
   </div>
 </form>
 
