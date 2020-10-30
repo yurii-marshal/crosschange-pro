@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MainComponent } from './main.component';
 import { CoinsService } from '../../../shared/services/coins.service';
@@ -23,7 +23,7 @@ import { WalletServiceMock, walletsMock } from '../../../../../testing/WalletSer
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
 import { of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
-import {skip, take} from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
@@ -76,13 +76,13 @@ describe('MainComponent', () => {
           provide: ENVIRONMENT,
           useValue: environment as IEnvironment
         },
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
-        { provide: CoinsService, useClass: CoinServiceMock },
-        { provide: ExchangeService, useClass: ExchangeServiceMock },
-        { provide: WalletService, useClass: WalletServiceMock }
+        {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
+        {provide: CoinsService, useClass: CoinServiceMock},
+        {provide: ExchangeService, useClass: ExchangeServiceMock},
+        {provide: WalletService, useClass: WalletServiceMock}
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
