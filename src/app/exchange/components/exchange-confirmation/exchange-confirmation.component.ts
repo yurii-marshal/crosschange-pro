@@ -18,7 +18,7 @@ export class ExchangeConfirmationComponent {
 
   confirmExchange(): void {
     this.confirmationStage = 2;
-    setTimeout(() => { this.confirmationStage = 3; debugger; }, 3000);
+    setTimeout(() => { this.confirmationStage = 3; }, 3000);
   }
 
   closeDialog(): void {
