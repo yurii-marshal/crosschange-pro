@@ -49,8 +49,11 @@
             <label>{{'exchange.today_change' | translate}}</label>
             <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0" [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
               <ng-container *ngIf="exchangeInfo$ | async as info">
-                <span>{{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.4-4'}}</span>
-                <span>({{info.change_percent_24 | number:'1.2-2'}}%)</span>
+                <span>
+                  {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 > 0 ? '+' : ''}}
+                  {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.4-4'}}
+                </span>
+                <span>({{info.change_percent_24 > 0 ? '+' : ''}}{{info.change_percent_24 | number:'1.2-2'}}%)</span>
                 <mat-icon *ngIf="+info.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
               <ng-container *ngIf="(exchangeInfo$ | async) === null">
