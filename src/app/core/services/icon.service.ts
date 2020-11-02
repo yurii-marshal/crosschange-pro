@@ -60,7 +60,9 @@ const icons: string[] = [
   'icon_logout',
   'icon_warning_circle',
   'icon_whitelist',
-  'icon_trash'
+  'icon_trash',
+  'icon_caret_up',
+  'icon_caret_down',
 ];
 
 @Injectable({

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { AddressManagementService } from '../../services/address-management.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,7 +18,6 @@ import { AddWithdrawAddressDialogComponent } from '../../../shared/components/ad
   templateUrl: './address-management.component.html',
   styleUrls: ['./address-management.component.scss', './../../../wallet/components/wallet/wallet.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [TranslatePipe]
 })
 export class AddressManagementComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
@@ -45,7 +44,6 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private addressManagementService: AddressManagementService,
     private dialog: MatDialog,
-    private translate: TranslatePipe,
     private cdr: ChangeDetectorRef
   ) {
   }
@@ -97,9 +95,9 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       width: '400px',
       panelClass: 'confirmation',
       data: {
-        label: this.translate.transform('profile_page.remove_from_whitelist'),
-        text: this.translate.transform('profile_page.sure_remove'),
-        buttonText: this.translate.transform('profile_page.remove'),
+        label: 'profile_page.remove_from_whitelist',
+        text: 'profile_page.sure_remove',
+        buttonText: 'profile_page.remove',
         buttonColor: 'color-brand',
         icon: 'whitelist'
       }
@@ -117,25 +115,33 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   }
 
   deleteItems(item?: IWalletAddress): void {
+    const items = item ? [item.id] : this.selection.selected.map(vl => vl.id);
+
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
       data: {
-        label: this.translate.transform('profile_page.delete_address'),
-        text: this.translate.transform('profile_page.sure_delete'),
-        buttonText: this.translate.transform('profile_page.delete'),
+        label: 'profile_page.delete_address',
+        text: 'profile_page.sure_delete',
+        buttonText: 'profile_page.delete',
         buttonColor: 'color-trading-red',
         icon: 'trash'
       }
     }).afterClosed().pipe(
+      take(1),
       switchMap((value: boolean) => {
         if (value) {
-          return item ?
-            this.addressManagementService.deleteItems([item.id]) :
-            this.addressManagementService.deleteItems(this.selection.selected.map(vl => vl.id));
+          return this.addressManagementService.deleteItems(items);
+        } else {
+          throw new Error('Action not confirmed!');
         }
       })
-    ).subscribe();
+    ).subscribe(() => {
+      const result = this.dataSource$.getValue().data.filter(value => !items.includes(value.id));
+
+      this.dataSource$.next(new MatTableDataSource(result));
+      this.selection.clear();
+    });
   }
 
   setWhitelisted(element: IWalletAddress): void {
@@ -143,17 +149,31 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   }
 
   toggleWhitelistEnable(): void {
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
+    const config = {
       width: '400px',
       panelClass: 'confirmation',
-      data: {
-        label: this.translate.transform('profile_page.sure_turn_off_whitelist'),
-        text: this.translate.transform('profile_page.after_turning_off'),
-        buttonText: this.translate.transform('profile_page.turn_off'),
+      data: {}
+    };
+
+    if (this.enableWhitelist$.getValue()) {
+      config.data = {
+        label: 'profile_page.sure_turn_off_whitelist',
+        text: 'profile_page.after_turning_off',
+        buttonText: 'profile_page.turn_off',
         buttonColor: 'color-brand',
         icon: 'whitelist'
-      }
-    }).afterClosed().pipe(
+      };
+    } else {
+      config.data = {
+        label: 'profile_page.sure_turn_on_whitelist',
+        text: 'profile_page.after_turning_on',
+        buttonText: 'profile_page.turn_on',
+        buttonColor: 'color-brand',
+        icon: 'whitelist'
+      };
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
       switchMap((value: boolean) => {
         if (value) {
           return this.addressManagementService.toggleWhitelistEnable();
@@ -194,5 +214,8 @@ _([
   'profile_page.delete',
   'profile_page.sure_turn_off_whitelist',
   'profile_page.after_turning_off',
-  'profile_page.turn_off'
+  'profile_page.turn_off',
+  'profile_page.sure_turn_on_whitelist',
+  'profile_page.after_turning_on',
+  'profile_page.turn_on'
 ]);
