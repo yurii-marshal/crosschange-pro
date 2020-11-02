@@ -23,6 +23,11 @@ import { CoinSelectComponent } from './components/coin-select/coin-select.compon
 import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { SafePipe } from './pipes/safe.pipe';
+import { AddressSelectComponent } from './components/address-select/address-select.component';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 const components = [
   HeaderComponent,
@@ -34,18 +39,23 @@ const components = [
   PaginatorComponent,
   MenuMobileComponent,
   CoinSelectComponent,
-  CurrencySelectComponent
+  AddressSelectComponent,
+  CurrencySelectComponent,
+  ConfirmationComponent,
+  AddWithdrawAddressDialogComponent,
 ];
 
 const pipes = [
   TimeBeforePipe,
   ToggleSecretTextPipe,
+  SafePipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
-    ...pipes
+    ...pipes,
+    OnlyNumbersDirective,
   ],
   imports: [
     CommonModule,
@@ -80,7 +90,8 @@ const pipes = [
     MatMenuModule,
     PopoverModule,
     LayoutModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    OnlyNumbersDirective,
   ],
   providers: [
     DatePipe

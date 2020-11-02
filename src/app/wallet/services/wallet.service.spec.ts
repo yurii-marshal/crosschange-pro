@@ -7,14 +7,16 @@ import {
   ENVIRONMENT,
   IEnvironment
 } from 'shared-kuailian-lib';
-import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 import { IWallet } from '../../shared/interfaces/wallet.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
+import { DepositService } from './deposit.service';
+import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 
 
 // TODO: change xdescribe to describe after switching to api in service
 xdescribe('WalletService', () => {
-  let service: WalletService;
+  let depositService: DepositService;
+  let walletService: WalletService;
   let httpMock: HttpTestingController;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,7 +31,8 @@ xdescribe('WalletService', () => {
       ]
     });
     httpMock = TestBed.inject(HttpTestingController);
-    service = TestBed.inject(WalletService);
+    walletService = TestBed.inject(WalletService);
+    depositService = TestBed.inject(DepositService);
   });
 
   afterEach(() => {
@@ -37,7 +40,7 @@ xdescribe('WalletService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(walletService).toBeTruthy();
   });
 
   it('should send get wallets request', (done) => {
@@ -59,7 +62,7 @@ xdescribe('WalletService', () => {
       next: ''
     };
 
-    service.getWallets().subscribe(res => {
+    walletService.getWallets().subscribe(res => {
       expect(res).toEqual(mock.results);
       done();
     });
@@ -90,8 +93,8 @@ xdescribe('WalletService', () => {
       next: ''
     };
 
-    service.getWallets().subscribe(res => {
-      service.getWallets().subscribe(secondRes => {
+    walletService.getWallets().subscribe(res => {
+      walletService.getWallets().subscribe(secondRes => {
         expect(secondRes).toEqual(mock.results);
         done();
       });
@@ -119,7 +122,7 @@ xdescribe('WalletService', () => {
       ]
     };
 
-    service.getDepositHistory({
+    depositService.getDepositHistory({
       cryptocurrency: 'btc',
       offset: 10,
       limit: 10
@@ -157,14 +160,14 @@ xdescribe('WalletService', () => {
       results: []
     };
 
-    service.getDepositHistory({
+    depositService.getDepositHistory({
       cryptocurrency: 'btc',
       offset: 10,
       limit: 10
     }).subscribe(res => {
 
       expect(res).toEqual(mock);
-      service.getDepositHistory({
+      depositService.getDepositHistory({
         cryptocurrency: 'btc',
         offset: 20,
         limit: 10
@@ -182,5 +185,4 @@ xdescribe('WalletService', () => {
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });
-
 });

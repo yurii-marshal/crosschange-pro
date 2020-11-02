@@ -1,32 +1,33 @@
-<div class="qr-codes" [class.double]="!!wallet.tag">
+<div class="qr-codes" [class.double]="!!currentWallet.tag">
   <div class="qr-container">
     <div class="content-container">
-      <span class="field-title">{{'qr_code.address_short' | translate: { crypto: wallet?.cryptocurrency | uppercase } }}</span>
+      <span class="field-title">{{'qr_code.address_short' | translate: { crypto: currentWallet?.cryptocurrency | uppercase } }}</span>
       <div class="qr">
         <img src="/assets/images/qr_stub.png" alt="qr code">
       </div>
       <div class="field">
-        {{wallet.address}}
+        {{currentWallet.address}}
       </div>
     </div>
-    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.address">
+    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="currentWallet.address">
       <mat-icon svgIcon="icon_copy"></mat-icon>
       {{'qr_code.copy_address' | translate}}
     </button>
   </div>
-  <div class="qr-container" *ngIf="wallet.tag">
+  <div class="qr-container" *ngIf="currentWallet.tag">
     <div class="content-container">
       <span class="field-title">
-        {{ 'qr_code.tag_short' | translate : { crypto: wallet?.cryptocurrency | uppercase} }}
+        {{ 'qr_code.tag_short' | translate : { crypto: currentWallet?.cryptocurrency | uppercase} }}
       </span>
       <div class="qr">
-        <img src="/assets/images/qr_stub.png" alt="qr code">
+        <img src="/assets/images/qr_stub.png" alt="qr code" />
+        <!--<img [src]="code | safe: 'base64'" alt="qr code" />-->
       </div>
       <div class="field">
-        {{wallet.tag}}
+        {{currentWallet.tag}}
       </div>
     </div>
-    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="wallet.tag">
+    <button mat-stroked-button class="copy-address" (click)="$event.preventDefault()" ngxClipboard [cbContent]="currentWallet.tag">
       <mat-icon svgIcon="icon_copy"></mat-icon>
       {{'qr_code.copy_tag' | translate}}
     </button>

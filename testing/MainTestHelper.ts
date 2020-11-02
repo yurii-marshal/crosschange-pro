@@ -18,4 +18,12 @@ export class MainTestHelper {
       el.triggerEventHandler('click', eventObj);
     }
   }
+
+  public static async sleep(timeMs): Promise<void> {
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, timeMs);
+    });
+  }
 }

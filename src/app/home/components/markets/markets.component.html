@@ -59,17 +59,17 @@
               <mat-form-field>
                 <mat-select [formControl]="searchFilterControl" disableOptionCentering>
                   <mat-select-trigger>
-                    <mat-icon *ngIf="searchFilterControl.value.key"
+                    <mat-icon *ngIf="searchFilterControl.value.key !== 'All Coins'"
                               [svgIcon]="'icon_' + searchFilterControl.value.key | lowercase">
                     </mat-icon>
-                    {{ searchFilterControl.value.key }} {{ searchFilterControl.value.fields.name }}
+                    {{ searchFilterControl.value.key }}
                   </mat-select-trigger>
 
                   <mat-option [value]="defaultFilterValue">All Coins</mat-option>
                   <mat-option *ngFor="let currency of isFiat ? (fiatCurrencies$ | async) : (cryptoCurrencies$ | async)"
                               [value]="currency">
                     <mat-icon [svgIcon]="'icon_' + currency.key | lowercase"></mat-icon>
-                    {{ currency.key }} {{ currency.fields.name }}
+                    {{ currency.key }}
                   </mat-option>
 
                 </mat-select>
@@ -114,7 +114,8 @@
                 <mat-cell *matCellDef="let element">
                   <div class="custom-cell"
                        [ngClass]="(element.change_percent_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
-                    {{element.change_percent_24 > 0 ? '+' : ''}}{{element.change_percent_24 | number: '1.2-2'}}
+                    {{(element.change_percent_24 | number) > 0 ? '+' : ''}}{{element.change_percent_24 | number:
+                    '1.2-2'}}
                   </div>
                 </mat-cell>
               </ng-container>
@@ -163,5 +164,3 @@
         </div>
       </div>
     </div>
-  </div>
-</div>

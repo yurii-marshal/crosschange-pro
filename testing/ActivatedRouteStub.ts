@@ -12,9 +12,9 @@ import { ReplaySubject } from 'rxjs';
  */
 export class ActivatedRouteStub {
   private localParamMap: ParamMap;
-  private localQueryParams: ParamMap;
+  private localQueryParams: object;
   private params$ = new ReplaySubject<ParamMap>(1);
-  private queryParams$ = new ReplaySubject<ParamMap>(1);
+  private queryParams$ = new ReplaySubject<object>(1);
 
   queryParams = this.queryParams$.asObservable();
 
@@ -40,7 +40,9 @@ export class ActivatedRouteStub {
 
   setQueryParamMap(params?: Params): void {
     const paramMap = convertToParamMap(params);
-    this.localQueryParams = paramMap.params;
-    this.queryParams$.next(paramMap.params);
+    /* tslint:disable-next-line */
+    this.localQueryParams = paramMap['params'];
+    /* tslint:disable-next-line */
+    this.queryParams$.next(paramMap['params']);
   }
 }

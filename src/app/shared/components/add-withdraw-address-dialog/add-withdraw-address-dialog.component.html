@@ -1,0 +1,148 @@
+<div *ngIf="addAddressStage === 0" class="confirmation-popup">
+  <div class="confirmation-popup__header-title">{{'profile_page.add_withdrawal_address' | translate}}</div>
+  <mat-icon [svgIcon]="'icon_close_dark'" class="confirmation-popup__icon--dark" mat-dialog-close></mat-icon>
+
+  <form class="confirmation-popup__form" [formGroup]="withdrawalForm">
+    <div class="confirmation-popup__coin block">
+      <mat-label class="confirmation-popup__label">{{'profile_page.coin' | translate}}</mat-label>
+      <mat-select class="confirmation-popup__input" [formControlName]="'coin'" [compareWith]="compare">
+        <mat-select-trigger *ngIf="currencies$ | async">
+          <mat-icon [svgIcon]="'icon_' + withdrawalForm.get('coin').value.key | lowercase"></mat-icon>
+          {{ withdrawalForm.get('coin').value['fields'].name }}
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let item of currencies$ | async" [value]="item">
+          <mat-icon [svgIcon]="'icon_' + item.key | lowercase"></mat-icon>
+          {{ item.fields.name }}
+        </mat-option>
+      </mat-select>
+
+      <div class="confirmation-popup__tags">
+        <div *ngFor="let item of currencies$ | async"
+             class="confirmation-popup__tags-item"
+             (click)="setCurrency(item)">{{ item.key }}</div>
+      </div>
+    </div>
+
+    <div class="confirmation-popup__wallet block">
+      <mat-label class="confirmation-popup__label">{{'profile_page.wallet_label' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input"
+             [formControlName]="'wallet_label'" placeholder="{{'profile_page.your_wallet_label' | translate}}">
+    </div>
+
+    <div class="confirmation-popup__address block">
+      <mat-label class="confirmation-popup__label">{{'profile_page.address' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input"
+             [formControlName]="'address'" placeholder="{{'profile_page.your_address' | translate}}">
+    </div>
+
+    <div class="confirmation-popup__tag block" *ngIf="withdrawalForm.get('coin').value.key === 'XRP'">
+      <mat-label class="confirmation-popup__label">{{'profile_page.tag' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input"
+             [formControlName]="'tag'" placeholder="{{'profile_page.ripple_tag' | translate}}">
+    </div>
+
+    <div class="confirmation-popup__memo block" *ngIf="false">
+      <mat-label class="confirmation-popup__label">{{'profile_page.memo' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input"
+             [formControlName]="'memo'" placeholder="{{'profile_page.memo' | translate}}">
+    </div>
+
+    <div class="confirmation-popup__whitelist">
+      <input type="checkbox"
+             class="confirmation-popup__whitelist-checkbox"
+             [formControlName]="'add_to_whitelist'">
+      <mat-label class="confirmation-popup__whitelist-label">{{'profile_page.add_to_whitelist' | translate}}</mat-label>
+    </div>
+  </form>
+
+  <div class="confirmation-popup__actions">
+    <button class="confirmation-popup__btn confirmation-popup__cancel" mat-dialog-close>
+      {{'profile_page.cancel' | translate}}
+    </button>
+    <button class="confirmation-popup__btn confirmation-popup__continue"
+            [disabled]="!withdrawalForm.valid"
+            [ngClass]="!withdrawalForm.valid ? 'disabled' : 'enabled'"
+            (click)="twoFactorMethod === 'disabled' ? sendData() : goToSecurityVerification()">
+      {{'profile_page.continue' | translate}}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="addAddressStage === 1" class="confirmation-popup">
+  <div class="confirmation-popup__header-title">{{'profile_page.security_verification' | translate}}</div>
+  <mat-icon [svgIcon]="'icon_close_dark'" class="confirmation-popup__icon--dark" mat-dialog-close></mat-icon>
+
+  <div class="confirmation-popup__header-description">
+    {{'profile_page.complete_verification' | translate}}
+  </div>
+
+  <form class="confirmation-popup__form" [formGroup]="securityForm">
+    <div class="confirmation-popup__phone block" *ngIf="twoFactorMethod === 'sms'">
+      <mat-label class="confirmation-popup__label">{{'profile_page.phone_code' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input" [formControlName]="'sms'">
+      <button class="confirmation-popup__send-code"
+              (click)="sendToPhoneClicked = true">
+        {{ sendToPhoneClicked ? 'Resend' : 'Send Code' }}
+      </button>
+      <span class="hint">{{'profile_page.hint' | translate}}</span>
+    </div>
+
+    <div class="confirmation-popup__email block" *ngIf="twoFactorMethod === 'email'">
+      <mat-label class="confirmation-popup__label">{{'profile_page.email_code' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input" [formControlName]="'email'">
+      <button class="confirmation-popup__send-code"
+              (click)="sendToEmailClicked = true">
+        {{ sendToEmailClicked ? 'Resend' : 'Send Code' }}
+      </button>
+      <span class="hint">{{'profile_page.hint' | translate}}</span>
+    </div>
+
+    <div class="confirmation-popup__google block" *ngIf="twoFactorMethod === 'authenticator'">
+      <mat-label class="confirmation-popup__label">{{'profile_page.google_code' | translate}}</mat-label>
+      <input matInput class="confirmation-popup__input" [formControlName]="'authenticator'">
+      <span class="hint">{{'profile_page.authenticator_hint' | translate}}</span>
+    </div>
+  </form>
+
+  <div class="confirmation-popup__actions">
+    <button class="confirmation-popup__btn confirmation-popup__cancel" mat-dialog-close>
+      {{'profile_page.cancel' | translate}}
+    </button>
+    <button class="confirmation-popup__btn confirmation-popup__continue"
+            [disabled]="!securityForm.valid"
+            [ngClass]="!securityForm.valid ? 'disabled' : 'enabled'"
+            (click)="sendData()">
+      {{'profile_page.continue' | translate}}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="addAddressStage > 1" class="processing">
+  <mat-icon [svgIcon]="'icon_close'" *ngIf="addAddressStage !== 2" class="processing__close" mat-dialog-close></mat-icon>
+  <div class="confirmation-popup__header">
+    <mat-icon [svgIcon]="'icon_hourglass'"
+              class="confirmation-popup__icon-hourglass spin"
+              *ngIf="addAddressStage === 2">
+    </mat-icon>
+    <mat-icon [svgIcon]="'icon_checkmark'"
+              class="confirmation-popup__icon-checkmark"
+              *ngIf="addAddressStage === 3">
+    </mat-icon>
+
+    <div class="confirmation-popup__header-info show-header-info" *ngIf="addAddressStage === 2">
+      <div class="confirmation-popup__header-label">{{'exchange.processing' | translate}}</div>
+      <div class="confirmation-popup__header-text">{{'exchange.wait' | translate}}</div>
+    </div>
+  </div>
+
+  <div class="confirmation-popup__info show-info" *ngIf="addAddressStage === 3">
+    <div class="confirmation-popup__info-header">{{'profile_page.address_added' | translate}}</div>
+
+    <div class="confirmation-popup__info-text">{{'profile_page.withdrawal_address_added' | translate}}</div>
+
+    <div class="confirmation-popup__info-action">
+      <button class="confirmation-popup__info-btn" (click)="closeDialog()">{{'profile_page.got_it' | translate}}</button>
+    </div>
+  </div>
+</div>
