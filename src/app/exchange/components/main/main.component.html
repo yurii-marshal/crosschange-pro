@@ -43,7 +43,7 @@
         <div class="status">
           <div class="status-item">
             <label>{{'exchange.current_rate' | translate}}</label>
-            <span>{{(exchangeInfo$ | async)?.last || 0 | number: '1.4-4'}}</span>
+            <span>{{((exchangeInfo$ | async)?.last || 0) | number:'1.4-4'}}</span>
           </div>
           <div class="status-item today-change">
             <label>{{'exchange.today_change' | translate}}</label>

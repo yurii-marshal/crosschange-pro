@@ -109,7 +109,7 @@ describe('MarketsComponent', () => {
     component.ngOnInit();
 
     expect(component.activeLink).toBe('favorite');
-    // expect(component.widgets).toBeDefined();
+    expect(component.widgets).toBeDefined();
 
     expect(spy).toHaveBeenCalled();
   });

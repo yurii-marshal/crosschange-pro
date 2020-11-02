@@ -1,12 +1,13 @@
 @import "../../../../assets/styles/variables";
 @import "../../../../assets/styles/mixins";
 
-:host {
-  padding-left: 22px;
+.deposit-page {
+  padding-left: 62px;
   padding-right: 22px;
   width: 100%;
   display: block;
 }
+
 .page-title {
   font-size: 32px;
   line-height: 44px;
@@ -24,16 +25,13 @@
   display: block;
   margin-bottom: 12px;
 }
-app-coin-select {
-  width: 32.08%;
-  margin-right: 50px;
-}
 .popular {
   display: flex;
   margin-bottom: 36px;
 }
 
 .popular-item {
+  border: 0.5px solid $color-grey-20;
   background-color: $color-white-100;
   border-radius: 4px;
   font-size: 14px;
@@ -196,9 +194,19 @@ app-qr-code {
 
 .flex-container {
   display: flex;
+
   &.coin-select-container {
     justify-content: space-between;
     margin-bottom: 13px;
+
+    .coin-select.deposit {
+      width: 32.08%;
+      margin-right: 50px;
+    }
+
+    &.withdraw {
+      margin-bottom: 8px;
+    }
   }
   &.qr-code-container {
     margin-bottom: 48px;
