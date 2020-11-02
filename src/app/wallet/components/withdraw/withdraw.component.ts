@@ -75,7 +75,7 @@ export class WithdrawComponent implements OnInit {
       .pipe(
         distinctUntilChanged(),
         switchMap(([coin, address, amount]) =>
-          coin && address && amount
+          coin && address && amount > 1
             ? this.withdrawService.getWithdrawFee({coin, address, amount})
             : of(0)),
         shareReplay(),
