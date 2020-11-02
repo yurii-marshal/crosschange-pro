@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
-import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
 import { validate } from './CurrencySelectValidator';
@@ -35,7 +35,6 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
-  amount: FormControl = new FormControl();
   onDestroy$: Subject<void> = new Subject();
   value: {
     currency: ICurrency,

@@ -9,7 +9,7 @@ import { IWithdraw, IWithdrawItem } from '../../shared/interfaces/withdraw-item.
 })
 export class WithdrawService extends ApiService {
   private withdrawsMock: IApiResponse<IWithdrawItem> = {
-    count: 20,
+    count: 10,
     next: '',
     previous: '',
     results: [

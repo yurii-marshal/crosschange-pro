@@ -6,7 +6,7 @@ import { ApiService } from 'shared-kuailian-lib';
 
 const addressesMock: IWalletAddress[] = [
   {
-    id: 1,
+    id: 0,
     key: 'eth',
     label: 'Wallet Label 1',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
@@ -24,7 +24,7 @@ const addressesMock: IWalletAddress[] = [
     isWhitelisted: true,
   },
   {
-    id: 1,
+    id: 2,
     key: 'eth',
     label: 'Wallet Label 3',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
@@ -33,7 +33,7 @@ const addressesMock: IWalletAddress[] = [
     isWhitelisted: true,
   },
   {
-    id: 1,
+    id: 3,
     key: 'eth',
     label: 'Wallet Label 4',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',

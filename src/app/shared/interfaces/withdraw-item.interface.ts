@@ -9,6 +9,6 @@ export interface IWithdrawItem {
 export interface IWithdraw {
   tag: string;
   amount: number;
-  coinSelect: string;
-  recipientAddressSelect: string;
+  coin: string;
+  address: string;
 }

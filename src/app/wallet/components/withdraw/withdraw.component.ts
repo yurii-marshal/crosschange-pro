@@ -59,8 +59,8 @@ export class WithdrawComponent implements OnInit {
     this.withdrawForm = new FormGroup({
       tag: new FormControl('', []),
       amount: new FormControl('', [Validators.required]),
-      coinSelect: new FormControl('', [Validators.required]),
-      recipientAddressSelect: new FormControl('', [Validators.required]),
+      coin: new FormControl('', [Validators.required]),
+      address: new FormControl('', [Validators.required]),
     });
 
     this.popular$ = this.coinsService.getPopular();
@@ -93,7 +93,7 @@ export class WithdrawComponent implements OnInit {
   }
 
   selectPopular(coin: ICoin): void {
-    this.withdrawForm.get('coinSelect').patchValue(coin);
+    this.withdrawForm.get('coin').patchValue(coin);
   }
 
   sort(field: 'date' | 'amount' | 'status'): void {

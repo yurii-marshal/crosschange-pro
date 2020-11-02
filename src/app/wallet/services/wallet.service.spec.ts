@@ -7,10 +7,10 @@ import {
   ENVIRONMENT,
   IEnvironment
 } from 'shared-kuailian-lib';
-import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 import { IWallet } from '../../shared/interfaces/wallet.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { DepositService } from './deposit.service';
+import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 
 
 // TODO: change xdescribe to describe after switching to api in service
@@ -185,5 +185,4 @@ xdescribe('WalletService', () => {
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });
-
 });

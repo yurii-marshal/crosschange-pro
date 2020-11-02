@@ -19,7 +19,7 @@ export interface IPreCheckResponse {
   fee?: number;
 }
 
-interface IPreCheckRequest {
+export interface IPreCheckRequest {
   from: string;
   to: string;
   amount: number;
@@ -60,7 +60,7 @@ export class ExchangeService extends ApiService {
     if (step) {
       req.step = step;
     }
-    return super.get('/exchanges/graph');*/
+    return super.get('exchanges/graph');*/
     // TODO: DELETE WHEN API IS READY
     const mock = new Array(70).fill(1).map((v, i) => {
       const name = i % 10 === 0 ? i : '';

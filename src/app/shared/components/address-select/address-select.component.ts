@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { shareReplay, tap } from 'rxjs/operators';
+import { delay, shareReplay, tap } from 'rxjs/operators';
 import { IWalletAddress } from '../../interfaces/address.interface';
 import { AddressService } from '../../services/address.service';
 
