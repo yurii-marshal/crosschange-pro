@@ -39,6 +39,7 @@ const icons: string[] = [
   'icon_meter',
   'icon_wallet',
   'icon_close',
+  'icon_close_dark',
   'icon_arrow_down',
   'icon_view',
   'icon_view_crossed',
@@ -58,6 +59,8 @@ const icons: string[] = [
   'icon_security',
   'icon_logout',
   'icon_warning_circle',
+  'icon_whitelist',
+  'icon_trash'
 ];
 
 @Injectable({

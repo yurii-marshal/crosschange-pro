@@ -204,6 +204,12 @@ app-paginator {
     border: 1px solid $color-grey-10;
     border-radius: 4px;
     cursor: pointer;
+
+    &-active {
+      color: $color-brand;
+      background: rgba($color-brand, 0.05);
+      border: 1px solid $color-brand;
+    }
   }
 
   .control-btn {

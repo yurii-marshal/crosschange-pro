@@ -13,7 +13,8 @@
     flex-direction: column;
     width: 100%;
     height: 215px;
-    background-color: $color-brand;
+    background-image: url("../../../../assets/images/modal-background.png");
+    background-size: 100% 215px;
 
     &-info {
       position: relative;
@@ -138,7 +139,7 @@
 }
 
 .spin {
-  animation: spin 2s linear infinite;
+  animation: spin 1.2s linear infinite;
 }
 
 .show-header-info {

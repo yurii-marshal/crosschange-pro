@@ -25,6 +25,8 @@ import { CurrencySelectComponent } from './components/currency-select/currency-s
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
+import { ConfirmationComponent } from './components/confirmation/confirmation.component';
+import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 const components = [
@@ -52,6 +54,9 @@ const pipes = [
     ...components,
     ...pipes,
     SafePipe,
+    AddressSelectComponent,
+    ConfirmationComponent,
+    AddWithdrawAddressDialogComponent
   ],
   imports: [
     CommonModule,

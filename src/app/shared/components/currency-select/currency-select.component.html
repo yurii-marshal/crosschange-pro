@@ -1,4 +1,4 @@
-<div class="switcher" (click)="opened = !opened; onCloseDropdown()" [class.opened]="opened">
+<div class="switcher" (click)="!disabled ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened" [class.disabled]="disabled">
   <div class="fx-row">
     <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
     </mat-icon>
@@ -7,14 +7,14 @@
     </div>
     <div class="input-container">
       <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
-      <input class="amount-input" type="text" placeholder="0.00000000" [formControl]="amount" (click)="$event.stopPropagation()">
+      <input class="amount-input" [attr.disabled]="disabled ? true : null" type="text" placeholder="0.00000000" #input (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
     </div>
   </div>
   <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
 </div>
 
 <div class="input-mobile">
-  <input class="amount-input" type="text" placeholder="0.00000000" [formControl]="amount" (click)="$event.stopPropagation()">
+  <input class="amount-input"  [attr.disabled]="disabled ? true : null" type="text" placeholder="0.00000000" #mobileInput (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
 </div>
 
 <div class="coins-menu" [class.visible]="opened">

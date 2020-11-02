@@ -1,18 +1,59 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { IAddress } from '../../shared/interfaces/address.interface';
+import { IWalletAddress } from '../../shared/interfaces/address.interface';
 import { ApiService } from 'shared-kuailian-lib';
 import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from '../../shared/constants/pagination.constant';
+import { Params } from '@angular/router';
 
-const addressMock: IAddress = {
-  cryptocurrency: 'usdc',
-  wallet_label: 'Personal Wallet',
-  address: '1658wDe3fGGmYDBszD8uNNXYJfSo8eYmYJ',
-  memo: '',
-  tag: '',
-  whitelist: true,
-};
+export interface IQueryParams {
+  orderby: string;
+  offset: string;
+  limit: string;
+}
+
+export interface IWalletListResponse {
+  results: IWalletAddress[];
+  count: number;
+}
+
+const addressMock = [
+  {
+    id: 1,
+    key: 'DASH',
+    label: 'Personal Wallet',
+    address: '33yPjjSMGHPp8zj1ZXySNJzSUfVSbpXEuL',
+    isWhitelisted: true
+  },
+  {
+    id: 2,
+    key: 'BSV',
+    label: 'Personal Wallet',
+    address: '33yPjjSMGHPp8zj1ZXySNJzSUfVSbpXEuL',
+    isWhitelisted: false
+  },
+  {
+    id: 3,
+    key: 'ETH',
+    label: 'Personal Wallet',
+    address: '33yPjjSMGHPp8zj1ZXySNJzSUfVSbpXEuL',
+    isWhitelisted: false
+  },
+  {
+    id: 4,
+    key: 'BCH',
+    label: 'Personal Wallet',
+    address: '33yPjjSMGHPp8zj1ZXySNJzSUfVSbpXEuL',
+    isWhitelisted: true
+  },
+  {
+    id: 5,
+    key: 'LTC',
+    label: 'Personal Wallet',
+    address: '33yPjjSMGHPp8zj1ZXySNJzSUfVSbpXEuL',
+    isWhitelisted: true
+  }
+];
 
 @Injectable({
   providedIn: 'root'
@@ -25,21 +66,50 @@ export class AddressManagementService extends ApiService {
     super(injector);
   }
 
-  getAddressList(params): Observable<any> {
-    const addresses = [...Array(9)];
+  getWalletAddressesList(search: string, params: Params, whitelistedOnly: string): Observable<IWalletListResponse> {
     return of({
-      count: 9,
-      results: addresses.map(() => addressMock),
+      count: addressMock.length,
+      results: addressMock,
     });
 
     // let parameters = new HttpParams();
     // parameters = parameters
-    //   .set('search', params.search || '')
-    //   .set('showWhitelistedOnly', params.showWhitelistedOnly || '')
-    //   .set('orderby', params.orderby || 'last')
+    //   .set('search', search || '')
+    //   .set('orderby', 'coin')
+    //   .set('whitelisted', whitelistedOnly || '')
     //   .set('offset', params.offset || defaultPagination.offset)
     //   .set('limit', params.limit || defaultPagination.limit);
     //
-    // return super.get('exchanges/address-management', {params: parameters});
+    // return super.get('wallet/address', {params: parameters});
+  }
+
+  toggleWhitelistEnable(): Observable<any> {
+    return of(true);
+
+    // return super.post('url', {});
+  }
+
+  addToWhitelist(items: number[]): Observable<any> {
+    return of(true);
+
+    // let params = new HttpParams();
+    // params = params.set('action', 'enable');
+    //
+    // return super.patch('wallet/address/whitelist', { ids: items }, params);
+  }
+
+  removeFromWhitelist(items: number[]): Observable<any> {
+    return of(true);
+
+    // let params = new HttpParams();
+    // params = params.set('action', 'disable');
+    //
+    // return super.patch('wallet/address/whitelist', { ids: items }, params);
+  }
+
+  deleteItems(items: number[]): Observable<any> {
+    return of(true);
+
+    // return super.delete('wallet/address', { body: items});
   }
 }
