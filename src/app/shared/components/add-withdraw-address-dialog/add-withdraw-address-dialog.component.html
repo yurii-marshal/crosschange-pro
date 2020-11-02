@@ -1,5 +1,6 @@
 <div *ngIf="addAddressStage === 0" class="confirmation-popup">
   <div class="confirmation-popup__header-title">{{'profile_page.add_withdrawal_address' | translate}}</div>
+  <mat-icon [svgIcon]="'icon_close_dark'" class="confirmation-popup__icon--dark" mat-dialog-close></mat-icon>
 
   <form class="confirmation-popup__form" [formGroup]="withdrawalForm">
     <div class="confirmation-popup__coin block">
@@ -70,6 +71,7 @@
 
 <div *ngIf="addAddressStage === 1" class="confirmation-popup">
   <div class="confirmation-popup__header-title">{{'profile_page.security_verification' | translate}}</div>
+  <mat-icon [svgIcon]="'icon_close_dark'" class="confirmation-popup__icon--dark" mat-dialog-close></mat-icon>
 
   <div class="confirmation-popup__header-description">
     {{'profile_page.complete_verification' | translate}}
@@ -117,7 +119,7 @@
 </div>
 
 <div *ngIf="addAddressStage > 1" class="processing">
-  <mat-icon [svgIcon]="'icon_close'" class="processing__close" mat-dialog-close></mat-icon>
+  <mat-icon [svgIcon]="'icon_close'" *ngIf="addAddressStage !== 2" class="processing__close" mat-dialog-close></mat-icon>
   <div class="confirmation-popup__header">
     <mat-icon [svgIcon]="'icon_hourglass'"
               class="confirmation-popup__icon-hourglass spin"

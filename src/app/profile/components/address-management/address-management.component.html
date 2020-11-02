@@ -132,3 +132,90 @@
     </div>
   </div>
 </div>
+
+<div class="mobile-addresses">
+  <div class="mobile-addresses__menu">
+    <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+    <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+    <button [ngClass]="{ 'hide-balance-btn-active': showWhitelistedOnly$ | async }"
+            class="hide-balance-btn"
+            (click)="toggleWhitelistedOnly()">
+      {{ 'profile_page.whitelisted_addresses_only' | translate}}
+    </button>
+  </div>
+
+  <div class="mobile-addresses__items">
+    <div class="mobile-addresses__item" *ngFor="let element of (dataSource$ | async).data">
+      <div class="mobile-addresses__item-header">
+        <div class="mobile-addresses__item-left">
+          <mat-icon class="mobile-addresses__item-icon" [svgIcon]="'icon_' + element.key | lowercase"></mat-icon>
+          <span>{{ element.key }}</span>
+        </div>
+        <div class="mobile-addresses__item-right">
+          <button class="delete">
+            <a (click)="deleteItems(element)">{{ 'profile_page.delete' | translate }}</a>
+          </button>
+          <mat-checkbox (change)="$event ? selection.toggle(element) : null"
+                        [checked]="selection.isSelected(element)">
+          </mat-checkbox>
+        </div>
+      </div>
+      <div class="mobile-addresses__item-block">
+        <div class="mobile-addresses__item-title">{{ 'profile_page.wallet_label' | translate }}</div>
+        <div class="mobile-addresses__item-text">{{ element.label }}</div>
+      </div>
+      <div class="mobile-addresses__item-block">
+        <div class="mobile-addresses__item-title">{{ 'profile_page.address' | translate }}</div>
+        <div class="mobile-addresses__item-text">{{ element.address }}</div>
+      </div>
+      <div class="mobile-addresses__item-block">
+        <div class="mobile-addresses__item-title">{{ 'profile_page.memo_tag' | translate }}</div>
+        <div class="mobile-addresses__item-text">{{ element.tag || element.memo || '-' }}</div>
+      </div>
+      <div class="mobile-addresses__item-whitelist">
+        <div class="mobile-addresses__item-title">{{ 'profile_page.whitelist' | translate }}</div>
+        <div class="mobile-addresses__item-text">
+          <mat-icon [svgIcon]="element.isWhitelisted ? 'icon_fill_star' : 'icon_star'"
+                    (click)="setWhitelisted(element)"
+                    class="pointer">
+          </mat-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-actions">
+  <div class="mobile-actions__checkbox">
+    <mat-checkbox (change)="$event ? masterToggle() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+    </mat-checkbox>
+  </div>
+  <div class="mobile-actions__dropdown" [ngClass]="selection.selected.length ? 'show-actions' : 'hide-actions'">
+    <div class="mobile-actions__dropdown-header">
+      <div class="mobile-actions__dropdown-label">
+        <span class="mobile-actions__dropdown-text">{{'profile_page.actions' | translate}}</span>
+        <mat-icon [svgIcon]="'icon_caret_down'" [ngClass]="{rotate: selection.selected.length}"
+                  class="mobile-actions__dropdown-icon"></mat-icon>
+      </div>
+    </div>
+    <div class="mobile-actions__item">
+      <button [disabled]="!isWhitelistedItems()" class="mobile-actions__item-btn" (click)="addToWhitelist()">
+        {{'profile_page.add_to_whitelist' | translate}}
+      </button>
+    </div>
+    <div class="mobile-actions__item">
+      <button [disabled]="!isNotWhitelistedItems()" class="mobile-actions__item-btn" (click)="removeFromWhitelist()">
+        {{'profile_page.remove_from_whitelist' | translate}}
+      </button>
+    </div>
+    <div class="mobile-actions__item">
+      <button [disabled]="!selection.hasValue()"
+              class="mobile-actions__item-btn mobile-actions__item-btn--deleted"
+              (click)="deleteItems()">
+        {{'profile_page.delete' | translate}}
+      </button>
+    </div>
+  </div>
+</div>

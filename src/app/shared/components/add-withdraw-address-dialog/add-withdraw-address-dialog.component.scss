@@ -6,7 +6,16 @@
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
-  padding: 16px 20px 20px;
+  padding: 25px 20px 20px;
+
+  &__icon--dark {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: none;
+    width: 30px;
+    height: 30px;
+  }
 
   &__header {
     display: flex;
@@ -302,5 +311,73 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes slideTo {
+  from {
+    transform: translateY(200%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+::ng-deep .confirmation {
+  animation: slideTo 0.2s forwards ease !important;
+}
+
+@media screen and(max-width: $media-mobile) {
+  ::ng-deep .confirmation {
+    max-width: 100vw !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-height: 95vh !important;
+  }
+
+  .confirmation-popup__header-title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .confirmation-popup__tags {
+    flex-wrap: wrap;
+  }
+
+  .confirmation-popup__tags-item {
+    margin-bottom: 4px;
+  }
+
+  .confirmation-popup__icon--dark {
+    display: block;
+  }
+
+  .confirmation-popup__info-action {
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .confirmation-popup__header-info {
+    text-align: center;
+  }
+
+  .confirmation-popup__header-text {
+    width: 85%;
+  }
+
+  .confirmation-popup__info-btn {
+    width: 192px;
+  }
+
+  @keyframes show-info {
+    from {
+      height: 0;
+      padding: 0;
+    }
+    to {
+      height: 232px;
+      padding: 14px 16px 20px;
+    }
   }
 }
