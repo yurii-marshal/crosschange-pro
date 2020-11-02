@@ -1,5 +1,6 @@
 {
   "crypto_widget": {
+    "last24": "Last 24h",
     "trade": "Trade",
     "volume": "Volume"
   },
