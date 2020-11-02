@@ -39,7 +39,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @Input() disabled;
   public keyUp = new Subject<KeyboardEvent>();
   opened = false;
-  currencies: ICurrency[];
+  currencies: ICurrency[] = [];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amountForm: FormGroup = new FormGroup({amount: new FormControl({value: '', disabled: this.disabled})});

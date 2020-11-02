@@ -8,14 +8,14 @@
       </div>
       <div class="input-container">
         <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
-        <input class="amount-input" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
+        <input #input class="amount-input" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
       </div>
     </div>
     <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
   </div>
 
   <div class="input-mobile">
-    <input class="amount-input" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
+    <input #mobileInput class="amount-input" appOnlyNumbers type="text" placeholder="0.00000000" formControlName="amount">
   </div>
 </form>
 

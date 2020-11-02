@@ -4,6 +4,7 @@ import { ICurrency } from '../interfaces/currency.interface';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, share, tap } from 'rxjs/operators';
 import { IChartData } from '../interfaces/chart-data.interface';
+import { ICoin } from '../interfaces/coin.interface';
 
 
 export enum IChartPeriods {
@@ -34,6 +35,73 @@ export interface IExchangeRequest {
   fee: number;
 }
 
+// TODO: DELETE WHEN API IS READY
+const currenciesMock: ICurrency[] = [
+  {
+    key: 'btc',
+    fields: {
+      isFiat: true,
+      name: 'Bitcoin',
+    },
+  },
+  {
+    fields: {
+      isFiat: true,
+      name: 'Bitcoin Cash',
+    },
+    key: 'bch',
+  },
+  {
+    fields: {
+      isFiat: true,
+      name: 'Dash',
+    },
+    key: 'dash',
+  },
+  {
+    fields: {
+      isFiat: true,
+      name: 'Basic Attention',
+    },
+    key: 'eth',
+  },
+  {
+    key: 'ltc',
+    fields: {
+      isFiat: true,
+      name: 'Litecoin',
+    },
+  },
+  {
+    key: 'xrp',
+    fields: {
+      isFiat: true,
+      name: 'Ripple',
+    },
+  },
+  {
+    key: 'usdt',
+    fields: {
+      isFiat: true,
+      name: 'Tether',
+    },
+  },
+  {
+    key: 'usdc',
+    fields: {
+      isFiat: true,
+      name: 'USD Coin',
+    },
+  },
+  {
+    key: 'xtz',
+    fields: {
+      isFiat: true,
+      name: 'Tezos',
+    },
+  }
+];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -44,6 +112,7 @@ export class ExchangeService extends ApiService {
   }
 
   getCurrencies(): Observable<ICurrency[]> {
+    // return of(currenciesMock);
     if (this.currencies.length) {
       return of(this.currencies);
     }
