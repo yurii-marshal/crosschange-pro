@@ -54,7 +54,7 @@
   box-shadow: 0 1px 4px rgba(143, 149, 158, 0.25);
   position: absolute;
   width: 100%;
-  top: calc(100% + 4px);
+  top: 52px;
   border-radius: 4px;
   z-index: 2;
   left: 0;
@@ -113,5 +113,24 @@
   display: none;
   &.overlay-visible {
     display: block;
+  }
+}
+
+.coin-items {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+
+  .coin-item {
+    margin: 0 8px 4px 0;
+    padding: 6px 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-trading-dark;
+    background: $color-white-100;
+    border: 0.5px solid $color-grey-20;
+    border-radius: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
   }
 }

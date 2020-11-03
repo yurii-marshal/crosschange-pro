@@ -61,5 +61,4 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
 
     this.onChange(coin);
   }
-
 }

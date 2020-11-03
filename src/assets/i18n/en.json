@@ -5,6 +5,7 @@
   },
   "deposit_page": {
     "available_balance": "Available Balance",
+    "balance": "Balance",
     "coin": "Coin",
     "history_amount": "Amount",
     "history_coin": "Coin",
@@ -15,7 +16,6 @@
     "in_order": "In Order",
     "info_text_1": "Coins will be deposited after 3 network confirmations.",
     "info_text_2": "Until 3 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.",
-    "popular": "Popular Coins",
     "title": "Deposit",
     "total_balance": "Total Balance"
   },
