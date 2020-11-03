@@ -61,3 +61,26 @@
 .color-trading-red {
   background: $color-trading-red-100;
 }
+
+@keyframes slideTo {
+  from {
+    transform: translateY(200%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+::ng-deep .confirmation {
+  animation: slideTo 0.2s forwards ease !important;
+}
+
+@media screen and(max-width: $media-mobile) {
+  ::ng-deep .confirmation {
+    max-width: 100vw !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-height: 95vh !important;
+  }
+}

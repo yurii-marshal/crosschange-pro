@@ -9,7 +9,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { IWalletAddress } from '../../../shared/interfaces/address.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
-import { TranslatePipe } from '@ngx-translate/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { AddWithdrawAddressDialogComponent } from '../../../shared/components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 
