@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
-  Component, ElementRef,
+  Component, ElementRef, EventEmitter,
   forwardRef, HostListener, Input, OnChanges, OnDestroy,
-  OnInit, SimpleChanges, ViewChild
+  OnInit, Output, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
@@ -29,7 +29,8 @@ import { ICurrencySelectValue } from './ICurrencySelectValue';
 export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
-  @Input() disabled;
+  @Input() disabledCondition;
+  @Output() amountChange: EventEmitter<void> = new EventEmitter<void>();
   public keyUp = new Subject<KeyboardEvent>();
   opened = false;
   currencies: ICurrency[];
@@ -81,7 +82,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes.disabled && changes.disabled.currentValue) {
+    if (changes && changes.disabledCondition && changes.disabledCondition.currentValue) {
       this.opened = false;
     }
   }
@@ -116,7 +117,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   onCloseDropdown(): void {
-    if (this.opened || this.disabled) {
+    if (this.opened || this.disabledCondition) {
       return;
     }
     this.currenciesFiltered$.next(this.currencies);

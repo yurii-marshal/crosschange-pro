@@ -87,14 +87,19 @@ export class CoinsService extends ApiService {
   }
 
   getRate(fromCoin: string, toCoin: string, step?: number): Observable<IExchangeData> {
-    let params = new HttpParams();
-    fromCoin = fromCoin.toUpperCase();
-    toCoin = toCoin.toUpperCase();
-    params = params.set('pairs', fromCoin + toCoin);
-    if (step) {
-      params = params.set('step', step + '');
-    }
-
-    return super.get('exchanges/rates', {params}).pipe(map((data: IExchangeData[]) => data.shift()) );
+    return of({
+      is_favorite: true,
+      last: '7854',
+      prices: [5466, 65656],
+    });
+    // let params = new HttpParams();
+    // fromCoin = fromCoin.toUpperCase();
+    // toCoin = toCoin.toUpperCase();
+    // params = params.set('pairs', fromCoin + toCoin);
+    // if (step) {
+    //   params = params.set('step', step + '');
+    // }
+    //
+    // return super.get('exchanges/rates', {params}).pipe(map((data: IExchangeData[]) => data.shift()) );
   }
 }
