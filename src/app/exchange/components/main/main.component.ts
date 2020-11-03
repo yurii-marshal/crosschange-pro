@@ -87,6 +87,7 @@ export class MainComponent implements OnInit, OnDestroy {
           [[oldFrom, oldTo], [fromCurrency, toCurrency]]) =>
           !((oldTo.amount && toCurrency.amount === '') || (oldFrom.amount && fromCurrency.amount === ''))
         ),
+        // TODO: refactor
         tap(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => {
           const {target, update} = this.helper.setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]);
           this.targetControlName = target;
