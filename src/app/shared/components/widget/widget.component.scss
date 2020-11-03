@@ -66,6 +66,10 @@
 
       &--positive {
         color: $color-green-100;
+
+        .sign {
+          margin-right: -3px;
+        }
       }
 
       &--negative {
@@ -126,4 +130,11 @@
 .chart {
   height: 65px;
   width: 100%;
+}
+
+@media all and (max-width: $media-mobile) {
+  .widget {
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+  }
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -156,23 +156,35 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   }
 
   toggleWhitelistEnable(): void {
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
+    const config = {
       width: '400px',
       panelClass: 'confirmation',
-      data: {
+      data: {}
+    };
+
+    if (this.enableWhitelist$.getValue()) {
+      config.data = {
         label: 'profile_page.sure_turn_off_whitelist',
         text: 'profile_page.after_turning_off',
         buttonText: 'profile_page.turn_off',
         buttonColor: 'color-brand',
         icon: 'whitelist'
-      }
-    }).afterClosed().pipe(
+      };
+    } else {
+      config.data = {
+        label: 'profile_page.sure_turn_on_whitelist',
+        text: 'profile_page.after_turning_on',
+        buttonText: 'profile_page.turn_on',
+        buttonColor: 'color-brand',
+        icon: 'whitelist'
+      };
+    }
+
+    const dialogRef = this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
       take(1),
       switchMap((value: boolean) => {
         if (value) {
           return this.addressManagementService.toggleWhitelistEnable();
-        } else {
-          throw new Error('Action not confirmed!');
         }
       })
     ).subscribe(() => this.enableWhitelist$.next(!this.enableWhitelist$.getValue()));
@@ -210,5 +222,8 @@ _([
   'profile_page.delete',
   'profile_page.sure_turn_off_whitelist',
   'profile_page.after_turning_off',
-  'profile_page.turn_off'
+  'profile_page.turn_off',
+  'profile_page.sure_turn_on_whitelist',
+  'profile_page.after_turning_on',
+  'profile_page.turn_on'
 ]);
