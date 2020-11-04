@@ -22,7 +22,7 @@ const coinsMock: ICoin[] = [
   {
     name: 'Dash',
     key: 'dash',
-    is_popular: false
+    is_popular: true
   },
   {
     name: 'Basic Attention',
@@ -37,7 +37,7 @@ const coinsMock: ICoin[] = [
   {
     key: 'xrp',
     name: 'Ripple',
-    is_popular: false
+    is_popular: true
   },
   {
     key: 'usdt',
