@@ -283,10 +283,17 @@
   .mat-table__search {
     flex-direction: column;
     justify-content: center;
+    margin: 0 auto;
+    width: 85%;
     height: auto;
+
+    &-block {
+      width: 100%;
+    }
 
     &-dropdown {
       margin-right: 0;
+      width: 100%;
     }
 
     &-icon {
@@ -295,6 +302,21 @@
 
     &-input {
       margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  .mat-form-field {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-select-panel {
+    max-width: none !important;
+    max-height: 245px !important;
+    width: 100% !important;
+
+    .mat-option {
+      width: 100% !important;
     }
   }
 }
