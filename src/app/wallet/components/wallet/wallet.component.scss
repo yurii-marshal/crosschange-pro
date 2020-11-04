@@ -442,6 +442,10 @@ mat-row:last-child {
 }
 
 @media all and (max-width: $media-mobile) {
+  .total-balance {
+    margin-left: 16px;
+  }
+
   .balances, .addresses {
     .balance, .address {
       margin-bottom: 32px;

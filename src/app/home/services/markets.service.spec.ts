@@ -14,7 +14,7 @@ describe('MarketsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
+      imports: [HttpClientTestingModule],
       providers: [
         {
           provide: ENVIRONMENT,
@@ -41,7 +41,7 @@ describe('MarketsService', () => {
     };
     const mockQuery = 'test';
 
-    service.loadPairs('test', {offset: pagination.offset, limit: pagination.limit}).subscribe(res => {
+    service.loadPairs('test', '', {offset: pagination.offset, limit: pagination.limit}).subscribe(res => {
       expect(res).toEqual({count: 0, results: []});
       done();
     });

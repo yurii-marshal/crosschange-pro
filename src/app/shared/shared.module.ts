@@ -27,6 +27,7 @@ import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
+import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 
 const components = [
   HeaderComponent,
@@ -39,22 +40,22 @@ const components = [
   MenuMobileComponent,
   CoinSelectComponent,
   AddressSelectComponent,
-  CurrencySelectComponent
+  CurrencySelectComponent,
+  ConfirmationComponent,
+  AddWithdrawAddressDialogComponent,
 ];
 
 const pipes = [
   TimeBeforePipe,
   ToggleSecretTextPipe,
+  SafePipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
     ...pipes,
-    SafePipe,
-    AddressSelectComponent,
-    ConfirmationComponent,
-    AddWithdrawAddressDialogComponent
+    OnlyNumbersDirective,
   ],
   imports: [
     CommonModule,
@@ -89,7 +90,8 @@ const pipes = [
     MatMenuModule,
     PopoverModule,
     LayoutModule,
-    NgxEchartsModule
+    NgxEchartsModule,
+    OnlyNumbersDirective,
   ],
   providers: [
     DatePipe

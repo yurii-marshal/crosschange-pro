@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { AddressManagementService } from '../../services/address-management.service';
+import { AddressManagementService, IWalletListResponse } from '../../services/address-management.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IWalletAddress } from '../../../shared/interfaces/address.interface';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,7 +43,6 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private addressManagementService: AddressManagementService,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -57,7 +56,7 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       switchMap(([search, params, whitelistedOnly]) => {
         return this.addressManagementService.getWalletAddressesList(search, params, whitelistedOnly.toString());
       }),
-    ).subscribe((addresses) => {
+    ).subscribe((addresses: IWalletListResponse) => {
         this.count = addresses.count;
         this.dataSource$.next(new MatTableDataSource(addresses.results));
     });
@@ -101,15 +100,24 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
         icon: 'whitelist'
       }
     }).afterClosed().pipe(
+      take(1),
       switchMap((value: boolean) => {
         if (value) {
           return this.addressManagementService.removeFromWhitelist(items);
+        } else {
+          throw new Error('Action not confirmed!');
         }
       })
     ).subscribe(() => {
-      this.dataSource$.getValue().data.filter(item => items.includes(item.id)).map(item => item.isWhitelisted = !item.isWhitelisted);
+      const result: IWalletAddress[] = this.dataSource$.getValue().data.map(item => {
+        if (items.includes(item.id)) {
+          item.isWhitelisted = !item.isWhitelisted;
+        }
+        return item;
+      });
+
+      this.dataSource$.next(new MatTableDataSource(result));
       this.selection.clear();
-      this.cdr.detectChanges();
     });
   }
 
@@ -173,9 +181,12 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
     }
 
     const dialogRef = this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
+      take(1),
       switchMap((value: boolean) => {
         if (value) {
           return this.addressManagementService.toggleWhitelistEnable();
+        } else {
+          throw new Error('Action not confirmed!');
         }
       })
     ).subscribe(() => this.enableWhitelist$.next(!this.enableWhitelist$.getValue()));

@@ -4,6 +4,18 @@ import { IWalletAddress } from '../../shared/interfaces/address.interface';
 import { ApiService } from 'shared-kuailian-lib';
 import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from '../../shared/constants/pagination.constant';
+import { Params } from '@angular/router';
+
+export interface IQueryParams {
+  orderby: string;
+  offset: string;
+  limit: string;
+}
+
+export interface IWalletListResponse {
+  results: IWalletAddress[];
+  count: number;
+}
 
 const addressMock = [
   {
@@ -54,7 +66,7 @@ export class AddressManagementService extends ApiService {
     super(injector);
   }
 
-  getWalletAddressesList(search: string, params: any, whitelistedOnly: string): Observable<{ results: IWalletAddress[], count: number }> {
+  getWalletAddressesList(search: string, params: Params, whitelistedOnly: string): Observable<IWalletListResponse> {
     return of({
       count: addressMock.length,
       results: addressMock,

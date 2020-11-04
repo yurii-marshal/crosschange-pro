@@ -164,7 +164,7 @@
 
 ::ng-deep .mat-select-panel {
   position: absolute;
-  top: 32px;
+  top: 33px;
   right: -16px;
   min-width: 0 !important;
 
@@ -184,8 +184,8 @@
     }
 
     .mat-option-text {
-      font-size: 16px;
-      line-height: 28px;
+      font-size: 14px;
+      line-height: 20px;
     }
   }
 
@@ -296,15 +296,6 @@
     &-input {
       margin-left: 0;
     }
-  }
-
-  ::ng-deep .mat-form-field {
-    width: 200px;
-  }
-
-  ::ng-deep .mat-select-panel {
-    width: 280px;
-    left: -23px;
   }
 }
 

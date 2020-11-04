@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { IWallet } from '../src/app/shared/interfaces/wallet.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
-import { IWithdrawItem } from '../src/app/shared/interfaces/withdraw-item.interface';
+import { IWithdraw, IWithdrawItem } from '../src/app/shared/interfaces/withdraw-item.interface';
 import { Observable, of } from 'rxjs';
 
 export const withdrawsMock: IApiResponse<IWithdrawItem> = {
@@ -99,6 +99,10 @@ export class WithdrawServiceMock {
 
   getWithdrawHistory(params): Observable<IApiResponse<IWithdrawItem>> {
     return of(withdrawsMock);
+  }
+
+  sendWithdraw(withdraw: IWithdraw): Observable<any> {
+    return of({status: 200});
   }
 
 }
