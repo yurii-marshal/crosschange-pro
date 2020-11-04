@@ -6,7 +6,7 @@ export const chartOptions = {
   },
   grid: { // https://echarts.apache.org/en/option.html#grid
     left: '10px', // Distance between grid component and the left side of the container.
-    right: '0px',
+    right: '50px',
   },
   xAxis: {
     type: 'category',
