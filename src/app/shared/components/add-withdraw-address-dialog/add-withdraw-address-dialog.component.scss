@@ -102,10 +102,12 @@
   &__tags {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     margin-top: 8px;
 
     &-item {
       margin-right: 8px;
+      margin-bottom: 4px;
       padding: 6px 8px;
       font-size: 14px;
       line-height: 20px;
@@ -249,6 +251,18 @@
   color: $color-white-100;
   background: $color-brand;
   border: 1px solid $color-brand;
+}
+
+::ng-deep .mat-select-panel-wrap {
+  position: relative;
+  top: 38px;
+  left: 4px;
+}
+
+::ng-deep .dropdown {
+  max-width: none !important;
+  min-width: calc(100% + 24px) !important;
+  max-height: 240px !important;
 }
 
 ::ng-deep mat-select-trigger {
