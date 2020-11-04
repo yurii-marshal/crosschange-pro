@@ -8,7 +8,7 @@ const addressesMock: IWalletAddress[] = [
   {
     id: 0,
     key: 'eth',
-    label: 'Wallet Label 1',
+    label: 'ETH Wallet',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
     memo: 'one',
     tag: 'tagg1',
@@ -16,8 +16,8 @@ const addressesMock: IWalletAddress[] = [
   },
   {
     id: 1,
-    key: 'eth',
-    label: 'Wallet Label 2',
+    key: 'btc',
+    label: 'BTC Wallet',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
     memo: 'one',
     tag: 'tagg2',
@@ -25,8 +25,8 @@ const addressesMock: IWalletAddress[] = [
   },
   {
     id: 2,
-    key: 'eth',
-    label: 'Wallet Label 3',
+    key: 'xrp',
+    label: 'XRP Wallet',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
     memo: 'one',
     tag: 'tagg3',
@@ -34,8 +34,8 @@ const addressesMock: IWalletAddress[] = [
   },
   {
     id: 3,
-    key: 'eth',
-    label: 'Wallet Label 4',
+    key: 'usdt',
+    label: 'USDT Wallet',
     address: '1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2',
     memo: 'one',
     tag: 'tagg4',
