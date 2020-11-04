@@ -41,6 +41,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   activeLink: string;
   isFiat: boolean;
+  loaders: {[key: string]: boolean} = {};
 
   currencies$: Observable<ICurrency[]>;
   fiatCurrencies$: Observable<ICurrency[]>;
@@ -106,11 +107,21 @@ export class MarketsComponent implements OnInit, OnDestroy {
   }
 
   setFavourite(element): void {
+    if (this.loaders[element.exchange_type]) {
+      return;
+    }
+    this.loaders[element.exchange_type] = true;
     const fn = element.is_favorite ? 'deleteFromFavourite' : 'addToFavorite';
     this.marketsService[fn](element.exchange_type).pipe(
       takeUntil(this.onDestroyed$)
     ).subscribe(() => {
-      element.is_favorite = !element.is_favorite;
+      // TODO: refactor (reference changes in websocket)
+      this.dataSource$.getValue().data.forEach(item => {
+        if (item.exchange_type === element.exchange_type) {
+          item.is_favorite = !item.is_favorite;
+        }
+      });
+      delete this.loaders[element.exchange_type];
       this.cdr.detectChanges();
     });
   }
