@@ -12,7 +12,7 @@ describe('QrCodeComponent', () => {
   let fixture: ComponentFixture<QrCodeComponent>;
   const initialMock = {
     cryptocurrency: 'btc',
-    tag: 'tag',
+    destination_tag: 'tag',
     address: 'address',
     id: 1,
     balance: {
@@ -24,7 +24,7 @@ describe('QrCodeComponent', () => {
   };
   const xrpMock = {
     cryptocurrency: 'xrp',
-    tag: 'tag',
+    destination_tag: 'tag',
     address: 'address',
     id: 1,
     balance: {
@@ -84,7 +84,7 @@ describe('QrCodeComponent', () => {
     const addressField = fixture.nativeElement.querySelector('.qr-container:nth-of-type(1) .field');
     const tagField = fixture.nativeElement.querySelector('.qr-container:nth-of-type(2) .field');
     expect(addressField.innerText).toEqual(xrpMock.address);
-    expect(tagField.innerText).toEqual(xrpMock.tag);
+    expect(tagField.innerText).toEqual(xrpMock.destination_tag);
   });
 
   it('should copy address and tag to clipboard', async () => {
@@ -97,7 +97,7 @@ describe('QrCodeComponent', () => {
 
     const tagBtn = fixture.nativeElement.querySelector('.qr-container:nth-of-type(2) button');
     MainTestHelper.click(tagBtn);
-    expect(tagBtn.getAttribute('clipboard-content')).toEqual(xrpMock.tag);
+    expect(tagBtn.getAttribute('clipboard-content')).toEqual(xrpMock.destination_tag);
   });
 
 });
