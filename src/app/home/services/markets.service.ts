@@ -40,11 +40,13 @@ export class MarketsService extends ApiService {
     return this.tradingPairs$.asObservable();
   }
 
-    loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
+  loadPairs(query: string, filter: string, params): Observable<{ results: IExchangeData[], count: number }> {
+    const currency = filter !== 'All Coins' ? filter : '';
+
     let parameters = new HttpParams();
     parameters = parameters
       .set('search', query || '')
-      .set('currency', filter || '')
+      .set('currency', currency || '')
       .set('type', params.tab || 'favorite')
       .set('orderby', params.orderby || 'last')
       .set('offset', params.offset || defaultPagination.offset)
