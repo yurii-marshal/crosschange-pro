@@ -10,19 +10,19 @@
                   [compareWith]="compare"
                   [panelClass]="'dropdown'"
                   disableOptionCentering>
-        <mat-select-trigger *ngIf="currencies$ | async">
+        <mat-select-trigger *ngIf="data.currencies">
           <mat-icon [svgIcon]="'icon_' + withdrawalForm.get('coin').value.key | lowercase"></mat-icon>
           {{ withdrawalForm.get('coin').value['fields'].name }}
         </mat-select-trigger>
 
-        <mat-option *ngFor="let item of currencies$ | async" [value]="item">
+        <mat-option *ngFor="let item of data.currencies" [value]="item">
           <mat-icon [svgIcon]="'icon_' + item.key | lowercase"></mat-icon>
           {{ item.fields.name }}
         </mat-option>
       </mat-select>
 
       <div class="confirmation-popup__tags">
-        <div *ngFor="let item of currencies$ | async"
+        <div *ngFor="let item of data.popular"
              class="confirmation-popup__tags-item"
              (click)="setCurrency(item)">{{ item.key }}</div>
       </div>

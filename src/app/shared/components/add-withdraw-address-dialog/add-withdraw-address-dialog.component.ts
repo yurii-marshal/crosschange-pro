@@ -22,8 +22,6 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
   withdrawalForm: FormGroup;
   securityForm: FormGroup;
 
-  currencies$: Observable<ICurrency[]>;
-
   private onDestroyed$ = new Subject<void>();
 
   constructor(
@@ -32,14 +30,10 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private marketsService: MarketsService,
     private addressManagementService: AddressManagementService,
-    private sso: SsoService
+    private sso: SsoService,
   ) { }
 
   ngOnInit(): void {
-    this.currencies$ = this.marketsService.loadDropdownData().pipe(
-      map(currency => currency.filter(item => !item.fields.isFiat))
-    );
-
     this.withdrawalForm = this.fb.group({
       coin: [''],
       wallet_label: ['', Validators.required],
@@ -55,9 +49,7 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
       authenticator: ['', Validators.compose([Validators.required,  Validators.pattern('\\d{6}')])]
     });
 
-    this.currencies$.pipe(
-      takeUntil(this.onDestroyed$)
-    ).subscribe(items => this.withdrawalForm.get('coin').patchValue(items[0]));
+    this.withdrawalForm.get('coin').patchValue(this.data.currencies[0]);
 
     this.sso.getMe().pipe(
       takeUntil(this.onDestroyed$),
