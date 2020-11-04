@@ -50,7 +50,6 @@ export const chartOptions = {
       fontSize: '12px',
       lineHeight: '20',
       color: '#353A3E',
-      inside: true,
     },
     splitLine: {
       lineStyle: {
