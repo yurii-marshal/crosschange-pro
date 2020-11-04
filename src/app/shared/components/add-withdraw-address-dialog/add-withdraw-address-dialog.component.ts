@@ -2,11 +2,13 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MarketsService } from '../../../home/services/markets.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, zip } from 'rxjs';
 import { ICurrency } from '../../interfaces/currency.interface';
-import { map, takeUntil } from 'rxjs/operators';
+import {map, share, takeUntil} from 'rxjs/operators';
 import { AddressManagementService } from '../../../profile/services/address-management.service';
 import { SsoService } from 'shared-kuailian-lib';
+import { ExchangeService } from '../../services/exchange.service';
+import { CoinsService } from '../../services/coins.service';
 
 @Component({
   selector: 'app-add-withdraw-address-dialog',
@@ -23,6 +25,7 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
   securityForm: FormGroup;
 
   currencies$: Observable<ICurrency[]>;
+  popular$: Observable<ICurrency[]>;
 
   private onDestroyed$ = new Subject<void>();
 
@@ -32,12 +35,25 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private marketsService: MarketsService,
     private addressManagementService: AddressManagementService,
-    private sso: SsoService
+    private sso: SsoService,
+    private exchangesService: ExchangeService,
+    private coinsService: CoinsService
   ) { }
 
   ngOnInit(): void {
-    this.currencies$ = this.marketsService.loadDropdownData().pipe(
+    this.currencies$ = this.exchangesService.getCurrencies().pipe(
       map(currency => currency.filter(item => !item.fields.isFiat))
+    );
+
+    this.popular$ = zip(
+      this.currencies$.pipe(share()),
+      this.coinsService.getPopular()
+    ).pipe(
+      map(([currencies, coins]) => {
+        return currencies.filter(v => {
+          return !!coins.find(c => c.key.toLowerCase() === v.key.toLowerCase());
+        });
+      })
     );
 
     this.withdrawalForm = this.fb.group({

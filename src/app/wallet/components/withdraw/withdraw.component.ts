@@ -63,7 +63,6 @@ export class WithdrawComponent implements OnInit {
       address: new FormControl('', [Validators.required]),
     });
 
-    this.popular$ = this.coinsService.getPopular();
     this.wallets$ = this.walletService.getWallets();
     this.addresses$ = this.addressService.getRecipientAddresses();
 
