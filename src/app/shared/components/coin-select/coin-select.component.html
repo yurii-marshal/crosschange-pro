@@ -17,6 +17,6 @@
   </div>
 
   <div class="coin-items">
-    <div class="coin-item" *ngFor="let coin of coins$ | async" (click)="writeValue(coin)">{{ coin.key }}</div>
+    <div class="coin-item" *ngFor="let coin of $popular | async" (click)="writeValue(coin)">{{ coin.key }}</div>
   </div>
 </ng-container>

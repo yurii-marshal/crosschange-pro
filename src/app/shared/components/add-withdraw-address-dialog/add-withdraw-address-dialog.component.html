@@ -22,7 +22,7 @@
       </mat-select>
 
       <div class="confirmation-popup__tags">
-        <div *ngFor="let item of currencies$ | async"
+        <div *ngFor="let item of popular$ | async"
              class="confirmation-popup__tags-item"
              (click)="setCurrency(item)">{{ item.key }}</div>
       </div>
