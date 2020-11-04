@@ -40,6 +40,7 @@
   padding: 6px 8px;
   margin-right: 8px;
   cursor: pointer;
+  margin-bottom: 5px;
   &:last-of-type {
     margin-right: 0;
   }
@@ -225,7 +226,7 @@ app-qr-code {
 
 }
 @media all and (max-width: $media-small-tablet) {
-  :host {
+  .deposit-page {
     padding-left: 16px;
     padding-right: 16px;
   }
@@ -234,6 +235,9 @@ app-qr-code {
     & > * {
       width: 100%;
     }
+  }
+  .flex-container.coin-select-container .coin-select.deposit {
+    width: 100%;
   }
   .qr-code-container {
    margin-bottom: 50px;
