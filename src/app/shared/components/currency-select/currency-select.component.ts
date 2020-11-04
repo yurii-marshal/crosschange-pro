@@ -1,19 +1,12 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  forwardRef,
-  HostListener,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
+  Component, ElementRef,
+  forwardRef, HostListener, Input, OnChanges, OnDestroy,
+  OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
-import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
 import { validate } from './CurrencySelectValidator';
@@ -42,7 +35,6 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
-  amountForm: FormGroup = new FormGroup({amount: new FormControl({value: '', disabled: this.disabled})});
   onDestroy$: Subject<void> = new Subject();
   value: {
     currency: ICurrency,
@@ -62,7 +54,6 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     private exchange: ExchangeService,
     private elRef: ElementRef
   ) { }
-
 
   ngOnInit(): void {
     this.exchange.getCurrencies()
