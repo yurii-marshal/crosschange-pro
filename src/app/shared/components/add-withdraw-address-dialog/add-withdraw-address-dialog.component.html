@@ -5,7 +5,11 @@
   <form class="confirmation-popup__form" [formGroup]="withdrawalForm">
     <div class="confirmation-popup__coin block">
       <mat-label class="confirmation-popup__label">{{'profile_page.coin' | translate}}</mat-label>
-      <mat-select class="confirmation-popup__input" [formControlName]="'coin'" [compareWith]="compare">
+      <mat-select class="confirmation-popup__input"
+                  [formControlName]="'coin'"
+                  [compareWith]="compare"
+                  [panelClass]="'dropdown'"
+                  disableOptionCentering>
         <mat-select-trigger *ngIf="currencies$ | async">
           <mat-icon [svgIcon]="'icon_' + withdrawalForm.controls['coin'].value.key | lowercase"></mat-icon>
           {{ withdrawalForm.controls['coin'].value['fields'].name }}
