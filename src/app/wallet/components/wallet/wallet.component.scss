@@ -122,6 +122,10 @@
               display: flex;
               align-items: center;
             }
+
+            .right {
+              white-space: nowrap;
+            }
           }
 
           border-radius: 4px 4px 0 0;
@@ -287,6 +291,10 @@ mat-row:last-child {
   }
 }
 
+.mat-column-is_whitelisted {
+  flex: 2;
+}
+
 .mat-column-checkboxes {
   max-width: 45px;
 
@@ -358,10 +366,6 @@ mat-row:last-child {
     min-width: 140px;
   }
 
-  .mat-column-action {
-    min-width: 240px;
-  }
-
   .hide-balance-btn {
     white-space: nowrap;
   }
@@ -426,8 +430,7 @@ mat-row:last-child {
       }
 
       &__table {
-        width: max-content;
-        margin: 12px 0 12px 62px;
+        margin: 12px 22px 12px 62px;
       }
     }
   }
