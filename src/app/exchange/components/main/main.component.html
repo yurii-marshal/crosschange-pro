@@ -6,23 +6,29 @@
       <form [formGroup]="form">
         <div class="form-field">
           <label>{{'exchange.for' | translate}}</label>
-          <app-currency-select formControlName="fromCurrency"></app-currency-select>
+          <app-currency-select formControlName="fromCurrency"
+                               [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.max' | translate}}:</span>
-            <span class="max-balance" (click)="setFromMaxValue()">{{form.get('fromCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
+            <span class="max-balance" (click)="setFromMaxValue()">
+              {{form.get('fromCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}
+            </span>
           </div>
         </div>
         <mat-icon class="direction" svgIcon="icon_direction" (click)="swapCurrencies()"></mat-icon>
         <div class="form-field">
           <label>{{'exchange.you_will_get' | translate}}</label>
-          <app-currency-select formControlName="toCurrency"></app-currency-select>
+          <app-currency-select formControlName="toCurrency"
+                               [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.balance' | translate}}:</span>
             <span>{{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
           </div>
         </div>
       </form>
-      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!form.valid || !inputsEnabled">{{'exchange.exchange' | translate}}</button>
+      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!form.valid || !inputsEnabled">
+        {{'exchange.exchange' | translate}}
+      </button>
       <div class="fee" *ngIf="form.get('fee').value">
         {{'exchange.fee' | translate}}: {{form.get('fee').value}}
         {{form.get('fromCurrency').valueChanges | async | selectedWalletKey:(wallets$ | async)}}
@@ -31,7 +37,8 @@
     <div class="right">
       <div class="buttons fx-row fx-column-xs fx-h-align-start-xs">
         <div class="controls">
-          <mat-button-toggle-group name="period" aria-label="Period" [value]="chartPeriod" (change)="onPeriodChange($event)">
+          <mat-button-toggle-group name="period" aria-label="Period" [value]="chartPeriod"
+                                   (change)="onPeriodChange($event)">
             <mat-button-toggle [value]="chartPeriods.DAY">{{'exchange.24h' | translate}}</mat-button-toggle>
             <mat-button-toggle [value]="chartPeriods.WEEK">{{'exchange.1w' | translate}}</mat-button-toggle>
             <mat-button-toggle [value]="chartPeriods.MONTH">{{'exchange.1m' | translate}}</mat-button-toggle>
@@ -41,11 +48,12 @@
         <div class="status">
           <div class="status-item">
             <label>{{'exchange.current_rate' | translate}}</label>
-            <span>{{((exchangeInfo$ | async)?.last || 0) | number:'1.4-4'}}</span>
+            <span>{{(exchangeInfo$ | async)?.last || 0 | number: '1.4-4'}}</span>
           </div>
           <div class="status-item today-change">
             <label>{{'exchange.today_change' | translate}}</label>
-            <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0" [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
+            <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0"
+                 [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
               <ng-container *ngIf="exchangeInfo$ | async as info">
                 <span>
                   {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 > 0 ? '+' : ''}}

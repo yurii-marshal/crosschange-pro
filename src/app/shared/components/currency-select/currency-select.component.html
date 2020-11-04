@@ -1,20 +1,24 @@
-<div class="switcher" (click)="!disabled ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened" [class.disabled]="disabled">
+<div class="switcher" (click)="!disabledCondition ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened"
+     [class.disabled]="disabledCondition">
   <div class="fx-row">
-    <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
+    <mat-icon *ngIf="(selected$ | async)" class="coin-icon"
+              [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
     </mat-icon>
     <div class="coin-abbr">
       <span class="coin-key" *ngIf="selected$">{{(selected$ | async)?.key}}</span>
     </div>
     <div class="input-container">
       <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
-      <input class="amount-input" [attr.disabled]="disabled ? true : null" type="text" placeholder="0.00000000" #input (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
+      <input (change)="amountChange.emit()" class="amount-input" [attr.disabled]="disabledCondition ? true : null" type="text" placeholder="0.00000000" #input
+             (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
     </div>
   </div>
   <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
 </div>
 
 <div class="input-mobile">
-  <input class="amount-input"  [attr.disabled]="disabled ? true : null" type="text" placeholder="0.00000000" #mobileInput (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
+  <input (change)="amountChange.emit()" class="amount-input" [attr.disabled]="disabledCondition ? true : null" type="text" placeholder="0.00000000" #mobileInput
+         (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
 </div>
 
 <div class="coins-menu" [class.visible]="opened">
@@ -23,7 +27,8 @@
     <input class="currency-search" type="text" (keyup)="search($event.target.value)" [(ngModel)]="searchValue">
   </div>
   <div class="items-container">
-    <span *ngFor="let coin of currenciesFiltered$ | async" (click)="setCurrency(coin); opened = false" class="menu-item">
+    <span *ngFor="let coin of currenciesFiltered$ | async" (click)="setCurrency(coin); opened = false"
+          class="menu-item">
         <mat-icon class="coin-icon" [svgIcon]="'icon_' + (coin.key | lowercase)"></mat-icon>
         <span class="coin-title">{{coin.key | uppercase }}</span>
         <span class="coin-subtitle">{{coin.fields.name}}</span>
