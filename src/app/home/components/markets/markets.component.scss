@@ -281,8 +281,11 @@
 
 @media all and (max-width: $media-mobile) {
   .mat-table__search {
+    padding: 10px 12px;
+    background-color: transparent;
     flex-direction: column;
     justify-content: center;
+    width: 90vw;
     height: auto;
 
     &-dropdown {
