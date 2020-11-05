@@ -4,6 +4,8 @@ import { ICurrency } from '../interfaces/currency.interface';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, share, tap } from 'rxjs/operators';
 import { IChartData } from '../interfaces/chart-data.interface';
+import { HttpParams } from '@angular/common/http';
+import { defaultPagination } from '../constants/pagination.constant';
 
 
 export enum IChartPeriods {
@@ -12,6 +14,7 @@ export enum IChartPeriods {
   MONTH = '1m',
   YEAR = '1y'
 }
+
 export interface IPreCheckResponse {
   amount: number;
   valid: boolean;
@@ -39,6 +42,7 @@ export interface IExchangeRequest {
 })
 export class ExchangeService extends ApiService {
   private currencies: ICurrency[] = [];
+
   constructor(protected injector: Injector) {
     super(injector);
   }
@@ -64,24 +68,30 @@ export class ExchangeService extends ApiService {
     // TODO: DELETE WHEN API IS READY
     const mock = new Array(70).fill(1).map((v, i) => {
       const name = i % 10 === 0 ? i : '';
-      return { name, value: Math.random() * (4000 - 3000) + 3000};
+      return {name, value: Math.random() * (4000 - 3000) + 3000};
     });
     const subj = new BehaviorSubject(mock as IChartData[]);
     return subj.asObservable().pipe(delay(200));
   }
 
   precheck(req: IPreCheckRequest): Observable<IPreCheckResponse> {
-    // TODO: UNCOMMENT
-    /*return super.get('/exchange-precheck', req);*/
-
     // TODO: DELETE
-    const res = {
-      amount:  Math.random() * (100 - 1) + 1,
-      valid: true,
-      rate: Math.random() * (100 - 1) + 1,
-      fee: Math.random() * (100 - 1) + 1
-    };
-    return of(res).pipe(delay(2000));
+    // const res = {
+    //   amount:  Math.random() * (100 - 1) + 1,
+    //   valid: true,
+    //   rate: Math.random() * (100 - 1) + 1,
+    //   fee: Math.random() * (100 - 1) + 1
+    // };
+    // return of(res).pipe(delay(2000));
+    let params = new HttpParams();
+
+    params = params
+      .set('amount', req.amount.toString())
+      .set('baseCurrency', req.baseCurrency)
+      .set('from', req.from)
+      .set('to', req.to);
+
+    return super.get<IPreCheckResponse>('exchanges/fee', {params});
   }
 
   exchange(request: IExchangeRequest): Observable<void> {
