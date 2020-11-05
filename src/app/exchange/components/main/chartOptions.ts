@@ -6,7 +6,7 @@ export const chartOptions = {
   },
   grid: { // https://echarts.apache.org/en/option.html#grid
     left: '10px', // Distance between grid component and the left side of the container.
-    right: '50px',
+    right: '10px',
   },
   xAxis: {
     type: 'category',
@@ -19,10 +19,9 @@ export const chartOptions = {
       }
     },
     axisTick: {
-      show: false
+      show: false,
     },
     axisLabel: {
-      showMinLabel: false,
       fontFamily: 'IBM Plex Sans, sans-serif',
       fontStyle: 'normal',
       fontWeight: 'normal',
@@ -50,6 +49,7 @@ export const chartOptions = {
       fontSize: '12px',
       lineHeight: '20',
       color: '#353A3E',
+      inside: true,
     },
     splitLine: {
       lineStyle: {

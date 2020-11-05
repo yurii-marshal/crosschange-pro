@@ -171,17 +171,15 @@ export class MainComponent implements OnInit, OnDestroy {
       to.currency.key,
       this.chartPeriod,
       this.periodSteps[this.chartPeriod]
-    ).subscribe(v => {
-      this.setChartInfo(v);
-    });
+    )
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(v => this.setChartInfo(v));
   }
 
-  setChartInfo(data: IChartData[]): void {
+  setChartInfo(data: IChartData): void {
     // https://echarts.apache.org/examples/en/editor.html?c=area-basic
-    const values = data.map(v => v.value);
-    const labels = data.map(v => v.name);
     this.option.series = [{
-      data: values,
+      data: data.points,
       type: 'line',
       symbol: 'none',
       areaStyle: {},
@@ -189,8 +187,8 @@ export class MainComponent implements OnInit, OnDestroy {
         color: '#22CF63'
       }
     }];
-    this.option.yAxis.min = Math.min(...values) / 1.02;
-    this.option.xAxis.data = labels;
+    this.option.yAxis.min = Math.min(...data.points) / 1.02;
+    this.option.xAxis.data = data.axis;
     if (this.chartInstance) {
       this.chartInstance.setOption({
         series: this.option.series,
@@ -282,7 +280,7 @@ export class MainComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1)).subscribe(res => {
       if (res) {
         this.resetForm();
-        this.setChartInfo([]);
+        this.setChartInfo({} as IChartData);
         this.getWallets();
         this.exchangeInfo$.next(null);
       }
