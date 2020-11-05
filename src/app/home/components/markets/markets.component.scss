@@ -190,7 +190,7 @@
 
 ::ng-deep .mat-form-field {
   position: relative;
-  width: 143px;
+  max-width: 143px;
 }
 
 ::ng-deep .mat-ripple-element {
@@ -201,6 +201,7 @@
   position: absolute;
   top: 33px;
   right: -16px;
+  max-width: 143px !important;
   min-width: 0 !important;
 
   .mat-option {
