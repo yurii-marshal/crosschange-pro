@@ -1,11 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { QrCodeService } from 'shared-kuailian-lib';
 import { QrCodeComponent } from './qr-code.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { FakeMatIconRegistry } from '@angular/material/icon/testing';
 import { ClipboardCopyMockDirective } from '../../../../../testing/clipboard-copy-mock.directive';
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
+import { QrCodeServiceMock } from '../../../../../testing/QrCodeServiceMock';
+import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 describe('QrCodeComponent', () => {
   let component: QrCodeComponent;
@@ -38,14 +40,16 @@ describe('QrCodeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         QrCodeComponent,
-        ClipboardCopyMockDirective
+        ClipboardCopyMockDirective,
+        SafePipe
       ],
       imports: [
         TranslateModule.forRoot(),
         MatIconModule,
       ],
       providers: [
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry }
+        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
+        { provide: QrCodeService, useClass: QrCodeServiceMock }
       ]
     })
     .compileComponents();

@@ -12,15 +12,15 @@ describe('SelectedWalletPipe', () => {
     const pipe = new SelectedWalletPipe();
     const coin = coinsMock[0];
     const res = pipe.transform(walletsMock, coin);
-    expect(res.length).toEqual(1);
-    expect(res[0].cryptocurrency).toEqual(coin.key);
+    expect(res).toBeTruthy();
+    expect(res.cryptocurrency).toEqual(coin.key);
   });
 
   it('should return raw values', () => {
     const pipe = new SelectedWalletPipe();
     const coin = coinsMock[0];
-    expect(pipe.transform([], coin)).toEqual([]);
-    expect(pipe.transform(walletsMock, undefined)).toEqual(walletsMock);
+    expect(pipe.transform([], coin)).toEqual(undefined);
+    expect(pipe.transform(walletsMock, undefined)).toEqual(undefined);
     expect(pipe.transform(undefined, undefined)).toEqual(undefined);
   });
 });

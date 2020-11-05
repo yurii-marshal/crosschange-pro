@@ -25,25 +25,20 @@ export class QrCodeComponent implements OnInit {
 
   constructor(
     private qrCodeService: QrCodeService,
-  ) {
-  }
+  ) {}
 
   setAddress(): void {
-    if (this.currentWallet && this.currentWallet.cryptocurrency) {
-      this.addressLoaded = false;
-      this.address$ = this.qrCodeService.generateQRFromString(this.currentWallet.address);
-    } else {
-      this.address$ = of('');
-    }
+    this.addressLoaded = false;
+    this.address$ = this.currentWallet && this.currentWallet.cryptocurrency
+      ? this.qrCodeService.generateQRFromString(this.currentWallet.address)
+      : of('');
   }
 
   setTag(): void {
-    if (this.currentWallet && this.currentWallet.destination_tag) {
-      this.tagLoaded = false;
-      this.tag$ = this.qrCodeService.generateQRFromString(this.currentWallet.destination_tag);
-    } else {
-      this.tag$ = of('');
-    }
+    this.tagLoaded = false;
+    this.tag$ = this.currentWallet && this.currentWallet.destination_tag
+      ? this.qrCodeService.generateQRFromString(this.currentWallet.destination_tag)
+      : of('');
   }
 
   ngOnInit(): void {

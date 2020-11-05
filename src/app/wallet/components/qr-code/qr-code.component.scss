@@ -6,7 +6,8 @@
   border: 1px solid $color-grey-20;
 }
 .loading {
-  visibility: hidden;
+  /*visibility: hidden;*/
+  display: none;
 }
 .mat-stroked-button {
   color: $color-brand;
@@ -75,15 +76,19 @@
     max-width: 50%;
   }
   .qr {
+    position: relative;
     width: 132px;
-    min-height: 132px;
+    padding-bottom: 132px;
     align-self: center;
     border-radius: 4px;
     margin-bottom: 12px;
     img {
-      transition: all .5s linear;
       max-width: 100%;
+      position: absolute;
       width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
     }
   }
   .content-container {
@@ -150,6 +155,10 @@
   .qr-codes .qr {
     width: 36%;
     max-width: 50%;
+    padding-bottom: 36%;
+    img {
+
+    }
   }
 }
 

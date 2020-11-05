@@ -1,4 +1,4 @@
-<div class="qr-codes" [class.double]="!!currentWallet.destination_tag">
+<div class="qr-codes" *ngIf="currentWallet" [class.double]="!!currentWallet.destination_tag">
   <div class="qr-container">
     <div class="content-container">
       <span class="field-title">{{'qr_code.address_short' | translate: { crypto: currentWallet?.cryptocurrency | uppercase } }}</span>
