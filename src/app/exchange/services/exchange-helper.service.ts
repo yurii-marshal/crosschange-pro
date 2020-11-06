@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ExchangeService, IPreCheckResponse } from '../../shared/services/exchange.service';
 import { Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
-import { ICurrencySelectValue } from '../../shared/components/currency-select/ICurrencySelectValue';
 
 @Injectable({
   providedIn: 'root'
@@ -88,51 +87,15 @@ export class ExchangeHelperService {
 
     // if all set - update based on the last field changed.
     if (allSet.every(Boolean)) {
-      const fromChanged = [
+      const toChanged = [
         (oldTo.currency && oldTo.currency.key) !== toCurrency.currency.key,
         oldTo.amount !== toCurrency.amount
       ].some(Boolean);
 
-      return fromChanged ? updateFrom : updateTo;
+      return toChanged ? updateTo : updateFrom;
     }
 
     return {target: '', update: ''};
   }
-  
-  // TODO: DELETE
-  /*setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]): { target: string, update: string } {
-    if (!fromCurrency.currency && !toCurrency.currency) {
-      return { target: '', update: '' };
-    }
-    if (!oldTo.amount && toCurrency.amount === '') {
-      return {target: 'fromCurrency', update: 'toCurrency'};
-    } else if (!oldFrom.amount && fromCurrency.amount === '') {
-      return {target: 'toCurrency', update: 'fromCurrency'};
-    }
-    if (oldTo.amount === '' && toCurrency.amount) {
-      return {target: 'toCurrency', update: 'fromCurrency'};
-    } else if (oldFrom.amount === '' && fromCurrency.amount) {
-      return {target: 'fromCurrency', update: 'toCurrency'};
-    }
-    if (oldFrom.amount && oldTo.amount && fromCurrency.amount && toCurrency.amount) {
-      if (oldFrom.amount !== fromCurrency.amount) {
-        return {target: 'fromCurrency', update: 'toCurrency'};
-      } else if (oldTo.amount !== toCurrency.amount) {
-        return {target: 'toCurrency', update: 'fromCurrency'};
-      } else {
-        if (!oldFrom.currency && fromCurrency.currency) {
-          return {target: 'fromCurrency', update: 'toCurrency'};
-        } else if (!oldTo.currency && toCurrency.currency) {
-          return {target: 'toCurrency', update: 'fromCurrency'};
-        } else if (oldFrom.currency.key === fromCurrency.currency.key) {
-          return {target: 'toCurrency', update: 'fromCurrency'};
-        } else if (oldTo.currency.key === toCurrency.currency.key) {
-          return {target: 'fromCurrency', update: 'toCurrency'};
-        }
-      }
-    }
-
-    return {target: '', update: ''};
-  }*/
 }
 
