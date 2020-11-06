@@ -24,6 +24,9 @@ import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
+import { ActivatedRoute } from '@angular/router';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 
 @Component({
   selector: 'app-main',
@@ -48,13 +51,17 @@ export class MainComponent implements OnInit, OnDestroy {
   };
   inputsEnabled = true;
   maxDisabled = false;
+  activeLink: string;
+  activePaymentMethod: string;
+
   constructor(
     private coins: CoinsService,
     private walletService: WalletService,
     private exchange: ExchangeService,
     private mediaBreakpointsService: MediaBreakpointsService,
     private dialog: MatDialog,
-    private helper: ExchangeHelperService
+    private helper: ExchangeHelperService,
+    private route: ActivatedRoute,
   ) {
   }
 
@@ -65,6 +72,19 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createForm();
     this.getWallets();
+
+    this.route.queryParams.pipe(
+      takeUntil(this.onDestroy$),
+      map(params => params.tab)
+    ).subscribe(value => {
+      this.activeLink = value || 'buy';
+      this.setPaymentMethodValidators();
+    });
+
+    this.form.get('paymentMethod').valueChanges.pipe(
+      takeUntil(this.onDestroy$)
+    ).subscribe(value => this.activePaymentMethod = value);
+
     this.mediaBreakpointsService.device
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((device) => {
@@ -194,9 +214,9 @@ export class MainComponent implements OnInit, OnDestroy {
         ]),
       fee: new FormControl(),
       rate: new FormControl(null, Validators.required),
+      paymentMethod: new FormControl(null, Validators.required),
       valid: new FormControl(false, [this.exchangeValidValidator])
     });
-
   }
 
   resetForm(): void {
@@ -205,6 +225,7 @@ export class MainComponent implements OnInit, OnDestroy {
       toCurrency: { currency: undefined, amount: '' },
       fee: undefined,
       rate: 0,
+      paymentMethod: undefined,
       valid: false
     });
   }
@@ -251,7 +272,8 @@ export class MainComponent implements OnInit, OnDestroy {
         toCurrencyAmount: this.form.value.toCurrency.amount,
         toCurrencyKey: this.form.value.toCurrency.currency.key,
         rate: this.form.value.rate,
-        fee: this.form.value.fee
+        fee: this.form.value.fee,
+        paymentMethod: this.form.value.paymentMethod
       }
     });
     dialogRef.afterClosed().pipe(take(1)).subscribe(res => {
@@ -264,9 +286,21 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
+  setPaymentMethodValidators(): void {
+    this.activeLink === 'buy' ?
+      this.form.get('paymentMethod').enable() :
+      this.form.get('paymentMethod').disable();
+  }
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
 
 }
+
+_([
+  'buy_crypto.buy',
+  'buy_crypto.sell',
+  'buy_crypto.exchange',
+]);

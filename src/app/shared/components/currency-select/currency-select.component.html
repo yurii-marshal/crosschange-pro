@@ -1,16 +1,28 @@
 <div class="switcher" (click)="!disabled ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened" [class.disabled]="disabled">
   <div class="fx-row">
-    <mat-icon *ngIf="(selected$ | async)" class="coin-icon" [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
-    </mat-icon>
+    <div class="left">
+      <mat-icon *ngIf="(selected$ | async)"
+                class="coin-icon"
+                [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
+      </mat-icon>
+      <input class="amount-input"
+             [attr.disabled]="disabled ? true : null"
+             type="text"
+             placeholder="0.00000000"
+             #input
+             (keyup)='keyUp.next($event)'
+             (click)="$event.stopPropagation()">
+    </div>
     <div class="coin-abbr">
       <span class="coin-key" *ngIf="selected$">{{(selected$ | async)?.key}}</span>
     </div>
-    <div class="input-container">
-      <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
-      <input class="amount-input" [attr.disabled]="disabled ? true : null" type="text" placeholder="0.00000000" #input (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
+    <div class="right">
+      <div class="input-container">
+        <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
+        <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
+      </div>
     </div>
   </div>
-  <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
 </div>
 
 <div class="input-mobile">

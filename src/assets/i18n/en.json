@@ -1,4 +1,21 @@
 {
+  "buy_crypto": {
+    "balance": "Balance",
+    "buy": "Buy",
+    "coming_soon": "Coming Soon",
+    "exchange": "Exchange",
+    "fee": "Fee",
+    "for": "For",
+    "max": "Max",
+    "payment_method": "Payment Method",
+    "sell": "Sell",
+    "spot_wallet": "Spot Wallet",
+    "tab_buy": "Buy",
+    "tab_exchange": "Quick Exchange",
+    "tab_sell": "Sell",
+    "title": "Buy Crypto",
+    "you_will_get": "You will get"
+  },
   "crypto_widget": {
     "last24": "Last 24h",
     "trade": "Trade",
@@ -25,7 +42,6 @@
     "1w": "1w",
     "1y": "1y",
     "24h": "24h",
-    "balance": "Balance",
     "cancel": "Cancel",
     "complete": "Transaction completed successfully!",
     "current_rate": "Current rate",
@@ -36,13 +52,10 @@
     "for": "For",
     "get": "You will get",
     "got": "You got",
-    "max": "Max",
     "processing": "Processing",
     "review": "Please review your exchange details",
-    "title": "Quick Exchange",
     "today_change": "Today's change",
-    "wait": "We are processing your exchange transaction. Please wait.",
-    "you_will_get": "You will get"
+    "wait": "We are processing your exchange transaction. Please wait."
   },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
@@ -63,14 +76,15 @@
     "zendesk": "Zendesk"
   },
   "header": {
+    "buy_crypto": "Buy Crypto",
     "exchange": "Exchange",
-    "history": "History",
     "log_out": "Log out",
     "margin_wallet": "Margin wallet",
     "markets": "Markets",
+    "orders": "Orders",
     "security": "Security",
     "spot_wallet": "Spot wallet",
-    "wallet": "Wallet"
+    "wallets": "Wallets"
   },
   "languages": {
     "chi": "Chi",

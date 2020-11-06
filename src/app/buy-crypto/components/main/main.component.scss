@@ -5,24 +5,65 @@
 }
 
 h1 {
-  font-weight: bold;
+  margin-bottom: 28px;
   font-size: 32px;
   line-height: 44px;
-  margin-bottom: 56px;
-  font-family: IBM Plex Sans;
+  font-weight: bold;
+}
+
+.tabs-container {
+  margin-bottom: 20px;
+  background-color: #fafbfc;
+
+  .tabs-content {
+    position: relative;
+
+    .divider {
+      width: auto;
+      height: 1px;
+      background-color: $color-grey-20;
+    }
+  }
+
+  ::ng-deep .mat-tab-list .mat-tab-link {
+    min-width: 0;
+    padding: 0 36px 0;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    color: $color-trading-dark;
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  ::ng-deep .mat-tab-list .mat-tab-links .mat-tab-label-active {
+    color: $color-brand;
+  }
+
+  ::ng-deep .mat-tab-nav-bar {
+    border: none;
+
+    mat-ink-bar,
+    .mat-tab-header-pagination {
+      display: none !important;
+    }
+    .mat-tab-link-container {
+      .mat-tab-list {
+        overflow-x: auto;
+        transform: none !important;
+      }
+    }
+    .mat-tab-link {
+      padding: 0;
+      margin-right: 36px;
+      min-width: max-content;
+    }
+  }
 }
 
 .left {
   width: 39%;
   margin-right: 39px;
-  label {
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    font-weight: bold;
-    font-size: 12px;
-    line-height: 16px;
-    color: $color-grey-80;
-  }
   app-currency-select {
     margin-bottom: 8px;
   }
@@ -39,8 +80,19 @@ h1 {
     }
   }
   .form-field {
-    margin-bottom: 27px;
+    margin-bottom: 32px;
   }
+
+  .form-field > label {
+    display: block;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 16px;
+    color: $color-grey-80;
+  }
+
   .direction {
     margin-bottom: 31px;
     color: $color-grey-40;
@@ -64,6 +116,60 @@ h1 {
     font-size: 14px;
     line-height: 20px;
     color: $color-grey-40;
+  }
+
+  .payment-methods {
+    display: flex;
+
+    .payment-method {
+      display: none;
+
+      &__block {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        flex: 1;
+        margin-right: 7px;
+        padding: 14px 0 12px;
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        background: transparent;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &--active {
+          color: $color-brand;
+          background: $color-white-100;
+          box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
+
+          ::ng-deep mat-icon path {
+            fill: $color-brand;
+          }
+        }
+
+        &[disabled] {
+          color: $color-grey-40;
+          cursor: default;
+
+          ::ng-deep mat-icon path {
+            fill: $color-grey-40;
+          }
+
+          span {
+            cursor: default;
+          }
+        }
+      }
+
+      &__label {
+        display: block;
+        margin-top: 11px;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+    }
   }
 }
 .right {
@@ -124,6 +230,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 27px;
+    margin-top: 13px;
   }
   .status {
     display: flex;
