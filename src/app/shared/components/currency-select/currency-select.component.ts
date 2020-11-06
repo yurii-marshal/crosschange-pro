@@ -71,7 +71,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
         const target: HTMLInputElement = event.target as HTMLInputElement;
         return target.value;
       }),
-      debounceTime(300),
+      debounceTime(500),
     ).subscribe(v => {
       this.input.nativeElement.value = v;
       this.mobileInput.nativeElement.value = v;
