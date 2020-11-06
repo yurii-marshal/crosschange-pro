@@ -1,18 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { QrCodeService } from 'shared-kuailian-lib';
 import { QrCodeComponent } from './qr-code.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { FakeMatIconRegistry } from '@angular/material/icon/testing';
 import { ClipboardCopyMockDirective } from '../../../../../testing/clipboard-copy-mock.directive';
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
+import { QrCodeServiceMock } from '../../../../../testing/QrCodeServiceMock';
+import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 describe('QrCodeComponent', () => {
   let component: QrCodeComponent;
   let fixture: ComponentFixture<QrCodeComponent>;
   const initialMock = {
     cryptocurrency: 'btc',
-    tag: 'tag',
+    destination_tag: 'tag',
     address: 'address',
     id: 1,
     balance: {
@@ -24,7 +26,7 @@ describe('QrCodeComponent', () => {
   };
   const xrpMock = {
     cryptocurrency: 'xrp',
-    tag: 'tag',
+    destination_tag: 'tag',
     address: 'address',
     id: 1,
     balance: {
@@ -38,14 +40,16 @@ describe('QrCodeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         QrCodeComponent,
-        ClipboardCopyMockDirective
+        ClipboardCopyMockDirective,
+        SafePipe
       ],
       imports: [
         TranslateModule.forRoot(),
         MatIconModule,
       ],
       providers: [
-        { provide: MatIconRegistry, useClass: FakeMatIconRegistry }
+        { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
+        { provide: QrCodeService, useClass: QrCodeServiceMock }
       ]
     })
     .compileComponents();
@@ -84,7 +88,7 @@ describe('QrCodeComponent', () => {
     const addressField = fixture.nativeElement.querySelector('.qr-container:nth-of-type(1) .field');
     const tagField = fixture.nativeElement.querySelector('.qr-container:nth-of-type(2) .field');
     expect(addressField.innerText).toEqual(xrpMock.address);
-    expect(tagField.innerText).toEqual(xrpMock.tag);
+    expect(tagField.innerText).toEqual(xrpMock.destination_tag);
   });
 
   it('should copy address and tag to clipboard', async () => {
@@ -97,7 +101,7 @@ describe('QrCodeComponent', () => {
 
     const tagBtn = fixture.nativeElement.querySelector('.qr-container:nth-of-type(2) button');
     MainTestHelper.click(tagBtn);
-    expect(tagBtn.getAttribute('clipboard-content')).toEqual(xrpMock.tag);
+    expect(tagBtn.getAttribute('clipboard-content')).toEqual(xrpMock.destination_tag);
   });
 
 });

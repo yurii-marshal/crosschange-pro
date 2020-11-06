@@ -11,14 +11,12 @@
     <div class="flex-container coin-select-container">
       <app-coin-select class="coin-select deposit" [formControl]="coinSelect"
                        (ngModelChange)="onCoinSelect($event)"></app-coin-select>
-
-      <ng-container *ngFor="let wallet of wallets$ | async | selectedWallet:(selected$ | async) | slice: 0: 1">
+      <ng-container *ngIf="((wallets$ | async) | selectedWallet:(selected$ | async)) as wallet">
         <div class="balance">
-          <div class="balance__header">{{'deposit_page.balance' | translate}}</div>
-          <div class="balance-items">
-            <div class="balance-item">
-              <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
-              <div class="value">
+          <div class="balance-item">
+            <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
+            <div class="value">
+              {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
                 {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
               </div>
             </div>
@@ -35,7 +33,6 @@
               </div>
             </div>
           </div>
-        </div>
       </ng-container>
 
       <div class="popular-container">
@@ -45,12 +42,9 @@
         </ul>
       </div>
     </div>
-
     <div class="qr-code-container">
       <div class="qr-code">
-        <ng-container *ngFor="let wallet of (wallets$ | async) | selectedWallet:(selected$ | async) | slice: 0: 1">
-          <app-qr-code [wallet]="wallet"></app-qr-code>
-        </ng-container>
+        <app-qr-code [wallet]="((wallets$ | async) | selectedWallet:(selected$ | async))"></app-qr-code>
       </div>
     </div>
   </div>

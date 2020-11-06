@@ -25,6 +25,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatHeaderCellHarness } from '@angular/material/table/testing';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-test-host',
@@ -34,7 +35,7 @@ class TestHostComponent {
   public searchInputControl: FormControl = new FormControl({value: null, disabled: false});
 }
 
-xdescribe('MarketsComponent', () => {
+describe('MarketsComponent', () => {
   let component: MarketsComponent;
   let fixture: ComponentFixture<MarketsComponent>;
   let service: MarketsService;
@@ -103,13 +104,16 @@ xdescribe('MarketsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have default start settings', () => {
+  it('should have default start settings', (done) => {
     const spy = spyOn(service, 'loadWidgetsData').and.callThrough();
 
+    component.widgets$.pipe(take(1)).subscribe(v => {
+      expect(v).toBeDefined();
+      done();
+    });
     component.ngOnInit();
 
     expect(component.activeLink).toBe('favorite');
-    expect(component.widgets).toBeDefined();
 
     expect(spy).toHaveBeenCalled();
   });

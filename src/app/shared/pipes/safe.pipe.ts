@@ -14,6 +14,8 @@ export class SafePipe implements PipeTransform {
         return this.sanitizer.bypassSecurityTrustUrl(value);
       case 'base64':
         return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + value);
+      case 'base64-svg':
+        return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/svg+xml;base64,' + value);
     }
 
     return this.sanitizer.bypassSecurityTrustHtml(value);
