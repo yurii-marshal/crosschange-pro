@@ -25,7 +25,7 @@ export class ExchangeHelperService {
     if (!from.currency || !to.currency) {
       return true;
     }
-    return from.currency && from.currency.key &&  to.currency && to.currency.key && from.currency.key !== to.currency.key;
+    return from.currency && from.currency.key && to.currency && to.currency.key && from.currency.key !== to.currency.key;
   }
 
   preCheckRequest(form: FormGroup, target: string, toUpdate: string): Observable<IPreCheckResponse> {
