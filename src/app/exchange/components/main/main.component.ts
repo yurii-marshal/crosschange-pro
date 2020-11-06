@@ -174,9 +174,7 @@ export class MainComponent implements OnInit, OnDestroy {
       to.currency.key,
       this.chartPeriod,
       this.periodSteps[this.chartPeriod]
-    )
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(v => this.setChartInfo(v));
+    ).subscribe(v => this.setChartInfo(v));
   }
 
   setChartInfo(data: IChartData): void {
@@ -270,7 +268,6 @@ export class MainComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ExchangeConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
-      disableClose: true,
       data: {
         confirmationStage: 1,
         fromCurrencyAmount: this.form.value.fromCurrency.amount,
