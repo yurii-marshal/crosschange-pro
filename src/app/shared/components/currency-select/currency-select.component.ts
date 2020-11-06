@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  Component, ElementRef, EventEmitter,
+  Component, ElementRef,
   forwardRef, HostListener, Input, OnChanges, OnDestroy,
   OnInit, Output, SimpleChanges, ViewChild
 } from '@angular/core';
@@ -30,7 +30,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
-  public keyUp = new Subject<KeyboardEvent>();
+  public keyUp = new Subject<[KeyboardEvent, string]>();
   opened = false;
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
@@ -67,14 +67,17 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       this.currencies = v;
     });
     this.keyUp.pipe(
-      map(event => {
+      map(([event, type]) => {
         const target: HTMLInputElement = event.target as HTMLInputElement;
-        return target.value;
+        return [target.value, type];
       }),
       debounceTime(500),
-    ).subscribe(v => {
-      this.input.nativeElement.value = v;
-      this.mobileInput.nativeElement.value = v;
+    ).subscribe(([v, type]) => {
+      if (type === 'desktop') {
+        this.mobileInput.nativeElement.value = v;
+      } else {
+        this.input.nativeElement.value = v;
+      }
       this.onChange({
         currency: this.selected$.getValue(),
         amount: v + ''
