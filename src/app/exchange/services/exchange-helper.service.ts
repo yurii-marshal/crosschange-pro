@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ExchangeService, IPreCheckResponse } from '../../shared/services/exchange.service';
 import { Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
+import { ICurrencySelectValue } from '../../shared/components/currency-select/ICurrencySelectValue';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,13 @@ export class ExchangeHelperService {
       && (form.get(toUpdate).value && form.get(target).value.currency) && form.get(toUpdate).value.currency
       && !!((form.get(target).value.currency && +form.get(target).value.amount)
         || (form.get(toUpdate).value && +form.get(toUpdate).value.amount));
+  }
+
+  bothCurrenciesEqual([from, to]): boolean {
+    if (!from.currency || !to.currency) {
+      return true;
+    }
+    return from.currency && from.currency.key &&  to.currency && to.currency.key && from.currency.key !== to.currency.key;
   }
 
   preCheckRequest(form: FormGroup, target: string, toUpdate: string): Observable<IPreCheckResponse> {
@@ -50,6 +58,52 @@ export class ExchangeHelperService {
   }
 
   setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]): { target: string, update: string } {
+    if (!fromCurrency.currency && !toCurrency.currency) {
+      return { target: '', update: '' };
+    }
+    const updateFrom = { target: 'fromCurrency', update: 'toCurrency'};
+    const updateTo = {target: 'toCurrency', update: 'fromCurrency' };
+    const amountCleared = [
+      oldFrom.currency,
+      oldTo.currency,
+      fromCurrency.currency,
+      toCurrency.currency,
+      oldTo.amount,
+      fromCurrency.amount
+    ];
+    // if amount cleared by user - stop updating.
+    if (amountCleared.every(Boolean) && (!fromCurrency.amount || !toCurrency.amount)) {
+      return { target: '', update: '' };
+    }
+
+    const fromAllSet = fromCurrency.currency && fromCurrency.currency.key && fromCurrency.amount;
+    const toAllSet = toCurrency.currency && toCurrency.currency.key && toCurrency.amount;
+
+    // if something is not set - update based on the field where everything is set
+    if (!fromAllSet || !toAllSet) {
+      return !toAllSet ?  updateFrom : updateTo;
+    }
+
+    const allSet = [ fromCurrency.currency, toCurrency.currency, fromCurrency.amount, toCurrency.amount ];
+
+    // if all set - update based on the last field changed.
+    if (allSet.every(Boolean)) {
+      const fromChanged = [
+        (oldTo.currency && oldTo.currency.key) !== toCurrency.currency.key,
+        oldTo.amount !== toCurrency.amount
+      ].some(Boolean);
+
+      return fromChanged ? updateFrom : updateTo;
+    }
+
+    return {target: '', update: ''};
+  }
+  
+  // TODO: DELETE
+  /*setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]): { target: string, update: string } {
+    if (!fromCurrency.currency && !toCurrency.currency) {
+      return { target: '', update: '' };
+    }
     if (!oldTo.amount && toCurrency.amount === '') {
       return {target: 'fromCurrency', update: 'toCurrency'};
     } else if (!oldFrom.amount && fromCurrency.amount === '') {
@@ -79,6 +133,6 @@ export class ExchangeHelperService {
     }
 
     return {target: '', update: ''};
-  }
+  }*/
 }
 

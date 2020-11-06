@@ -87,6 +87,8 @@ export class MainComponent implements OnInit, OnDestroy {
           [[oldFrom, oldTo], [fromCurrency, toCurrency]]) =>
           !((oldTo.amount && toCurrency.amount === '') || (oldFrom.amount && fromCurrency.amount === ''))
         ),
+        filter(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => this.helper.bothCurrenciesEqual([fromCurrency, toCurrency])
+        ),
         // TODO: refactor
         tap(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => {
           const {target, update} = this.helper.setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]);
@@ -109,6 +111,7 @@ export class MainComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$),
         distinctUntilChanged(this.helper.distinctCurrency),
         filter(this.helper.bothCurrenciesSet),
+        filter(this.helper.bothCurrenciesEqual),
         map(([from, to]) => [from.currency, to.currency]),
         switchMap(([fromCurrency, toCurrency]) => {
           return combineLatest([
