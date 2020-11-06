@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
-  Component, ElementRef, EventEmitter,
+  Component, ElementRef,
   forwardRef, HostListener, Input, OnChanges, OnDestroy,
-  OnInit, Output, SimpleChanges, ViewChild
+  OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
@@ -30,13 +30,13 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
-  public keyUp = new Subject<KeyboardEvent>();
+  public keyUp = new Subject<[KeyboardEvent, string]>();
   opened = false;
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amountForm: FormGroup = new FormGroup({
-    amount: new FormControl(),
+    amount: new FormControl(''),
   });
   onDestroy$: Subject<void> = new Subject();
   value: {
@@ -44,21 +44,19 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     amount: number | string;
   };
   searchValue = '';
-  onChange = (value: ICurrencySelectValue) => {
-  }
-  onTouched = () => {
+  onChange = (value: ICurrencySelectValue) => {};
+  onTouched = () => {};
+
+  @HostListener('document:click', ['$event.target']) onClick(target): void {
+    if (this.elRef && this.elRef.nativeElement && !this.elRef.nativeElement.contains(target)) {
+      this.opened = false;
+    }
   }
 
   constructor(
     private exchange: ExchangeService,
     private elRef: ElementRef
   ) {
-  }
-
-  @HostListener('document:click', ['$event.target']) onClick(target): void {
-    if (this.elRef && this.elRef.nativeElement && !this.elRef.nativeElement.contains(target)) {
-      this.opened = false;
-    }
   }
 
   ngOnInit(): void {
@@ -70,14 +68,17 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       this.currencies = v;
     });
     this.keyUp.pipe(
-      map(event => {
+      map(([event, type]) => {
         const target: HTMLInputElement = event.target as HTMLInputElement;
-        return target.value;
+        return [target.value, type];
       }),
       debounceTime(500),
-    ).subscribe(v => {
-      this.input.nativeElement.value = v;
-      this.mobileInput.nativeElement.value = v;
+    ).subscribe(([v, type]) => {
+      if (type === 'desktop') {
+        this.mobileInput.nativeElement.value = v;
+      } else {
+        this.input.nativeElement.value = v;
+      }
       this.onChange({
         currency: this.selected$.getValue(),
         amount: v + ''

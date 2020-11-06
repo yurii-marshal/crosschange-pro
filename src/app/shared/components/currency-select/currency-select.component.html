@@ -1,5 +1,6 @@
 <form [formGroup]="amountForm">
-  <div class="switcher" (click)="!disabledCondition ? opened = !opened : false; onCloseDropdown()" [class.opened]="opened"
+  <div class="switcher" (click)="!disabledCondition ? opened = !opened : false; onCloseDropdown()"
+       [class.opened]="opened"
        [class.disabled]="disabledCondition">
     <div class="fx-row">
       <mat-icon *ngIf="(selected$ | async)" class="coin-icon"
@@ -10,20 +11,20 @@
       </div>
       <div class="input-container">
         <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
-        <input formControlName="amount" class="amount-input" appOnlyNumbers
+        <input appOnlyNumbers class="amount-input" formControlName="amount"
                [attr.disabled]="disabledCondition ? true : null"
                type="text" placeholder="0.00000000" #input
-               (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
+               (keyup)='keyUp.next([$event, "desktop"])' (click)="$event.stopPropagation()">
       </div>
     </div>
     <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
   </div>
 
   <div class="input-mobile">
-    <input formControlName="amount" class="amount-input" appOnlyNumbers
+    <input appOnlyNumbers class="amount-input" formControlName="amount"
            [attr.disabled]="disabledCondition ? true : null"
            type="text" placeholder="0.00000000" #mobileInput
-           (keyup)='keyUp.next($event)' (click)="$event.stopPropagation()">
+           (keyup)='keyUp.next([$event, "mobile"])' (click)="$event.stopPropagation()">
   </div>
 </form>
 
