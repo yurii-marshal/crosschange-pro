@@ -186,3 +186,8 @@
     margin-bottom: 67px;
   }
 }
+@media all and (max-width: $media-mobile) {
+  .qr-codes .field {
+    word-break: break-all;
+  }
+}
