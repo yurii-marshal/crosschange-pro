@@ -4,7 +4,6 @@ import { ICurrency } from '../interfaces/currency.interface';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, share, tap } from 'rxjs/operators';
 import { IChartData } from '../interfaces/chart-data.interface';
-import { ICoin } from '../interfaces/coin.interface';
 
 
 export enum IChartPeriods {
