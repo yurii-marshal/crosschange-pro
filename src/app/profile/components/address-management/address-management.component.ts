@@ -1,8 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, zip } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { AddressManagementService, IWalletListResponse } from '../../services/address-management.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -11,6 +21,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../../../shared/components/confirmation/confirmation.component';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { AddWithdrawAddressDialogComponent } from '../../../shared/components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
+import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { ExchangeService } from 'src/app/shared/services/exchange.service';
+import { CoinsService } from 'src/app/shared/services/coins.service';
 
 @Component({
   selector: 'app-address-management',
@@ -37,16 +50,36 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
 
   onDestroy$ = new Subject<void>();
 
+  currencies$: Observable<ICurrency[]>;
+  popular$: Observable<ICurrency[]>;
+
   selection = new SelectionModel<IWalletAddress>(true, []);
 
   constructor(
     private route: ActivatedRoute,
     private addressManagementService: AddressManagementService,
     private dialog: MatDialog,
+    private exchangesService: ExchangeService,
+    private coinsService: CoinsService
   ) {
   }
 
   ngOnInit(): void {
+    this.currencies$ = this.exchangesService.getCurrencies().pipe(
+      map(currency => currency.filter(item => !item.fields.isFiat))
+    );
+
+    this.popular$ = zip(
+      this.currencies$.pipe(share()),
+      this.coinsService.getPopular()
+    ).pipe(
+      map(([currencies, coins]) => {
+        return currencies.filter(v => {
+          return !!coins.find(c => c.key.toLowerCase() === v.key.toLowerCase());
+        });
+      })
+    );
+
     combineLatest([
       this.searchInputControl.valueChanges.pipe(startWith(''), debounceTime(500), distinctUntilChanged()),
       this.route.queryParams,
@@ -68,12 +101,21 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   }
 
   addWithdrawAddress(): void {
-    const dialogRef = this.dialog.open(AddWithdrawAddressDialogComponent, {
-      width: '400px',
-      panelClass: 'confirmation',
-      data: {
-
-      }
+    // TODO: refactor (preloader), data should be retrieved in the modal component
+    zip(
+      this.popular$,
+      this.currencies$
+    ).pipe(
+      take(1)
+    ).subscribe(([popular, currencies]) => {
+      const dialogRef = this.dialog.open(AddWithdrawAddressDialogComponent, {
+        width: '400px',
+        panelClass: 'confirmation',
+        data: {
+          popular,
+          currencies
+        }
+      });
     });
   }
 
@@ -89,7 +131,7 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   removeFromWhitelist(): void {
     const items = this.selection.selected.filter(item => item.isWhitelisted).map(item => item.id);
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
+    this.dialog.open(ConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
       data: {
@@ -101,12 +143,9 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().pipe(
       take(1),
-      switchMap((value: boolean) => {
-        if (value) {
-          return this.addressManagementService.removeFromWhitelist(items);
-        } else {
-          throw new Error('Action not confirmed!');
-        }
+      filter(value => value),
+      switchMap(() => {
+        return this.addressManagementService.removeFromWhitelist(items);
       })
     ).subscribe(() => {
       const result: IWalletAddress[] = this.dataSource$.getValue().data.map(item => {
@@ -124,7 +163,7 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   deleteItems(item?: IWalletAddress): void {
     const items = item ? [item.id] : this.selection.selected.map(vl => vl.id);
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
+    this.dialog.open(ConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
       data: {
@@ -136,12 +175,9 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().pipe(
       take(1),
-      switchMap((value: boolean) => {
-        if (value) {
-          return this.addressManagementService.deleteItems(items);
-        } else {
-          throw new Error('Action not confirmed!');
-        }
+      filter(value => value),
+      switchMap(() => {
+        return this.addressManagementService.deleteItems(items);
       })
     ).subscribe(() => {
       const result = this.dataSource$.getValue().data.filter(value => !items.includes(value.id));
@@ -180,12 +216,11 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       };
     }
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
+    this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
       take(1),
+      filter(value => value),
       switchMap((value: boolean) => {
-        if (value) {
-          return this.addressManagementService.toggleWhitelistEnable();
-        }
+        return this.addressManagementService.toggleWhitelistEnable();
       })
     ).subscribe(() => this.enableWhitelist$.next(!this.enableWhitelist$.getValue()));
   }

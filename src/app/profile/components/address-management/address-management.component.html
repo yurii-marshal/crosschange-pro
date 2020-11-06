@@ -22,7 +22,7 @@
             <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
             <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
             <button [ngClass]="{ 'hide-balance-btn-active': showWhitelistedOnly$ | async }"
-                    class="hide-balance-btn"
+                    class="hide-balance-btn hide-btn"
                     (click)="toggleWhitelistedOnly()">
               {{ 'profile_page.display_whitelisted_addresses_only' | translate}}
             </button>

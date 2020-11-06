@@ -24,9 +24,6 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
   withdrawalForm: FormGroup;
   securityForm: FormGroup;
 
-  currencies$: Observable<ICurrency[]>;
-  popular$: Observable<ICurrency[]>;
-
   private onDestroyed$ = new Subject<void>();
 
   constructor(
@@ -36,26 +33,9 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
     private marketsService: MarketsService,
     private addressManagementService: AddressManagementService,
     private sso: SsoService,
-    private exchangesService: ExchangeService,
-    private coinsService: CoinsService
   ) { }
 
   ngOnInit(): void {
-    this.currencies$ = this.exchangesService.getCurrencies().pipe(
-      map(currency => currency.filter(item => !item.fields.isFiat))
-    );
-
-    this.popular$ = zip(
-      this.currencies$.pipe(share()),
-      this.coinsService.getPopular()
-    ).pipe(
-      map(([currencies, coins]) => {
-        return currencies.filter(v => {
-          return !!coins.find(c => c.key.toLowerCase() === v.key.toLowerCase());
-        });
-      })
-    );
-
     this.withdrawalForm = this.fb.group({
       coin: [''],
       wallet_label: ['', Validators.required],
@@ -71,9 +51,7 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
       authenticator: ['', Validators.compose([Validators.required,  Validators.pattern('\\d{6}')])]
     });
 
-    this.currencies$.pipe(
-      takeUntil(this.onDestroyed$)
-    ).subscribe(items => this.withdrawalForm.get('coin').patchValue(items[0]));
+    this.withdrawalForm.get('coin').patchValue(this.data.currencies[0]);
 
     this.sso.getMe().pipe(
       takeUntil(this.onDestroyed$),
