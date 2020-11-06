@@ -112,7 +112,6 @@ export class ExchangeService extends ApiService {
   }
 
   getCurrencies(): Observable<ICurrency[]> {
-    // return of(currenciesMock);
     if (this.currencies.length) {
       return of(this.currencies);
     }
