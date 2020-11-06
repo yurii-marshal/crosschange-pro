@@ -13,10 +13,12 @@
                        (ngModelChange)="onCoinSelect($event)"></app-coin-select>
       <ng-container *ngIf="((wallets$ | async) | selectedWallet:(selected$ | async)) as wallet">
         <div class="balance">
-          <div class="balance-item">
-            <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
-            <div class="value">
-              {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
+          <div class="balance__header">{{'deposit_page.balance' | translate}}</div>
+          <div class="balance-items">
+            <div class="balance-item">
+              <div class="title">{{'deposit_page.total_balance' | translate}}:</div>
+              <div class="value">
+                {{wallet.balance.total | number:'1.8-8'}} {{wallet.cryptocurrency | uppercase}}
               </div>
             </div>
             <div class="balance-item">
@@ -32,6 +34,7 @@
               </div>
             </div>
           </div>
+        </div>
       </ng-container>
 
       <div class="popular-container">
