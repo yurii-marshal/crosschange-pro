@@ -49,7 +49,7 @@ describe('CurrencySelectComponent', () => {
         {provide: ExchangeService, useClass: ExchangeServiceMock }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
