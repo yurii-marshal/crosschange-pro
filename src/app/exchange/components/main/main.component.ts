@@ -267,6 +267,7 @@ export class MainComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ExchangeConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
+      disableClose: true,
       data: {
         confirmationStage: 1,
         fromCurrencyAmount: this.form.value.fromCurrency.amount,
