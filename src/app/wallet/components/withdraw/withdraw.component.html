@@ -16,12 +16,6 @@
       ></app-coin-select>
     </div>
 
-    <div class="popular">
-      <div class="popular-item" *ngFor="let item of popular$ | async" (click)="selectPopular(item)">
-        {{item.key | uppercase}}
-      </div>
-    </div>
-
     <ng-container
       *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coin').value) | slice: 0: 1">
       <span class="section-title coin">

@@ -6,6 +6,7 @@
   },
   "deposit_page": {
     "available_balance": "Available Balance",
+    "balance": "Balance",
     "coin": "Coin",
     "history_amount": "Amount",
     "history_coin": "Coin",
@@ -16,7 +17,6 @@
     "in_order": "In Order",
     "info_text_1": "Coins will be deposited after 3 network confirmations.",
     "info_text_2": "Until 3 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.",
-    "popular": "Popular Coins",
     "title": "Deposit",
     "total_balance": "Total Balance"
   },
@@ -165,6 +165,7 @@
     "memo_tag": "Memo / Tag",
     "no_data_available": "No data available",
     "phone_code": "Phone verification code",
+    "processing": "Processing",
     "profile": "Profile",
     "remove": "Remove",
     "remove_from_whitelist": "Remove from Whitelist",
@@ -180,6 +181,7 @@
     "turn_off": "Turn Off",
     "turn_on": "Turn On",
     "wallet_label": "Wallet Label",
+    "wait": "We are adding your wallet address. Please wait. ",
     "whitelist": "Whitelist",
     "whitelisted_addresses_only": "Whitelisted only",
     "withdrawal_address_added": "Your withdrawal address was added successfully!",

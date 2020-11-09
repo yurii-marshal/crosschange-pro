@@ -82,9 +82,4 @@ export class MarketsService extends ApiService {
     });
     return this.widgets$.asObservable();
   }
-
-  loadDropdownData(): Observable<ICurrency[]> {
-
-    return super.get('exchanges/currencies');
-  }
 }
