@@ -12,7 +12,7 @@
   min-height: 188px;
   padding: 36px 0;
   background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
-              linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+  linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
 
   .widgets-content {
     display: flex;
@@ -156,7 +156,7 @@
 }
 
 .mat-column-exchange_type {
- flex: 4;
+  flex: 4;
 }
 
 .mat-column-exchange_rate {
@@ -197,11 +197,15 @@
   background: none;
 }
 
+::ng-deep .fiatListOptions.ng-animating {
+  visibility: hidden;
+}
+
 ::ng-deep .mat-select-panel {
   position: absolute;
   top: 33px;
   right: -16px;
-  min-width: 0 !important;
+  min-width: 100% !important;
 
   .mat-option {
     padding: 0 14px;

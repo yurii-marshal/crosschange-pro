@@ -8,12 +8,17 @@ import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface
 import { ActivatedRoute, Router } from '@angular/router';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { MAT_SELECT_SCROLL_STRATEGY } from '@angular/material/select';
+import { Overlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-markets',
   templateUrl: './markets.component.html',
   styleUrls: ['./markets.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: MAT_SELECT_SCROLL_STRATEGY, useFactory: MarketsService.scrollFactory, deps: [Overlay] }
+  ]
 })
 export class MarketsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
