@@ -30,6 +30,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
+  @Input() secondSelected;
   @Output() amountChange: EventEmitter<void> = new EventEmitter<void>();
   public keyUp = new Subject<KeyboardEvent>();
   opened = false;
