@@ -28,6 +28,7 @@ import { AddressSelectComponent } from './components/address-select/address-sele
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { CurrencySelectedPipe } from './pipes/currency-selected.pipe';
 
 const components = [
   HeaderComponent,
@@ -56,6 +57,7 @@ const pipes = [
     ...components,
     ...pipes,
     OnlyNumbersDirective,
+    CurrencySelectedPipe
   ],
   imports: [
     CommonModule,
