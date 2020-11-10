@@ -5,12 +5,11 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  map,
-  mergeMap,
-  share,
+  map, pairwise,
+  startWith,
   switchMap,
   take,
-  takeUntil
+  takeUntil, tap,
 } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
@@ -54,6 +53,9 @@ export class MainComponent implements OnInit, OnDestroy {
   activeLink: string;
   activePaymentMethod: string;
 
+  targetControlName;
+  updateControlName;
+
   constructor(
     private coins: CoinsService,
     private walletService: WalletService,
@@ -95,32 +97,55 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.subscribeToConvert('fromCurrency', 'toCurrency');
-    this.subscribeToConvert('toCurrency', 'fromCurrency');
+    combineLatest([
+      this.form.get('fromCurrency').valueChanges.pipe(startWith({})),
+      this.form.get('toCurrency').valueChanges.pipe(startWith({})),
+    ])
+      .pipe(
+        takeUntil(this.onDestroy$),
+        pairwise(),
+        filter((
+          [[oldFrom, oldTo], [fromCurrency, toCurrency]]) =>
+          !((oldTo.amount && toCurrency.amount === '') || (oldFrom.amount && fromCurrency.amount === ''))
+        ),
+        // TODO: refactor
+        tap(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => {
+          const {target, update} = this.helper.setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]);
+          this.targetControlName = target;
+          this.updateControlName = update;
+        }),
+        map(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => [fromCurrency, toCurrency]),
+        distinctUntilChanged(this.helper.distinctControlsData),
+        filter(this.helper.bothCurrenciesSet),
+      )
+      .subscribe(() => {
+        this.convertCurrency(this.targetControlName, this.updateControlName);
+      });
 
     combineLatest([
-        this.form.get('fromCurrency').valueChanges.pipe(share()),
-        this.form.get('toCurrency').valueChanges.pipe(share()),
-      ])
-    .pipe(
-      takeUntil(this.onDestroy$),
-      distinctUntilChanged(this.helper.distinctCurrency),
-      filter(this.helper.bothCurrenciesSet),
-      map(([from, to]) => [from.currency, to.currency]),
-      switchMap(([fromCurrency, toCurrency]) => {
-        return combineLatest([
-          this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
-          this.exchange.getChartData(
-            fromCurrency.key,
-            toCurrency.key,
-            this.chartPeriod,
-            this.periodSteps[this.chartPeriod])
-        ]);
-      })
-    ).subscribe(([rateInfo, chartData]) => {
-      this.exchangeInfo$.next(rateInfo);
-      this.setChartInfo(chartData);
-    });
+      this.form.get('fromCurrency').valueChanges,
+      this.form.get('toCurrency').valueChanges,
+    ])
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(this.helper.distinctCurrency),
+        filter(this.helper.bothCurrenciesSet),
+        map(([from, to]) => [from.currency, to.currency]),
+        switchMap(([fromCurrency, toCurrency]) => {
+          return combineLatest([
+            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
+            this.exchange.getChartData(
+              fromCurrency.key,
+              toCurrency.key,
+              this.chartPeriod,
+              this.periodSteps[this.chartPeriod])
+          ]);
+        })
+      )
+      .subscribe(([rateInfo, chartData]) => {
+        this.exchangeInfo$.next(rateInfo);
+        this.setChartInfo(chartData);
+      });
   }
 
   getWallets(): void {
@@ -128,31 +153,6 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe((v) => {
         this.wallets$.next(v);
       });
-  }
-
-  subscribeToConvert(target, toUpdate): void {
-    this.form.get(target).valueChanges.pipe(
-      takeUntil(this.onDestroy$),
-      filter(() => this.helper.convertFilter(this.form, target, toUpdate)),
-      mergeMap((value) => {
-        this.inputsEnabled = false;
-        return this.helper.preCheckRequest(this.form, target, toUpdate);
-      }),
-    ).subscribe((res) => {
-      this.form.get(toUpdate).setValue({
-          currency: this.form.get(toUpdate).value.currency,
-          amount: res.amount
-        }, { emitEvent: false, onlySelf: true }
-      );
-      this.form.patchValue({
-        fee: res.fee,
-        rate: res.rate,
-        valid: res.valid
-      });
-      this.inputsEnabled = true;
-    }, err => {
-      this.inputsEnabled = true;
-    });
   }
 
   onPeriodChange(val: MatButtonToggleChange): void {
@@ -172,32 +172,9 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
-  setChartInfo(data: IChartData[]): void {
-    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
-    const values = data.map(v => v.value);
-    const labels = data.map(v => v.name);
-    this.option.series = [{
-      data: values,
-      type: 'line',
-      symbol: 'none',
-      areaStyle: {},
-      lineStyle: {
-        color: '#22CF63'
-      }
-    }];
-    this.option.yAxis.min = Math.min(...values) / 1.02;
-    this.option.xAxis.data = labels;
-    if (this.chartInstance) {
-      this.chartInstance.setOption({
-        series: this.option.series,
-        xAxis: this.option.xAxis,
-        yAxis: this.option.yAxis,
-      });
-    }
-  }
 
   exchangeValidValidator({value}: FormControl): { [key: string]: boolean } | null {
-    return value ? null : { exchange_invalid: true };
+    return value ? null : {exchange_invalid: true};
   }
 
   createForm(): void {
@@ -221,8 +198,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
   resetForm(): void {
     this.form.reset({
-      fromCurrency: { currency: undefined, amount: '' },
-      toCurrency: { currency: undefined, amount: '' },
+      fromCurrency: {currency: undefined, amount: ''},
+      toCurrency: {currency: undefined, amount: ''},
       fee: undefined,
       rate: 0,
       paymentMethod: undefined,
@@ -237,12 +214,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.form.patchValue({
       toCurrency: this.form.get('fromCurrency').value,
       fromCurrency: this.form.get('toCurrency').value
-    });
+    }, {emitEvent: false});
+    this.convertCurrency('fromCurrency', 'toCurrency');
   }
 
   setFromMaxValue(): void {
     const val = this.form.get('fromCurrency').value;
-    if (!val || !val.currency || !this.inputsEnabled || this.maxDisabled) {
+    if (!val || !val.currency || Number(val.amount) === 0 || !this.inputsEnabled || this.maxDisabled) {
       return;
     }
     const selected = {...val.currency};
@@ -254,7 +232,8 @@ export class MainComponent implements OnInit, OnDestroy {
     this.form.get('fromCurrency').setValue({
       currency: selected,
       amount
-    });
+    }, {emitEvent: false});
+    this.convertCurrency('fromCurrency', 'toCurrency');
   }
 
   openDialog(): void {
@@ -279,7 +258,7 @@ export class MainComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1)).subscribe(res => {
       if (res) {
         this.resetForm();
-        this.setChartInfo([]);
+        this.setChartInfo({} as IChartData);
         this.getWallets();
         this.exchangeInfo$.next(null);
       }
@@ -297,6 +276,83 @@ export class MainComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  createForm(): void {
+    this.form = new FormGroup({
+      fromCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      toCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      fee: new FormControl(),
+      rate: new FormControl(null, Validators.required),
+      valid: new FormControl(false, [this.exchangeValidValidator])
+    });
+  }
+
+  setChartInfo(data: IChartData): void {
+    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
+    this.option.series = [{
+      data: data.points,
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = Math.min(...data.points) / 1.02;
+    this.option.xAxis.data = data.axis;
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
+  }
+
+  convertCurrency(target, toUpdate): void {
+    if (this.helper.convertFilter(this.form, target, toUpdate)) {
+      if (Number(this.form.get(target).value.amount) === 0) {
+        this.form.get(toUpdate).patchValue({
+          amount: 0,
+          currency: this.form.get(toUpdate).value.currency
+        }, {emitEvent: false});
+
+        this.form.patchValue({
+          fee: 0,
+          rate: 0,
+          valid: false
+        }, {emitEvent: false});
+
+        return;
+      }
+
+      this.inputsEnabled = false;
+
+      this.helper.preCheckRequest(this.form, target, toUpdate)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((res) => {
+          this.form.get(toUpdate).setValue({
+            currency: this.form.get(toUpdate).value.currency,
+            amount: res.amount
+          }, {emitEvent: false});
+          this.form.patchValue({
+            fee: res.fee,
+            rate: res.rate,
+            valid: res.valid
+          });
+          this.inputsEnabled = true;
+        }, err => {
+          this.inputsEnabled = true;
+        });
+    }
+  }
 }
 
 _([
