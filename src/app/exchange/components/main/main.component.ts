@@ -25,6 +25,7 @@ import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
+import { ICurrency } from '../../../shared/interfaces/currency.interface';
 
 @Component({
   selector: 'app-main',
@@ -51,6 +52,9 @@ export class MainComponent implements OnInit, OnDestroy {
   maxDisabled = false;
   targetControlName;
   updateControlName;
+
+  excludedFrom: ICurrency[];
+  excludedTo: ICurrency[];
 
   constructor(
     private coins: CoinsService,
@@ -90,8 +94,6 @@ export class MainComponent implements OnInit, OnDestroy {
           [[oldFrom, oldTo], [fromCurrency, toCurrency]]) =>
           !((oldTo.amount && toCurrency.amount === '') || (oldFrom.amount && fromCurrency.amount === ''))
         ),
-        filter(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) =>
-          this.helper.bothCurrenciesEqual([fromCurrency, toCurrency])),
         // TODO: refactor
         tap(([[oldFrom, oldTo], [fromCurrency, toCurrency]]) => {
           const {target, update} = this.helper.setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]);
@@ -114,19 +116,6 @@ export class MainComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$),
         distinctUntilChanged(this.helper.distinctCurrency),
         filter(this.helper.bothCurrenciesSet),
-        filter(([from, to]) => {
-          if (
-            (!from.currency || !to.currency) ||
-            from.currency && from.currency.key &&
-            to.currency && to.currency.key &&
-            from.currency.key !== to.currency.key
-          ) {
-            return true;
-          }
-
-          this.resetChart();
-          return false;
-        }),
         map(([from, to]) => [from.currency, to.currency]),
         switchMap(([fromCurrency, toCurrency]) => {
           return combineLatest([
@@ -222,11 +211,29 @@ export class MainComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  private getWallets(): void {
+  getWallets(): void {
     this.walletService.getWallets().pipe(takeUntil(this.onDestroy$))
       .subscribe((v) => {
         this.wallets$.next(v);
       });
+  }
+
+  createForm(): void {
+    this.form = new FormGroup({
+      fromCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      toCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      fee: new FormControl(),
+      rate: new FormControl(null, Validators.required),
+      valid: new FormControl(false, [this.exchangeValidValidator])
+    });
   }
 
   private convertCurrency(target, toUpdate): void {
@@ -293,24 +300,6 @@ export class MainComponent implements OnInit, OnDestroy {
     return value ? null : {exchange_invalid: true};
   }
 
-  private createForm(): void {
-    this.form = new FormGroup({
-      fromCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      toCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      fee: new FormControl(),
-      rate: new FormControl(null, Validators.required),
-      valid: new FormControl(false, [this.exchangeValidValidator])
-    });
-  }
-
   private resetForm(): void {
     this.form.reset({
       fromCurrency: {currency: undefined, amount: ''},
@@ -320,11 +309,4 @@ export class MainComponent implements OnInit, OnDestroy {
       valid: false
     });
   }
-
-  private resetChart(): void {
-    this.exchangeInfo$.next(null);
-    this.setChartInfo({points: [], axis: []});
-    this.form.get('valid').patchValue(false);
-  }
-
 }

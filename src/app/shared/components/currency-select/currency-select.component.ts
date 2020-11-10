@@ -4,7 +4,7 @@ import {
   forwardRef, HostListener, Input, OnChanges, OnDestroy,
   OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
@@ -30,9 +30,10 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
+  @Input() excluded;
   public keyUp = new Subject<[KeyboardEvent, string]>();
   opened = false;
-  currencies: ICurrency[];
+  currencies: ICurrency[] = [];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amountForm: FormGroup = new FormGroup({
@@ -40,23 +41,25 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   });
   onDestroy$: Subject<void> = new Subject();
   value: {
-    currency: ICurrency,
+    currency: ICurrency;
     amount: number | string;
   };
   searchValue = '';
-  onChange = (value: ICurrencySelectValue) => {};
-  onTouched = () => {};
-
-  @HostListener('document:click', ['$event.target']) onClick(target): void {
-    if (this.elRef && this.elRef.nativeElement && !this.elRef.nativeElement.contains(target)) {
-      this.opened = false;
-    }
+  onChange = (value: ICurrencySelectValue) => {
+  }
+  onTouched = () => {
   }
 
   constructor(
     private exchange: ExchangeService,
     private elRef: ElementRef
   ) {
+  }
+
+  @HostListener('document:click', ['$event.target']) onClick(target): void {
+    if (this.elRef && this.elRef.nativeElement && !this.elRef.nativeElement.contains(target)) {
+      this.opened = false;
+    }
   }
 
   ngOnInit(): void {
@@ -125,24 +128,36 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     if (this.opened || this.disabledCondition) {
       return;
     }
-    this.currenciesFiltered$.next(this.currencies);
+    this.currenciesFiltered$.next(this.filterExcluded(this.currencies));
     this.searchValue = '';
   }
 
   search(input: string): void {
     if (!input) {
-      this.currenciesFiltered$.next(this.currencies);
+      this.currenciesFiltered$.next(this.filterExcluded(this.currencies));
       return;
     }
     const res = this.currencies.filter((currency) => {
       return currency.key.toLowerCase().indexOf(input.toLowerCase()) > -1
         || currency.fields.name.toLowerCase().indexOf(input.toLowerCase()) > -1;
     });
-    this.currenciesFiltered$.next(res);
+    this.currenciesFiltered$.next(this.filterExcluded(res));
+  }
+
+  toggleOpened(): void {
+    this.opened = !this.opened;
+
+    if (this.opened) {
+      this.currenciesFiltered$.next(this.filterExcluded(this.currencies));
+    }
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
+  }
+
+  private filterExcluded(currencies: ICurrency[]): ICurrency[] {
+    return this.excluded ? currencies.filter((item) => this.excluded.map(i => i.currency.key).indexOf(item.key) === -1) : currencies;
   }
 }

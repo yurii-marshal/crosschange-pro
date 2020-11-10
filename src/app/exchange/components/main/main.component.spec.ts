@@ -46,7 +46,7 @@ async function setFormValue(component, fixture, from, to, fromAmount, toAmount, 
 }
 
 
-describe('MainComponent', () => {
+fdescribe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
   beforeEach(async(() => {

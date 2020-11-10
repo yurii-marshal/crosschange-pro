@@ -1,5 +1,5 @@
 <form [formGroup]="amountForm">
-  <div class="switcher" (click)="!disabledCondition ? opened = !opened : false; onCloseDropdown()"
+  <div class="switcher" (click)="!disabledCondition ? toggleOpened() : false; onCloseDropdown()"
        [class.opened]="opened"
        [class.disabled]="disabledCondition">
     <div class="fx-row">

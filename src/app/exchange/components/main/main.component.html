@@ -7,7 +7,9 @@
         <div class="form-field">
           <label>{{'exchange.for' | translate}}</label>
           <app-currency-select formControlName="fromCurrency"
+                               [excluded]="excludedFrom"
                                [disabledCondition]="!inputsEnabled"
+                               (ngModelChange)="excludedTo = [form.get('fromCurrency').value]"
           ></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.max' | translate}}:</span>
@@ -20,11 +22,15 @@
         <div class="form-field">
           <label>{{'exchange.you_will_get' | translate}}</label>
           <app-currency-select formControlName="toCurrency"
+                               [excluded]="excludedTo"
                                [disabledCondition]="!inputsEnabled"
+                               (ngModelChange)="excludedFrom = [form.get('toCurrency').value]"
           ></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.balance' | translate}}:</span>
-            <span>{{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
+            <span>
+              {{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}
+            </span>
           </div>
         </div>
       </form>
