@@ -33,6 +33,7 @@ export interface IExchangeRequest {
   amount: number;
   rate: number;
   fee: number;
+  paymentMethod: string;
 }
 
 @Injectable({
@@ -85,7 +86,7 @@ export class ExchangeService extends ApiService {
   }
 
   exchange(req: IExchangeRequest): Observable<void> {
-    return super.post('/quick-trade', req);
+    return super.post('quick-trade', req);
   }
 
 }

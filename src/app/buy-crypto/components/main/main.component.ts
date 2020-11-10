@@ -25,7 +25,7 @@ import { CurrencySelectValidators } from '../../../shared/components/currency-se
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
 import { ActivatedRoute } from '@angular/router';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { PaymentMethods } from 'src/app/buy-crypto/enums/PaymentMethods';
 
 @Component({
   selector: 'app-main',
@@ -34,6 +34,7 @@ import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent implements OnInit, OnDestroy {
+  public PaymentMethods = PaymentMethods;
   form: FormGroup;
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
@@ -274,24 +275,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-  }
-
-  createForm(): void {
-    this.form = new FormGroup({
-      fromCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      toCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      fee: new FormControl(),
-      rate: new FormControl(null, Validators.required),
-      valid: new FormControl(false, [this.exchangeValidValidator])
-    });
   }
 
   setChartInfo(data: IChartData): void {
