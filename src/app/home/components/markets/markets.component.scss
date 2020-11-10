@@ -32,6 +32,14 @@
   }
 }
 
+.mat-table {
+  padding-bottom: 12px;
+}
+
+.mat-row {
+  margin: 0 12px;
+}
+
 .tabs-container {
   background-color: #fafbfc;
 
@@ -135,6 +143,10 @@
   height: 9.5px;
 }
 
+::ng-deep .cdk-overlay-pane {
+  transform: unset !important;
+}
+
 ::ng-deep .mat-tab-list .mat-tab-link {
   min-width: 0;
   padding: 0 36px 0;
@@ -204,7 +216,8 @@
 ::ng-deep .mat-select-panel {
   position: absolute;
   top: 33px;
-  right: -16px;
+  max-width: 143px !important;
+  max-height: 238px !important;
   min-width: 100% !important;
 
   .mat-option {
