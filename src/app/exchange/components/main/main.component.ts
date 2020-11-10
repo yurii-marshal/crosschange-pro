@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -135,28 +135,6 @@ export class MainComponent implements OnInit, OnDestroy {
       });
   }
 
-  convertCurrency(target, toUpdate): void {
-    if (this.helper.convertFilter(this.form, target, toUpdate)) {
-      this.inputsEnabled = false;
-      this.helper.preCheckRequest(this.form, target, toUpdate)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((res) => {
-          this.form.get(toUpdate).setValue({
-            currency: this.form.get(toUpdate).value.currency,
-            amount: res.amount
-          }, {emitEvent: false});
-          this.form.patchValue({
-            fee: res.fee,
-            rate: res.rate,
-            valid: res.valid
-          });
-          this.inputsEnabled = true;
-        }, err => {
-          this.inputsEnabled = true;
-        });
-    }
-  }
-
   onPeriodChange(val: MatButtonToggleChange): void {
     this.chartPeriod = val.value;
     const from = this.form.get('fromCurrency').value;
@@ -174,48 +152,9 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
-  setChartInfo(data: IChartData[]): void {
-    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
-    const values = data.map(v => v.value);
-    const labels = data.map(v => v.name);
-    this.option.series = [{
-      data: values,
-      type: 'line',
-      symbol: 'none',
-      areaStyle: {},
-      lineStyle: {
-        color: '#22CF63'
-      }
-    }];
-    this.option.yAxis.min = Math.min(...values) / 1.02;
-    this.option.xAxis.data = labels;
-    this.chartInstance.setOption({
-      series: this.option.series,
-      xAxis: this.option.xAxis,
-      yAxis: this.option.yAxis,
-    });
-  }
 
   exchangeValidValidator({value}: FormControl): { [key: string]: boolean } | null {
     return value ? null : {exchange_invalid: true};
-  }
-
-  createForm(): void {
-    this.form = new FormGroup({
-      fromCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      toCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      fee: new FormControl(),
-      rate: new FormControl(null, Validators.required),
-      valid: new FormControl(false, [this.exchangeValidValidator])
-    });
   }
 
   resetForm(): void {
@@ -290,13 +229,6 @@ export class MainComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  getWallets(): void {
-    this.walletService.getWallets().pipe(takeUntil(this.onDestroy$))
-      .subscribe((v) => {
-        this.wallets$.next(v);
-      });
-  }
-
   createForm(): void {
     this.form = new FormGroup({
       fromCurrency: new FormControl(null, [
@@ -315,7 +247,29 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
-  private convertCurrency(target, toUpdate): void {
+  setChartInfo(data: IChartData): void {
+    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
+    this.option.series = [{
+      data: data.points,
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = Math.min(...data.points) / 1.02;
+    this.option.xAxis.data = data.axis;
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
+  }
+
+  convertCurrency(target, toUpdate): void {
     if (this.helper.convertFilter(this.form, target, toUpdate)) {
       if (Number(this.form.get(target).value.amount) === 0) {
         this.form.get(toUpdate).patchValue({
@@ -351,41 +305,5 @@ export class MainComponent implements OnInit, OnDestroy {
           this.inputsEnabled = true;
         });
     }
-  }
-
-  private setChartInfo(data: IChartData): void {
-    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
-    this.option.series = [{
-      data: data.points,
-      type: 'line',
-      symbol: 'none',
-      areaStyle: {},
-      lineStyle: {
-        color: '#22CF63'
-      }
-    }];
-    this.option.yAxis.min = Math.min(...data.points) / 1.02;
-    this.option.xAxis.data = data.axis;
-    if (this.chartInstance) {
-      this.chartInstance.setOption({
-        series: this.option.series,
-        xAxis: this.option.xAxis,
-        yAxis: this.option.yAxis,
-      });
-    }
-  }
-
-  private exchangeValidValidator({value}: FormControl): { [key: string]: boolean } | null {
-    return value ? null : {exchange_invalid: true};
-  }
-
-  private resetForm(): void {
-    this.form.reset({
-      fromCurrency: {currency: undefined, amount: ''},
-      toCurrency: {currency: undefined, amount: ''},
-      fee: undefined,
-      rate: 0,
-      valid: false
-    });
   }
 }
