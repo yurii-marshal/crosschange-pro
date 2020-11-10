@@ -23,6 +23,7 @@ import { CoinSelectComponent } from './components/coin-select/coin-select.compon
 import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { CurrencySelectedPipe } from './pipes/currency-selected.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
@@ -55,7 +56,8 @@ const pipes = [
   declarations: [
     ...components,
     ...pipes,
-    OnlyNumbersDirective,
+    CurrencySelectedPipe,
+    OnlyNumbersDirective
   ],
   imports: [
     CommonModule,

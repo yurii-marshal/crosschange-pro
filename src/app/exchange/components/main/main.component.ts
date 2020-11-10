@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  map,
-  pairwise,
+  map, pairwise,
   startWith,
   switchMap,
   take,
-  takeUntil,
-  tap,
+  takeUntil, tap,
 } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
@@ -25,7 +23,6 @@ import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
-import { ICurrency } from '../../../shared/interfaces/currency.interface';
 
 @Component({
   selector: 'app-main',
@@ -52,9 +49,6 @@ export class MainComponent implements OnInit, OnDestroy {
   maxDisabled = false;
   targetControlName;
   updateControlName;
-
-  excludedFrom: ICurrency[];
-  excludedTo: ICurrency[];
 
   constructor(
     private coins: CoinsService,
@@ -109,8 +103,8 @@ export class MainComponent implements OnInit, OnDestroy {
       });
 
     combineLatest([
-      this.form.get('fromCurrency').valueChanges.pipe(),
-      this.form.get('toCurrency').valueChanges.pipe(),
+      this.form.get('fromCurrency').valueChanges,
+      this.form.get('toCurrency').valueChanges,
     ])
       .pipe(
         takeUntil(this.onDestroy$),
@@ -134,6 +128,35 @@ export class MainComponent implements OnInit, OnDestroy {
       });
   }
 
+  getWallets(): void {
+    this.walletService.getWallets().pipe(takeUntil(this.onDestroy$))
+      .subscribe((v) => {
+        this.wallets$.next(v);
+      });
+  }
+
+  convertCurrency(target, toUpdate): void {
+    if (this.helper.convertFilter(this.form, target, toUpdate)) {
+      this.inputsEnabled = false;
+      this.helper.preCheckRequest(this.form, target, toUpdate)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((res) => {
+          this.form.get(toUpdate).setValue({
+            currency: this.form.get(toUpdate).value.currency,
+            amount: res.amount
+          }, {emitEvent: false});
+          this.form.patchValue({
+            fee: res.fee,
+            rate: res.rate,
+            valid: res.valid
+          });
+          this.inputsEnabled = true;
+        }, err => {
+          this.inputsEnabled = true;
+        });
+    }
+  }
+
   onPeriodChange(val: MatButtonToggleChange): void {
     this.chartPeriod = val.value;
     const from = this.form.get('fromCurrency').value;
@@ -146,7 +169,63 @@ export class MainComponent implements OnInit, OnDestroy {
       to.currency.key,
       this.chartPeriod,
       this.periodSteps[this.chartPeriod]
-    ).subscribe(v => this.setChartInfo(v));
+    ).subscribe(v => {
+      this.setChartInfo(v);
+    });
+  }
+
+  setChartInfo(data: IChartData[]): void {
+    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
+    const values = data.map(v => v.value);
+    const labels = data.map(v => v.name);
+    this.option.series = [{
+      data: values,
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = Math.min(...values) / 1.02;
+    this.option.xAxis.data = labels;
+    this.chartInstance.setOption({
+      series: this.option.series,
+      xAxis: this.option.xAxis,
+      yAxis: this.option.yAxis,
+    });
+  }
+
+  exchangeValidValidator({value}: FormControl): { [key: string]: boolean } | null {
+    return value ? null : {exchange_invalid: true};
+  }
+
+  createForm(): void {
+    this.form = new FormGroup({
+      fromCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      toCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      fee: new FormControl(),
+      rate: new FormControl(null, Validators.required),
+      valid: new FormControl(false, [this.exchangeValidValidator])
+    });
+  }
+
+  resetForm(): void {
+    this.form.reset({
+      fromCurrency: {currency: undefined, amount: ''},
+      toCurrency: {currency: undefined, amount: ''},
+      fee: undefined,
+      rate: 0,
+      valid: false
+    });
   }
 
   swapCurrencies(): void {

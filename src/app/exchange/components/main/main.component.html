@@ -7,10 +7,8 @@
         <div class="form-field">
           <label>{{'exchange.for' | translate}}</label>
           <app-currency-select formControlName="fromCurrency"
-                               [excluded]="excludedFrom"
-                               [disabledCondition]="!inputsEnabled"
-                               (ngModelChange)="excludedTo = [form.get('fromCurrency').value]"
-          ></app-currency-select>
+                               [secondSelected]="form.get('toCurrency').valueChanges | async"
+                               [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.max' | translate}}:</span>
             <span class="max-balance" (click)="setFromMaxValue()">
@@ -22,10 +20,8 @@
         <div class="form-field">
           <label>{{'exchange.you_will_get' | translate}}</label>
           <app-currency-select formControlName="toCurrency"
-                               [excluded]="excludedTo"
-                               [disabledCondition]="!inputsEnabled"
-                               (ngModelChange)="excludedFrom = [form.get('toCurrency').value]"
-          ></app-currency-select>
+                               [secondSelected]="form.get('fromCurrency').valueChanges | async"
+                               [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.balance' | translate}}:</span>
             <span>

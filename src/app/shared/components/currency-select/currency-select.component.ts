@@ -4,7 +4,7 @@ import {
   forwardRef, HostListener, Input, OnChanges, OnDestroy,
   OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, map, take } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
@@ -30,7 +30,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
-  @Input() excluded;
+  @Input() secondSelected;
   public keyUp = new Subject<[KeyboardEvent, string]>();
   opened = false;
   currencies: ICurrency[] = [];
@@ -128,36 +128,24 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     if (this.opened || this.disabledCondition) {
       return;
     }
-    this.currenciesFiltered$.next(this.filterExcluded(this.currencies));
+    this.currenciesFiltered$.next(this.currencies);
     this.searchValue = '';
   }
 
   search(input: string): void {
     if (!input) {
-      this.currenciesFiltered$.next(this.filterExcluded(this.currencies));
+      this.currenciesFiltered$.next(this.currencies);
       return;
     }
     const res = this.currencies.filter((currency) => {
       return currency.key.toLowerCase().indexOf(input.toLowerCase()) > -1
         || currency.fields.name.toLowerCase().indexOf(input.toLowerCase()) > -1;
     });
-    this.currenciesFiltered$.next(this.filterExcluded(res));
-  }
-
-  toggleOpened(): void {
-    this.opened = !this.opened;
-
-    if (this.opened) {
-      this.currenciesFiltered$.next(this.filterExcluded(this.currencies));
-    }
+    this.currenciesFiltered$.next(res);
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
-  }
-
-  private filterExcluded(currencies: ICurrency[]): ICurrency[] {
-    return this.excluded ? currencies.filter((item) => this.excluded.map(i => i.currency.key).indexOf(item.key) === -1) : currencies;
   }
 }
