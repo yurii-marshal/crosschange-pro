@@ -37,6 +37,10 @@ export const routes: Routes = [
         path: 'trade',
         loadChildren: () => import('./exchange/exchange.module').then((m) => m.ExchangeModule),
       },
+      {
+        path: 'company',
+        loadChildren: () => import('./static-pages/static-pages.module').then((m) => m.StaticPagesModule),
+      },
     ]
   },
   {
@@ -46,7 +50,9 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    scrollPositionRestoration: 'top',
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

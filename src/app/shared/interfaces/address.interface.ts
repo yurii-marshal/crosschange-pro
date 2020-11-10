@@ -1,8 +1,9 @@
-export interface IAddress {
-  cryptocurrency: string;
-  wallet_label: string;
+export interface IWalletAddress {
+  id: number;
+  key: string;
+  label: string;
   address: string;
-  memo: string;
-  tag: string;
-  whitelist: boolean;
+  memo?: string;
+  tag?: string;
+  isWhitelisted: boolean;
 }

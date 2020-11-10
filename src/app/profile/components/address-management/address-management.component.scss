@@ -4,7 +4,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 36px 22px 28px;
+  margin: 36px 22px 24px 62px;
   padding-bottom: 24px;
   border-bottom: 1px solid $color-grey-20;
 
@@ -17,7 +17,7 @@
 
   &__actions {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
   }
 
@@ -30,11 +30,19 @@
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;
-    color: $color-brand;
-    background-color: transparent;
     border: 1px solid $color-brand;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  &__enable-whitelist {
+    color: $color-white-100;
+    background-color: $color-brand;
+  }
+
+  &__disable-whitelist {
+    color: $color-brand;
+    background-color: transparent;
   }
 
   &__add-address {
@@ -47,7 +55,7 @@
     font-weight: 500;
     color: $color-white-100;
     background-color: $color-brand;
-    border: none;
+    border: 1px solid $color-brand;
     border-radius: 4px;
     cursor: pointer;
   }
@@ -104,5 +112,297 @@
         }
       }
     }
+  }
+}
+
+.hide-btn {
+  margin-right: 12px;
+}
+
+.mobile-addresses {
+  display: none;
+}
+
+.mobile-actions {
+  display: none;
+}
+
+::ng-deep .confirmation .mat-dialog-container {
+  padding: 0;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.show-actions {
+  animation: show-actions 0.5s ease;
+  animation-fill-mode: forwards;
+}
+
+.hide-actions {
+  animation: hide-actions 0.5s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes show-actions {
+  from {
+    margin-bottom: -142px;
+  }
+  to {
+    margin-bottom: 0;
+  }
+}
+
+@keyframes hide-actions {
+  from {
+    margin-bottom: 0;
+  }
+  to {
+    margin-bottom: -142px;
+  }
+}
+
+@media screen and(max-width: 924px) {
+  .address-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 32px 16px 24px;
+
+    &__label {
+      margin-bottom: 24px;
+      font-size: 20px;
+      line-height: 28px;
+    }
+
+    &__actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    &__toggle-whitelist {
+      display: flex;
+      align-items: center;
+      margin: 0 0 8px;
+      width: 100%;
+    }
+
+    &__add-address {
+      width: 100%;
+    }
+  }
+
+  .addresses {
+    display: none;
+  }
+
+  .mobile-addresses {
+    display: block;
+    margin: 0 16px 16px;
+
+    &__menu {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .mat-table__search-input {
+      margin-left: 0;
+      margin-right: 12px;
+      width: 136px;
+      background: $color-grey-5;
+      border: 1px solid $color-grey-10;
+    }
+
+    .hide-balance-btn {
+      margin-right: 12px;
+      padding: 6px 14px;
+      font-size: 14px;
+      line-height: 20px;
+      color: $color-brand-dark;
+      background: transparent;
+      border: 1px solid $color-grey-10;
+      border-radius: 4px;
+
+      &-active {
+        color: $color-brand;
+        background: rgba($color-brand, 0.05);
+        border: 1px solid $color-brand;
+      }
+    }
+
+    &__items {
+
+    }
+
+    &__item {
+      margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(143, 149, 158, 0.38);
+      border-radius: 4px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 12px;
+        border-bottom: 1px solid $color-grey-10;
+      }
+
+      &-block {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 16px 12px;
+        border-bottom: 1px solid $color-grey-10;
+      }
+
+      &-left {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-trading-dark;
+      }
+
+      &-right {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-trading-dark;
+      }
+
+      &-icon {
+        margin-right: 13px;
+        width: 22px;
+        height: 22px;
+      }
+
+      &-title {
+        margin-bottom: 4px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: bold;
+        color: $color-trading-dark;
+        text-transform: uppercase;
+      }
+
+      &-text {
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-trading-dark;
+      }
+
+      &-whitelist {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 12px;
+
+        .mobile-addresses__item-title {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .delete {
+    margin-right: 23px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-trading-red-100;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .mat-checkbox {
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $color-white-100;
+    box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
+
+    &__checkbox {
+      position: absolute;
+      top: 21px;
+      left: 19px;
+    }
+
+    &__dropdown {
+      width: 100%;
+
+      &-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-trading-dark;
+      }
+
+      &-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &-icon {
+        position: absolute;
+        top: 27px;
+        left: 60%;
+        display: flex;
+        align-items: center;
+        width: 12px;
+        height: 7px;
+      }
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 0;
+      border-top: 1px solid $color-grey-20;
+
+      &-btn {
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-trading-dark;
+        background: transparent;
+        border: none;
+        outline: none;
+
+        &:disabled {
+          color: $color-grey-40;
+        }
+
+        &--deleted {
+          color: $color-trading-red-100;
+        }
+      }
+    }
+  }
+
+  .rotate {
+    transform: rotate(180deg);
+    transition: 0.5s ease;
   }
 }

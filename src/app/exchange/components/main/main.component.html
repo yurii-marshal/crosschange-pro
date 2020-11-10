@@ -22,11 +22,9 @@
           </div>
         </div>
       </form>
-      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!isValid">{{'exchange.exchange' | translate}}</button>
-      <div class="fee">
-        <ng-container *ngIf="form.get('fromCurrency').value">
-          {{'exchange.fee' | translate}}: 2.69
-        </ng-container>
+      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!form.valid || !inputsEnabled">{{'exchange.exchange' | translate}}</button>
+      <div class="fee" *ngIf="form.get('fee').value">
+        {{'exchange.fee' | translate}}: {{form.get('fee').value}}
         {{form.get('fromCurrency').valueChanges | async | selectedWalletKey:(wallets$ | async)}}
       </div>
     </div>
@@ -49,8 +47,11 @@
             <label>{{'exchange.today_change' | translate}}</label>
             <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0" [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
               <ng-container *ngIf="exchangeInfo$ | async as info">
-                <span>{{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.4-4'}}</span>
-                <span>({{info.change_percent_24 | number:'1.2-2'}}%)</span>
+                <span>
+                  {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 > 0 ? '+' : ''}}
+                  {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.4-4'}}
+                </span>
+                <span>({{info.change_percent_24 > 0 ? '+' : ''}}{{info.change_percent_24 | number:'1.2-2'}}%)</span>
                 <mat-icon *ngIf="+info.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
               </ng-container>
               <ng-container *ngIf="(exchangeInfo$ | async) === null">

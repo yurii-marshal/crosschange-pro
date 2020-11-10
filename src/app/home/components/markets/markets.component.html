@@ -13,6 +13,7 @@
     <div class="tabs-content">
       <nav mat-tab-nav-bar class="mat-tab-group">
         <a mat-tab-link
+           [disableRipple]="true"
            [active]="activeLink === 'favorite'"
            (click)="activeLink = 'favorite'"
            [routerLink]="['.']"
@@ -20,6 +21,7 @@
           {{ 'markets_page.tab_favorite' | translate }}
         </a>
         <a mat-tab-link
+           [disableRipple]="true"
            [active]="activeLink === 'btc'"
            (click)="activeLink = 'btc'"
            [routerLink]="['.']"
@@ -27,6 +29,7 @@
           {{ 'markets_page.tab_btc_markets' | translate }}
         </a>
         <a mat-tab-link
+           [disableRipple]="true"
            [active]="activeLink === 'alts'"
            (click)="activeLink = 'alts'; searchFilterControl.patchValue(defaultFilterValue)"
            [routerLink]="['.']"
@@ -34,6 +37,7 @@
           {{ 'markets_page.tab_alts_markets' | translate }}
         </a>
         <a mat-tab-link
+           [disableRipple]="true"
            [active]="activeLink === 'fiat'"
            (click)="activeLink = 'fiat'; searchFilterControl.patchValue(defaultFilterValue)"
            [routerLink]="['.']"
@@ -42,117 +46,123 @@
         </a>
       </nav>
 
-      <div class="mat-table__search">
-        <div class="mat-table__search-block">
-          <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
-          <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
-        </div>
-        <div class="mat-table__search-dropdown" *ngIf="activeLink === 'alts' || activeLink === 'fiat'">
-          <mat-form-field>
-            <mat-select panelClass="fiatListOptions" disableOptionCentering [formControl]="searchFilterControl">
-              <mat-select-trigger>
-                <mat-icon *ngIf="searchFilterControl.value.key !== 'All Coins'"
-                          [svgIcon]="'icon_' + searchFilterControl.value.key | lowercase">
-                </mat-icon>
-                {{ searchFilterControl.value.key }}
-              </mat-select-trigger>
+      <div class="divider"></div>
 
-              <mat-option [value]="defaultFilterValue">All Coins</mat-option>
-              <mat-option *ngFor="let currency of isFiat ? (fiatCurrencies$ | async) : (cryptoCurrencies$ | async)"
-                          [value]="currency">
-                <mat-icon [svgIcon]="'icon_' + currency.key | lowercase"></mat-icon>
-                {{ currency.key }}
-              </mat-option>
+      <div class="table">
+        <div class="mat-table-wrapper">
+          <div class="mat-table__search">
+            <div class="mat-table__search-block">
+              <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+              <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+            </div>
+            <div class="mat-table__search-dropdown" *ngIf="activeLink === 'alts' || activeLink === 'fiat'">
+              <mat-form-field>
+                <mat-select [formControl]="searchFilterControl" disableOptionCentering>
+                  <mat-select-trigger>
+                    <mat-icon *ngIf="searchFilterControl.value.key !== 'All Coins'"
+                              [svgIcon]="'icon_' + searchFilterControl.value.key | lowercase">
+                    </mat-icon>
+                    {{ searchFilterControl.value.key }}
+                  </mat-select-trigger>
 
-            </mat-select>
-          </mat-form-field>
+                  <mat-option [value]="defaultFilterValue">All Coins</mat-option>
+                  <mat-option *ngFor="let currency of isFiat ? (fiatCurrencies$ | async) : (cryptoCurrencies$ | async)"
+                              [value]="currency">
+                    <mat-icon [svgIcon]="'icon_' + currency.key | lowercase"></mat-icon>
+                    {{ currency.key }}
+                  </mat-option>
+
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <mat-table mat-table [dataSource]="dataSource$ | async">
+              <!-- Favorite column -->
+              <ng-container matColumnDef="favorite">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <mat-icon [svgIcon]="element.is_favorite ? 'icon_fill_star' : 'icon_star'"
+                            (click)="setFavourite(element)">
+                  </mat-icon>
+                </mat-cell>
+              </ng-container>
+
+              <!-- Pair column -->
+              <ng-container matColumnDef="exchange_type">
+                <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.exchange_type }}</mat-cell>
+              </ng-container>
+
+              <!-- Last column -->
+              <ng-container matColumnDef="exchange_rate">
+                <mat-header-cell *matHeaderCellDef (click)="orderBy('last')">
+                  {{ 'markets_page.last' | translate }}
+                  <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.last }}&nbsp;<span class="exchange-rate">/ {{ element.exchange_rate }}</span>
+                </mat-cell>
+              </ng-container>
+
+              <!-- 24h Cng column -->
+              <ng-container matColumnDef="change_percent_24">
+                <mat-header-cell *matHeaderCellDef (click)="orderBy('change_percent_24')">
+                  {{ 'markets_page.24cng' | translate }}
+                  <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <div class="custom-cell"
+                       [ngClass]="(element.change_percent_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
+                    {{(element.change_percent_24 | number) > 0 ? '+' : ''}}{{element.change_percent_24 | number:
+                    '1.2-2'}}
+                  </div>
+                </mat-cell>
+              </ng-container>
+
+              <!-- 24h High column -->
+              <ng-container matColumnDef="high_24">
+                <mat-header-cell *matHeaderCellDef (click)="orderBy('high_24')">
+                  {{ 'markets_page.24high' | translate }}
+                  <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.high_24 }}</mat-cell>
+              </ng-container>
+
+              <!-- 24h Low column -->
+              <ng-container matColumnDef="low_24">
+                <mat-header-cell *matHeaderCellDef (click)="orderBy('low_24')">
+                  {{ 'markets_page.24low' | translate }}
+                  <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.low_24 }}</mat-cell>
+              </ng-container>
+
+              <!-- Mkt Cap column -->
+              <ng-container matColumnDef="market_cap">
+                <mat-header-cell *matHeaderCellDef (click)="orderBy('market_cap')">
+                  {{ 'markets_page.mktCap' | translate }}
+                  <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.market_cap }}</mat-cell>
+              </ng-container>
+
+              <!-- 24h Vol column -->
+              <ng-container matColumnDef="vol_24">
+                <mat-header-cell *matHeaderCellDef (click)="orderBy('vol_24')">
+                  {{ 'markets_page.24vol' | translate }}
+                  <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ element.vol_24 }}</mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
+          <app-paginator [count]="count"></app-paginator>
         </div>
       </div>
-
-      <div class="table-responsive">
-        <mat-table mat-table [dataSource]="dataSource$ | async">
-          <!-- Favorite column -->
-          <ng-container matColumnDef="favorite">
-            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              <mat-icon [svgIcon]="element.is_favorite ? 'icon_fill_star' : 'icon_star'"
-                        (click)="setFavourite(element)">
-              </mat-icon>
-            </mat-cell>
-          </ng-container>
-
-          <!-- Pair column -->
-          <ng-container matColumnDef="exchange_type">
-            <mat-header-cell *matHeaderCellDef>{{ 'markets_page.pair' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.exchange_type }}</mat-cell>
-          </ng-container>
-
-          <!-- Last column -->
-          <ng-container matColumnDef="exchange_rate">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('last')">
-              {{ 'markets_page.last' | translate }}
-              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              {{ element.last }}&nbsp;<span class="exchange-rate">/ {{ element.exchange_rate }}</span>
-            </mat-cell>
-          </ng-container>
-
-          <!-- 24h Cng column -->
-          <ng-container matColumnDef="change_percent_24">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('change_percent_24')">
-              {{ 'markets_page.24cng' | translate }}
-              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">
-              <div class="custom-cell"
-                   [ngClass]="(element.change_percent_24 >= 0) ? 'custom-cell--positive' : 'custom-cell--negative'">
-                {{element.change_percent_24 > 0 ? '+' : ''}}{{element.change_percent_24 | number: '1.2-2'}}
-              </div>
-            </mat-cell>
-          </ng-container>
-
-          <!-- 24h High column -->
-          <ng-container matColumnDef="high_24">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('high_24')">
-              {{ 'markets_page.24high' | translate }}
-              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.high_24 }}</mat-cell>
-          </ng-container>
-
-          <!-- 24h Low column -->
-          <ng-container matColumnDef="low_24">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('low_24')">
-              {{ 'markets_page.24low' | translate }}
-              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.low_24 }}</mat-cell>
-          </ng-container>
-
-          <!-- Mkt Cap column -->
-          <ng-container matColumnDef="market_cap">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('market_cap')">
-              {{ 'markets_page.mktCap' | translate }}
-              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.market_cap }}</mat-cell>
-          </ng-container>
-
-          <!-- 24h Vol column -->
-          <ng-container matColumnDef="vol_24">
-            <mat-header-cell *matHeaderCellDef (click)="orderBy('vol_24')">
-              {{ 'markets_page.24vol' | translate }}
-              <mat-icon [svgIcon]="'icon_union'" class="mat-header__icon"></mat-icon>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.vol_24 }}</mat-cell>
-          </ng-container>
-
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-      </div>
-      <app-paginator [count]="count"></app-paginator>
     </div>
   </div>
 </div>

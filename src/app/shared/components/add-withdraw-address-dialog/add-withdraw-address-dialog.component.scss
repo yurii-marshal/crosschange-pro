@@ -1,0 +1,397 @@
+@import "../../../../assets/styles/variables";
+
+.confirmation-popup {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  padding: 25px 20px 20px;
+
+  &__icon--dark {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: none;
+    width: 30px;
+    height: 30px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 215px;
+    background-image: url("../../../../assets/images/modal-background.png");
+    background-size: 100% 215px;
+
+    &-info {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    &-title {
+      margin-bottom: 18px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-grey-100;
+    }
+
+    &-description {
+      margin-bottom: 28px;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      color: $color-grey-80;
+    }
+
+    &-label {
+      margin-bottom: 4px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-white-100;
+    }
+
+    &-text {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: normal;
+      color: rgba($color-white-100, 0.8);
+    }
+  }
+
+  &__icon-hourglass {
+    margin-bottom: 10px;
+    width: 92px;
+    height: 92px;
+  }
+
+  &__icon-checkmark {
+    width: 108px;
+    height: 108px;
+  }
+
+  &__form {
+    width: 100%;
+  }
+
+  &__label {
+    margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-brand-dark;
+  }
+
+  &__input {
+    padding: 10px 12px;
+    width: 100%;
+    height: 48px;
+    font-size: 16px;
+    line-height: 28px;
+    border: 1px solid $color-grey-30;
+    border-radius: 4px;
+  }
+
+  &__tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+
+    &-item {
+      margin-right: 8px;
+      margin-bottom: 4px;
+      padding: 6px 8px;
+      font-size: 14px;
+      line-height: 20px;
+      color: $color-trading-dark;
+      border: 0.5px solid $color-grey-20;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &__whitelist {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 28px;
+
+    &-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    &-label {
+      margin-left: 11px;
+      font-size: 16px;
+      line-height: 28px;
+      color: $color-brand-dark;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  &__cancel {
+    color: $color-brand;
+    background: transparent;
+    border: 1px solid $color-brand;
+  }
+
+  &__continue {
+    margin-left: 16px;
+  }
+
+  &__btn {
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  &__send-code {
+    position: absolute;
+    top: 36px;
+    right: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    color: $color-brand;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 100%;
+    background-color: $color-white-100;
+    overflow: hidden;
+
+    &-header {
+      margin-bottom: 8px;
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-trading-dark;
+    }
+
+    &-text {
+      margin-bottom: 40px;
+      font-size: 16px;
+      line-height: 28px;
+      color: $color-trading-dark;
+    }
+
+    &-action {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    &-btn {
+      padding: 12px 24px;
+      width: 88px;
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 500;
+      color: $color-white-100;
+      background: $color-brand;
+      border: none;
+      outline: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+}
+
+.block {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px
+}
+
+.hint {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  color: $color-grey-60;
+}
+
+.disabled {
+  color: $color-grey-30;
+  background: $color-grey-10;
+  border: 1px solid transparent;
+}
+
+.enabled {
+  color: $color-white-100;
+  background: $color-brand;
+  border: 1px solid $color-brand;
+}
+
+::ng-deep .mat-select-panel-wrap {
+  position: relative;
+  top: 38px;
+  left: 4px;
+}
+
+::ng-deep .dropdown {
+  max-width: none !important;
+  min-width: calc(100% + 24px) !important;
+  max-height: 240px !important;
+}
+
+::ng-deep mat-select-trigger {
+  display: flex;
+  align-items: center;
+
+  .mat-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+}
+
+.processing {
+  position: relative;
+  padding: 0;
+
+  &__close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+  }
+}
+
+.show-info {
+  animation: show-info 0.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.spin {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes show-info {
+  from {
+    height: 0;
+    padding: 0;
+  }
+  to {
+    height: 192px;
+    padding: 20px;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideTo {
+  from {
+    transform: translateY(200%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+::ng-deep .confirmation {
+  animation: slideTo 0.2s forwards ease !important;
+}
+
+@media screen and(max-width: $media-mobile) {
+  ::ng-deep .confirmation {
+    max-width: 100vw !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-height: 95vh !important;
+  }
+
+  .confirmation-popup__header-title {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .confirmation-popup__tags {
+    flex-wrap: wrap;
+  }
+
+  .confirmation-popup__tags-item {
+    margin-bottom: 4px;
+  }
+
+  .confirmation-popup__icon--dark {
+    display: block;
+  }
+
+  .confirmation-popup__info-action {
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .confirmation-popup__header-info {
+    text-align: center;
+  }
+
+  .confirmation-popup__header-text {
+    width: 85%;
+  }
+
+  .confirmation-popup__info-btn {
+    width: 192px;
+  }
+
+  @keyframes show-info {
+    from {
+      height: 0;
+      padding: 0;
+    }
+    to {
+      height: 232px;
+      padding: 14px 16px 20px;
+    }
+  }
+}

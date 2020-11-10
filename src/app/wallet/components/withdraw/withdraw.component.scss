@@ -1,0 +1,200 @@
+@import "../../../../assets/styles/variables";
+
+.withdraw-page {
+  padding-left: 62px;
+  padding-right: 22px;
+  width: 100%;
+  display: block;
+}
+.display-none {
+display: none;
+}
+
+form {
+  width: 568px;
+  padding-bottom: 36px;
+
+  .balance-item.withdraw {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+
+    .title {
+
+    }
+
+    .value {
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
+
+  .warning-text {
+    margin-top: 30px;
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    padding-left: 12px;
+    font-size: 12px;
+    position: relative;
+    line-height: 16px;
+    border-bottom: 1px solid $color-grey-20;
+
+    &:before {
+      left: 0;
+      top: 11%;
+      content: '';
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background-color: #000000;
+      border-radius: 50%;
+    }
+  }
+
+  .text {
+    padding-bottom: 8px;
+
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .submit-btn {
+    font-size: 16px;
+    margin-top: 16px;
+    height: 48px;
+    width: 100%;
+  }
+
+  .address-management {
+    color: $color-brand;
+    padding-bottom: 4px;
+    cursor: pointer;
+    display: inline-block;
+
+    &:hover {
+      color: $color-brand-dark;
+    }
+  }
+
+  .empty-whitelisted {
+    width: 100%;
+
+    .warning-area {
+      width: 100%;
+      height: 71px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: $color-light-yellow-10;
+      border: 1px solid $color-yellow-100;
+      box-sizing: border-box;
+      border-radius: 4px;
+      margin-bottom: 8px;
+
+      mat-icon {
+        width: 24px;
+        margin: 0 10px 0 14px;
+      }
+
+      .message {
+        font-size: 16px;
+        line-height: 24px;
+        color: $color-grey-80;
+      }
+    }
+  }
+}
+
+.form-field-title.withdraw {
+  padding-top: 16px;
+}
+
+.coin-select-container.withdraw {
+  margin-bottom: 16px;
+
+  input {
+    padding: 0 12px;
+    height: 48px;
+    font-size: 16px;
+    line-height: 28px;
+    width: 100%;
+    background: $color-white-100;
+    border: 1px solid $color-grey-20;
+    box-sizing: border-box;
+    border-radius: 4px;
+
+    &::placeholder {
+      color: $color-grey-30;
+    }
+  }
+}
+
+.coin-select.withdraw {
+  width: 100%;
+  margin: 0;
+}
+
+.address-select {
+  width: 100%;
+}
+
+@media all and (max-width: 612px) {
+
+}
+
+@media all and (max-width: $media-mobile) {
+  .withdraw-page {
+    padding-left: 16px;
+    padding-right: 16px;
+
+    .page-title {
+      margin-top: 30px;
+      margin-bottom: 16px;
+    }
+
+    form {
+      width: 100%;
+
+      .balance-item.withdraw {
+        margin-bottom: 15px;
+
+        .value {
+          font-size: 20px;
+          line-height: 28px;
+        }
+      }
+
+      .warning-text {
+        margin-top: 0;
+      }
+
+      .address-management {
+        display: none;
+      }
+
+      .warning-area {
+        height: auto;
+        padding: 20px 0;
+        align-items: flex-start;
+
+        mat-icon {
+          margin-top: 2px;
+        }
+      }
+    }
+
+    .popular {
+      display: none;
+    }
+
+    .section-title.coin {
+      display: none;
+    }
+
+    .balance.withdraw {
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+  }
+}
