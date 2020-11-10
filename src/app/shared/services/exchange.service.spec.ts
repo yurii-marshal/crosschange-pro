@@ -42,7 +42,7 @@ describe('ExchangeService', () => {
 
   // TODO: SET xit to it when charts implemented
   xit('should send get chart data request', (done) => {
-    const mock = [ { name: '', value: 0 } ];
+    const mock = { points: [], axis: []};
     service.getChartData('btc', 'btc', IChartPeriods.DAY).subscribe(res => {
       expect(res).toEqual(mock);
       done();
