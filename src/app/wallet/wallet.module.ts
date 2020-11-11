@@ -13,7 +13,6 @@ import { SelectedWalletPipe } from './pipes/selected-wallet.pipe';
 import { QrCodeComponent } from './components/qr-code/qr-code.component';
 import { WithdrawComponent } from './components/withdraw/withdraw.component';
 
-
 export const routes = [
   {
     path: '',

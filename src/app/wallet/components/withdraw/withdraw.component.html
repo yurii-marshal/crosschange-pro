@@ -16,8 +16,7 @@
       ></app-coin-select>
     </div>
 
-    <ng-container
-      *ngFor="let wallet of wallets$ | async | selectedWallet:(withdrawForm.get('coin').value) | slice: 0: 1">
+    <ng-container *ngIf="(wallets$ | async | selectedWallet:(withdrawForm.get('coin').value)) as wallet">
       <span class="section-title coin">
         {{wallet.cryptocurrency | uppercase}}
       </span>

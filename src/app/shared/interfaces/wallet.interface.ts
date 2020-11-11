@@ -1,7 +1,7 @@
 export interface IWallet {
   cryptocurrency: string; // 'btc', 'eth' etc.
   address: string; // wallet address
-  tag: string; // used for e.g. in Ripple.
+  destination_tag: string; // used for e.g. in Ripple.
   id: number;
   balance: {
     total: number;

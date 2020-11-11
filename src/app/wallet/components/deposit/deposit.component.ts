@@ -7,9 +7,8 @@ import { WalletService } from '../../services/wallet.service';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { ITransactionItem } from '../../../shared/interfaces/transaction-item.interface';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
 import { Devices } from '../../../shared/services/media-breakpoints.service';
-import { IApiResponse, QrCodeService, CryptoQRData } from 'shared-kuailian-lib';
+import { IApiResponse } from 'shared-kuailian-lib';
 import { FormControl } from '@angular/forms';
 import { DepositService } from '../../services/deposit.service';
 
@@ -37,8 +36,6 @@ export class DepositComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog,
-    private qrCodeService: QrCodeService,
   ) {
   }
 
@@ -59,14 +56,6 @@ export class DepositComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$), distinctUntilChanged())
       .subscribe(([qParams, selected]) => {
         this.deposits$ = this.getHistory(selected, qParams);
-
-        // const cryptoQRData: CryptoQRData = {
-        //   currency: selected.key,
-        //   wallet: selected.name,
-        //   amount: 0,
-        // };
-        //
-        // this.qrCode$ = this.qrCodeService.generateQRCode(cryptoQRData);
       });
   }
 
@@ -81,8 +70,8 @@ export class DepositComponent implements OnInit, OnDestroy {
 
   navigateDefault(): void {
     this.router.navigate(
-      [window.location.pathname],
-      {queryParams: {offset: 0, limit: this.route.snapshot.queryParams.limit || this.LIMIT}}
+      [ window.location.pathname ],
+      { queryParams: { offset: 0, limit: this.route.snapshot.queryParams.limit || this.LIMIT } }
     );
   }
 
@@ -91,6 +80,7 @@ export class DepositComponent implements OnInit, OnDestroy {
   }
 
   sort(field: 'date' | 'amount' | 'status'): void {
+    // TODO: IMPLEMENT
   }
 
   ngOnDestroy(): void {
