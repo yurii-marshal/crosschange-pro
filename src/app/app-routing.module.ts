@@ -40,6 +40,10 @@ export const routes: Routes = [
         path: 'company',
         loadChildren: () => import('./static-pages/static-pages.module').then((m) => m.StaticPagesModule),
       },
+      {
+        path: 'buy-crypto',
+        loadChildren: () => import('./buy-crypto/buy-crypto.module').then((m) => m.BuyCryptoModule),
+      },
     ]
   },
   {

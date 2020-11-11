@@ -26,7 +26,8 @@ export class ExchangeConfirmationComponent {
       to: this.data.toCurrencyKey,
       amount: this.data.fromCurrencyAmount,
       rate: this.data.rate,
-      fee: this.data.fee
+      fee: this.data.fee,
+      paymentMethod: this.data.paymentMethod
     };
     this.exchangeService.exchange(req)
       .pipe(take(1))
