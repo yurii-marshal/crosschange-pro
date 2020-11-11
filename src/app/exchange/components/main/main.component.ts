@@ -131,7 +131,7 @@ export class MainComponent implements OnInit, OnDestroy {
       });
 
     this.exchange.getCurrencies()
-      .pipe(takeUntil(this.onDestroy$))
+      .pipe(take(1))
       .subscribe((currencies) => {
         this.form.patchValue({
           fromCurrency: {
