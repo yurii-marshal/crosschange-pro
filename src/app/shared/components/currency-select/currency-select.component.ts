@@ -31,7 +31,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
   @Input() secondSelected;
-  @Input() currencies: ICurrency[];
+  currencies: ICurrency[] = [];
   public keyUp = new Subject<[KeyboardEvent, string]>();
   opened = false;
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
@@ -63,15 +63,13 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   ngOnInit(): void {
-    if (!this.currencies) {
-      this.exchange.getCurrencies()
-        .pipe(
-          take(1),
-        ).subscribe(v => {
-        this.currenciesFiltered$.next(v);
-        this.currencies = v;
-      });
-    }
+    this.exchange.getCurrencies()
+      .pipe(
+        take(1),
+      ).subscribe(v => {
+      this.currenciesFiltered$.next(v);
+      this.currencies = v;
+    });
 
     this.keyUp.pipe(
       map(([event, type]) => {
@@ -93,10 +91,6 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.currencies && changes.currencies.currentValue) {
-      this.currencies = changes.currencies.currentValue;
-      this.currenciesFiltered$.next(changes.currencies.currentValue);
-    }
     if (changes && changes.disabledCondition && changes.disabledCondition.currentValue) {
       this.opened = false;
     }

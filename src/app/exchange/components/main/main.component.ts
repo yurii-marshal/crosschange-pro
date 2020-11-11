@@ -25,7 +25,6 @@ import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
-import { ICurrency } from '../../../shared/interfaces/currency.interface';
 
 @Component({
   selector: 'app-main',
@@ -38,7 +37,7 @@ export class MainComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
   wallets$: BehaviorSubject<IWallet[]> = new BehaviorSubject<IWallet[]>([]);
-  option = chartOptions;
+  option = JSON.parse(JSON.stringify(chartOptions));
   chartInstance;
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
@@ -52,7 +51,6 @@ export class MainComponent implements OnInit, OnDestroy {
   maxDisabled = false;
   targetControlName;
   updateControlName;
-  currenciesList: ICurrency[] = [];
 
   constructor(
     private coins: CoinsService,
@@ -72,29 +70,14 @@ export class MainComponent implements OnInit, OnDestroy {
     this.createForm();
     this.getWallets();
 
-    combineLatest([
-      this.mediaBreakpointsService.device,
-      this.exchange.getCurrencies(),
-    ])
+    this.mediaBreakpointsService.device
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(([device, currencies]) => {
+      .subscribe((device) => {
         if (device === Devices.MOBILE) {
           this.option.xAxis.axisLabel.rotate = 45;
         } else {
           this.option.xAxis.axisLabel.rotate = 0;
         }
-
-        this.currenciesList = currencies;
-        this.form.patchValue({
-          fromCurrency: {
-            currency: currencies[0],
-            amount: ''
-          },
-          toCurrency: {
-            currency: currencies[1],
-            amount: ''
-          }
-        });
       });
 
     combineLatest([
@@ -145,6 +128,21 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe(([rateInfo, chartData]) => {
         this.exchangeInfo$.next(rateInfo);
         this.setChartInfo(chartData);
+      });
+
+    this.exchange.getCurrencies()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((currencies) => {
+        this.form.patchValue({
+          fromCurrency: {
+            currency: currencies[0],
+            amount: ''
+          },
+          toCurrency: {
+            currency: currencies[1],
+            amount: ''
+          }
+        });
       });
   }
 
