@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MarketsService } from '../../../home/services/markets.service';
 import { Observable, Subject, zip } from 'rxjs';
 import { ICurrency } from '../../interfaces/currency.interface';
-import {map, share, takeUntil} from 'rxjs/operators';
+import { map, share, takeUntil } from 'rxjs/operators';
 import { AddressManagementService } from '../../../profile/services/address-management.service';
 import { SsoService } from 'shared-kuailian-lib';
 import { ExchangeService } from '../../services/exchange.service';
@@ -33,7 +33,8 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
     private marketsService: MarketsService,
     private addressManagementService: AddressManagementService,
     private sso: SsoService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.withdrawalForm = this.fb.group({
@@ -47,8 +48,8 @@ export class AddWithdrawAddressDialogComponent implements OnInit, OnDestroy {
 
     this.securityForm = this.fb.group({
       sms: ['', Validators.compose([Validators.required, Validators.pattern('\\d{6}')])],
-      email: ['', Validators.compose([Validators.required,  Validators.pattern('\\d{6}')])],
-      authenticator: ['', Validators.compose([Validators.required,  Validators.pattern('\\d{6}')])]
+      email: ['', Validators.compose([Validators.required, Validators.pattern('\\d{6}')])],
+      authenticator: ['', Validators.compose([Validators.required, Validators.pattern('\\d{6}')])]
     });
 
     this.withdrawalForm.get('coin').patchValue(this.data.currencies[0]);
