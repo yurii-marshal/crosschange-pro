@@ -364,6 +364,12 @@ h1 {
   }
 }
 
+@media all and (max-width: $media-small-tablet) {
+  .fx-row {
+    flex-direction: column;
+  }
+}
+
 @media all and (max-width: $media-mobile) {
   .left {
     margin-right: 0;
