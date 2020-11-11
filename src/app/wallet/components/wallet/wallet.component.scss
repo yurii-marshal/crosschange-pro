@@ -148,6 +148,7 @@
 
     .mat-table {
       display: table;
+      width: 100%;
       border: 0.5px solid $color-grey-20;
     }
   }
@@ -427,23 +428,11 @@ mat-row:last-child {
         margin-right: 16px;
       }
 
-      .no-data-splash {
-        margin-right: 16px;
-      }
-
       &__table {
         display: table;
         margin: 12px 22px 12px 62px;
       }
     }
-  }
-
-  .mat-table__search {
-    margin: 0 16px 0 0;
-  }
-
-  app-paginator {
-    margin-right: 16px;
   }
 }
 
