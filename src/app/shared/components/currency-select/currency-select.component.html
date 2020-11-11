@@ -12,7 +12,7 @@
       <div class="input-container">
         <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
         <input appOnlyNumbers class="amount-input" formControlName="amount"
-               (change)='amountChange.emit(); change.next([$event, "desktop"])'
+               (change)='change.next([$event, "desktop"])'
                [attr.disabled]="disabledCondition ? true : null"
                type="text" placeholder="0.00000000" #input
                (keyup)='keyUp.next([$event, "desktop"])' (click)="$event.stopPropagation()">
@@ -23,7 +23,7 @@
 
   <div class="input-mobile">
     <input appOnlyNumbers class="amount-input" formControlName="amount"
-           (change)='amountChange.emit(); change.next([$event, "mobile"])'
+           (change)='change.next([$event, "mobile"])'
            [attr.disabled]="disabledCondition ? true : null"
            type="text" placeholder="0.00000000" #mobileInput
            (keyup)='keyUp.next([$event, "mobile"])' (click)="$event.stopPropagation()">
