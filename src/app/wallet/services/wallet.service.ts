@@ -65,4 +65,14 @@ export class WalletService extends ApiService {
 
     return super.get('spot-wallets', {params: parameters});
   }
+
+  getFiatList(params: any): Observable<any> {
+    let parameters = new HttpParams();
+
+    parameters = parameters
+      .set('offset', params.offset)
+      .set('limit', params.limit);
+
+    return super.get('spot-wallets/users/balances/euro-account', {params: parameters});
+  }
 }
