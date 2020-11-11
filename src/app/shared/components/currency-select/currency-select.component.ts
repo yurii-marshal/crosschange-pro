@@ -31,9 +31,9 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
   @Input() secondSelected;
+  @Input() currencies: ICurrency[];
   public keyUp = new Subject<[KeyboardEvent, string]>();
   opened = false;
-  @Input() currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amountForm: FormGroup = new FormGroup({
@@ -46,9 +46,9 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   };
   searchValue = '';
   onChange = (value: ICurrencySelectValue) => {
-  };
+  }
   onTouched = () => {
-  };
+  }
 
   constructor(
     private exchange: ExchangeService,
