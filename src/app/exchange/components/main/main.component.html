@@ -7,6 +7,7 @@
         <div class="form-field">
           <label>{{'exchange.for' | translate}}</label>
           <app-currency-select formControlName="fromCurrency"
+                               [currencies]="currenciesList"
                                [secondSelected]="form.get('toCurrency').valueChanges | async"
                                [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
@@ -20,6 +21,7 @@
         <div class="form-field">
           <label>{{'exchange.you_will_get' | translate}}</label>
           <app-currency-select formControlName="toCurrency"
+                               [currencies]="currenciesList"
                                [secondSelected]="form.get('fromCurrency').valueChanges | async"
                                [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">

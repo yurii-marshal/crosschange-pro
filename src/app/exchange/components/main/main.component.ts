@@ -5,11 +5,13 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  map, pairwise,
+  map,
+  pairwise,
   startWith,
   switchMap,
   take,
-  takeUntil, tap,
+  takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
@@ -23,6 +25,7 @@ import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
+import { ICurrency } from '../../../shared/interfaces/currency.interface';
 
 @Component({
   selector: 'app-main',
@@ -49,6 +52,7 @@ export class MainComponent implements OnInit, OnDestroy {
   maxDisabled = false;
   targetControlName;
   updateControlName;
+  currenciesList: ICurrency[] = [];
 
   constructor(
     private coins: CoinsService,
@@ -67,14 +71,30 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createForm();
     this.getWallets();
-    this.mediaBreakpointsService.device
+
+    combineLatest([
+      this.mediaBreakpointsService.device,
+      this.exchange.getCurrencies(),
+    ])
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe((device) => {
+      .subscribe(([device, currencies]) => {
         if (device === Devices.MOBILE) {
           this.option.xAxis.axisLabel.rotate = 45;
         } else {
           this.option.xAxis.axisLabel.rotate = 0;
         }
+
+        this.currenciesList = currencies;
+        this.form.patchValue({
+          fromCurrency: {
+            currency: currencies[0],
+            amount: ''
+          },
+          toCurrency: {
+            currency: currencies[1],
+            amount: ''
+          }
+        });
       });
 
     combineLatest([
