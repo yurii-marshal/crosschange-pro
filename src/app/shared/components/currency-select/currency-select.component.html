@@ -25,7 +25,7 @@
     <input appOnlyNumbers class="amount-input" formControlName="amount"
            [attr.disabled]="disabledCondition ? true : null"
            type="text" placeholder="0.00000000" #mobileInput
-           (change)='change.next([$event, "desktop"])'
+           (change)='change.next([$event, "mobile"])'
            (keyup)='keyUp.next([$event, "mobile"])' (click)="$event.stopPropagation()">
   </div>
 </form>
