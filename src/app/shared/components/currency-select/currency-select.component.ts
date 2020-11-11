@@ -5,7 +5,7 @@ import {
   OnInit, Output, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, map, take } from 'rxjs/operators';
+import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
@@ -32,7 +32,8 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @Input() disabledCondition;
   @Input() secondSelected;
   @Output() amountChange: EventEmitter<void> = new EventEmitter<void>();
-  public keyUp = new Subject<KeyboardEvent>();
+  public keyUp = new Subject<[KeyboardEvent, string]>();
+  public change = new Subject<[Event, string]>();
   opened = false;
   currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
@@ -66,19 +67,26 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       this.currenciesFiltered$.next(v);
       this.currencies = v;
     });
+    
     this.keyUp.pipe(
-      map(event => {
+      takeUntil(this.onDestroy$),
+      map(([event, type]) => {
         const target: HTMLInputElement = event.target as HTMLInputElement;
-        return target.value;
+        return [target.value, type];
       }),
-      debounceTime(500),
-    ).subscribe(v => {
-      this.input.nativeElement.value = v;
-      this.mobileInput.nativeElement.value = v;
-      this.onChange({
-        currency: this.selected$.getValue(),
-        amount: v + ''
-      });
+      debounceTime(1000),
+    ).subscribe(([v, type]) => {
+      this.onInput(type, v);
+    });
+
+    this.change.pipe(
+      takeUntil(this.onDestroy$),
+      map(([event, type]) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement;
+        return [target.value, type];
+      }),
+    ).subscribe(([v, type]) => {
+      this.onInput(type, v);
     });
   }
 
@@ -94,6 +102,18 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
+  }
+
+  private onInput(type: string, value: number | string): void {
+    if (type === 'desktop') {
+      this.mobileInput.nativeElement.value = value;
+    } else {
+      this.input.nativeElement.value = value;
+    }
+    this.onChange({
+      currency: this.selected$.getValue(),
+      amount: value + ''
+    });
   }
 
   setCurrency(currency: ICurrency): void {
