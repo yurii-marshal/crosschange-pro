@@ -5,11 +5,13 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  map, pairwise,
+  map,
+  pairwise,
   startWith,
   switchMap,
   take,
-  takeUntil, tap,
+  takeUntil,
+  tap,
 } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
@@ -39,7 +41,7 @@ export class MainComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
   wallets$: BehaviorSubject<IWallet[]> = new BehaviorSubject<IWallet[]>([]);
-  option = chartOptions;
+  option = JSON.parse(JSON.stringify(chartOptions));
   chartInstance;
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
@@ -146,6 +148,21 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe(([rateInfo, chartData]) => {
         this.exchangeInfo$.next(rateInfo);
         this.setChartInfo(chartData);
+      });
+
+    this.exchange.getCurrencies()
+      .pipe(take(1))
+      .subscribe((currencies) => {
+        this.form.patchValue({
+          fromCurrency: {
+            currency: currencies[0],
+            amount: ''
+          },
+          toCurrency: {
+            currency: currencies[1],
+            amount: ''
+          }
+        });
       });
   }
 

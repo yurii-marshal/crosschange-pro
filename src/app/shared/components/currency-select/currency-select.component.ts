@@ -5,7 +5,7 @@ import {
   OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, map, take } from 'rxjs/operators';
+import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
@@ -31,9 +31,10 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
   @Input() secondSelected;
-  public keyUp = new Subject<[KeyboardEvent, string]>();
-  opened = false;
   currencies: ICurrency[] = [];
+  public keyUp = new Subject<[KeyboardEvent, string]>();
+  public change = new Subject<[Event, string]>();
+  opened = false;
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amountForm: FormGroup = new FormGroup({
@@ -70,22 +71,26 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       this.currenciesFiltered$.next(v);
       this.currencies = v;
     });
+
     this.keyUp.pipe(
+      takeUntil(this.onDestroy$),
       map(([event, type]) => {
         const target: HTMLInputElement = event.target as HTMLInputElement;
         return [target.value, type];
       }),
-      debounceTime(500),
+      debounceTime(1000),
     ).subscribe(([v, type]) => {
-      if (type === 'desktop') {
-        this.mobileInput.nativeElement.value = v;
-      } else {
-        this.input.nativeElement.value = v;
-      }
-      this.onChange({
-        currency: this.selected$.getValue(),
-        amount: v + ''
-      });
+      this.onInput(type, v);
+    });
+
+    this.change.pipe(
+      takeUntil(this.onDestroy$),
+      map(([event, type]) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement;
+        return [target.value, type];
+      }),
+    ).subscribe(([v, type]) => {
+      this.onInput(type, v);
     });
   }
 
@@ -103,6 +108,18 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
     this.onTouched = fn;
   }
 
+  private onInput(type: string, value: number | string): void {
+    if (type === 'desktop') {
+      this.mobileInput.nativeElement.value = value;
+    } else {
+      this.input.nativeElement.value = value;
+    }
+    this.onChange({
+      currency: this.selected$.getValue(),
+      amount: value + ''
+    });
+  }
+
   setCurrency(currency: ICurrency): void {
     this.selected$.next(currency);
     this.onChange({
@@ -116,8 +133,12 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       return;
     }
     this.selected$.next(value.currency);
-    this.input.nativeElement.value = value.amount;
-    this.mobileInput.nativeElement.value = value.amount;
+    if (this.input) {
+      this.input.nativeElement.value = value.amount;
+    }
+    if (this.mobileInput) {
+      this.mobileInput.nativeElement.value = value.amount;
+    }
     this.value = {
       currency: value.currency,
       amount: value.amount
