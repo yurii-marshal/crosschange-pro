@@ -134,6 +134,7 @@
         }
 
         .mat-table {
+          display: table;
           border: none;
           border-left: 0.5px solid $color-grey-20;
           border-right: 0.5px solid $color-grey-20;
@@ -146,6 +147,7 @@
     }
 
     .mat-table {
+      display: table;
       border: 0.5px solid $color-grey-20;
     }
   }
@@ -430,6 +432,7 @@ mat-row:last-child {
       }
 
       &__table {
+        display: table;
         margin: 12px 22px 12px 62px;
       }
     }
