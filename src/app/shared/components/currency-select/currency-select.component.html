@@ -18,7 +18,7 @@
 </div>
 
 <div class="input-mobile">
-  <input (change)='amountChange.emit(); change.next([$event, "desktop"])' class="amount-input" [attr.disabled]="disabledCondition ? true : null" type="text" placeholder="0.00000000" #mobileInput
+  <input (change)='amountChange.emit(); change.next([$event, "mobile"])' class="amount-input" [attr.disabled]="disabledCondition ? true : null" type="text" placeholder="0.00000000" #mobileInput
          (keyup)='keyUp.next([$event, "mobile"])' (click)="$event.stopPropagation()">
 </div>
 
