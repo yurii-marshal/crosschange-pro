@@ -1,5 +1,4 @@
 <form [formGroup]="amountForm">
-
   <div class="switcher" (click)="!disabledCondition ? opened = !opened : false; onCloseDropdown()"
        [class.opened]="opened"
        [class.disabled]="disabledCondition">
@@ -15,6 +14,7 @@
         <input appOnlyNumbers class="amount-input" formControlName="amount"
                [attr.disabled]="disabledCondition ? true : null"
                type="text" placeholder="0.00000000" #input
+               (change)='change.next([$event, "desktop"])'
                (keyup)='keyUp.next([$event, "desktop"])' (click)="$event.stopPropagation()">
       </div>
     </div>
@@ -25,6 +25,7 @@
     <input appOnlyNumbers class="amount-input" formControlName="amount"
            [attr.disabled]="disabledCondition ? true : null"
            type="text" placeholder="0.00000000" #mobileInput
+           (change)='change.next([$event, "desktop"])'
            (keyup)='keyUp.next([$event, "mobile"])' (click)="$event.stopPropagation()">
   </div>
 </form>
