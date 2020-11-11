@@ -79,7 +79,6 @@ export class MarketsService extends ApiService {
   }
 
   loadDropdownData(): Observable<ICurrency[]> {
-
     return super.get('exchanges/currencies');
   }
 }
