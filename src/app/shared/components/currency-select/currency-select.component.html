@@ -12,6 +12,7 @@
       <div class="input-container">
         <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
         <input appOnlyNumbers class="amount-input" formControlName="amount"
+               (change)='change.next([$event, "desktop"])'
                [attr.disabled]="disabledCondition ? true : null"
                type="text" placeholder="0.00000000" #input
                (change)='change.next([$event, "desktop"])'
@@ -23,6 +24,7 @@
 
   <div class="input-mobile">
     <input appOnlyNumbers class="amount-input" formControlName="amount"
+           (change)='change.next([$event, "mobile"])'
            [attr.disabled]="disabledCondition ? true : null"
            type="text" placeholder="0.00000000" #mobileInput
            (change)='change.next([$event, "mobile"])'

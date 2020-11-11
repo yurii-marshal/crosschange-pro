@@ -21,13 +21,6 @@ export class ExchangeHelperService {
         || (form.get(toUpdate).value && +form.get(toUpdate).value.amount));
   }
 
-  bothCurrenciesEqual([from, to]): boolean {
-    if (!from.currency || !to.currency) {
-      return true;
-    }
-    return from.currency && from.currency.key &&  to.currency && to.currency.key && from.currency.key !== to.currency.key;
-  }
-
   preCheckRequest(form: FormGroup, target: string, toUpdate: string): Observable<IPreCheckResponse> {
     const req = {
       from: form.get(target).value.currency.key,
@@ -58,10 +51,10 @@ export class ExchangeHelperService {
 
   setConvertDirection([oldFrom, oldTo], [fromCurrency, toCurrency]): { target: string, update: string } {
     if (!fromCurrency.currency && !toCurrency.currency) {
-      return { target: '', update: '' };
+      return {target: '', update: ''};
     }
-    const updateFrom = { target: 'fromCurrency', update: 'toCurrency'};
-    const updateTo = {target: 'toCurrency', update: 'fromCurrency' };
+    const updateFrom = {target: 'fromCurrency', update: 'toCurrency'};
+    const updateTo = {target: 'toCurrency', update: 'fromCurrency'};
     const amountCleared = [
       oldFrom.currency,
       oldTo.currency,
@@ -72,7 +65,7 @@ export class ExchangeHelperService {
     ];
     // if amount cleared by user - stop updating.
     if (amountCleared.every(Boolean) && (!fromCurrency.amount || !toCurrency.amount)) {
-      return { target: '', update: '' };
+      return {target: '', update: ''};
     }
 
     const fromAllSet = fromCurrency.currency && fromCurrency.currency.key && fromCurrency.amount;
@@ -80,10 +73,10 @@ export class ExchangeHelperService {
 
     // if something is not set - update based on the field where everything is set
     if (!fromAllSet || !toAllSet) {
-      return !toAllSet ?  updateFrom : updateTo;
+      return !toAllSet ? updateFrom : updateTo;
     }
 
-    const allSet = [ fromCurrency.currency, toCurrency.currency, fromCurrency.amount, toCurrency.amount ];
+    const allSet = [fromCurrency.currency, toCurrency.currency, fromCurrency.amount, toCurrency.amount];
 
     // if all set - update based on the last field changed.
     if (allSet.every(Boolean)) {

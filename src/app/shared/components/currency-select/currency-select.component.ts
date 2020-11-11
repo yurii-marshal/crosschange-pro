@@ -23,7 +23,7 @@ import { ICurrencySelectValue } from './ICurrencySelectValue';
       useExisting: forwardRef(() => CurrencySelectComponent),
       multi: true
     },
-    { provide: NG_VALIDATORS, useValue: validate, multi: true }
+    {provide: NG_VALIDATORS, useValue: validate, multi: true}
   ]
 })
 export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
@@ -31,10 +31,10 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
   @Input() secondSelected;
+  currencies: ICurrency[] = [];
   public keyUp = new Subject<[KeyboardEvent, string]>();
   public change = new Subject<[Event, string]>();
   opened = false;
-  currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
   amountForm: FormGroup = new FormGroup({
@@ -42,23 +42,26 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   });
   onDestroy$: Subject<void> = new Subject();
   value: {
-    currency: ICurrency,
+    currency: ICurrency;
     amount: number | string;
   };
   searchValue = '';
-  onChange = (value: ICurrencySelectValue) => {};
-  onTouched = () => {};
+  onChange = (value: ICurrencySelectValue) => {
+  }
+  onTouched = () => {
+  }
+
+  constructor(
+    private exchange: ExchangeService,
+    private elRef: ElementRef
+  ) {
+  }
 
   @HostListener('document:click', ['$event.target']) onClick(target): void {
     if (this.elRef && this.elRef.nativeElement && !this.elRef.nativeElement.contains(target)) {
       this.opened = false;
     }
   }
-
-  constructor(
-    private exchange: ExchangeService,
-    private elRef: ElementRef
-  ) { }
 
   ngOnInit(): void {
     this.exchange.getCurrencies()
@@ -130,8 +133,12 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       return;
     }
     this.selected$.next(value.currency);
-    this.input.nativeElement.value = value.amount;
-    this.mobileInput.nativeElement.value = value.amount;
+    if (this.input) {
+      this.input.nativeElement.value = value.amount;
+    }
+    if (this.mobileInput) {
+      this.mobileInput.nativeElement.value = value.amount;
+    }
     this.value = {
       currency: value.currency,
       amount: value.amount

@@ -37,7 +37,7 @@ export class MainComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
   wallets$: BehaviorSubject<IWallet[]> = new BehaviorSubject<IWallet[]>([]);
-  option = chartOptions;
+  option = JSON.parse(JSON.stringify(chartOptions));
   chartInstance;
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
@@ -69,6 +69,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createForm();
     this.getWallets();
+
     this.mediaBreakpointsService.device
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((device) => {
@@ -128,6 +129,21 @@ export class MainComponent implements OnInit, OnDestroy {
         this.exchangeInfo$.next(rateInfo);
         this.setChartInfo(chartData);
       });
+
+    this.exchange.getCurrencies()
+      .pipe(take(1))
+      .subscribe((currencies) => {
+        this.form.patchValue({
+          fromCurrency: {
+            currency: currencies[0],
+            amount: ''
+          },
+          toCurrency: {
+            currency: currencies[1],
+            amount: ''
+          }
+        });
+      });
   }
 
   getWallets(): void {
@@ -135,28 +151,6 @@ export class MainComponent implements OnInit, OnDestroy {
       .subscribe((v) => {
         this.wallets$.next(v);
       });
-  }
-
-  convertCurrency(target, toUpdate): void {
-    if (this.helper.convertFilter(this.form, target, toUpdate)) {
-      this.inputsEnabled = false;
-      this.helper.preCheckRequest(this.form, target, toUpdate)
-        .pipe(takeUntil(this.onDestroy$))
-        .subscribe((res) => {
-          this.form.get(toUpdate).setValue({
-            currency: this.form.get(toUpdate).value.currency,
-            amount: res.amount
-          }, {emitEvent: false});
-          this.form.patchValue({
-            fee: res.fee,
-            rate: res.rate,
-            valid: res.valid
-          });
-          this.inputsEnabled = true;
-        }, err => {
-          this.inputsEnabled = true;
-        });
-    }
   }
 
   onPeriodChange(val: MatButtonToggleChange): void {
@@ -176,50 +170,9 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
-  setChartInfo(data: IChartData[]): void {
-    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
-    const values = data.map(v => v.value);
-    const labels = data.map(v => v.name);
-    this.option.series = [{
-      data: values,
-      type: 'line',
-      symbol: 'none',
-      areaStyle: {},
-      lineStyle: {
-        color: '#22CF63'
-      }
-    }];
-    this.option.yAxis.min = Math.min(...values) / 1.02;
-    this.option.xAxis.data = labels;
-    if (this.chartInstance) {
-      this.chartInstance.setOption({
-        series: this.option.series,
-        xAxis: this.option.xAxis,
-        yAxis: this.option.yAxis,
-      });
-    }
-  }
 
   exchangeValidValidator({value}: FormControl): { [key: string]: boolean } | null {
     return value ? null : {exchange_invalid: true};
-  }
-
-  createForm(): void {
-    this.form = new FormGroup({
-      fromCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      toCurrency: new FormControl(null, [
-        CurrencySelectValidators.amountRequired,
-        CurrencySelectValidators.cryptoRequired,
-        CurrencySelectValidators.amountNotNumber
-      ]),
-      fee: new FormControl(),
-      rate: new FormControl(null, Validators.required),
-      valid: new FormControl(false, [this.exchangeValidValidator])
-    });
   }
 
   resetForm(): void {
@@ -245,7 +198,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   setFromMaxValue(): void {
     const val = this.form.get('fromCurrency').value;
-    if (!val || !val.currency || !this.inputsEnabled || this.maxDisabled) {
+    if (!val || !val.currency || Number(val.amount) === 0 || !this.inputsEnabled || this.maxDisabled) {
       return;
     }
     const selected = {...val.currency};
@@ -282,7 +235,7 @@ export class MainComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().pipe(take(1)).subscribe(res => {
       if (res) {
         this.resetForm();
-        this.setChartInfo([]);
+        this.setChartInfo({} as IChartData);
         this.getWallets();
         this.exchangeInfo$.next(null);
       }
@@ -294,4 +247,81 @@ export class MainComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  createForm(): void {
+    this.form = new FormGroup({
+      fromCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      toCurrency: new FormControl(null, [
+        CurrencySelectValidators.amountRequired,
+        CurrencySelectValidators.cryptoRequired,
+        CurrencySelectValidators.amountNotNumber
+      ]),
+      fee: new FormControl(),
+      rate: new FormControl(null, Validators.required),
+      valid: new FormControl(false, [this.exchangeValidValidator])
+    });
+  }
+
+  setChartInfo(data: IChartData): void {
+    // https://echarts.apache.org/examples/en/editor.html?c=area-basic
+    this.option.series = [{
+      data: data.points,
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = Math.min(...data.points) / 1.02;
+    this.option.xAxis.data = data.axis;
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
+  }
+
+  convertCurrency(target, toUpdate): void {
+    if (this.helper.convertFilter(this.form, target, toUpdate)) {
+      if (Number(this.form.get(target).value.amount) === 0) {
+        this.form.get(toUpdate).patchValue({
+          amount: 0,
+          currency: this.form.get(toUpdate).value.currency
+        }, {emitEvent: false});
+
+        this.form.patchValue({
+          fee: 0,
+          rate: 0,
+          valid: false
+        }, {emitEvent: false});
+
+        return;
+      }
+
+      this.inputsEnabled = false;
+
+      this.helper.preCheckRequest(this.form, target, toUpdate)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((res) => {
+          this.form.get(toUpdate).setValue({
+            currency: this.form.get(toUpdate).value.currency,
+            amount: res.amount
+          }, {emitEvent: false});
+          this.form.patchValue({
+            fee: res.fee,
+            rate: res.rate,
+            valid: res.valid
+          });
+          this.inputsEnabled = true;
+        }, err => {
+          this.inputsEnabled = true;
+        });
+    }
+  }
 }

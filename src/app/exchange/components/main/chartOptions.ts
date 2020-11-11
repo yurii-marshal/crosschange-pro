@@ -19,10 +19,9 @@ export const chartOptions = {
       }
     },
     axisTick: {
-      show: false
+      show: false,
     },
     axisLabel: {
-      showMinLabel: false,
       fontFamily: 'IBM Plex Sans, sans-serif',
       fontStyle: 'normal',
       fontWeight: 'normal',

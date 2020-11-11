@@ -24,7 +24,9 @@
                                [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'exchange.balance' | translate}}:</span>
-            <span>{{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}</span>
+            <span>
+              {{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}
+            </span>
           </div>
         </div>
       </form>

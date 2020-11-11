@@ -5,7 +5,6 @@ import { HttpParams } from '@angular/common/http';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
-import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 import { map, tap } from 'rxjs/operators';
 import { CloseScrollStrategy, Overlay } from '@angular/cdk/overlay';
 
