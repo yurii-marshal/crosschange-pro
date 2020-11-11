@@ -59,7 +59,7 @@ export const mockDataBalanceTypes = {
 export const walletMock = {
   cryptocurrency: 'btc',
   address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
-  tag: '',
+  destination_tag: '',
   id: 0,
   balance: {
     total: 0,
@@ -74,7 +74,7 @@ export const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', '
   val.cryptocurrency = v.toLowerCase();
   val.address += i + '';
   if (val.cryptocurrency === 'xrp') {
-    val.tag = '0x4yiuwyuy4749';
+    val.destination_tag = '0x4yiuwyuy4749';
   }
   return val;
 });

@@ -2,7 +2,17 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable, Subject, zip } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap, take, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  share,
+  startWith,
+  switchMap,
+  take,
+  takeUntil
+} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { AddressManagementService, IWalletListResponse } from '../../services/address-management.service';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -121,7 +131,7 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   removeFromWhitelist(): void {
     const items = this.selection.selected.filter(item => item.isWhitelisted).map(item => item.id);
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
+    this.dialog.open(ConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
       data: {
@@ -133,12 +143,9 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().pipe(
       take(1),
-      switchMap((value: boolean) => {
-        if (value) {
-          return this.addressManagementService.removeFromWhitelist(items);
-        } else {
-          throw new Error('Action not confirmed!');
-        }
+      filter(value => value),
+      switchMap(() => {
+        return this.addressManagementService.removeFromWhitelist(items);
       })
     ).subscribe(() => {
       const result: IWalletAddress[] = this.dataSource$.getValue().data.map(item => {
@@ -156,7 +163,7 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
   deleteItems(item?: IWalletAddress): void {
     const items = item ? [item.id] : this.selection.selected.map(vl => vl.id);
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, {
+    this.dialog.open(ConfirmationComponent, {
       width: '400px',
       panelClass: 'confirmation',
       data: {
@@ -168,12 +175,9 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       }
     }).afterClosed().pipe(
       take(1),
-      switchMap((value: boolean) => {
-        if (value) {
-          return this.addressManagementService.deleteItems(items);
-        } else {
-          throw new Error('Action not confirmed!');
-        }
+      filter(value => value),
+      switchMap(() => {
+        return this.addressManagementService.deleteItems(items);
       })
     ).subscribe(() => {
       const result = this.dataSource$.getValue().data.filter(value => !items.includes(value.id));
@@ -212,12 +216,11 @@ export class AddressManagementComponent implements OnInit, OnDestroy {
       };
     }
 
-    const dialogRef = this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
+    this.dialog.open(ConfirmationComponent, config).afterClosed().pipe(
       take(1),
+      filter(value => value),
       switchMap((value: boolean) => {
-        if (value) {
-          return this.addressManagementService.toggleWhitelistEnable();
-        }
+        return this.addressManagementService.toggleWhitelistEnable();
       })
     ).subscribe(() => this.enableWhitelist$.next(!this.enableWhitelist$.getValue()));
   }

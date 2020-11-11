@@ -28,6 +28,9 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { skip } from 'rxjs/operators';
 import { DepositService } from '../../services/deposit.service';
 import { DepositServiceMock } from '../../../../../testing/DepositServiceMock';
+import { SafePipe } from '../../../shared/pipes/safe.pipe';
+import { QrCodeServiceMock } from '../../../../../testing/QrCodeServiceMock';
+import { QrCodeService } from 'shared-kuailian-lib';
 
 describe('DepositComponent', () => {
   let component: DepositComponent;
@@ -67,8 +70,9 @@ describe('DepositComponent', () => {
           DepositComponent,
           CoinSelectComponent,
           PaginatorComponent,
+          QrCodeComponent,
           SelectedWalletPipe,
-          QrCodeComponent
+          SafePipe
         ],
         providers: [
           {
@@ -80,7 +84,8 @@ describe('DepositComponent', () => {
           { provide: DepositService, useClass: DepositServiceMock },
           { provide: CoinsService, useClass: CoinServiceMock },
           { provide: ActivatedRoute, useValue: routeStub },
-          { provide: Router, useValue: router }
+          { provide: Router, useValue: router },
+          { provide: QrCodeService, useClass: QrCodeServiceMock }
         ]
       });
 
@@ -90,8 +95,10 @@ describe('DepositComponent', () => {
     routeStub.queryParams.subscribe(v => {
       fixture = TestBed.createComponent(DepositComponent);
       component = fixture.componentInstance;
-      fixture.detectChanges();
-      done();
+      fixture.changeDetectorRef.detectChanges();
+      fixture.whenStable().then(() => {
+        done();
+      });
     });
   });
 
@@ -113,16 +120,18 @@ describe('DepositComponent', () => {
       });
   });
 
-  it('should display qr code', async () => {
-    await fixture.whenStable();
-    const qrCode = fixture.nativeElement.querySelector('app-qr-code .qr img');
-    expect(qrCode.getAttribute('src')).toBeTruthy();
-  });
+  it('should display qr code', (done) => {
+    const xrp = coinsMock.filter(v => v.key === 'xrp').shift();
+    component.selected$.pipe(skip(1)).subscribe((value) => {
+      setTimeout(() => {
+        const qrCode = fixture.nativeElement.querySelector('app-qr-code .qr img');
+        expect(qrCode.getAttribute('src')).toBeTruthy();
+        done();
+      }, 500);
+    });
+    component.onCoinSelect(xrp);
+    fixture.detectChanges();
 
-  it('should display qr code', async () => {
-    await fixture.whenStable();
-    const qrCode = fixture.nativeElement.querySelector('app-qr-code .qr img');
-    expect(qrCode.getAttribute('src')).toBeTruthy();
   });
 
   it('should change qr code on select', (done) => {
@@ -196,5 +205,4 @@ describe('DepositComponent', () => {
       });
     });
   });
-
 });

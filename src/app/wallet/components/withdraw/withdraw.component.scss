@@ -7,7 +7,27 @@
   display: block;
 }
 .display-none {
-display: none;
+  display: none;
+}
+
+.withdraw-page .section-title.coin {
+  margin-bottom: 17px;
+}
+
+.balance.withdraw {
+  margin-bottom: 10px;
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  .balance-item {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    flex: 1;
+    color: #111629;
+    margin-right: 10px;
+    border-radius: 4px;
+  }
 }
 
 form {

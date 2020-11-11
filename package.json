@@ -41,7 +41,7 @@
     "ngx-clipboard": "^13.0.1",
     "ngx-echarts": "^5.1.2",
     "rxjs": "~6.5.4",
-    "shared-kuailian-lib": "git+ssh://git@bitbucket.org/ouadreams/kuailian-shared-lib.git#v0.0.27",
+    "shared-kuailian-lib": "git+ssh://git@bitbucket.org/ouadreams/kuailian-shared-lib.git#v0.0.28",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
