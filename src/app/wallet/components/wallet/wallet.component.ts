@@ -54,11 +54,11 @@ export class WalletComponent implements OnInit {
       this.navigateDefault();
     }
 
-    this.fiatBalanceSource = this.route.queryParams
+    this.euroAccountBalanceSource = this.route.queryParams
       .pipe(
         share(),
-        distinctUntilChanged(),
-        switchMap(params => this.walletService.getFiatList(params)),
+        filter(params => params.limit && params.offset),
+        switchMap(params => this.walletService.getEuroAccountList(params)),
         map((res) => new MatTableDataSource(res.results)),
       );
 
