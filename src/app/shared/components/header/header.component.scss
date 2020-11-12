@@ -225,10 +225,7 @@ mat-icon {
   }
 }
 
-::ng-deep .notes-popover-panel {
-  margin-top: 34px;
-  margin-right: -40px;
-}
+
 
 .notifications-popup {
   border-radius: 4px;
@@ -275,6 +272,11 @@ mat-icon {
   }
 }
 
+::ng-deep .notes-popover-panel {
+  margin-top: 34px;
+  margin-right: -40px;
+}
+
 @media all and (max-width: $media-small-tablet) {
   header {
     min-height: 74px;
@@ -303,6 +305,12 @@ mat-icon {
         margin-right: 0;
       }
     }
+  }
+
+  ::ng-deep .notes-popover-panel {
+    margin-top: 34px;
+    margin-right: -40px;
+    //right: 56px !important;
   }
 }
 

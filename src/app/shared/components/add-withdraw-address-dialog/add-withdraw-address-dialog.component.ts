@@ -2,13 +2,11 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MarketsService } from '../../../home/services/markets.service';
-import { Observable, Subject, zip } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ICurrency } from '../../interfaces/currency.interface';
-import { map, share, takeUntil } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { AddressManagementService } from '../../../profile/services/address-management.service';
 import { SsoService } from 'shared-kuailian-lib';
-import { ExchangeService } from '../../services/exchange.service';
-import { CoinsService } from '../../services/coins.service';
 
 @Component({
   selector: 'app-add-withdraw-address-dialog',
