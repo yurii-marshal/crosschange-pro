@@ -1,4 +1,3 @@
-import { Injector } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ITransactionItem } from '../src/app/shared/interfaces/transaction-item.interface';
 import { depositsMock, IDepositHistoryRequest } from './WalletServiceMock';
@@ -12,7 +11,7 @@ export class DepositServiceMock {
     results: []
   };
 
-  constructor(protected injector: Injector) {}
+  constructor() {}
 
   getDepositHistory(params: IDepositHistoryRequest): Observable<IApiResponse<ITransactionItem>> {
     if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {

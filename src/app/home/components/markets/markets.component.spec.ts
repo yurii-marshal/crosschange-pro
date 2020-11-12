@@ -34,7 +34,7 @@ class TestHostComponent {
   public searchInputControl: FormControl = new FormControl({value: null, disabled: false});
 }
 
-xdescribe('MarketsComponent', () => {
+describe('MarketsComponent', () => {
   let component: MarketsComponent;
   let fixture: ComponentFixture<MarketsComponent>;
   let service: MarketsService;
@@ -103,13 +103,16 @@ xdescribe('MarketsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have default start settings', () => {
+  it('should have default start settings', (done) => {
     const spy = spyOn(service, 'loadWidgetsData').and.callThrough();
 
     component.ngOnInit();
 
     expect(component.activeLink).toBe('favorite');
-    expect(component.widgets).toBeDefined();
+    component.widgets$.subscribe(res => {
+      expect(res).toBeDefined();
+      done();
+    });
 
     expect(spy).toHaveBeenCalled();
   });

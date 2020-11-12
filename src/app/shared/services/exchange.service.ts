@@ -59,16 +59,16 @@ export class ExchangeService extends ApiService {
   getChartData(from: string, to: string, period: IChartPeriods, step?: number): Observable<IChartData> {
     const pair = (from + to).toUpperCase();
     const req = {pair, period, step: undefined};
-    if (step) {
-      req.step = step;
-    }
 
     let params = new HttpParams();
 
     params = params
       .set('pair', req.pair)
-      .set('period', req.period)
-      .set('step', req.step);
+      .set('period', req.period);
+
+    if (step) {
+      params = params.set('step', step + '');
+    }
 
     return super.get<IChartData>('exchanges/graph', {params});
   }

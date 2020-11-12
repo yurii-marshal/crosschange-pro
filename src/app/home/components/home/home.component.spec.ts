@@ -7,6 +7,7 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { FakeMatIconRegistry } from '@angular/material/icon/testing';
 import { IconService } from '../../../core/services/icon.service';
 
+// TODO: IMPLEMENT
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;

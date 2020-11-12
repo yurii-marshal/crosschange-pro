@@ -26,8 +26,13 @@ import { take } from 'rxjs/operators';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { CurrencySelectedPipe } from '../../../shared/pipes/currency-selected.pipe';
+import { ActivatedRoute } from '@angular/router';
+import { ActivatedRouteStub } from '../../../../../testing/ActivatedRouteStub';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserModule } from '@angular/platform-browser';
 
-async function setFormValue(component, fixture, from, to, fromAmount, toAmount, fee = 0, rate = 0, valid = true): Promise<void> {
+async function setFormValue(component, fixture, from, to, fromAmount, toAmount, fee = 0, rate = 0, valid = true, paymentMethod = 'spot-wallet'): Promise<void> {
   component.form.setValue({
     fromCurrency: {
       currency: from,
@@ -39,20 +44,23 @@ async function setFormValue(component, fixture, from, to, fromAmount, toAmount, 
     },
     fee,
     rate,
-    valid
+    valid,
+    paymentMethod
   });
   fixture.detectChanges();
   await fixture.whenStable();
 }
 
-
+// TODO: FIX
 describe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
+  const routeStub = new ActivatedRouteStub();
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
+        BrowserModule,
         HttpClientTestingModule,
         MatDialogModule,
         TranslateModule.forRoot(),
@@ -61,6 +69,8 @@ describe('MainComponent', () => {
         NoopAnimationsModule,
         MatIconModule,
         MatButtonToggleModule,
+        RouterTestingModule,
+        MatTabsModule,
         NgxEchartsModule.forRoot({
           echarts: () => import('echarts'),
         }),
@@ -80,7 +90,8 @@ describe('MainComponent', () => {
         {provide: MatIconRegistry, useClass: FakeMatIconRegistry},
         {provide: CoinsService, useClass: CoinServiceMock},
         {provide: ExchangeService, useClass: ExchangeServiceMock},
-        {provide: WalletService, useClass: WalletServiceMock}
+        {provide: WalletService, useClass: WalletServiceMock},
+        {provide: ActivatedRoute, useValue: routeStub},
       ]
     })
       .compileComponents();
