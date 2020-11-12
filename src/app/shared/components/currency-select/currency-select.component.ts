@@ -11,6 +11,9 @@ import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
 import { validate } from './CurrencySelectValidator';
 import { ICurrencySelectValue } from './ICurrencySelectValue';
+import { ActivatedRoute } from '@angular/router';
+import { ActiveLink } from 'src/app/buy-crypto/enums/ActiveLink';
+import { CurrencyTypePipe } from 'src/app/shared/pipes/currency-type.pipe';
 
 @Component({
   selector: 'app-currency-select',
@@ -23,7 +26,7 @@ import { ICurrencySelectValue } from './ICurrencySelectValue';
       useExisting: forwardRef(() => CurrencySelectComponent),
       multi: true
     },
-    {provide: NG_VALIDATORS, useValue: validate, multi: true}
+    {provide: NG_VALIDATORS, useValue: validate, multi: true},
   ]
 })
 export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
@@ -31,6 +34,9 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   @ViewChild('mobileInput') mobileInput;
   @Input() disabledCondition;
   @Input() secondSelected;
+  @Input() currencyType;
+
+  public ActiveLink = ActiveLink;
   currencies: ICurrency[] = [];
   public keyUp = new Subject<[KeyboardEvent, string]>();
   public change = new Subject<[Event, string]>();
@@ -53,7 +59,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
 
   constructor(
     private exchange: ExchangeService,
-    private elRef: ElementRef
+    private elRef: ElementRef,
   ) {
   }
 
@@ -68,8 +74,8 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       .pipe(
         take(1),
       ).subscribe(v => {
-      this.currenciesFiltered$.next(v);
-      this.currencies = v;
+        this.currenciesFiltered$.next(v);
+        this.currencies = v;
     });
 
     this.keyUp.pipe(
