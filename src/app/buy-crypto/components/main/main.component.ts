@@ -223,6 +223,7 @@ export class MainComponent implements OnInit, OnDestroy {
       paymentMethod: undefined,
       valid: false
     });
+    this.chartInstance.clear();
   }
 
   swapCurrencies(): void {
