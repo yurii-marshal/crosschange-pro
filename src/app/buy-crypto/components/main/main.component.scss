@@ -234,14 +234,16 @@ h1 {
   .status {
     display: flex;
     .status-item:first-of-type {
-      margin-right: 38px;
+      margin-right: 25px;
     }
     .status-item.today-change {
       & .positive span {
         color: $color-trading-green;
+        white-space: nowrap;
       }
       & .negative span {
         color: $color-red-100;
+        white-space: nowrap;
       }
     }
     .status-item.today-change > div {
@@ -294,6 +296,10 @@ h1 {
   padding: 0;
 }
 
+::ng-deep .mat-tab-list {
+  background: transparent;
+}
+
 @media all and (max-width: $media-tablet) {
   .content-container {
     padding: 20px 16px 100px;
@@ -307,7 +313,7 @@ h1 {
   }
 
   form {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   .left {
@@ -352,11 +358,22 @@ h1 {
       width: 100%;
     }
   }
+
+  ::ng-deep .mat-tab-list {
+    background: $color-white-100;
+  }
+}
+
+@media all and (max-width: $media-small-tablet) {
+  .fx-row {
+    flex-direction: column;
+  }
 }
 
 @media all and (max-width: $media-mobile) {
   .left {
     margin-right: 0;
+    margin-bottom: 40px;
   }
   ::ng-deep .confirmation {
     max-width: 90vw !important;

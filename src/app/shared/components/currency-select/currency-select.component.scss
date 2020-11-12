@@ -7,6 +7,7 @@
 
 .left {
   display: flex;
+  align-items: center;
 }
 
 .switcher {
@@ -53,7 +54,7 @@
     display: none;
   }
   .coin-title {
-    margin-right: 15px;
+    margin-right: 5px;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -199,13 +200,22 @@
   }
 }
 
+.fx-row.mobile {
+  display: none;
+}
+
 @media all and (max-width: $media-mobile) {
   :host {
     display: flex;
   }
 
+  form {
+    display: flex;
+    width: 100%;
+  }
+
   .switcher {
-    width: 50%;
+    width: 60%;
     padding: 12px 8px;
     min-height: 44px;
 
@@ -239,8 +249,19 @@
     }
   }
 
-  .input-container {
+  .fx-row {
     display: none;
+  }
+
+  .fx-row.mobile {
+    display: flex;
+
+    .coin-title {
+      font-size: 16px;
+      line-height: 28px;
+      color: $color-trading-dark;
+      font-weight: normal;
+    }
   }
 
   .input-mobile {
