@@ -40,10 +40,10 @@ export class WalletComponent implements OnInit {
   hideNumbers$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideNumbers')));
 
   constructor(
+    public walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    public walletService: WalletService,
   ) {
   }
 

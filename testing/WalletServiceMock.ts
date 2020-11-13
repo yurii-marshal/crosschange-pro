@@ -10,7 +10,7 @@ import {
 } from '../src/app/shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share } from 'rxjs/operators';
-
+import {IUserBalance} from '../src/app/wallet/services/wallet.service';
 export const mockDataBalanceTypes = {
   fiat: {
     eur: [
@@ -55,7 +55,6 @@ export const mockDataBalanceTypes = {
     ],
   },
 };
-
 export const walletMock = {
   cryptocurrency: 'btc',
   address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
@@ -68,7 +67,6 @@ export const walletMock = {
     btc: 0
   },
 };
-
 export const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', 'USDC', 'XTZ'].map((v, i) => {
   const val = { ...walletMock };
   val.cryptocurrency = v.toLowerCase();
@@ -78,7 +76,6 @@ export const walletsMock = ['ETH', 'XRP', 'BTC', 'LTC', 'BCH', 'DASH', 'USDT', '
   }
   return val;
 });
-
 export const depositsMock: IApiResponse<ITransactionItem> = {
   count: 50,
   next: '',
@@ -92,6 +89,22 @@ export const depositsMock: IApiResponse<ITransactionItem> = {
     type: TransactionType.DEPOSIT
   })
 };
+export const cryptoList = [
+  'mock pair 1',
+  'mock pair 2',
+  'mock pair 3',
+];
+
+export const walletBalanceMock = {
+  available_balance: 1,
+  total_balance: 1,
+  total_balance_eur: 1
+};
+
+export const walletListMock = {
+  count: 5,
+  results: []
+};
 
 export interface IDepositHistoryRequest {
   cryptocurrency: string;
@@ -99,7 +112,6 @@ export interface IDepositHistoryRequest {
   limit?: number;
   ordering?: string;
 }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -111,25 +123,22 @@ export class WalletServiceMock {
     previous: '',
     results: []
   };
-
-  constructor(protected injector: Injector) {}
-
+  constructor() {}
   @Memoized()
   getTradeTypes(balanceType: string, currencyType: string): Observable<TradeType[]> {
     return of(mockDataBalanceTypes[balanceType][currencyType]);
   }
-
+  getCryptoPairs(): Observable<any> {
+    return of(cryptoList);
+  }
   getWallets(refresh = false): Observable<IWallet[]> {
-
     if (this.wallets && !refresh) {
       return of(this.wallets);
     }
-
     // TODO: DELETE WHEN API IS READY
     this.wallets = walletsMock;
     return of(this.wallets).pipe(share());
   }
-
   getDepositHistory(params: IDepositHistoryRequest): Observable<IApiResponse<ITransactionItem>> {
     if (!params.cryptocurrency || !('offset' in params) || !('limit' in params)) {
       return of(this.deposits);
@@ -141,5 +150,13 @@ export class WalletServiceMock {
     });
     this.deposits = depositsMock;
     return of(this.deposits);
+  }
+
+  getWalletBalance(): Observable<IUserBalance> {
+    return of(walletBalanceMock);
+  }
+
+  getWalletsList(): Observable<any> {
+    return of(walletListMock);
   }
 }
