@@ -302,7 +302,7 @@ export class MainComponent implements OnInit, OnDestroy {
     switch (this.activeLink) {
       case ActiveLink.BUY:
         return {
-          from: CurrenciesTypes.CRYPTO,
+          from: CurrenciesTypes.FIAT,
           to: CurrenciesTypes.CRYPTO
         };
       case ActiveLink.SELL:
