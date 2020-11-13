@@ -271,7 +271,7 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     }];
     this.option.yAxis.min = Math.min(...data.points) / 1.02;
-    this.option.xAxis.data = data.axis.map(_ => '');
+    this.option.xAxis.data = data.axis;
     this.translateXAxisLabels(data.axis);
     if (this.chartInstance) {
       this.chartInstance.setOption({
@@ -282,6 +282,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
+  // TODO: REFACTOR
   private translateXAxisLabels(data: string[]): void {
     (data || []).forEach((v, i) => {
       let key;
@@ -289,6 +290,9 @@ export class MainComponent implements OnInit, OnDestroy {
         case IChartPeriods.DAY:
           this.chartInstance.setOption({ grid: { left: '30px' } });
           this.option.xAxis.data[i] = v + ':00';
+          this.chartInstance.setOption({
+            xAxis: this.option.xAxis
+          });
           return;
         case IChartPeriods.WEEK:
           this.chartInstance.setOption({ grid: { left: '50px' } });
@@ -301,10 +305,16 @@ export class MainComponent implements OnInit, OnDestroy {
         default:
           this.chartInstance.setOption({ grid: { left: '30px' } });
           this.option.xAxis.data[i] = v;
+          this.chartInstance.setOption({
+            xAxis: this.option.xAxis
+          });
           return;
       }
       this.translate.get(key).pipe(take(1)).subscribe((tr) => {
         this.option.xAxis.data[i] = tr;
+        this.chartInstance.setOption({
+          xAxis: this.option.xAxis
+        });
       });
     });
   }
