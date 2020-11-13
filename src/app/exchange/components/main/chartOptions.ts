@@ -4,6 +4,7 @@ export const chartOptions = {
   tooltip: {
     show: false
   },
+  animation: false,
   grid: { // https://echarts.apache.org/en/option.html#grid
     left: '50px', // Distance between grid component and the left side of the container.
     right: '50px',
