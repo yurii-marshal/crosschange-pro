@@ -1,8 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, pairwise, startWith, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  pairwise,
+  startWith,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -143,14 +154,15 @@ export class MainComponent implements OnInit, OnDestroy {
         map(([from, to]) => [from.currency, to.currency]),
         switchMap(([fromCurrency, toCurrency]) => {
           return combineLatest([
-            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
+            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]).pipe(catchError(() => of(null))),
             this.exchange.getChartData(
               fromCurrency.key,
               toCurrency.key,
               this.chartPeriod,
-              this.periodSteps[this.chartPeriod])
+              this.periodSteps[this.chartPeriod]).pipe(catchError(() => of(null)))
           ]);
-        })
+        }),
+        filter(([rateInfo, chartData]) => rateInfo && chartData)
       )
       .subscribe(([rateInfo, chartData]) => {
         this.exchangeInfo$.next(rateInfo);

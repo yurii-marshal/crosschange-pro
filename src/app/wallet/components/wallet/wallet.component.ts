@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { IUserBalance, WalletService } from '../../services/wallet.service';
-import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { defaultPagination } from '../../../shared/constants/pagination.constant';
@@ -53,6 +53,14 @@ export class WalletComponent implements OnInit {
     if (!('offset' in queryParams) || !('limit' in queryParams)) {
       this.navigateDefault();
     }
+
+    this.euroAccountBalanceSource = this.route.queryParams
+      .pipe(
+        share(),
+        filter(params => params.limit && params.offset),
+        switchMap(params => this.walletService.getEuroAccountList(params)),
+        map((res) => new MatTableDataSource(res.results)),
+      );
 
     this.cryptoBalanceSource = combineLatest([
       this.searchInputControl.valueChanges
