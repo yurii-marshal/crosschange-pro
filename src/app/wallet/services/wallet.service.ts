@@ -13,6 +13,14 @@ export interface IUserBalance {
   total_balance_eur: number;
 }
 
+export interface IEuroBalance {
+  account_balance_btc: number;
+  account_balance_eur: number;
+  account_id: string;
+  frozen_balance_btc: number;
+  frozen_balance_eur: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -64,5 +72,29 @@ export class WalletService extends ApiService {
       .set('hideLowBalance', params.hideLowBalance);
 
     return super.get('spot-wallets', {params: parameters});
+  }
+
+  getEuroAccountList(params: any): Observable<any> {
+    let parameters = new HttpParams();
+
+    parameters = parameters
+      .set('offset', params.offset)
+      .set('limit', params.limit);
+
+    return super.get('spot-wallets/users/balances/euro-account', {params: parameters})
+      .pipe(map((res: IEuroBalance) => {
+        return {
+          count: 1,
+          results: [{
+            cryptocurrency: 'EUR',
+            balance: {
+              total: res.account_balance_eur + res.frozen_balance_eur,
+              available: res.account_balance_eur,
+              in_order: res.frozen_balance_eur,
+              btc: res.account_balance_btc + res.frozen_balance_btc,
+            },
+          }]
+        };
+      }));
   }
 }
