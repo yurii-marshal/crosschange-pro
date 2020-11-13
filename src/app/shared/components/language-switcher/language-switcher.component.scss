@@ -44,3 +44,13 @@
 .flex {
   display: flex;
 }
+
+@media all and (max-width: $media-tablet) {
+  .mat-menu-trigger {
+    cursor: default !important;
+  }
+
+  .mat-icon.notranslate {
+    cursor: default !important;
+  }
+}
