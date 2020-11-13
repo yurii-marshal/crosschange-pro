@@ -337,6 +337,14 @@
       }
     }
   }
+
+  ::ng-deep .mat-select {
+    cursor: default !important;
+  }
+
+  ::ng-deep .mat-select-trigger {
+    cursor: default !important;
+  }
 }
 
 @media all and (max-width: 685px) {
