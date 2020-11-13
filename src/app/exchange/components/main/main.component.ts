@@ -16,6 +16,7 @@ import { Devices, MediaBreakpointsService } from '../../../shared/services/media
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
 import { TranslateService } from '@ngx-translate/core';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-main',
@@ -346,3 +347,25 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 }
+
+_([
+  'weekdays_abbrs.sun',
+  'weekdays_abbrs.mon',
+  'weekdays_abbrs.tue',
+  'weekdays_abbrs.wed',
+  'weekdays_abbrs.thu',
+  'weekdays_abbrs.fri',
+  'weekdays_abbrs.sat',
+  'months_abbrs.jan',
+  'months_abbrs.feb',
+  'months_abbrs.mar',
+  'months_abbrs.apr',
+  'months_abbrs.may',
+  'months_abbrs.jun',
+  'months_abbrs.jul',
+  'months_abbrs.aug',
+  'months_abbrs.sep',
+  'months_abbrs.oct',
+  'months_abbrs.nov',
+  'months_abbrs.dec'
+]);

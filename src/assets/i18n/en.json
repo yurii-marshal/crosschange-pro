@@ -16,7 +16,7 @@
     "in_order": "In Order",
     "info_text_1": "Coins will be deposited after 3 network confirmations.",
     "info_text_2": "Until 3 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.",
-    "popular": "Popular Coins",
+    "popular": "",
     "title": "Deposit",
     "total_balance": "Total Balance"
   },
@@ -131,6 +131,20 @@
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"
   },
+  "months_abbrs": {
+    "apr": "April",
+    "aug": "August",
+    "dec": "December",
+    "feb": "February",
+    "jan": "January",
+    "jul": "July",
+    "jun": "June",
+    "mar": "March",
+    "may": "May",
+    "nov": "November",
+    "oct": "October",
+    "sep": "September"
+  },
   "notifications": {
     "title": "notifications",
     "view_all": "View all"
@@ -243,6 +257,15 @@
     "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
   },
+  "weekdays_abbrs": {
+    "fri": "Friday",
+    "mon": "Monday",
+    "sat": "Saturday",
+    "sun": "Sunday",
+    "thu": "Thursday",
+    "tue": "Tuesday",
+    "wed": "Wednesday"
+  },
   "withdraw_page": {
     "address_management": "Address Management",
     "amount": "Amount",
@@ -265,28 +288,5 @@
     "transaction_fee": "Transaction Fee",
     "warning_text": "Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.",
     "you_will_get": "You Will Get"
-  },
-  "weekdays_abbrs": {
-    "sun": "Sunday",
-    "mon": "Monday",
-    "tue": "Tuesday",
-    "wed": "Wednesday",
-    "thu": "Thursday",
-    "fri": "Friday",
-    "sat": "Saturday"
-  },
-  "months_abbrs": {
-    "jan": "January",
-    "feb": "February",
-    "mar": "March",
-    "apr": "April",
-    "may": "May",
-    "jun": "June",
-    "jul": "July",
-    "aug": "August",
-    "sep": "September",
-    "oct": "October",
-    "nov": "November",
-    "dec": "December"
   }
 }
