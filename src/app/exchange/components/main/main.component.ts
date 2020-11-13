@@ -2,17 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  pairwise,
-  startWith,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pairwise, startWith, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -25,6 +15,7 @@ import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange
 import { Devices, MediaBreakpointsService } from '../../../shared/services/media-breakpoints.service';
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main',
@@ -42,11 +33,12 @@ export class MainComponent implements OnInit, OnDestroy {
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
   periodSteps = {
-    [this.chartPeriods.DAY]: 30,
-    [this.chartPeriods.WEEK]: 30,
-    [this.chartPeriods.MONTH]: 30,
-    [this.chartPeriods.YEAR]: 30,
+    [this.chartPeriods.DAY]: 1000,
+    [this.chartPeriods.WEEK]: 1000 * 7,
+    [this.chartPeriods.MONTH]: 1000 * 7 * 30,
+    [this.chartPeriods.YEAR]: 1000 * 7 * 4
   };
+
   inputsEnabled = true;
   maxDisabled = false;
   targetControlName;
@@ -58,7 +50,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private exchange: ExchangeService,
     private mediaBreakpointsService: MediaBreakpointsService,
     private dialog: MatDialog,
-    private helper: ExchangeHelperService
+    private helper: ExchangeHelperService,
+    private translate: TranslateService
   ) {
   }
 
@@ -277,7 +270,8 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     }];
     this.option.yAxis.min = Math.min(...data.points) / 1.02;
-    this.option.xAxis.data = data.axis;
+    this.option.xAxis.data = data.axis.map(_ => '');
+    this.translateXAxisLabels(data.axis);
     if (this.chartInstance) {
       this.chartInstance.setOption({
         series: this.option.series,
@@ -285,6 +279,33 @@ export class MainComponent implements OnInit, OnDestroy {
         yAxis: this.option.yAxis,
       });
     }
+  }
+
+  private translateXAxisLabels(data: string[]): void {
+    (data || []).forEach((v, i) => {
+      let key;
+      switch (this.chartPeriod) {
+        case IChartPeriods.DAY:
+          this.chartInstance.setOption({ grid: { left: '30px' } });
+          this.option.xAxis.data[i] = v + ':00';
+          return;
+        case IChartPeriods.WEEK:
+          this.chartInstance.setOption({ grid: { left: '50px' } });
+          key = `weekdays_abbrs.${(v + '').toLowerCase()}`;
+          break;
+        case IChartPeriods.YEAR:
+          this.chartInstance.setOption({ grid: { left: '50px' } });
+          key = `months_abbrs.${(v + '').toLowerCase()}`;
+          break;
+        default:
+          this.chartInstance.setOption({ grid: { left: '30px' } });
+          this.option.xAxis.data[i] = v;
+          return;
+      }
+      this.translate.get(key).pipe(take(1)).subscribe((tr) => {
+        this.option.xAxis.data[i] = tr;
+      });
+    });
   }
 
   convertCurrency(target, toUpdate): void {

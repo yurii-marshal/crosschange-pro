@@ -265,5 +265,28 @@
     "transaction_fee": "Transaction Fee",
     "warning_text": "Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.",
     "you_will_get": "You Will Get"
+  },
+  "weekdays_abbrs": {
+    "sun": "Sunday",
+    "mon": "Monday",
+    "tue": "Tuesday",
+    "wed": "Wednesday",
+    "thu": "Thursday",
+    "fri": "Friday",
+    "sat": "Saturday"
+  },
+  "months_abbrs": {
+    "jan": "January",
+    "feb": "February",
+    "mar": "March",
+    "apr": "April",
+    "may": "May",
+    "jun": "June",
+    "jul": "July",
+    "aug": "August",
+    "sep": "September",
+    "oct": "October",
+    "nov": "November",
+    "dec": "December"
   }
 }

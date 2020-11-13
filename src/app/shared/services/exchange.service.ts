@@ -8,9 +8,9 @@ import { HttpParams } from '@angular/common/http';
 
 export enum IChartPeriods {
   DAY = '24h',
-  WEEK = '1w',
-  MONTH = '1m',
-  YEAR = '1y'
+  WEEK = '7d',
+  MONTH = '4w',
+  YEAR = '12m'
 }
 
 export interface IPreCheckResponse {
