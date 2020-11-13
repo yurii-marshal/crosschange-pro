@@ -2,17 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  pairwise,
-  startWith,
-  switchMap,
-  take,
-  takeUntil,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, pairwise, startWith, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -26,8 +16,9 @@ import { Devices, MediaBreakpointsService } from '../../../shared/services/media
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
 import { ActivatedRoute } from '@angular/router';
-import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { PaymentMethods } from 'src/app/buy-crypto/enums/PaymentMethods';
+import { TranslateService } from '@ngx-translate/core';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
 @Component({
   selector: 'app-main',
@@ -46,11 +37,12 @@ export class MainComponent implements OnInit, OnDestroy {
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
   periodSteps = {
-    [this.chartPeriods.DAY]: 30,
-    [this.chartPeriods.WEEK]: 30,
-    [this.chartPeriods.MONTH]: 30,
-    [this.chartPeriods.YEAR]: 30,
+    [this.chartPeriods.DAY]: 1000,
+    [this.chartPeriods.WEEK]: 1000 * 7,
+    [this.chartPeriods.MONTH]: 1000 * 7 * 30,
+    [this.chartPeriods.YEAR]: 1000 * 7 * 4
   };
+
   inputsEnabled = true;
   maxDisabled = false;
   activeLink: string;
@@ -67,6 +59,7 @@ export class MainComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private helper: ExchangeHelperService,
     private route: ActivatedRoute,
+    private translate: TranslateService
   ) {
   }
 
@@ -307,7 +300,8 @@ export class MainComponent implements OnInit, OnDestroy {
       }
     }];
     this.option.yAxis.min = Math.min(...data.points) / 1.02;
-    this.option.xAxis.data = data.axis;
+    this.option.xAxis.data = data.axis.map(_ => '');
+    this.translateXAxisLabels(data.axis);
     if (this.chartInstance) {
       this.chartInstance.setOption({
         series: this.option.series,
@@ -315,6 +309,33 @@ export class MainComponent implements OnInit, OnDestroy {
         yAxis: this.option.yAxis,
       });
     }
+  }
+
+  private translateXAxisLabels(data: string[]): void {
+    (data || []).forEach((v, i) => {
+      let key;
+      switch (this.chartPeriod) {
+        case IChartPeriods.DAY:
+          this.chartInstance.setOption({ grid: { left: '30px' } });
+          this.option.xAxis.data[i] = v + ':00';
+          return;
+        case IChartPeriods.WEEK:
+          this.chartInstance.setOption({ grid: { left: '50px' } });
+          key = `weekdays_abbrs.${(v + '').toLowerCase()}`;
+          break;
+        case IChartPeriods.YEAR:
+          this.chartInstance.setOption({ grid: { left: '50px' } });
+          key = `months_abbrs.${(v + '').toLowerCase()}`;
+          break;
+        default:
+          this.chartInstance.setOption({ grid: { left: '30px' } });
+          this.option.xAxis.data[i] = v;
+          return;
+      }
+      this.translate.get(key).pipe(take(1)).subscribe((tr) => {
+        this.option.xAxis.data[i] = tr;
+      });
+    });
   }
 
   convertCurrency(target, toUpdate): void {
@@ -360,4 +381,23 @@ _([
   'buy_crypto.buy',
   'buy_crypto.sell',
   'buy_crypto.exchange',
+  'weekdays_abbrs.sun',
+  'weekdays_abbrs.mon',
+  'weekdays_abbrs.tue',
+  'weekdays_abbrs.wed',
+  'weekdays_abbrs.thu',
+  'weekdays_abbrs.fri',
+  'weekdays_abbrs.sat',
+  'months_abbrs.jan',
+  'months_abbrs.feb',
+  'months_abbrs.mar',
+  'months_abbrs.apr',
+  'months_abbrs.may',
+  'months_abbrs.jun',
+  'months_abbrs.jul',
+  'months_abbrs.aug',
+  'months_abbrs.sep',
+  'months_abbrs.oct',
+  'months_abbrs.nov',
+  'months_abbrs.dec'
 ]);

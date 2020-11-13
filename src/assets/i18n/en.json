@@ -149,6 +149,20 @@
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"
   },
+  "months_abbrs": {
+    "apr": "April",
+    "aug": "August",
+    "dec": "December",
+    "feb": "February",
+    "jan": "January",
+    "jul": "July",
+    "jun": "June",
+    "mar": "March",
+    "may": "May",
+    "nov": "November",
+    "oct": "October",
+    "sep": "September"
+  },
   "notifications": {
     "title": "notifications",
     "view_all": "View all"
@@ -262,6 +276,15 @@
     "trade": "Trade",
     "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
+  },
+  "weekdays_abbrs": {
+    "fri": "Friday",
+    "mon": "Monday",
+    "sat": "Saturday",
+    "sun": "Sunday",
+    "thu": "Thursday",
+    "tue": "Tuesday",
+    "wed": "Wednesday"
   },
   "withdraw_page": {
     "address_management": "Address Management",
