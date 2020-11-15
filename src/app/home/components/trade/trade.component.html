@@ -1,0 +1,50 @@
+<div class="trade-header">
+
+</div>
+
+<div class="trade-windows" cdkDropListGroup>
+
+  <div class="window-container left"
+    cdkDropList
+    [cdkDropListData]="leftContainer"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <app-resizable-window cdkDrag [headerText]="'trade_page.orderbook' | translate">
+      <div class="orderbook-table-container"></div>
+    </app-resizable-window>
+  </div>
+
+  <div class="window-container center"
+    cdkDropList
+    [cdkDropListData]="centralContainer"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <app-resizable-window cdkDrag [headerText]="'trade_page.chart' | translate">
+      <div class="chart-container"></div>
+    </app-resizable-window>
+    <app-resizable-window cdkDrag [headerText]="'trade_page.exchange' | translate">
+      <div class="exhange-table-container"></div>
+    </app-resizable-window>
+  </div>
+
+  <div class="window-container right"
+       cdkDropList
+       [cdkDropListData]="rightContainer"
+       (cdkDropListDropped)="drop($event)"
+  >
+    <app-resizable-window cdkDrag [headerText]="'trade_page.market_trades' | translate">
+      <div class="market-trades-container"></div>
+    </app-resizable-window>
+  </div>
+
+  <div class="window-container bottom">
+    <app-resizable-window
+      [draggableWindow]="false"
+      [resizableWindow]="false"
+      [headerText]="'trade_page.orders_and_history' | translate"
+    >
+      <div class="orders-and-history-container"></div>
+    </app-resizable-window>
+  </div>
+
+</div>

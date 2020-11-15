@@ -180,8 +180,8 @@
     "tag": "Tag",
     "turn_off": "Turn Off",
     "turn_on": "Turn On",
-    "wallet_label": "Wallet Label",
     "wait": "We are adding your wallet address. Please wait. ",
+    "wallet_label": "Wallet Label",
     "whitelist": "Whitelist",
     "whitelisted_addresses_only": "Whitelisted only",
     "withdrawal_address_added": "Your withdrawal address was added successfully!",
@@ -220,6 +220,13 @@
     "months_before": "{{months}} months before",
     "year_before": "a year before",
     "years_before": "{{years}} years before"
+  },
+  "trade_page": {
+    "chart": "Chart",
+    "exchange": "Exchange",
+    "market_trades": "Market Trades",
+    "orderbook": "Orderbook",
+    "orders_and_history": "Orders & History"
   },
   "wallet_page": {
     "action": "Action",

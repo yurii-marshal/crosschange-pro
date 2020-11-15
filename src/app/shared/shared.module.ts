@@ -28,6 +28,7 @@ import { AddressSelectComponent } from './components/address-select/address-sele
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { ResizableWindowComponent } from './components/resizable-window/resizable-window.component';
 
 const components = [
   HeaderComponent,
@@ -43,6 +44,7 @@ const components = [
   CurrencySelectComponent,
   ConfirmationComponent,
   AddWithdrawAddressDialogComponent,
+  ResizableWindowComponent,
 ];
 
 const pipes = [

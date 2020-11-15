@@ -8,6 +8,9 @@ import { AngularMaterialModule } from 'src/app/angular-material.module';
 
 import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TradeComponent } from './components/trade/trade.component';
+import { PairsGuard } from './guards/pairs-guard/pairs.guard';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export const routes: Routes = [
   {
@@ -28,12 +31,23 @@ export const routes: Routes = [
       headerClass: 'widget'
     },
   },
+  {
+    path: 'trade/:pair',
+    // TODO: uncomment
+    // canActivate: [ AuthGuard, PairsGuard ],
+    component: TradeComponent,
+    children: [],
+    data: {
+      headerClass: 'widget'
+    },
+  },
 ];
 
 @NgModule({
   declarations: [
     HomeComponent,
     MarketsComponent,
+    TradeComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +55,7 @@ export const routes: Routes = [
     SharedModule,
     ReactiveFormsModule,
     AngularMaterialModule,
+    DragDropModule,
   ]
 })
 export class HomeModule { }
