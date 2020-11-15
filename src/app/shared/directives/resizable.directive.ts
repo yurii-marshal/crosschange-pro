@@ -30,6 +30,7 @@ export class ResizableDirective implements OnInit {
     }
 
     const newWidth = (wid) => {
+      // tslint:disable-next-line
       const newWidth = Math.max(this.resizableMinWidth, wid);
       el.nativeElement.style.width = (newWidth) + 'px';
     };
@@ -46,6 +47,7 @@ export class ResizableDirective implements OnInit {
       if (!this.dragging) {
         return;
       }
+      // tslint:disable-next-line
       const newWidth = Math.max(this.resizableMinWidth, (evt.clientX - el.nativeElement.offsetLeft)) + 'px';
       el.nativeElement.style.width = (evt.clientX - el.nativeElement.offsetLeft) + 'px';
       evt.stopPropagation();
