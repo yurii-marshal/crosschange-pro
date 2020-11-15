@@ -5,12 +5,13 @@
 <div class="trade-windows fx-row fx-wrap" cdkDropListGroup>
 
   <div class="window-container left"
-    cdkDropList
-    [cdkDropListData]="leftContainer"
-    (cdkDropListDropped)="drop($event)"
+       appResizable
+       cdkDropList
+       [cdkDropListData]="leftContainer"
+       (cdkDropListDropped)="drop($event)"
   >
     <div class="drag-item" cdkDrag>
-      <app-resizable-window  [headerText]="'trade_page.orderbook' | translate">
+      <app-resizable-window [headerText]="'trade_page.orderbook' | translate">
         <div class="orderbook-table-container"></div>
         ORDERBOOK WORKS
       </app-resizable-window>
@@ -18,9 +19,10 @@
   </div>
 
   <div class="window-container center"
-    cdkDropList
-    [cdkDropListData]="centralContainer"
-    (cdkDropListDropped)="drop($event)"
+       appResizable
+       cdkDropList
+       [cdkDropListData]="centralContainer"
+       (cdkDropListDropped)="drop($event)"
   >
     <div class="drag-item" cdkDrag>
       <app-resizable-window cdkDrag [headerText]="'trade_page.chart' | translate">
@@ -37,6 +39,8 @@
   </div>
 
   <div class="window-container right"
+       appResizable
+       [resizableGrabXWidth]="0"
        cdkDropList
        [cdkDropListData]="rightContainer"
        (cdkDropListDropped)="drop($event)"
@@ -49,7 +53,7 @@
     </div>
   </div>
 
-  <div class="window-container bottom">
+  <div class="window-container bottom" appResizable [resizableGrabXWidth]="0">
     <div class="drag-item">
       <app-resizable-window
         [draggableWindow]="false"

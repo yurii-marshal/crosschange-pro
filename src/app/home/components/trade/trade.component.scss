@@ -9,15 +9,10 @@
 
   .window-container {
     .drag-item {
-      margin-top: 4px;
     }
 
     &.left {
       width: 25%;
-
-      .drag-item {
-        margin-right: 4px;
-      }
     }
 
     &.center {
@@ -26,10 +21,6 @@
 
     &.right {
       width: 25%;
-
-      .drag-item {
-        margin-left: 4px;
-      }
     }
 
     &.bottom {

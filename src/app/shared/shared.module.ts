@@ -29,6 +29,7 @@ import { ConfirmationComponent } from './components/confirmation/confirmation.co
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 import { ResizableWindowComponent } from './components/resizable-window/resizable-window.component';
+import { ResizableDirective } from './directives/resizable.directive';
 
 const components = [
   HeaderComponent,
@@ -58,6 +59,7 @@ const pipes = [
     ...components,
     ...pipes,
     OnlyNumbersDirective,
+    ResizableDirective,
   ],
   imports: [
     CommonModule,
@@ -94,6 +96,7 @@ const pipes = [
     LayoutModule,
     NgxEchartsModule,
     OnlyNumbersDirective,
+    ResizableDirective,
   ],
   providers: [
     DatePipe
