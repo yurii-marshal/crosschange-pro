@@ -5,14 +5,35 @@
 }
 
 .trade-windows {
+  background-color: $color-grey-20;
+
   .window-container {
-    .left {
+    .drag-item {
+      margin-top: 4px;
     }
-    .center {
+
+    &.left {
+      width: 25%;
+
+      .drag-item {
+        margin-right: 4px;
+      }
     }
-    .right {
+
+    &.center {
+      width: 50%;
     }
-    .bottom {
+
+    &.right {
+      width: 25%;
+
+      .drag-item {
+        margin-left: 4px;
+      }
+    }
+
+    &.bottom {
+      width: 100%;
     }
   }
 }

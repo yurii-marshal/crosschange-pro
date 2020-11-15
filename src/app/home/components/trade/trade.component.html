@@ -2,16 +2,19 @@
 
 </div>
 
-<div class="trade-windows" cdkDropListGroup>
+<div class="trade-windows fx-row fx-wrap" cdkDropListGroup>
 
   <div class="window-container left"
     cdkDropList
     [cdkDropListData]="leftContainer"
     (cdkDropListDropped)="drop($event)"
   >
-    <app-resizable-window cdkDrag [headerText]="'trade_page.orderbook' | translate">
-      <div class="orderbook-table-container"></div>
-    </app-resizable-window>
+    <div class="drag-item" cdkDrag>
+      <app-resizable-window  [headerText]="'trade_page.orderbook' | translate">
+        <div class="orderbook-table-container"></div>
+        ORDERBOOK WORKS
+      </app-resizable-window>
+    </div>
   </div>
 
   <div class="window-container center"
@@ -19,12 +22,18 @@
     [cdkDropListData]="centralContainer"
     (cdkDropListDropped)="drop($event)"
   >
-    <app-resizable-window cdkDrag [headerText]="'trade_page.chart' | translate">
-      <div class="chart-container"></div>
-    </app-resizable-window>
-    <app-resizable-window cdkDrag [headerText]="'trade_page.exchange' | translate">
-      <div class="exhange-table-container"></div>
-    </app-resizable-window>
+    <div class="drag-item" cdkDrag>
+      <app-resizable-window cdkDrag [headerText]="'trade_page.chart' | translate">
+        <div class="chart-container"></div>
+        CHART WORKS
+      </app-resizable-window>
+    </div>
+    <div class="drag-item" cdkDrag>
+      <app-resizable-window cdkDrag [headerText]="'trade_page.exchange' | translate">
+        <div class="exhange-table-container"></div>
+        EXCHANGE WORKS
+      </app-resizable-window>
+    </div>
   </div>
 
   <div class="window-container right"
@@ -32,19 +41,25 @@
        [cdkDropListData]="rightContainer"
        (cdkDropListDropped)="drop($event)"
   >
-    <app-resizable-window cdkDrag [headerText]="'trade_page.market_trades' | translate">
-      <div class="market-trades-container"></div>
-    </app-resizable-window>
+    <div class="drag-item" cdkDrag>
+      <app-resizable-window cdkDrag [headerText]="'trade_page.market_trades' | translate">
+        <div class="market-trades-container"></div>
+        MARKET TRADES WORKS
+      </app-resizable-window>
+    </div>
   </div>
 
   <div class="window-container bottom">
-    <app-resizable-window
-      [draggableWindow]="false"
-      [resizableWindow]="false"
-      [headerText]="'trade_page.orders_and_history' | translate"
-    >
-      <div class="orders-and-history-container"></div>
-    </app-resizable-window>
+    <div class="drag-item">
+      <app-resizable-window
+        [draggableWindow]="false"
+        [resizableWindow]="false"
+        [headerText]="'trade_page.orders_and_history' | translate"
+      >
+        <div class="orders-and-history-container"></div>
+        ORDERS & HISTORY WORKS
+      </app-resizable-window>
+    </div>
   </div>
 
 </div>
