@@ -161,6 +161,10 @@
   color: $color-brand;
 }
 
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
 .mat-column-favorite {
   flex: 1;
   padding-left: 12px;
@@ -213,26 +217,41 @@
   visibility: hidden;
 }
 
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  transform: rotate(-180deg);
+}
+
 ::ng-deep .mat-select-panel {
   position: absolute;
-  top: 33px;
+  top: 38px;
   max-width: 143px !important;
   max-height: 238px !important;
   min-width: 100% !important;
+  border: 0.5px solid $color-grey-20;
 
   .mat-option {
+    position: relative;
     padding: 0 14px;
     width: 143px;
     height: 35px !important;
     background-color: $color-white-100;
-    border-bottom: 1px solid $color-grey-20;
+
+    &::after {
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 0;
+      content: '';
+      height: 1px;
+      background: $color-grey-10;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
 
     &:hover {
       background: rgba($color-brand, 0.05);
-    }
-
-    &:last-child {
-      border-bottom: none;
     }
 
     .mat-option-text {
@@ -247,10 +266,17 @@
   }
 }
 
+::ng-deep .mat-select-trigger {
+  padding: 2px 15px 0;
+  border: 1px solid $color-grey-10;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 ::ng-deep mat-select-trigger {
   display: flex;
   align-items: center;
-  height: 25px;
+  height: 30px;
 
   .mat-icon {
     width: 20px;
@@ -403,6 +429,7 @@
     padding: 10px 12px;
     background-color: transparent;
     flex-direction: column;
+    align-items: flex-start;
     justify-content: center;
     width: 90vw;
     height: auto;
@@ -413,7 +440,6 @@
 
     &-dropdown {
       margin-right: 0;
-      width: 100%;
     }
 
     &-icon {
