@@ -1,5 +1,7 @@
 <div class="confirmation-popup">
-  <div class="confirmation-popup__header">
+  <mat-icon [svgIcon]="'icon_close'" class="close-btn" *ngIf="confirmationStage !== 2" matDialogClose></mat-icon>
+
+  <div class="confirmation-popup__header" [ngClass]="{processing: confirmationStage === 2}">
     <mat-icon [svgIcon]="'icon_arrows'"
               class="confirmation-popup__icon-arrows"
               *ngIf="confirmationStage === 1">
@@ -88,7 +90,7 @@
     </div>
 
     <div class="confirmation-popup__buttons">
-      <button class="confirmation-popup__btn confirmation-popup__exchange-btn" (click)="closeDialog(true)">
+      <button class="confirmation-popup__btn confirmation-popup__exchange-btn done-btn" (click)="closeDialog(true)">
         {{'exchange.done' | translate}}
       </button>
     </div>
