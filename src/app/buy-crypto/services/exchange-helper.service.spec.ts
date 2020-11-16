@@ -41,7 +41,7 @@ describe('ExchangeHelperService', () => {
     expect(service.convertFilter(form, 'f', 't')).toEqual(false);
 
     form.get('t').setValue({ currency: 0, amount: 1 });
-    expect(service.convertFilter(form, 'f', 't')).toEqual(true);
+    expect(service.convertFilter(form, 'f', 't')).toEqual(false);
 
     form.get('t').setValue({ currency: 1, amount: 1 });
     expect(service.convertFilter(form, 'f', 't')).toEqual(true);

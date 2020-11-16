@@ -5,14 +5,14 @@ import { CoinServiceMock } from '../../../../../testing/CoinServiceMock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { environment } from '../../../../environments/environment';
 import { ENVIRONMENT, IEnvironment } from 'shared-kuailian-lib';
-import { MatDialogModule } from '@angular/material/dialog';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { CurrencySelectComponent } from '../../../shared/components/currency-select/currency-select.component';
 import { SelectedWalletBalancePipe } from '../../pipes/selected-wallet-balance.pipe';
 import { SelectedWalletKeyPipe } from '../../pipes/selected-wallet-key.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { FakeMatIconRegistry } from '@angular/material/icon/testing';
+import { FakeMatIconRegistry, MatIconTestingModule } from '@angular/material/icon/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ExchangeService } from '../../../shared/services/exchange.service';
@@ -31,6 +31,9 @@ import { ActivatedRouteStub } from '../../../../../testing/ActivatedRouteStub';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
+import { CurrencyTypePipe } from '../../../shared/pipes/currency-type.pipe';
+import { ActiveLink } from '../../enums/ActiveLink';
+import {ExchangeConfirmationComponent} from '../exchange-confirmation/exchange-confirmation.component';
 
 async function setFormValue(component, fixture, from, to, fromAmount, toAmount, fee = 0, rate = 0, valid = true, paymentMethod = 'spot-wallet'): Promise<void> {
   component.form.setValue({
@@ -52,7 +55,7 @@ async function setFormValue(component, fixture, from, to, fromAmount, toAmount, 
 }
 
 // TODO: FIX
-describe('MainComponent', () => {
+fdescribe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
   const routeStub = new ActivatedRouteStub();
@@ -68,8 +71,19 @@ describe('MainComponent', () => {
         ReactiveFormsModule,
         NoopAnimationsModule,
         MatIconModule,
+        MatIconTestingModule,
         MatButtonToggleModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: '',
+            component: MainComponent
+          },
+          {
+            path: '**',
+            redirectTo: '',
+            pathMatch: 'full'
+          }
+        ]),
         MatTabsModule,
         NgxEchartsModule.forRoot({
           echarts: () => import('echarts'),
@@ -81,6 +95,7 @@ describe('MainComponent', () => {
         SelectedWalletBalancePipe,
         SelectedWalletKeyPipe,
         CurrencySelectedPipe,
+        CurrencyTypePipe
       ],
       providers: [
         {
@@ -107,7 +122,7 @@ describe('MainComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have button enabled/disabled', async (done) => {
+  it('should have button enabled/disabled', async () => {
     await setFormValue(component, fixture, currenciesMock[0], currenciesMock[1], 0, 0, 1, 1, true);
     let button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual('');
@@ -132,7 +147,6 @@ describe('MainComponent', () => {
     button = fixture.nativeElement.querySelector('.left button');
     expect(button.getAttribute('disabled')).toEqual('');
     expect(component.form.valid).toEqual(false);
-    done();
   });
 
   it('should create form', async () => {
@@ -263,6 +277,38 @@ describe('MainComponent', () => {
     });
   });
 
+
+  /*it('should open confirm component with params', async (done) => {
+    await setFormValue(component, fixture, currenciesMock[1], currenciesMock[2], 1, 2);
+
+    component.exchangeInfo$.next(null);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      const dialogRef = TestBed.inject(MatDialog);
+      const button = fixture.nativeElement.querySelector('.left button');
+      const spy = spyOn(dialogRef, 'open');
+      MainTestHelper.click(button);
+      expect(spy).toHaveBeenCalledWith(ExchangeConfirmationComponent, {
+        width: '400px',
+        panelClass: 'confirmation',
+        data: {
+          confirmationStage: 1,
+          activeLink: component.activeLink,
+          fromCurrencyAmount: component.form.value.fromCurrency.amount,
+          fromCurrencyKey: component.form.value.fromCurrency.currency.key,
+          toCurrencyAmount: component.form.value.toCurrency.amount,
+          toCurrencyKey: component.form.value.toCurrency.currency.key,
+          rate: component.form.value.rate,
+          fee: component.form.value.fee,
+          paymentMethod: component.form.value.paymentMethod
+        }
+      });
+      fixture.detectChanges();
+      done();
+    });
+  });*/
+
   it('should recalculate value', (done) => {
     setFormValue(component, fixture, currenciesMock[1], currenciesMock[2], 1, 2).then(() => {
       component.form.get('valid').valueChanges.pipe(take(1)).subscribe(() => {
@@ -288,6 +334,45 @@ describe('MainComponent', () => {
         amount: 1
       });
     });
+  });
+
+  it('should change tab', async () => {
+    await fixture.whenStable();
+    routeStub.setQueryParamMap({ tab: ActiveLink.EXCHANGE });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.activeLink).toEqual(ActiveLink.EXCHANGE);
+    let button = fixture.nativeElement.querySelector('.fx-row .left button');
+    expect(button.innerText).toEqual('buy_crypto.exchange');
+    routeStub.setQueryParamMap({ tab: ActiveLink.BUY });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.activeLink).toEqual(ActiveLink.BUY);
+    button = fixture.nativeElement.querySelector('.fx-row .left button');
+    expect(button.innerText).toEqual('buy_crypto.buy btc');
+  });
+
+  it('should payment methods based on tab', async () => {
+    await fixture.whenStable();
+    routeStub.setQueryParamMap({ tab: ActiveLink.EXCHANGE });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    expect(component.activeLink).toEqual(ActiveLink.EXCHANGE);
+    let methods = fixture.nativeElement.querySelectorAll('.payment-method__label');
+    expect(methods.length).toEqual(0);
+    routeStub.setQueryParamMap({ tab: ActiveLink.BUY });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    methods = fixture.nativeElement.querySelectorAll('.payment-method__label');
+    const buyExpected = [
+      'buy_crypto.spot_wallet',
+      'buy_crypto.coming_soon',
+      'buy_crypto.coming_soon'
+    ];
+    expect(methods.length).toEqual(3);
+    for (let i = 0; i < methods.length; i++) {
+      expect(methods[i].innerText).toEqual(buyExpected[i]);
+    }
   });
 
 });

@@ -15,7 +15,8 @@ import { currenciesMock, ExchangeServiceMock } from '../../../../../testing/Exch
 import { ExchangeService } from '../../services/exchange.service';
 import { take } from 'rxjs/operators';
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
-import {CurrencySelectedPipe} from '../../pipes/currency-selected.pipe';
+import { CurrencySelectedPipe } from '../../pipes/currency-selected.pipe';
+import { CurrencyTypePipe } from '../../pipes/currency-type.pipe';
 
 @Component({
   selector: 'app-test-host',
@@ -36,7 +37,8 @@ describe('CurrencySelectComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CurrencySelectComponent,
-        CurrencySelectedPipe
+        CurrencySelectedPipe,
+        CurrencyTypePipe
       ],
       imports: [
         HttpClientTestingModule,
