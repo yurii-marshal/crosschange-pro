@@ -96,7 +96,17 @@
         </div>
       </form>
       <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!form.valid || !inputsEnabled">
-        {{'buy_crypto.exchange' | translate}}
+        <ng-container [ngSwitch]="activeLink">
+          <ng-container *ngSwitchCase="'buy'">
+            {{ 'buy_crypto.buy' | translate }} {{ form.get('toCurrency').value?.currency?.key }}
+          </ng-container>
+          <ng-container *ngSwitchCase="'sell'">
+            {{ 'buy_crypto.sell' | translate }} {{ form.get('fromCurrency').value?.currency?.key }}
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ 'buy_crypto.exchange' | translate }}
+          </ng-container>
+        </ng-container>
       </button>
       <div class="fee" *ngIf="form.get('fee').value">
         {{'buy_crypto.fee' | translate}}: {{form.get('fee').value}}
