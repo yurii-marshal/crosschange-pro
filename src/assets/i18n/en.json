@@ -226,11 +226,17 @@
     "24h_high": "24h High",
     "24h_low": "24h Low",
     "24h_volume": "24h Volume",
+    "all": "All",
+    "change": "Change",
     "chart": "Chart",
+    "cross": "Cross",
     "exchange": "Exchange",
+    "isolated": "Isolated",
+    "last_price": "Last Price",
     "market_trades": "Market Trades",
     "orderbook": "Orderbook",
     "orders_and_history": "Orders & History",
+    "pair": "Pair",
     "spot_tutorial": "Spot Tutorial"
   },
   "wallet_page": {
