@@ -225,8 +225,6 @@ mat-icon {
   }
 }
 
-
-
 .notifications-popup {
   border-radius: 4px;
   //margin: 36px -40px 0 0;
@@ -310,6 +308,10 @@ mat-icon {
   ::ng-deep .notes-popover-panel {
     margin-top: 34px;
     margin-right: -40px;
+  }
+
+  .notifications-popup {
+    width: 512px;
   }
 }
 
