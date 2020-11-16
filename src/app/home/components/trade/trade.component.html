@@ -1,55 +1,105 @@
-<div class="trade-header">
+<div class="news-ticker"></div>
 
+<div class="trade-header fx-row fx-h-align-space-between fx-v-align-center">
+  <div class="fx-row">
+    <div (click)="toggleTradeSelector()" class="trade-type fx-row fx-h-align-space-between fx-v-align-center">
+      <div class="pair">
+        <div class="label fx-row fx-v-align-center">
+          {{'TRX/BTC'}}
+          <div class="multiple fx-row fx-v-align-center fx-h-align-center">
+            {{'10x'}}
+          </div>
+        </div>
+        <div class="subtype">{{'TRON'}}</div>
+      </div>
+      <mat-icon [svgIcon]="'icon_arrow_down'"
+                [class.opened]="isTradeTypeSelectorOpened"
+                class="selector-icon"
+      ></mat-icon>
+    </div>
+    <div class="pair-values fx-row fx-v-align-center">
+      <div class="amount">
+        <div class="current-coin">{{'0.00000179'}}</div>
+        <div class="exchanged">${{'0.024176'}}</div>
+      </div>
+      <div class="cell change">
+        <div class="label">{{'trade_page.24h_change' | translate}}</div>
+        <div class="value" [class.negative]="true">{{'-0.00000006'}} {{'-3.26'}}%</div>
+      </div>
+      <div class="cell high">
+        <div class="label">{{'trade_page.24h_high' | translate}}</div>
+        <div class="value" [class.negative]="false">{{'0.00000185'}}</div>
+      </div>
+      <div class="cell low">
+        <div class="label">{{'trade_page.24h_low' | translate}}</div>
+        <div class="value" [class.negative]="false">{{'0.00000172'}}</div>
+      </div>
+      <div class="cell volume-first">
+        <div class="label">{{'trade_page.24h_volume' | translate}} ({{'TRX'}})</div>
+        <div class="value" [class.negative]="false">{{'144,634,820.00'}}</div>
+      </div>
+      <div class="cell volume-second">
+        <div class="label">{{'trade_page.24h_volume' | translate}} ({{'BTC'}})</div>
+        <div class="value" [class.negative]="false">{{'256.38'}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="spot-tutorial fx-row fx-v-align-center" (click)="playSpotTutorial()">
+    <mat-icon [svgIcon]="'icon_play'"></mat-icon>
+    <span>{{'trade_page.spot_tutorial' | translate}}</span>
+  </div>
 </div>
 
-<div class="trade-windows fx-row fx-wrap" cdkDropListGroup>
+<div class="trade-windows" cdkDropListGroup>
 
-  <div class="window-container left"
-       appResizable
-       cdkDropList
-       [cdkDropListData]="leftContainer"
-       (cdkDropListDropped)="drop($event)"
-  >
-    <div class="drag-item" cdkDrag>
-      <app-resizable-window [headerText]="'trade_page.orderbook' | translate">
-        <div class="orderbook-table-container"></div>
-        ORDERBOOK WORKS
-      </app-resizable-window>
+  <div class="fx-row">
+    <div class="window-container left"
+         appResizable
+         cdkDropList
+         [cdkDropListData]="leftContainer"
+         (cdkDropListDropped)="drop($event)"
+    >
+      <div class="drag-item" cdkDrag>
+        <app-resizable-window [headerText]="'trade_page.orderbook' | translate">
+          <div class="orderbook-table-container"></div>
+          ORDERBOOK WORKS
+        </app-resizable-window>
+      </div>
     </div>
-  </div>
 
-  <div class="window-container center"
-       appResizable
-       cdkDropList
-       [cdkDropListData]="centralContainer"
-       (cdkDropListDropped)="drop($event)"
-  >
-    <div class="drag-item" cdkDrag>
-      <app-resizable-window cdkDrag [headerText]="'trade_page.chart' | translate">
-        <div class="chart-container"></div>
-        CHART WORKS
-      </app-resizable-window>
+    <div class="window-container center"
+         appResizable
+         cdkDropList
+         [cdkDropListData]="centralContainer"
+         (cdkDropListDropped)="drop($event)"
+    >
+      <div class="drag-item" cdkDrag>
+        <app-resizable-window cdkDrag [headerText]="'trade_page.chart' | translate">
+          <div class="chart-container"></div>
+          CHART WORKS
+        </app-resizable-window>
+      </div>
+      <div class="drag-item" cdkDrag>
+        <app-resizable-window cdkDrag [headerText]="'trade_page.exchange' | translate">
+          <div class="exhange-table-container"></div>
+          EXCHANGE WORKS
+        </app-resizable-window>
+      </div>
     </div>
-    <div class="drag-item" cdkDrag>
-      <app-resizable-window cdkDrag [headerText]="'trade_page.exchange' | translate">
-        <div class="exhange-table-container"></div>
-        EXCHANGE WORKS
-      </app-resizable-window>
-    </div>
-  </div>
 
-  <div class="window-container right"
-       appResizable
-       [resizableGrabXWidth]="0"
-       cdkDropList
-       [cdkDropListData]="rightContainer"
-       (cdkDropListDropped)="drop($event)"
-  >
-    <div class="drag-item" cdkDrag>
-      <app-resizable-window cdkDrag [headerText]="'trade_page.market_trades' | translate">
-        <div class="market-trades-container"></div>
-        MARKET TRADES WORKS
-      </app-resizable-window>
+    <div class="window-container right"
+         appResizable
+         [resizableGrabXWidth]="0"
+         cdkDropList
+         [cdkDropListData]="rightContainer"
+         (cdkDropListDropped)="drop($event)"
+    >
+      <div class="drag-item" cdkDrag>
+        <app-resizable-window cdkDrag [headerText]="'trade_page.market_trades' | translate">
+          <div class="market-trades-container"></div>
+          MARKET TRADES WORKS
+        </app-resizable-window>
+      </div>
     </div>
   </div>
 

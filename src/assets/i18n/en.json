@@ -222,11 +222,16 @@
     "years_before": "{{years}} years before"
   },
   "trade_page": {
+    "24h_change": "24h Change",
+    "24h_high": "24h High",
+    "24h_low": "24h Low",
+    "24h_volume": "24h Volume",
     "chart": "Chart",
     "exchange": "Exchange",
     "market_trades": "Market Trades",
     "orderbook": "Orderbook",
-    "orders_and_history": "Orders & History"
+    "orders_and_history": "Orders & History",
+    "spot_tutorial": "Spot Tutorial"
   },
   "wallet_page": {
     "action": "Action",

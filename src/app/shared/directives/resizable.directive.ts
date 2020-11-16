@@ -7,7 +7,7 @@ import { Directive, ElementRef, OnInit, Input } from '@angular/core';
 export class ResizableDirective implements OnInit {
   @Input() resizableGrabXWidth = 4;
   @Input() resizableGrabYWidth = 4;
-  @Input() resizableMinWidth = 100;
+  @Input() resizableMinWidth = 200;
   // TODO
   @Input() resizableMaxWidth = 400;
   @Input() resizableMinHeight = 100;

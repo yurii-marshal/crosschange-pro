@@ -33,7 +33,7 @@ export const routes: Routes = [
   },
   {
     path: 'trade/:pair',
-    // TODO: uncomment
+    // todo: uncomment when pairs endpoint is 200
     // canActivate: [ AuthGuard, PairsGuard ],
     component: TradeComponent,
     children: [],

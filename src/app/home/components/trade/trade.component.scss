@@ -1,7 +1,104 @@
 @import "../../../../assets/styles/variables";
 
 .trade-header {
+  padding: 12px;
+  background-color: $color-white-100;
 
+  .trade-type {
+    cursor: pointer;
+    border-right: 1px solid $color-grey-30;
+
+    .pair {
+      .label {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: bold;
+        color: $color-brand-dark;
+
+        .multiple {
+          width: 30px;
+          height: 20px;
+          margin-left: 4px;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          color: $color-brand;
+          background: rgba(21, 21, 240, 0.1);
+          border: 1px solid $color-brand;
+          box-sizing: border-box;
+          border-radius: 2px;
+        }
+      }
+
+      .subtype {
+        font-size: 12px;
+        line-height: 16px;
+        color: $color-grey-60;
+      }
+    }
+    .selector-icon {
+      margin: 0 20px 0 40px;
+      width: 10px;
+      display: flex;
+
+      &.opened {
+        transform: rotateX(180deg);
+      }
+
+      ::ng-deep svg path {
+        fill: $color-grey-100;
+      }
+    }
+  }
+  .pair-values {
+    padding-left: 32px;
+
+    .amount {
+      .current-coin {
+        font-size: 16px;
+        line-height: 24px;
+        color: $color-brand-dark;
+      }
+      .exchanged {
+        font-size: 12px;
+        line-height: 16px;
+        color: $color-grey-60;
+      }
+    }
+
+    .cell {
+      padding-left: 40px;
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-grey-60;
+      font-weight: 400;
+
+      .value {
+        color: $color-brand-dark;
+
+        &.negative {
+          color: $color-trading-red-100;
+        }
+      }
+    }
+  }
+  .spot-tutorial {
+    cursor: pointer;
+    height: min-content;
+
+    mat-icon {
+      width: 11px;
+      height: 11px;
+      display: flex;
+      margin-right: 5px;
+    }
+
+    span {
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-brand-dark;
+    }
+  }
 }
 
 .trade-windows {
