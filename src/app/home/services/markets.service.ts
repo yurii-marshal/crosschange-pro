@@ -7,6 +7,7 @@ import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
 import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
 import { map, tap } from 'rxjs/operators';
+import { CloseScrollStrategy, Overlay } from '@angular/cdk/overlay';
 
 
 @Injectable({
@@ -33,6 +34,10 @@ export class MarketsService extends ApiService {
         })
       )
       .subscribe((data) => this.widgets$.next(data));
+  }
+
+  static scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
+    return () => overlay.scrollStrategies.close();
   }
 
   // TODO: REFACTOR
@@ -76,9 +81,5 @@ export class MarketsService extends ApiService {
       this.widgets$.next(v);
     });
     return this.widgets$.asObservable();
-  }
-
-  loadDropdownData(): Observable<ICurrency[]> {
-    return super.get('exchanges/currencies');
   }
 }

@@ -8,12 +8,18 @@ import { IExchangeData } from 'src/app/shared/interfaces/exchange-data.interface
 import { ActivatedRoute, Router } from '@angular/router';
 import { defaultPagination } from 'src/app/shared/constants/pagination.constant';
 import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { MAT_SELECT_SCROLL_STRATEGY } from '@angular/material/select';
+import { Overlay } from '@angular/cdk/overlay';
+import { ExchangeService } from '../../../shared/services/exchange.service';
 
 @Component({
   selector: 'app-markets',
   templateUrl: './markets.component.html',
   styleUrls: ['./markets.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: MAT_SELECT_SCROLL_STRATEGY, useFactory: MarketsService.scrollFactory, deps: [Overlay] }
+  ]
 })
 export class MarketsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
@@ -53,13 +59,14 @@ export class MarketsComponent implements OnInit, OnDestroy {
     private marketsService: MarketsService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private exchange: ExchangeService
   ) {
   }
 
   ngOnInit(): void {
     this.widgets$ = this.marketsService.loadWidgetsData();
-    this.currencies$ = this.marketsService.loadDropdownData();
+    this.currencies$ = this.exchange.getCurrencies();
 
     this.fiatCurrencies$ = this.currencies$.pipe(
       map(currency => currency.filter(item => item.fields.isFiat))

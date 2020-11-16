@@ -46,7 +46,7 @@ describe('WalletService', () => {
       results: [ {
         cryptocurrency: 'btc',
         address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
-        tag: '',
+        destination_tag: '',
         id: 0,
         balance: {
           total: 0,
@@ -77,7 +77,7 @@ describe('WalletService', () => {
       results: [ {
         cryptocurrency: 'btc',
         address: '36KunwNiXhDy6bjJvUqeSMzgCZzfZBksid',
-        tag: '',
+        destination_tag: '',
         id: 0,
         balance: {
           total: 0,

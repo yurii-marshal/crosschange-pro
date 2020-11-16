@@ -25,6 +25,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MatHeaderCellHarness } from '@angular/material/table/testing';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-test-host',
@@ -106,13 +107,13 @@ describe('MarketsComponent', () => {
   it('should have default start settings', (done) => {
     const spy = spyOn(service, 'loadWidgetsData').and.callThrough();
 
+    component.widgets$.pipe(take(1)).subscribe(v => {
+      expect(v).toBeDefined();
+      done();
+    });
     component.ngOnInit();
 
     expect(component.activeLink).toBe('favorite');
-    component.widgets$.subscribe(res => {
-      expect(res).toBeDefined();
-      done();
-    });
 
     expect(spy).toHaveBeenCalled();
   });

@@ -3,9 +3,13 @@
 
 .deposit-page {
   padding-left: 62px;
-  padding-right: 22px;
+  padding-right: 52px;
   width: 100%;
   display: block;
+
+  &__header {
+    display: flex;
+  }
 }
 
 .page-title {
@@ -46,33 +50,40 @@
   }
 }
 .balance {
-  display: flex;
-  flex: 1;
-  justify-content: space-around;
+  margin-bottom: 36px;
+
+  &__header {
+    margin-bottom: 18px;
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: bold;
+    color: $color-trading-dark;
+  }
+
+  &-items {
+    display: flex;
+    align-items: center;
+  }
 }
 .balance-item {
-  padding: 8px;
-  flex: 1;
-  background-color: $color-white-100;
+  margin-right: 35px;
   color: $color-trading-dark;
-  margin-right: 10px;
-  border: 0.5px solid #DEE1E6;
-  border-radius: 4px;
+  white-space: nowrap;
+
   &:last-of-type {
     margin-right: 0;
   }
   .title {
-    font-style: normal;
-    font-weight: normal;
+    margin-bottom: 6px;
     font-size: 12px;
     line-height: 16px;
+    font-weight: normal;
   }
   .value {
-    font-style: normal;
+    font-size: 12px;
+    line-height: 16px;
     font-weight: bold;
-    font-size: 20px;
-    line-height: 19px;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.7px;
     text-transform: uppercase;
   }
 }
@@ -106,16 +117,20 @@
 .info {
   margin-bottom: 36px;
   list-style-type: none;
-  padding-left: 17px;
   li {
+    position: relative;
+    font-size: 14px;
+    line-height: 20px;
     color: $color-grey-60;
+
     &::before {
       content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+      position: absolute;
+      left: -9px;
       color: $color-grey-60;
       font-weight: bold;
       display: inline-block;
-      width: 1em;
-      margin-left: -1em;
+      width: 4px;
     }
   }
 }
@@ -184,6 +199,11 @@ app-qr-code {
   display: block;
 }
 
+.qr-code-container {
+  margin-left: 47px;
+  width: 100%;
+}
+
 .form-field-title {
   margin-bottom: 4px;
   color: $color-trading-dark;
@@ -195,14 +215,14 @@ app-qr-code {
 
 .flex-container {
   display: flex;
+  flex-direction: column;
 
   &.coin-select-container {
-    justify-content: space-between;
     margin-bottom: 13px;
 
     .coin-select.deposit {
-      width: 32.08%;
-      margin-right: 50px;
+      width: 100%;
+      margin: 4px 0 36px;
     }
 
     &.withdraw {
@@ -212,12 +232,10 @@ app-qr-code {
   &.qr-code-container {
     margin-bottom: 48px;
     .popular-container {
-      width: 32.08%;
-      margin-right: 50px;
+      width: 100%;
     }
     .qr-code {
-      flex: 1;
-      width: 67.02%;
+      width: 100%;
       background-color: white;
       display: flex;
       justify-content: center;
@@ -230,7 +248,40 @@ app-qr-code {
     padding-left: 16px;
     padding-right: 16px;
   }
-  .coin-select-container, .qr-code-container, .balance {
+  .deposit-page__header {
+    flex-direction: column;
+  }
+  .balance {
+    .balance__header {
+      font-size: 20px;
+      line-height: 28px;
+      font-weight: bold;
+      color: $color-trading-dark;
+    }
+    .balance-items {
+
+
+    }
+    .balance-item {
+      margin: 0;
+      margin-bottom: 24px;
+      .title {
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 16px;
+        color: $color-trading-dark;
+      }
+      .value {
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 28px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: $color-trading-dark;
+      }
+    }
+  }
+  .coin-select-container, .qr-code-container, .balance, .balance-items {
     flex-direction: column;
     & > * {
       width: 100%;
@@ -239,8 +290,10 @@ app-qr-code {
   .flex-container.coin-select-container .coin-select.deposit {
     width: 100%;
   }
+
   .qr-code-container {
-   margin-bottom: 50px;
+    margin: 0;
+    margin-bottom: 76px;
   }
   .qr-code {
     width: 100%;
@@ -269,6 +322,9 @@ app-qr-code {
   }
   .popular {
     flex-wrap: wrap;
+  }
+  app-paginator {
+    margin-bottom: 86px;
   }
 }
 

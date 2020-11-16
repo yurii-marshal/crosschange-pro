@@ -15,4 +15,8 @@
       <span class="coin-subtitle">{{coin.name}}</span>
   </span>
   </div>
+
+  <div class="coin-items">
+    <div class="coin-item" *ngFor="let coin of $popular | async" (click)="writeValue(coin)">{{ coin.key }}</div>
+  </div>
 </ng-container>

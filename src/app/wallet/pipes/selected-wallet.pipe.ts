@@ -7,11 +7,11 @@ import { ICoin } from '../../shared/interfaces/coin.interface';
 })
 export class SelectedWalletPipe implements PipeTransform {
 
-  transform(value: IWallet[], filter: ICoin): IWallet[] {
+  transform(value: IWallet[], filter: ICoin): IWallet | undefined {
     if (!value || !filter) {
-      return value;
+      return;
     }
-    return value.filter(v => v.cryptocurrency.toLowerCase() === filter.key.toLowerCase());
+    return value.filter(v => v.cryptocurrency.toLowerCase() === filter.key.toLowerCase()).shift();
   }
 
 }

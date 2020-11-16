@@ -26,6 +26,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class CoinSelectComponent implements OnInit, ControlValueAccessor {
   opened = false;
   coins$: Observable<ICoin[]>;
+  $popular: Observable<ICoin[]>;
   selected: ICoin;
   onChange = (coin: ICoin) => {
   }
@@ -43,6 +44,7 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
         take(1),
         tap(v => !this.selected && this.writeValue(v[0]))
       );
+    this.$popular = this.coinsService.getPopular();
   }
 
   registerOnChange(fn: (coin: ICoin) => void): void {
@@ -61,5 +63,4 @@ export class CoinSelectComponent implements OnInit, ControlValueAccessor {
 
     this.onChange(coin);
   }
-
 }

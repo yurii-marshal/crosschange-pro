@@ -12,7 +12,7 @@
   min-height: 188px;
   padding: 36px 0;
   background: linear-gradient(285.48deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0) 73.41%),
-              linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
+  linear-gradient(279.57deg, #1111C2 0%, #3131F0 100%), #060B1F;
 
   .widgets-content {
     display: flex;
@@ -30,6 +30,14 @@
       }
     }
   }
+}
+
+.mat-table {
+  padding-bottom: 12px;
+}
+
+.mat-row {
+  margin: 0 12px;
 }
 
 .tabs-container {
@@ -135,6 +143,10 @@
   height: 9.5px;
 }
 
+::ng-deep .cdk-overlay-pane {
+  transform: unset !important;
+}
+
 ::ng-deep .mat-tab-list .mat-tab-link {
   min-width: 0;
   padding: 0 36px 0;
@@ -156,7 +168,7 @@
 }
 
 .mat-column-exchange_type {
- flex: 4;
+  flex: 4;
 }
 
 .mat-column-exchange_rate {
@@ -190,18 +202,23 @@
 
 ::ng-deep .mat-form-field {
   position: relative;
-  width: 143px;
+  max-width: 143px;
 }
 
 ::ng-deep .mat-ripple-element {
   background: none;
 }
 
+::ng-deep .fiatListOptions.ng-animating {
+  visibility: hidden;
+}
+
 ::ng-deep .mat-select-panel {
   position: absolute;
   top: 33px;
-  right: -16px;
-  min-width: 0 !important;
+  max-width: 143px !important;
+  max-height: 238px !important;
+  min-width: 100% !important;
 
   .mat-option {
     padding: 0 14px;
@@ -402,6 +419,7 @@
   }
 
   .mat-form-field {
+    max-width: none;
     width: 100%;
   }
 
