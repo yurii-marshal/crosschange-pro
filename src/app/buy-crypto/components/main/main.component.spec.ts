@@ -5,7 +5,7 @@ import { CoinServiceMock } from '../../../../../testing/CoinServiceMock';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { environment } from '../../../../environments/environment';
 import { ENVIRONMENT, IEnvironment } from 'shared-kuailian-lib';
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
 import { CurrencySelectComponent } from '../../../shared/components/currency-select/currency-select.component';
 import { SelectedWalletBalancePipe } from '../../pipes/selected-wallet-balance.pipe';
@@ -20,7 +20,7 @@ import { currenciesMock, ExchangeServiceMock } from '../../../../../testing/Exch
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { WalletServiceMock, walletsMock } from '../../../../../testing/WalletServiceMock';
 import { MainTestHelper } from '../../../../../testing/MainTestHelper';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { fromPromise } from 'rxjs/internal-compatibility';
 import { take } from 'rxjs/operators';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,7 +33,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserModule } from '@angular/platform-browser';
 import { CurrencyTypePipe } from '../../../shared/pipes/currency-type.pipe';
 import { ActiveLink } from '../../enums/ActiveLink';
-import {ExchangeConfirmationComponent} from '../exchange-confirmation/exchange-confirmation.component';
+import { ExchangeConfirmationComponent } from '../exchange-confirmation/exchange-confirmation.component';
 
 async function setFormValue(component, fixture, from, to, fromAmount, toAmount, fee = 0, rate = 0, valid = true, paymentMethod = 'spot-wallet'): Promise<void> {
   component.form.setValue({
@@ -54,8 +54,9 @@ async function setFormValue(component, fixture, from, to, fromAmount, toAmount, 
   await fixture.whenStable();
 }
 
-// TODO: FIX
-fdescribe('MainComponent', () => {
+// TODO: FIX 'Can't bind to 'ngIf' since it isn't a known property of 'mat-icon'.'
+// TODO: 'Can't bind to 'ngIf' since it isn't a known property of 'div'.'
+describe('MainComponent', () => {
   let component: MainComponent;
   let fixture: ComponentFixture<MainComponent>;
   const routeStub = new ActivatedRouteStub();
@@ -108,8 +109,7 @@ fdescribe('MainComponent', () => {
         {provide: WalletService, useClass: WalletServiceMock},
         {provide: ActivatedRoute, useValue: routeStub},
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -278,7 +278,7 @@ fdescribe('MainComponent', () => {
   });
 
 
-  /*it('should open confirm component with params', async (done) => {
+  it('should open confirm component with params', async (done) => {
     await setFormValue(component, fixture, currenciesMock[1], currenciesMock[2], 1, 2);
 
     component.exchangeInfo$.next(null);
@@ -287,7 +287,10 @@ fdescribe('MainComponent', () => {
     fixture.whenStable().then(() => {
       const dialogRef = TestBed.inject(MatDialog);
       const button = fixture.nativeElement.querySelector('.left button');
-      const spy = spyOn(dialogRef, 'open');
+      const spy = spyOn(dialogRef, 'open').and.returnValue({
+        afterClosed: () => of(),
+        afterOpened(): Observable<void> { return of(); }
+      } as MatDialogRef<any>);
       MainTestHelper.click(button);
       expect(spy).toHaveBeenCalledWith(ExchangeConfirmationComponent, {
         width: '400px',
@@ -304,10 +307,9 @@ fdescribe('MainComponent', () => {
           paymentMethod: component.form.value.paymentMethod
         }
       });
-      fixture.detectChanges();
       done();
     });
-  });*/
+  });
 
   it('should recalculate value', (done) => {
     setFormValue(component, fixture, currenciesMock[1], currenciesMock[2], 1, 2).then(() => {
