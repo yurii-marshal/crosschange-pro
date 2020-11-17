@@ -189,16 +189,15 @@
 }
 
 ::ng-deep .trade-popover-panel {
-  margin-top: 5px;
-  height: 238px;
-  width: 332px;
-  overflow-y: scroll;
-  background: $color-white-100;
-  border-radius: 4px;
-  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25));
-  overflow-x: hidden;
-
   .trade-popup {
+    margin-top: 5px;
+    height: 238px;
+    width: 332px;
+    overflow-y: scroll;
+    background: $color-white-100;
+    border-radius: 4px;
+    filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25));
+    overflow-x: hidden;
     padding: 8px 12px;
 
     .tabs {
@@ -206,7 +205,7 @@
         border-bottom: none;
 
         .mat-tab-link {
-          min-width: 103px;
+          min-width: 102.5px;
           height: 24px;
           font-size: 14px;
           font-weight: 400;
@@ -257,6 +256,7 @@
 
     .pairs-table {
       mat-table {
+        background: transparent;
         padding-right: 3px;
 
         mat-header-row {
@@ -326,8 +326,62 @@
     }
 
     // TODO: dark theme
-    .dark-theme {
+    &.dark-theme {
+      background: #1F2127;
 
+      .tabs {
+        ::ng-deep .mat-tab-group {
+          .mat-tab-link {
+            color: $color-white-90;
+            background-color: #30323C;
+
+            &.mat-tab-label-active {
+              color: $color-white-100;
+              background-color: #595B63;
+            }
+          }
+        }
+      }
+
+      .search {
+        .search-input {
+          color: $color-white-100;
+          background: $color-white-5;
+          border: 1px solid #30323C;
+        }
+      }
+
+      .pairs-table {
+        mat-table {
+          mat-header-cell {
+            color: $color-white-60;
+
+            .sort {
+              display: none;
+            }
+          }
+
+          .mat-column-pair {
+            span {
+              color: $color-white-60;
+            }
+          }
+
+          .mat-column-change.mat-header-cell {
+            padding-right: 16px;
+          }
+
+          .mat-column-last_price {
+            span {
+              color: $color-white-60;
+            }
+          }
+
+          mat-cell {
+            color: $color-white-100;
+          }
+        }
+      }
     }
   }
 }

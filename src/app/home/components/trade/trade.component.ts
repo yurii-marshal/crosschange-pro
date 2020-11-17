@@ -15,13 +15,13 @@ import { defaultPagination } from '../../../shared/constants/pagination.constant
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeComponent implements OnInit {
-  isDarkTheme: boolean;
+  isDarkTheme = false;
 
   leftContainer: string[] = [];
   centralContainer: string[] = [];
   rightContainer: string[] = [];
 
-  isTradeTypeSelectorOpened: boolean;
+  isTradeTypeSelectorOpened = false;
   activeLink: string;
   limit = this.route.snapshot.queryParams.limit || defaultPagination.limit;
 
