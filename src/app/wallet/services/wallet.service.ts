@@ -74,6 +74,9 @@ export class WalletService extends ApiService {
     return super.get('spot-wallets', {params: parameters});
   }
 
+  @Cacheable({
+    maxAge: 5 * 60 * 1000,
+  })
   getEuroAccountList(params: any): Observable<any> {
     let parameters = new HttpParams();
 
@@ -82,19 +85,22 @@ export class WalletService extends ApiService {
       .set('limit', params.limit);
 
     return super.get('spot-wallets/users/balances/euro-account', {params: parameters})
-      .pipe(map((res: IEuroBalance) => {
-        return {
-          count: 1,
-          results: [{
-            cryptocurrency: 'EUR',
-            balance: {
-              total: res.account_balance_eur + res.frozen_balance_eur,
-              available: res.account_balance_eur,
-              in_order: res.frozen_balance_eur,
-              btc: res.account_balance_btc + res.frozen_balance_btc,
-            },
-          }]
-        };
-      }));
+      .pipe(
+        map((res: IEuroBalance) => {
+          return {
+            count: 1,
+            results: [{
+              cryptocurrency: 'EUR',
+              balance: {
+                total: res.account_balance_eur + res.frozen_balance_eur,
+                available: res.account_balance_eur,
+                in_order: res.frozen_balance_eur,
+                btc: res.account_balance_btc + res.frozen_balance_btc,
+              },
+            }]
+          };
+        }),
+        share(),
+      );
   }
 }
