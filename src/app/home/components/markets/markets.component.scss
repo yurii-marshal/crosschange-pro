@@ -218,6 +218,10 @@
   visibility: hidden;
 }
 
+::ng-deep .opened .mat-select-arrow {
+  transform: rotate(-180deg);
+}
+
 ::ng-deep .mat-select-panel {
   position: absolute;
   top: 38px;
@@ -415,7 +419,7 @@
 
     .tabs-container {
     .tabs-content {
-      padding: 40px 0 85px;
+      padding: 40px 18px 85px 0;
       background-color: $color-white-100;
 
       .divider {

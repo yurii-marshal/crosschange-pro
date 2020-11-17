@@ -6,7 +6,7 @@ import { defaultPagination } from 'src/app/shared/constants/pagination.constant'
 import { IExchangeData } from '../../shared/interfaces/exchange-data.interface';
 import { SocketService } from '../../shared/services/socket.service';
 import { map, tap } from 'rxjs/operators';
-import { CloseScrollStrategy, Overlay } from '@angular/cdk/overlay';
+import { BlockScrollStrategy, Overlay } from '@angular/cdk/overlay';
 
 
 @Injectable({
@@ -35,8 +35,8 @@ export class MarketsService extends ApiService {
       .subscribe((data) => this.widgets$.next(data));
   }
 
-  static scrollFactory(overlay: Overlay): () => CloseScrollStrategy {
-    return () => overlay.scrollStrategies.close();
+  static scrollFactory(overlay: Overlay): () => BlockScrollStrategy {
+    return () => overlay.scrollStrategies.block();
   }
 
   // TODO: REFACTOR
