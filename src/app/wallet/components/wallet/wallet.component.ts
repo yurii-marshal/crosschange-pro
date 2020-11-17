@@ -56,7 +56,6 @@ export class WalletComponent implements OnInit {
 
     this.euroAccountBalanceSource = this.route.queryParams
       .pipe(
-        share(),
         filter(params => params.limit && params.offset),
         switchMap(params => this.walletService.getEuroAccountList(params)),
         map((res) => new MatTableDataSource(res.results)),
