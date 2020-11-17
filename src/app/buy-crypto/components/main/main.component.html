@@ -42,7 +42,7 @@
         <div class="form-field">
           <label>{{'buy_crypto.for' | translate}}</label>
           <app-currency-select formControlName="fromCurrency"
-                               [secondSelected]="form.get('toCurrency').valueChanges | async"
+                               [secondSelected]="form.get('toCurrency').value"
                                [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'buy_crypto.max' | translate}}:</span>
@@ -55,7 +55,7 @@
         <div class="form-field">
           <label>{{'buy_crypto.you_will_get' | translate}}</label>
           <app-currency-select formControlName="toCurrency"
-                               [secondSelected]="form.get('fromCurrency').valueChanges | async"
+                               [secondSelected]="form.get('fromCurrency').value"
                                [disabledCondition]="!inputsEnabled"></app-currency-select>
           <div class="max">
             <span class="max-label">{{'buy_crypto.balance' | translate}}:</span>

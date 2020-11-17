@@ -39,7 +39,7 @@
     "in_order": "In Order",
     "info_text_1": "Coins will be deposited after 3 network confirmations.",
     "info_text_2": "Until 3 confirmations are made, an equivalent amount of your assets will be temporarily unavailable for withdrawals.",
-    "popular": "Popular Coins",
+    "popular": "",
     "title": "Deposit",
     "total_balance": "Total Balance"
   },
@@ -144,6 +144,20 @@
     "markets": "Markets",
     "spot_wallet": "Spot wallet",
     "wallet": "Wallet"
+  },
+  "months_abbrs": {
+    "apr": "April",
+    "aug": "August",
+    "dec": "December",
+    "feb": "February",
+    "jan": "January",
+    "jul": "July",
+    "jun": "June",
+    "mar": "March",
+    "may": "May",
+    "nov": "November",
+    "oct": "October",
+    "sep": "September"
   },
   "notifications": {
     "title": "notifications",
@@ -256,6 +270,15 @@
     "trade": "Trade",
     "wallet_list": "Wallet list",
     "withdraw": "Withdraw"
+  },
+  "weekdays_abbrs": {
+    "fri": "Friday",
+    "mon": "Monday",
+    "sat": "Saturday",
+    "sun": "Sunday",
+    "thu": "Thursday",
+    "tue": "Tuesday",
+    "wed": "Wednesday"
   },
   "withdraw_page": {
     "address_management": "Address Management",
