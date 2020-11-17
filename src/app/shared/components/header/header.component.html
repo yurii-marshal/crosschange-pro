@@ -40,7 +40,7 @@
       [hasBackdrop]="true"
       [forceAlignment]="true"
       [panelClass]="'notes-popover-panel'"
-      scrollStrategy="reposition"
+      scrollStrategy="close"
       (backdropClicked)="refNotesPopover.close()"
     >
       <div class="notifications-popup">
@@ -74,18 +74,6 @@
         </div>
       </div>
     </div>
-
-    <!--<ul *ngIf="isLoggedIn">-->
-      <!--<li>-->
-        <!--<button class="logout-btn"-->
-                <!--mat-button-->
-                <!--mat-flat-button-->
-                <!--(click)="logout()"-->
-        <!--&gt;-->
-          <!--{{'header.logout' | translate}}-->
-        <!--</button>-->
-      <!--</li>-->
-    <!--</ul>-->
   </div>
   <div class="right mobile">
     <button mat-icon-button (click)="refNotesPopover.toggle()">

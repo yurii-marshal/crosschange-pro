@@ -39,10 +39,18 @@
   }
 }
 
+@media all and (max-width: $media-tablet) {
+  .app-popover-container {
+    position: fixed;
+    top: 90px;
+    right: 60px !important;
+  }
+}
+
 @media all and (max-width: $media-mobile) {
   .app-popover-container {
     position: fixed;
-    top: 96px;
+    right: auto !important;
     margin: auto 5%;
   }
 }
