@@ -136,6 +136,7 @@
     "tab_fiat_markets": "Fiat Markets"
   },
   "menu_mobile": {
+    "buy_crypto": "Buy Crypto",
     "exchange": "Exchange",
     "exchange_currency": "Exchange Currencies",
     "history": "History",
