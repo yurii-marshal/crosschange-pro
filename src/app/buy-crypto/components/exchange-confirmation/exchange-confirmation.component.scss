@@ -105,6 +105,8 @@
       line-height: 20px;
       font-weight: normal;
       color: $color-trading-dark;
+      max-width: 50%;
+      word-break: break-all;
     }
   }
 
