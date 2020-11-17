@@ -217,7 +217,7 @@
   visibility: hidden;
 }
 
-::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+::ng-deep .opened .mat-select-arrow {
   transform: rotate(-180deg);
 }
 
@@ -397,7 +397,7 @@
 
     .tabs-container {
     .tabs-content {
-      padding: 40px 0 85px;
+      padding: 40px 18px 85px 0;
       background-color: $color-white-100;
 
       .divider {
