@@ -147,21 +147,22 @@ export class MainComponent implements OnInit, OnDestroy {
       });
   }
 
+  private fetchChartInfo(): void {
+    if (this.helper.bothCurrenciesSet([this.form.get('fromCurrency').value, this.form.get('toCurrency').value])) {
+      this.exchange.getChartData(
+        this.form.get('fromCurrency').value.currency.key,
+        this.form.get('toCurrency').value.currency.key,
+        this.chartPeriod,
+        this.periodSteps[this.chartPeriod]
+      ).subscribe(v => {
+        this.setChartInfo(v);
+      });
+    }
+  }
+
   onPeriodChange(val: MatButtonToggleChange): void {
     this.chartPeriod = val.value;
-    const from = this.form.get('fromCurrency').value;
-    const to = this.form.get('toCurrency').value;
-    if (!from || !to || !from.currency || !to.currency) {
-      return;
-    }
-    this.exchange.getChartData(
-      from.currency.key,
-      to.currency.key,
-      this.chartPeriod,
-      this.periodSteps[this.chartPeriod]
-    ).subscribe(v => {
-      this.setChartInfo(v);
-    });
+    this.fetchChartInfo();
   }
 
 
@@ -188,6 +189,7 @@ export class MainComponent implements OnInit, OnDestroy {
       fromCurrency: this.form.get('toCurrency').value
     }, {emitEvent: false});
     this.convertCurrency('fromCurrency', 'toCurrency');
+    this.fetchChartInfo();
   }
 
   setFromMaxValue(): void {
