@@ -242,7 +242,24 @@ export class MainComponent implements OnInit, OnDestroy {
       paymentMethod: PaymentMethods.SPOT_WALLET,
       valid: false
     });
-    this.chartInstance.clear();
+    this.option.series = [{
+      data: [],
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = 0;
+    this.option.xAxis.data = [];
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
   }
 
   swapCurrencies(): void {
