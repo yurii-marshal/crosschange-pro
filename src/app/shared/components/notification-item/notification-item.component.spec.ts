@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NotificationItemComponent } from './notification-item.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { TimeBeforePipe } from '../../pipes/time-before.pipe';
 
 describe('NotificationItemComponent', () => {
   let component: NotificationItemComponent;
@@ -8,7 +10,13 @@ describe('NotificationItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotificationItemComponent ]
+      declarations: [
+        NotificationItemComponent,
+        TimeBeforePipe,
+      ],
+      imports: [
+        TranslateModule.forRoot()
+      ]
     })
     .compileComponents();
   }));
