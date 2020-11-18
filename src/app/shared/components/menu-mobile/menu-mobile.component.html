@@ -21,12 +21,11 @@
             <div>{{subItem.label | translate }}</div>
           </div>
         </div>
-
       </div>
-    </div>
-    <div class="bottom">
-      <button mat-stroked-button routerLink="/trade">{{'menu_mobile.exchange_currency' | translate}}</button>
-      <div class="link logout" (click)="logout()">{{'menu_mobile.logout' | translate}}</div>
+      <div class="item">
+        <div class="link logout" (click)="logout()">{{'menu_mobile.logout' | translate}}</div>
+        <div class="sub-menu"></div>
+      </div>
     </div>
   </div>
 </div>
