@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
@@ -36,6 +36,7 @@ export class DepositComponent implements OnInit, OnDestroy {
     private walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -56,6 +57,8 @@ export class DepositComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$), distinctUntilChanged())
       .subscribe(([qParams, selected]) => {
         this.deposits$ = this.getHistory(selected, qParams);
+        // TODO: REFACTOR. TRY TO AVOID THIS
+        this.ref.detectChanges();
       });
   }
 

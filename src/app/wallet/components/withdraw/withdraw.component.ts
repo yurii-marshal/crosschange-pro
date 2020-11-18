@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -43,6 +43,7 @@ export class WithdrawComponent implements OnInit {
     private withdrawService: WithdrawService,
     private walletService: WalletService,
     private addressService: AddressService,
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -85,6 +86,8 @@ export class WithdrawComponent implements OnInit {
 
   coinSelectChanged(coin: ICoin): void {
     this.coinSelect$.next(coin);
+    // TODO: REFACTOR. TRY TO AVOID THIS
+    this.ref.detectChanges();
   }
 
   addressSelectChanged(address: IWalletAddress): void {
