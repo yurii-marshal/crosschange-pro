@@ -201,7 +201,7 @@
   <div class="balance">
     <div class="balance-info">
       <div class="balance-info__name">{{'wallet_page.crypto_balance' | translate}}</div>
-      <div class="balance-info__table main with-controls">
+      <div class="balance-info__table main" [class.with-controls]="(cryptoBalanceSource | async)?.data?.length > cryptoBalanceCount">
         <div class="mat-table__search">
           <mat-icon *ngIf="!searchInputControl.value" [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
           <input [class.value]="searchInputControl.value" type="text"
@@ -300,7 +300,7 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <div class="no-data-splash" *ngIf="!(cryptoBalanceSource | async)?.data?.length">{{'wallet_page.no_data_available' | translate}}</div>
-        <app-paginator [count]="cryptoBalanceCount" class="paginator"></app-paginator>
+        <app-paginator *ngIf="(cryptoBalanceSource | async)?.data?.length > cryptoBalanceCount" [count]="cryptoBalanceCount" class="paginator"></app-paginator>
       </div>
     </div>
   </div>
