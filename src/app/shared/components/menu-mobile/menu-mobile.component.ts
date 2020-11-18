@@ -54,6 +54,7 @@ export class MenuMobileComponent implements OnInit {
 }
 
 _([
+  'menu_mobile.buy_crypto',
   'menu_mobile.markets',
   'menu_mobile.wallet',
   'menu_mobile.spot_wallet',
