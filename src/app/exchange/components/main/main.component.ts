@@ -77,6 +77,12 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.translate.onLangChange
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(v => {
+        this.translateXAxisLabels(this.option.originalAxisLabels);
+      });
+
     combineLatest([
       this.form.get('fromCurrency').valueChanges.pipe(startWith({})),
       this.form.get('toCurrency').valueChanges.pipe(startWith({})),
@@ -289,6 +295,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   // TODO: REFACTOR
   private translateXAxisLabels(data: string[]): void {
+    this.option.originalAxisLabels = data ? [...data] : [];
     (data || []).forEach((v, i) => {
       let key;
       switch (this.chartPeriod) {
