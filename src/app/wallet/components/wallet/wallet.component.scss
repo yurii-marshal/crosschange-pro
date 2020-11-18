@@ -59,6 +59,10 @@
       width: 220px;
     }
 
+    &-value {
+      font-weight: 400;
+    }
+
     &-currency {
       margin-left: 3px;
       font-weight: bold;
@@ -108,7 +112,8 @@
     &__table {
       box-shadow: none;
       border-radius: 4px;
-      filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
+
+      filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25));
 
       &.with-controls {
 
@@ -159,10 +164,12 @@
 }
 
 .no-data-splash {
+  font-size: 14px;
+  line-height: 20px;
+
   background-color: $color-white-100;
   padding: 16px 12px;
-  color: $color-grey-60;
-  font-style: italic;
+  color: $color-brand-dark;
   border: 1px solid $color-grey-20;
   border-top: none;
   border-bottom: none;
@@ -190,6 +197,12 @@ app-paginator {
     left: 20px;
   }
 
+  &-remove-icon {
+    cursor: pointer;
+    position: absolute;
+    left: 180px;
+  }
+
   &-input {
     margin-left: 12px;
     padding-left: 35px;
@@ -201,6 +214,11 @@ app-paginator {
     border: 1px solid $color-grey-10;
     box-sizing: border-box;
     border-radius: 4px;
+
+    &.value {
+      background-color: $color-white-100;
+      padding-left: 8px;
+    }
   }
 
   .hide-balance-btn,
