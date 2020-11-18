@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ICoin } from '../../../shared/interfaces/coin.interface';
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import {
   distinctUntilChanged,
   shareReplay,
   startWith,
-  switchMap,
+  switchMap, takeUntil
 } from 'rxjs/operators';
 import { WithdrawService } from '../../services/withdraw.service';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
@@ -25,7 +25,7 @@ import { defaultPagination } from '../../../shared/constants/pagination.constant
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss', './../deposit/deposit.component.scss']
 })
-export class WithdrawComponent implements OnInit {
+export class WithdrawComponent implements OnInit, OnDestroy {
   coinSelect$: BehaviorSubject<ICoin> = new BehaviorSubject<ICoin>(null);
   addressSelect$: Subject<IWalletAddress> = new Subject<IWalletAddress>();
   transactionFee$: Observable<number>;
@@ -33,6 +33,7 @@ export class WithdrawComponent implements OnInit {
   wallets$: Observable<IWallet[]>;
   addresses$: Observable<IWalletAddress[]>;
   withdraws$: Observable<IApiResponse<IWithdrawItem>>;
+  onDestroy$ = new Subject();
 
   withdrawForm: FormGroup;
 
@@ -42,7 +43,8 @@ export class WithdrawComponent implements OnInit {
     private coinsService: CoinsService,
     private withdrawService: WithdrawService,
     private walletService: WalletService,
-    private addressService: AddressService
+    private addressService: AddressService,
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -69,6 +71,12 @@ export class WithdrawComponent implements OnInit {
     const addressChanges$ = this.addressSelect$.asObservable().pipe(distinctUntilChanged());
     const coinChanges$ = this.coinSelect$.asObservable().pipe(distinctUntilChanged());
     const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged(), debounceTime(200));
+
+    this.withdrawForm.get('coin').valueChanges
+    .pipe(takeUntil(this.onDestroy$))
+    .subscribe(v => {
+      this.ref.detectChanges();
+    });
 
     this.transactionFee$ = combineLatest([coinChanges$, addressChanges$, amountChanges$])
       .pipe(
@@ -108,5 +116,10 @@ export class WithdrawComponent implements OnInit {
 
   addressManagement(): void {
     this.router.navigateByUrl(`profile/security/address`);
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
