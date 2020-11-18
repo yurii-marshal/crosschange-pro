@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-resizable-window',
-  templateUrl: './resizable-window.component.html',
-  styleUrls: ['./resizable-window.component.scss']
+  selector: 'app-modal-window',
+  templateUrl: './modal-window.component.html',
+  styleUrls: ['./modal-window.component.scss']
 })
-export class ResizableWindowComponent {
+export class ModalWindowComponent {
   @Input() headerText = '';
   @Input() draggableWindow = true;
   @Input() resizableWindow = true;

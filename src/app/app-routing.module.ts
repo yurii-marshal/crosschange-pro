@@ -30,6 +30,10 @@ export const routes: Routes = [
         loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletModule),
       },
       {
+        path: 'trade',
+        loadChildren: () => import('./trade/trade.module').then((m) => m.TradeModule),
+      },
+      {
         path: 'profile',
         loadChildren: () => import('./profile/profile.module').then((m) => m.ProfileModule)
       },

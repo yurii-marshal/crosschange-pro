@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResizableWindowComponent } from './resizable-window.component';
+import { TradeHeaderComponent } from './trade-header.component';
 
-describe('ResizableWindowComponent', () => {
-  let component: ResizableWindowComponent;
-  let fixture: ComponentFixture<ResizableWindowComponent>;
+describe('TradeHeaderComponent', () => {
+  let component: TradeHeaderComponent;
+  let fixture: ComponentFixture<TradeHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ResizableWindowComponent ]
+      declarations: [ TradeHeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ResizableWindowComponent);
+    fixture = TestBed.createComponent(TradeHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

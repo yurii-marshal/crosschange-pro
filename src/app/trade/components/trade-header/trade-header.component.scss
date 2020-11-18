@@ -1,188 +1,158 @@
 @import "../../../../assets/styles/variables";
 
-.trading-container {
-  .trade-header {
-    padding: 12px;
-    background-color: $color-white-100;
+.trade-header {
+  padding: 12px;
+  background-color: $color-white-100;
+
+  .trade-type {
+    cursor: pointer;
+    border-right: 1px solid $color-grey-30;
+
+    .pair {
+      .label {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: bold;
+        color: $color-brand-dark;
+
+        .multiple {
+          width: 30px;
+          height: 20px;
+          margin-left: 4px;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          color: $color-brand;
+          background: rgba(21, 21, 240, 0.1);
+          border: 1px solid $color-brand;
+          box-sizing: border-box;
+          border-radius: 2px;
+        }
+      }
+
+      .subtype {
+        font-size: 12px;
+        line-height: 16px;
+        color: $color-grey-60;
+      }
+    }
+    .selector-icon {
+      margin: 0 20px 0 40px;
+      width: 10px;
+      display: flex;
+
+      &.opened {
+        transform: rotateX(180deg);
+      }
+
+      ::ng-deep svg path {
+        fill: $color-grey-100;
+      }
+    }
+  }
+
+  .pair-values {
+    padding-left: 32px;
+
+    .amount {
+      .current-coin {
+        font-size: 16px;
+        line-height: 24px;
+        color: $color-brand-dark;
+      }
+      .exchanged {
+        font-size: 12px;
+        line-height: 16px;
+        color: $color-grey-60;
+      }
+    }
+
+    .cell {
+      padding-left: 40px;
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-grey-60;
+      font-weight: 400;
+
+      .value {
+        color: $color-brand-dark;
+
+        &.negative {
+          color: $color-trading-red-100;
+        }
+      }
+    }
+  }
+  .spot-tutorial {
+    cursor: pointer;
+    height: min-content;
+
+    mat-icon {
+      width: 11px;
+      height: 11px;
+      display: flex;
+      margin-right: 5px;
+    }
+
+    span {
+      font-size: 12px;
+      line-height: 16px;
+      color: $color-brand-dark;
+    }
+  }
+
+  &.theme-dark {
+    background-color: #191B20;
 
     .trade-type {
-      cursor: pointer;
-      border-right: 1px solid $color-grey-30;
+      border-right: 1px solid $color-white-20;
 
       .pair {
         .label {
-          font-size: 16px;
-          line-height: 24px;
-          font-weight: bold;
-          color: $color-brand-dark;
+          color: $color-white-100;
+          font-weight: 500;
 
           .multiple {
-            width: 30px;
-            height: 20px;
-            margin-left: 4px;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 16px;
-            color: $color-brand;
+            color: #5050FB;
+            border: 1px solid #5050FB;
             background: rgba(21, 21, 240, 0.1);
-            border: 1px solid $color-brand;
-            box-sizing: border-box;
-            border-radius: 2px;
           }
         }
-
-        .subtype {
-          font-size: 12px;
-          line-height: 16px;
-          color: $color-grey-60;
-        }
       }
+
       .selector-icon {
-        margin: 0 20px 0 40px;
-        width: 10px;
-        display: flex;
-
-        &.opened {
-          transform: rotateX(180deg);
-        }
-
         ::ng-deep svg path {
-          fill: $color-grey-100;
+          fill: $color-white-100;
         }
       }
     }
 
     .pair-values {
-      padding-left: 32px;
-
       .amount {
         .current-coin {
-          font-size: 16px;
-          line-height: 24px;
-          color: $color-brand-dark;
+          color: $color-white-100;
         }
+
         .exchanged {
-          font-size: 12px;
-          line-height: 16px;
-          color: $color-grey-60;
+          color: $color-white-60;
         }
       }
 
       .cell {
-        padding-left: 40px;
-        font-size: 12px;
-        line-height: 16px;
-        color: $color-grey-60;
-        font-weight: 400;
-
-        .value {
-          color: $color-brand-dark;
-
-          &.negative {
-            color: $color-trading-red-100;
-          }
-        }
-      }
-    }
-    .spot-tutorial {
-      cursor: pointer;
-      height: min-content;
-
-      mat-icon {
-        width: 11px;
-        height: 11px;
-        display: flex;
-        margin-right: 5px;
-      }
-
-      span {
-        font-size: 12px;
-        line-height: 16px;
-        color: $color-brand-dark;
-      }
-    }
-  }
-
-  .trade-windows {
-    background-color: $color-grey-20;
-
-    .window-container {
-      .drag-item {
-      }
-
-      &.left {
-        width: 25%;
-      }
-
-      &.center {
-        width: 50%;
-      }
-
-      &.right {
-        width: 25%;
-      }
-
-      &.bottom {
-        width: 100%;
-      }
-    }
-  }
-
-  // TODO: dark theme
-  &.dark-theme {
-    .trade-header {
-      background-color: #191B20;
-
-      .trade-type {
-        border-right: 1px solid $color-white-20;
-
-        .pair {
-          .label {
-            color: $color-white-100;
-            font-weight: 500;
-
-            .multiple {
-              color: #5050FB;
-              border: 1px solid #5050FB;
-              background: rgba(21, 21, 240, 0.1);
-            }
-          }
-        }
-
-        .selector-icon {
-          ::ng-deep svg path {
-            fill: $color-white-100;
-          }
-        }
-      }
-
-      .pair-values {
-        .amount {
-          .current-coin {
-            color: $color-white-100;
-          }
-
-          .exchanged {
-            color: $color-white-60;
-          }
-        }
-
-        .cell {
-          color: $color-white-60;
-          .value:not(.negative) {
-            color: $color-white-100;
-          }
-        }
-      }
-
-      .spot-tutorial {
-        span {
+        color: $color-white-60;
+        .value:not(.negative) {
           color: $color-white-100;
         }
+      }
+    }
 
-        ::ng-deep mat-icon svg path {
-          fill: $color-white-100;
-        }
+    .spot-tutorial {
+      span {
+        color: $color-white-100;
+      }
+
+      ::ng-deep mat-icon svg path {
+        fill: $color-white-100;
       }
     }
   }
@@ -205,7 +175,8 @@
         border-bottom: none;
 
         .mat-tab-link {
-          min-width: 102.5px;
+          min-width: auto;
+          flex: 0.333;
           height: 24px;
           font-size: 14px;
           font-weight: 400;
@@ -326,7 +297,7 @@
     }
 
     // TODO: dark theme
-    &.dark-theme {
+    &.theme-dark {
       background: #1F2127;
 
       .tabs {
