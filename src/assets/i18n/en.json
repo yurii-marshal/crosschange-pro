@@ -44,8 +44,14 @@
     "total_balance": "Total Balance"
   },
   "exchange": {
+    "1m": "",
+    "1w": "",
+    "1y": "",
+    "24h": "",
+    "balance": "",
     "cancel": "Cancel",
     "complete": "Transaction completed successfully!",
+    "current_rate": "",
     "done": "Done",
     "exchange": "Exchange",
     "exchange_rate": "Exchange rate",
@@ -53,9 +59,13 @@
     "for": "For",
     "get": "You will get",
     "got": "You got",
+    "max": "",
     "processing": "Processing",
     "review": "Please review your exchange details",
-    "wait": "We are processing your exchange transaction. Please wait."
+    "title": "",
+    "today_change": "",
+    "wait": "We are processing your exchange transaction. Please wait.",
+    "you_will_get": ""
   },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
