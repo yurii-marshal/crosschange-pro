@@ -17,6 +17,7 @@
   }
 
   .menu-items {
+    max-height: calc(100vh - 86px);
     padding: 0 16px 24px;
     display: flex;
     flex-direction: column;
