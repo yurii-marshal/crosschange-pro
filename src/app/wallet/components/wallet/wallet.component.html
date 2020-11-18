@@ -200,10 +200,16 @@
 
   <div class="balance">
     <div class="balance-info">
+      <div class="balance-info__name">{{'wallet_page.crypto_balance' | translate}}</div>
       <div class="balance-info__table main with-controls">
         <div class="mat-table__search">
-          <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
-          <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+          <mat-icon *ngIf="!searchInputControl.value" [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+          <input [class.value]="searchInputControl.value" type="text"
+                 class="mat-table__search-input" [formControl]="searchInputControl">
+          <mat-icon *ngIf="searchInputControl.value" [svgIcon]="'icon_close_dark'"
+                    (click)="searchInputControl.patchValue('')"
+                    class="mat-table__search-remove-icon"></mat-icon>
+
           <button class="hide-balance-btn" (click)="toggleLowBalance()">
             {{((hideLowBalance$ | async) ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') | translate}}
           </button>
