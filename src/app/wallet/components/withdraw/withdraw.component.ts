@@ -72,7 +72,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     const coinChanges$ = this.coinSelect$.asObservable().pipe(distinctUntilChanged());
     const amountChanges$ = this.withdrawForm.get('amount').valueChanges.pipe(startWith(0), distinctUntilChanged(), debounceTime(200));
 
-    this.withdrawForm.valueChanges
+    this.withdrawForm.get('coin').valueChanges
     .pipe(takeUntil(this.onDestroy$))
     .subscribe(v => {
       this.ref.detectChanges();
