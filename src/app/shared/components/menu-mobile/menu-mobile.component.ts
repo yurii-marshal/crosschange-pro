@@ -25,7 +25,6 @@ export class MenuMobileComponent implements OnInit {
     },
     {label: 'menu_mobile.exchange', active: false, link: '/trade'},
     {label: 'menu_mobile.history', active: false, link: '/history'},
-    {label: '', active: false, link: ''},
   ];
 
   constructor(
