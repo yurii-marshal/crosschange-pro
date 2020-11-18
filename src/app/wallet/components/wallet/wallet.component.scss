@@ -59,6 +59,10 @@
       width: 220px;
     }
 
+    &-value {
+      font-weight: 400;
+    }
+
     &-currency {
       margin-left: 3px;
       font-weight: bold;
@@ -108,7 +112,10 @@
     &__table {
       box-shadow: none;
       border-radius: 4px;
-      filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
+
+      &:not(.main) {
+        filter: drop-shadow(0px 1px 4px rgba(143, 149, 158, 0.25));
+      }
 
       &.with-controls {
 

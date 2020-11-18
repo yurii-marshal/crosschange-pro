@@ -2,7 +2,9 @@
   <div class="total-balance__header">{{'wallet_page.wallet_list' | translate}}</div>
   <div class="total-balance__amount">
     <div class="fx-row fx-v-align-baseline total-balance__amount-container">
-      {{(walletBalance$ | async)?.total_balance || 0 | number: '1.8-8' | toggleSecretText: (hideNumbers$ | async)}}
+      <div class="total-balance__amount-value">
+        {{(walletBalance$ | async)?.total_balance || 0 | number: '1.8-8' | toggleSecretText: (hideNumbers$ | async)}}
+      </div>
       <div class="total-balance__amount-currency">
         <span class="total-balance__amount-currency--black">
           {{'wallet_page.btc' | translate}}
@@ -80,9 +82,7 @@
 
           <!-- Action column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef>
-              {{ 'wallet_page.action' | translate }}
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
               <a>{{ 'wallet_page.deposit' | translate }}</a>
               <a>{{ 'wallet_page.withdraw' | translate }}</a>
@@ -114,7 +114,7 @@
   <div class="balance">
     <div class="balance-info">
       <div class="balance-info__name">{{'wallet_page.cc_euro_account_balance' | translate}}</div>
-      <div class="balance-info__table">
+      <div class="balance-info__table euro-balance">
         <mat-table mat-table [dataSource]="euroAccountBalanceSource | async" class="single-table">
           <!-- Coin column -->
           <ng-container matColumnDef="cryptocurrency">
@@ -170,9 +170,7 @@
 
           <!-- Action column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef>
-              {{ 'wallet_page.action' | translate }}
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
               <a>{{ 'wallet_page.deposit' | translate }}</a>
               <a>{{ 'wallet_page.withdraw' | translate }}</a>
@@ -202,7 +200,7 @@
 
   <div class="balance">
     <div class="balance-info">
-      <div class="balance-info__table with-controls">
+      <div class="balance-info__table main with-controls">
         <div class="mat-table__search">
           <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
           <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
@@ -265,9 +263,7 @@
 
           <!-- Action column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef>
-              {{ 'wallet_page.action' | translate }}
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
 
               <a>{{ 'wallet_page.deposit' | translate }}</a>
