@@ -218,6 +218,10 @@
   visibility: hidden;
 }
 
+::ng-deep .mat-select-arrow {
+  color: $color-grey-60 !important;
+}
+
 ::ng-deep .opened .mat-select-arrow {
   transform: rotate(-180deg);
 }
@@ -413,11 +417,17 @@
     }
   }
 
+  // TODO: refactor, try to avoid
+  ::ng-deep .opened {
+    overflow-x: hidden !important;
+  }
+
   .mat-table-wrapper {
     width: max-content;
   }
 
-    .tabs-container {
+  .tabs-container {
+
     .tabs-content {
       padding: 40px 18px 85px 0;
       background-color: $color-white-100;
@@ -425,7 +435,7 @@
       .divider {
         margin-left: 18px;
       }
-    }
+  }
 
     .wrapper {
       width: 100%;
