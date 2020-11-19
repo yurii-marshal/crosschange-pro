@@ -50,17 +50,26 @@
     "total_balance": "Total Balance"
   },
   "exchange": {
+    "1m": "",
+    "1w": "",
+    "1y": "",
+    "24h": "",
+    "balance": "",
     "cancel": "Cancel",
     "complete": "Transaction completed successfully!",
+    "current_rate": "",
     "done": "Done",
+    "exchange": "",
     "exchange_rate": "Exchange rate",
     "fee": "Fee",
     "for": "For",
     "get": "You will get",
     "got": "You got",
+    "max": "",
     "processing": "Processing",
-    "review": "Please review your exchange details",
-    "wait": "We are processing your exchange transaction. Please wait."
+    "title": "",
+    "today_change": "",
+    "you_will_get": ""
   },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
@@ -143,7 +152,6 @@
   "menu_mobile": {
     "buy_crypto": "Buy Crypto",
     "exchange": "Exchange",
-    "exchange_currency": "Exchange Currencies",
     "history": "History",
     "logout": "Logout",
     "margin_wallet": "Margin wallet",
