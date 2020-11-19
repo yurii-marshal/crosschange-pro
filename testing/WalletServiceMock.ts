@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { TradeType } from '../src/app/core/interfaces/trade-type.interface';
 import { Memoized } from '../src/app/core/decorators/memoized.decorator';
@@ -10,7 +10,7 @@ import {
 } from '../src/app/shared/interfaces/transaction-item.interface';
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share } from 'rxjs/operators';
-import {IUserBalance} from '../src/app/wallet/services/wallet.service';
+import { IUserBalance } from '../src/app/wallet/services/wallet.service';
 export const mockDataBalanceTypes = {
   fiat: {
     eur: [
