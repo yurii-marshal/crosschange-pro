@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { IUserBalance, WalletService } from '../../services/wallet.service';
-import { debounceTime, distinctUntilChanged, map, share, startWith, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, share, startWith, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { defaultPagination } from '../../../shared/constants/pagination.constant';
 import { UserService } from '../../../shared/services/user.service';
+import { SsoUser } from 'shared-kuailian-lib';
 
 @Component({
   selector: 'app-wallet',
@@ -32,7 +33,7 @@ export class WalletComponent implements OnInit {
 
   searchInputControl = new FormControl();
 
-  walletBalance$: Observable<IUserBalance>;
+  walletBalance$: Subject<IUserBalance> = new Subject();
   cryptoPairs: string[];
   pairs: string[];
 
@@ -40,10 +41,10 @@ export class WalletComponent implements OnInit {
   hideNumbers$ = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('hideNumbers')));
 
   constructor(
+    public walletService: WalletService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    public walletService: WalletService,
   ) {
   }
 
@@ -53,6 +54,13 @@ export class WalletComponent implements OnInit {
     if (!('offset' in queryParams) || !('limit' in queryParams)) {
       this.navigateDefault();
     }
+
+    this.euroAccountBalanceSource = this.route.queryParams
+      .pipe(
+        filter(params => params.limit && params.offset),
+        switchMap(params => this.walletService.getEuroAccountList(params)),
+        map((res) => new MatTableDataSource(res.results)),
+      );
 
     this.cryptoBalanceSource = combineLatest([
       this.searchInputControl.valueChanges
@@ -68,7 +76,7 @@ export class WalletComponent implements OnInit {
     ]).pipe(
       switchMap(([search, params, hideLowBalance, cryptoPairs, user]) => {
         this.cryptoPairs = cryptoPairs;
-        this.walletBalance$ = this.walletService.getWalletBalance(user.uuid).pipe(share());
+        this.getWalletBalance(user);
         return this.walletService.getWalletsList({...params, ...{search}, ...{hideLowBalance}});
       }),
       share(),
@@ -77,6 +85,12 @@ export class WalletComponent implements OnInit {
         return new MatTableDataSource(result.results);
       }),
     );
+  }
+
+  getWalletBalance(user: SsoUser): void {
+    this.walletService.getWalletBalance(user.uuid).subscribe(v => {
+      this.walletBalance$.next(v);
+    });
   }
 
   toggleNumVisibility(): void {

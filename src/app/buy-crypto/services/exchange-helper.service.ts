@@ -14,11 +14,11 @@ export class ExchangeHelperService {
   }
 
   convertFilter(form: FormGroup, target: string, toUpdate: string): boolean {
-    return form.get(target).value
+    return !!(form.get(target).value
       && form.get(toUpdate).value
       && (form.get(toUpdate).value && form.get(target).value.currency) && form.get(toUpdate).value.currency
       && !!((form.get(target).value.currency && +form.get(target).value.amount)
-        || (form.get(toUpdate).value && +form.get(toUpdate).value.amount));
+        || (form.get(toUpdate).value && +form.get(toUpdate).value.amount)));
   }
 
   preCheckRequest(form: FormGroup, target: string, toUpdate: string): Observable<IPreCheckResponse> {

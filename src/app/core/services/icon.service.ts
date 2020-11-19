@@ -10,6 +10,7 @@ const icons: string[] = [
   'icon_bth',
   'icon_bch',
   'icon_bsv',
+  'icon_ceur',
   'icon_dash',
   'icon_eth',
   'icon_ltc',

@@ -15,12 +15,24 @@
                (change)='change.next([$event, "desktop"])'
                (keyup)='keyUp.next([$event, "desktop"])' (click)="$event.stopPropagation()">
       </div>
-      <div class="coin-abbr">
-        <span class="coin-key" *ngIf="selected$">{{(selected$ | async)?.key}}</span>
-      </div>
       <div class="right">
         <div class="input-container">
           <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
+          <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="fx-row mobile">
+      <div class="left">
+        <mat-icon *ngIf="(selected$ | async)"
+                  class="coin-icon"
+                  [svgIcon]="'icon_' + ((selected$ | async)?.key | lowercase)">
+        </mat-icon>
+        <span class="coin-title" *ngIf="selected$">{{(selected$ | async)?.fields.name}}</span>
+      </div>
+      <div class="right">
+        <div class="input-container">
           <mat-icon class="icon-trigger" [svgIcon]="'icon_chevron_down'"></mat-icon>
         </div>
       </div>
@@ -43,7 +55,8 @@
     <input class="currency-search" type="text" (keyup)="search($event.target.value)" [(ngModel)]="searchValue">
   </div>
   <div class="items-container">
-    <span *ngFor="let coin of currenciesFiltered$ | async | currencySelected:secondSelected" (click)="setCurrency(coin); opened = false"
+    <span *ngFor="let coin of currenciesFiltered$ | async | currencySelected:secondSelected | currencyType:currencyType"
+          (click)="setCurrency(coin); opened = false"
           class="menu-item">
         <mat-icon class="coin-icon" [svgIcon]="'icon_' + (coin.key | lowercase)"></mat-icon>
         <span class="coin-title">{{coin.key | uppercase }}</span>

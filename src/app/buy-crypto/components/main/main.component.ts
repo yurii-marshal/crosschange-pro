@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
 import {
+  catchError,
   distinctUntilChanged,
   filter,
   map,
@@ -26,17 +27,30 @@ import { Devices, MediaBreakpointsService } from '../../../shared/services/media
 import { CurrencySelectValidators } from '../../../shared/components/currency-select/CurrencySelectValidator';
 import { ExchangeHelperService } from '../../services/exchange-helper.service';
 import { ActivatedRoute } from '@angular/router';
-import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { PaymentMethods } from 'src/app/buy-crypto/enums/PaymentMethods';
+import { TranslateService } from '@ngx-translate/core';
+import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { ActiveLink } from 'src/app/buy-crypto/enums/ActiveLink';
+import { CurrencyTypePipe } from 'src/app/shared/pipes/currency-type.pipe';
+import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { CurrenciesTypes } from 'src/app/buy-crypto/enums/CurrenciesTypes';
+
+export interface IExchange {
+  from: string;
+  to: string;
+}
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrencyTypePipe]
 })
 export class MainComponent implements OnInit, OnDestroy {
   public PaymentMethods = PaymentMethods;
+  public ActiveLink = ActiveLink;
+  public CurrenciesTypes = CurrenciesTypes;
   form: FormGroup;
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
@@ -46,18 +60,20 @@ export class MainComponent implements OnInit, OnDestroy {
   chartPeriods = IChartPeriods;
   chartPeriod: IChartPeriods = IChartPeriods.DAY;
   periodSteps = {
-    [this.chartPeriods.DAY]: 30,
-    [this.chartPeriods.WEEK]: 30,
-    [this.chartPeriods.MONTH]: 30,
-    [this.chartPeriods.YEAR]: 30,
+    [this.chartPeriods.DAY]: 1000,
+    [this.chartPeriods.WEEK]: 1000 * 7,
+    [this.chartPeriods.MONTH]: 1000 * 7 * 30,
+    [this.chartPeriods.YEAR]: 1000 * 7 * 4
   };
+
   inputsEnabled = true;
   maxDisabled = false;
   activeLink: string;
-  activePaymentMethod: string;
+  activePaymentMethod: string = PaymentMethods.SPOT_WALLET;
 
   targetControlName;
   updateControlName;
+  isMobile;
 
   constructor(
     private coins: CoinsService,
@@ -67,6 +83,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private helper: ExchangeHelperService,
     private route: ActivatedRoute,
+    private translate: TranslateService,
+    private currencyTypePipe: CurrencyTypePipe
   ) {
   }
 
@@ -80,11 +98,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.route.queryParams.pipe(
       takeUntil(this.onDestroy$),
-      map(params => params.tab)
-    ).subscribe(value => {
-      this.activeLink = value || 'buy';
-      this.setPaymentMethodValidators();
-    });
+      map(params => {
+        this.activeLink = params.tab || ActiveLink.BUY;
+        this.setPaymentMethodValidators();
+      }),
+      switchMap(() => this.exchange.getCurrencies().pipe(take(1)))
+    ).subscribe((currencies) => this.formPreSet(currencies));
 
     this.form.get('paymentMethod').valueChanges.pipe(
       takeUntil(this.onDestroy$)
@@ -93,11 +112,19 @@ export class MainComponent implements OnInit, OnDestroy {
     this.mediaBreakpointsService.device
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((device) => {
+        this.isMobile = device === Devices.MOBILE;
         if (device === Devices.MOBILE) {
           this.option.xAxis.axisLabel.rotate = 45;
+          this.option.grid.left = '16px';
         } else {
           this.option.xAxis.axisLabel.rotate = 0;
         }
+      });
+
+    this.translate.onLangChange
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(v => {
+        this.translateXAxisLabels(this.option.originalAxisLabels);
       });
 
     combineLatest([
@@ -136,34 +163,35 @@ export class MainComponent implements OnInit, OnDestroy {
         map(([from, to]) => [from.currency, to.currency]),
         switchMap(([fromCurrency, toCurrency]) => {
           return combineLatest([
-            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
+            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]).pipe(catchError(() => of(null))),
             this.exchange.getChartData(
               fromCurrency.key,
               toCurrency.key,
               this.chartPeriod,
-              this.periodSteps[this.chartPeriod])
+              this.periodSteps[this.chartPeriod]).pipe(catchError(() => of(null)))
           ]);
-        })
+        }),
+        filter(([rateInfo, chartData]) => rateInfo && chartData)
       )
       .subscribe(([rateInfo, chartData]) => {
         this.exchangeInfo$.next(rateInfo);
         this.setChartInfo(chartData);
       });
+  }
 
-    this.exchange.getCurrencies()
-      .pipe(take(1))
-      .subscribe((currencies) => {
-        this.form.patchValue({
-          fromCurrency: {
-            currency: currencies[0],
-            amount: ''
-          },
-          toCurrency: {
-            currency: currencies[1],
-            amount: ''
-          }
-        });
-      });
+  formPreSet(currencies: ICurrency[]): void {
+    this.form.patchValue({
+      fromCurrency: {
+        currency: this.currencyTypePipe.transform(currencies, this.setActiveTab().from)[0],
+        amount: ''
+      },
+      toCurrency: {
+        currency: this.setActiveTab().from === this.setActiveTab().to ?
+          this.currencyTypePipe.transform(currencies, this.setActiveTab().to)[1] :
+          this.currencyTypePipe.transform(currencies, this.setActiveTab().to)[0],
+        amount: ''
+      }
+    });
   }
 
   getWallets(): void {
@@ -173,21 +201,22 @@ export class MainComponent implements OnInit, OnDestroy {
       });
   }
 
+  private fetchChartInfo(): void {
+    if (this.helper.bothCurrenciesSet([this.form.get('fromCurrency').value, this.form.get('toCurrency').value])) {
+      this.exchange.getChartData(
+        this.form.get('fromCurrency').value.currency.key,
+        this.form.get('toCurrency').value.currency.key,
+        this.chartPeriod,
+        this.periodSteps[this.chartPeriod]
+      ).subscribe(v => {
+        this.setChartInfo(v);
+      });
+    }
+  }
+
   onPeriodChange(val: MatButtonToggleChange): void {
     this.chartPeriod = val.value;
-    const from = this.form.get('fromCurrency').value;
-    const to = this.form.get('toCurrency').value;
-    if (!from || !to || !from.currency || !to.currency) {
-      return;
-    }
-    this.exchange.getChartData(
-      from.currency.key,
-      to.currency.key,
-      this.chartPeriod,
-      this.periodSteps[this.chartPeriod]
-    ).subscribe(v => {
-      this.setChartInfo(v);
-    });
+    this.fetchChartInfo();
   }
 
 
@@ -209,7 +238,7 @@ export class MainComponent implements OnInit, OnDestroy {
         ]),
       fee: new FormControl(),
       rate: new FormControl(null, Validators.required),
-      paymentMethod: new FormControl(null, Validators.required),
+      paymentMethod: new FormControl(PaymentMethods.SPOT_WALLET, Validators.required),
       valid: new FormControl(false, [this.exchangeValidValidator])
     });
   }
@@ -220,9 +249,27 @@ export class MainComponent implements OnInit, OnDestroy {
       toCurrency: {currency: undefined, amount: ''},
       fee: undefined,
       rate: 0,
-      paymentMethod: undefined,
+      paymentMethod: PaymentMethods.SPOT_WALLET,
       valid: false
     });
+    this.option.series = [{
+      data: [],
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = 0;
+    this.option.xAxis.data = [];
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
   }
 
   swapCurrencies(): void {
@@ -234,6 +281,7 @@ export class MainComponent implements OnInit, OnDestroy {
       fromCurrency: this.form.get('toCurrency').value
     }, {emitEvent: false});
     this.convertCurrency('fromCurrency', 'toCurrency');
+    this.fetchChartInfo();
   }
 
   setFromMaxValue(): void {
@@ -284,8 +332,28 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
+  setActiveTab(): IExchange {
+    switch (this.activeLink) {
+      case ActiveLink.BUY:
+        return {
+          from: CurrenciesTypes.FIAT,
+          to: CurrenciesTypes.CRYPTO
+        };
+      case ActiveLink.SELL:
+        return {
+          from: CurrenciesTypes.CRYPTO,
+          to: CurrenciesTypes.FIAT
+        };
+      case ActiveLink.EXCHANGE:
+        return {
+          from: CurrenciesTypes.CRYPTO,
+          to: CurrenciesTypes.CRYPTO
+        };
+    }
+  }
+
   setPaymentMethodValidators(): void {
-    this.activeLink === 'buy' ?
+    this.activeLink === ActiveLink.BUY ?
       this.form.get('paymentMethod').enable() :
       this.form.get('paymentMethod').disable();
   }
@@ -308,6 +376,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }];
     this.option.yAxis.min = Math.min(...data.points) / 1.02;
     this.option.xAxis.data = data.axis;
+    this.translateXAxisLabels(data.axis);
     if (this.chartInstance) {
       this.chartInstance.setOption({
         series: this.option.series,
@@ -315,6 +384,44 @@ export class MainComponent implements OnInit, OnDestroy {
         yAxis: this.option.yAxis,
       });
     }
+  }
+
+  // TODO: REFACTOR
+  private translateXAxisLabels(data: string[]): void {
+    this.option.originalAxisLabels = data ? [...data] : [];
+    (data || []).forEach((v, i) => {
+      let key;
+      switch (this.chartPeriod) {
+        case IChartPeriods.DAY:
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '30px' : '0px' } });
+          this.option.xAxis.data[i] = v + ':00';
+          this.chartInstance.setOption({
+            xAxis: this.option.xAxis
+          });
+          return;
+        case IChartPeriods.WEEK:
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '50px' : '0px' } });
+          key = `weekdays_abbrs.${(v + '').toLowerCase()}`;
+          break;
+        case IChartPeriods.YEAR:
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '50px' : '0px' } });
+          key = `months_abbrs.${(v + '').toLowerCase()}`;
+          break;
+        default:
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '50px' : '0px' } });
+          this.option.xAxis.data[i] = v;
+          this.chartInstance.setOption({
+            xAxis: this.option.xAxis
+          });
+          return;
+      }
+      this.translate.get(key).pipe(take(1)).subscribe((tr) => {
+        this.option.xAxis.data[i] = tr;
+        this.chartInstance.setOption({
+          xAxis: this.option.xAxis
+        });
+      });
+    });
   }
 
   convertCurrency(target, toUpdate): void {
@@ -360,4 +467,23 @@ _([
   'buy_crypto.buy',
   'buy_crypto.sell',
   'buy_crypto.exchange',
+  'weekdays_abbrs.sun',
+  'weekdays_abbrs.mon',
+  'weekdays_abbrs.tue',
+  'weekdays_abbrs.wed',
+  'weekdays_abbrs.thu',
+  'weekdays_abbrs.fri',
+  'weekdays_abbrs.sat',
+  'months_abbrs.jan',
+  'months_abbrs.feb',
+  'months_abbrs.mar',
+  'months_abbrs.apr',
+  'months_abbrs.may',
+  'months_abbrs.jun',
+  'months_abbrs.jul',
+  'months_abbrs.aug',
+  'months_abbrs.sep',
+  'months_abbrs.oct',
+  'months_abbrs.nov',
+  'months_abbrs.dec'
 ]);

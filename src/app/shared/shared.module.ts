@@ -32,6 +32,7 @@ import { OnlyNumbersDirective } from './directives/only-numbers.directive';
 import { ModalWindowComponent } from './components/modal-window/modal-window.component';
 import { ResizableDirective } from './directives/resizable.directive';
 import { SplitStringPipe } from './pipes/split-string.pipe';
+import { CurrencyTypePipe } from './pipes/currency-type.pipe';
 
 const components = [
   HeaderComponent,
@@ -56,6 +57,7 @@ const pipes = [
   SafePipe,
   SplitStringPipe,
   CurrencySelectedPipe,
+  CurrencyTypePipe,
 ];
 
 @NgModule({
