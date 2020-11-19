@@ -259,6 +259,7 @@ export class MainComponent implements OnInit, OnDestroy {
       panelClass: 'confirmation',
       data: {
         confirmationStage: 1,
+        activeLink: this.activeLink,
         fromCurrencyAmount: this.form.value.fromCurrency.amount,
         fromCurrencyKey: this.form.value.fromCurrency.currency.key,
         toCurrencyAmount: this.form.value.toCurrency.amount,

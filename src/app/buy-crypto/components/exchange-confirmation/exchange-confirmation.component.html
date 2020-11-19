@@ -15,14 +15,26 @@
 
     <div class="confirmation-popup__header-info show-header-info" *ngIf="confirmationStage === 2">
       <div class="confirmation-popup__header-label">{{'exchange.processing' | translate}}</div>
-      <div class="confirmation-popup__header-text">{{'exchange.wait' | translate}}</div>
+      <div class="confirmation-popup__header-text">
+        <ng-container [ngSwitch]="data.activeLink">
+          <ng-container *ngSwitchCase="'buy'">{{'buy_crypto.buy_wait' | translate}}</ng-container>
+          <ng-container *ngSwitchCase="'sell'">{{'buy_crypto.sell_wait' | translate}}</ng-container>
+          <ng-container *ngSwitchDefault>{{'buy_crypto.exchange_wait' | translate}}</ng-container>
+        </ng-container>
+      </div>
     </div>
   </div>
 
   <div class="confirmation-popup__info"
        [ngClass]="{'hide-info': confirmationStage === 2}"
        *ngIf="confirmationStage !== 3">
-    <div class="confirmation-popup__info-header">{{'exchange.review' | translate}}</div>
+    <div class="confirmation-popup__info-header">
+      <ng-container [ngSwitch]="data.activeLink">
+        <ng-container *ngSwitchCase="'buy'">{{'buy_crypto.buy_review' | translate}}</ng-container>
+        <ng-container *ngSwitchCase="'sell'">{{'buy_crypto.sell_review' | translate}}</ng-container>
+        <ng-container *ngSwitchDefault>{{'buy_crypto.exchange_review' | translate}}</ng-container>
+      </ng-container>
+    </div>
 
     <div class="confirmation-popup__for">
       <div class="confirmation-popup__for-label">{{'exchange.for' | translate}}</div>
@@ -50,7 +62,11 @@
         {{'exchange.cancel' | translate}}
       </button>
       <button class="confirmation-popup__btn confirmation-popup__exchange-btn" (click)="confirmExchange()">
-        {{'exchange.exchange' | translate}}
+        <ng-container [ngSwitch]="data.activeLink">
+          <ng-container *ngSwitchCase="'buy'">{{'buy_crypto.buy' | translate}}</ng-container>
+          <ng-container *ngSwitchCase="'sell'">{{'buy_crypto.sell' | translate}}</ng-container>
+          <ng-container *ngSwitchDefault>{{'buy_crypto.exchange' | translate}}</ng-container>
+        </ng-container>
       </button>
     </div>
   </div>

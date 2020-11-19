@@ -33,7 +33,6 @@ export class ExchangeConfirmationComponent {
       .pipe(take(1))
       .subscribe(_ => {
         this.confirmationStage = 3;
-        this.closeDialog(true);
       }, err => this.closeDialog(false));
   }
 
