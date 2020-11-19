@@ -94,7 +94,7 @@ export class WithdrawServiceMock {
     results: []
   };
 
-  constructor(protected injector: Injector) {
+  constructor() {
   }
 
   getWithdrawHistory(params): Observable<IApiResponse<IWithdrawItem>> {

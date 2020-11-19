@@ -41,20 +41,16 @@ export class ExchangeServiceMock {
     return of(this.currencies);
   }
 
-  getChartData(from: string, to: string, period: IChartPeriods, step?: number): Observable<IChartData[]> {
-    // TODO: UNCOMMENT
-    /*const pair = (from + to).toUpperCase();
-    const req = { pair, period, step: undefined };
-    if (step) {
-      req.step = step;
-    }
-    return super.get('/exchanges/graph');*/
-    // TODO: DELETE WHEN API IS READY
-    const mock = new Array(70).fill(1).map((v, i) => {
-      const name = i % 10 === 0 ? i : '';
-      return { name, value: Math.random() * (4000 - 3000) + 3000};
+  getChartData(from: string, to: string, period: IChartPeriods, step?: number): Observable<IChartData> {
+    const mock = {
+      points: [],
+      axis: []
+    };
+    mock.points = new Array(70).fill(1).map((v, i) => {
+      mock.points.push(i % 10 === 0 ? i : '');
+      return Math.random() * (4000 - 3000) + 3000;
     });
-    const subj = new BehaviorSubject(mock as IChartData[]);
+    const subj = new BehaviorSubject(mock);
     return subj.asObservable().pipe(delay(200));
   }
   private generatePreCheck(): IPreCheckResponse {

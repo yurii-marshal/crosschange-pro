@@ -10,6 +10,14 @@ import { routes } from '../../../app-routing.module';
 import { routes as homeRoutes } from '../../../home/home.module';
 import { Route, Router } from '@angular/router';
 import { SharedModule } from '../../shared.module';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { environment } from '../../../../environments/environment';
+import {
+  ENVIRONMENT,
+  IEnvironment
+} from 'shared-kuailian-lib';
+import { BrowserModule } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('BaseComponent', () => {
   let component: BaseComponent;
@@ -24,12 +32,16 @@ describe('BaseComponent', () => {
         RouterTestingModule.withRoutes(routes),
         TranslateModule.forRoot(),
         MatIconModule,
-        MatMenuModule
+        MatMenuModule,
+        BrowserModule,
+        NoopAnimationsModule,
+        HttpClientTestingModule,
       ],
       providers: [
         IconService,
         MatIconRegistry,
         { provide: MatIconRegistry, useClass: FakeMatIconRegistry },
+        {provide: ENVIRONMENT, useValue: environment as IEnvironment},
       ]
     })
     .compileComponents();
@@ -51,6 +63,7 @@ describe('BaseComponent', () => {
      * not just await router.navigate(['']) because in that case will get warning:
      * "Navigation triggered outside Angular zone"
      */
+    localStorage.setItem('token', '123123123');
     await new Promise((resolve, reject) => {
       fixture.ngZone.run(() => {
         router.navigate(['']).then(() => {
