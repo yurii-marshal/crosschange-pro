@@ -48,7 +48,7 @@
 
       <div class="divider"></div>
 
-      <div class="table" cdk-scrollable>
+      <div class="table" [ngClass]="{'opened': matSelectOpened}">
         <div class="mat-table-wrapper">
           <div class="mat-table__search">
             <div class="mat-table__search-block">
@@ -58,7 +58,6 @@
             <div class="mat-table__search-dropdown" *ngIf="activeLink === 'alts' || activeLink === 'fiat'">
               <mat-form-field>
                 <mat-select [formControl]="searchFilterControl"
-                            [ngClass]="{'opened': matSelectOpened}"
                             disableOptionCentering
                             (openedChange)="toggleMatSelect($event)">
                   <mat-select-trigger>
