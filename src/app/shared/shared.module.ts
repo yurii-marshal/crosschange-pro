@@ -29,6 +29,9 @@ import { AddressSelectComponent } from './components/address-select/address-sele
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { ModalWindowComponent } from './components/modal-window/modal-window.component';
+import { ResizableDirective } from './directives/resizable.directive';
+import { SplitStringPipe } from './pipes/split-string.pipe';
 
 const components = [
   HeaderComponent,
@@ -44,20 +47,23 @@ const components = [
   CurrencySelectComponent,
   ConfirmationComponent,
   AddWithdrawAddressDialogComponent,
+  ModalWindowComponent,
 ];
 
 const pipes = [
   TimeBeforePipe,
   ToggleSecretTextPipe,
   SafePipe,
+  SplitStringPipe,
+  CurrencySelectedPipe,
 ];
 
 @NgModule({
   declarations: [
     ...components,
     ...pipes,
-    CurrencySelectedPipe,
-    OnlyNumbersDirective
+    OnlyNumbersDirective,
+    ResizableDirective,
   ],
   imports: [
     CommonModule,
@@ -94,6 +100,7 @@ const pipes = [
     LayoutModule,
     NgxEchartsModule,
     OnlyNumbersDirective,
+    ResizableDirective,
   ],
   providers: [
     DatePipe

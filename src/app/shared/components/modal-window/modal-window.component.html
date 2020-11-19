@@ -1,0 +1,16 @@
+<div class="header fx-row fx-h-align-space-between fx-v-align-center">
+  <div class="label">{{headerText | translate}}</div>
+  <div class="controls fx-row fx-h-align-space-between fx-v-align-center">
+    <button *ngIf="draggableWindow" class="control-btn" [disableRipple]="true" mat-icon-button (click)="dragWindow()">
+      <mat-icon [svgIcon]="'icon_draggable'" class="previous-page"></mat-icon>
+    </button>
+    <button *ngIf="resizableWindow" class="control-btn" [disableRipple]="true" mat-icon-button (click)="resizeWindow()">
+      <mat-icon *ngIf="!fullScreen" [svgIcon]="'icon_resize_up'" class="resize up"></mat-icon>
+      <mat-icon *ngIf="fullScreen" [svgIcon]="'icon_resize_down'" class="resize down"></mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="content">
+  <ng-content></ng-content>
+</div>
