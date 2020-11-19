@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { ApiService } from 'shared-kuailian-lib';
 import { ICurrency } from '../interfaces/currency.interface';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { share, tap } from 'rxjs/operators';
 import { IChartData } from '../interfaces/chart-data.interface';
 import { HttpParams } from '@angular/common/http';
@@ -40,6 +40,7 @@ export interface IExchangeRequest {
   providedIn: 'root'
 })
 export class ExchangeService extends ApiService {
+  // TODO: IMPLEMENT CACHING
   private currencies: ICurrency[] = [];
 
   constructor(protected injector: Injector) {
@@ -47,9 +48,10 @@ export class ExchangeService extends ApiService {
   }
 
   getCurrencies(): Observable<ICurrency[]> {
-    if (this.currencies.length) {
+    // TODO: IMPLEMENT CACHING
+    /*if (this.currencies.length) {
       return of(this.currencies);
-    }
+    }*/
     return super.get<ICurrency[]>('exchanges/currencies').pipe(
       tap((v) => this.currencies = v),
       share()
