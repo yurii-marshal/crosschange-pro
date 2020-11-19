@@ -35,7 +35,7 @@ export const routes: Routes = [
       },
       {
         path: 'trade',
-        loadChildren: () => import('./exchange/exchange.module').then((m) => m.ExchangeModule),
+        loadChildren: () => import('./trade/trade.module').then((m) => m.TradeModule),
       },
       {
         path: 'company',
