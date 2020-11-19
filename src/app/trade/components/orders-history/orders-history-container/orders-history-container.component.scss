@@ -1,22 +1,6 @@
-@import "../../../../assets/styles/variables";
+@import "../../../../../assets/styles/variables";
 
 .orders-history {
-
-  &__label-block {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 20px;
-    background: $color-grey-10;
-  }
-
-  &__label-title {
-    margin-left: 12px;
-    font-size: 12px;
-    line-height: 16px;
-    color: $color-grey-60;
-  }
-
   &__content-header {
     display: flex;
     align-items: flex-start;
@@ -26,6 +10,7 @@
 
   &__content-tabs {
     display: flex;
+    min-height: 236px;
   }
 
   &__hide-pairs {

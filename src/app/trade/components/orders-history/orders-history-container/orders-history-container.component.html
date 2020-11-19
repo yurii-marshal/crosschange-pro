@@ -1,25 +1,19 @@
 <div class="orders-history">
-  <div class="orders-history__label-block">
-    <div class="orders-history__label-title">
-      {{'trade_page.order_and_history' | translate}}
-    </div>
-  </div>
-
   <div class="orders-history__content-block">
     <div class="orders-history__content-header">
       <div class="orders-history__content-tabs">
         <mat-tab-group class="mat-tab-group">
           <mat-tab label="{{ 'trade_page.open_orders' | translate }} (0)">
-            <div class="table"></div>
+            <app-open-orders></app-open-orders>
           </mat-tab>
           <mat-tab label="{{ 'trade_page.order_history' | translate }}">
-            <div class="table"></div>
+            <app-order-history></app-order-history>
           </mat-tab>
           <mat-tab label="{{ 'trade_page.trade_history' | translate }}">
-            <div class="table"></div>
+            <app-trade-history></app-trade-history>
           </mat-tab>
-          <mat-tab label="{{ 'trade_page.funds' | translate }}">
-            <div class="table"></div>
+          <mat-tab label="{{ 'trade_page.founds' | translate }}">
+            <app-founds></app-founds>
           </mat-tab>
         </mat-tab-group>
       </div>

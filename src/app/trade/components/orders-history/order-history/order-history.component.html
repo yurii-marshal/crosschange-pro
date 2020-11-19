@@ -1,0 +1,76 @@
+<app-period-picker></app-period-picker>
+
+<div class="table">
+  <div class="mat-table-wrapper">
+    <div class="table-responsive">
+      <mat-table mat-table [dataSource]="dataSource$ | async">
+        <!-- Date column -->
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.date' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.date }}</mat-cell>
+        </ng-container>
+
+        <!-- Pair column -->
+        <ng-container matColumnDef="pair">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.pair' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.pair }}</mat-cell>
+        </ng-container>
+
+        <!-- Type column -->
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.type' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.type }}</mat-cell>
+        </ng-container>
+
+        <!-- Side column -->
+        <ng-container matColumnDef="side">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.side' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.side }}</mat-cell>
+        </ng-container>
+
+        <!-- Average column -->
+        <ng-container matColumnDef="average">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.average' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.average }}</mat-cell>
+        </ng-container>
+
+        <!-- Executed column -->
+        <ng-container matColumnDef="executed">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.executed' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.executed }}</mat-cell>
+        </ng-container>
+
+        <!-- Amount column -->
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.amount' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.amount }}</mat-cell>
+        </ng-container>
+
+        <!-- Total column -->
+        <ng-container matColumnDef="total">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.total' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.total }}</mat-cell>
+        </ng-container>
+
+        <!-- Trigger Conditions column -->
+        <ng-container matColumnDef="trigger_condition">
+          <mat-header-cell *matHeaderCellDef>{{ 'order_history.trigger_condition' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.trigger_condition }}</mat-cell>
+        </ng-container>
+
+        <!-- Action column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'order_history.action' | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{ element.action }}</mat-cell>
+        </ng-container>
+
+        <div *ngIf="!(dataSource$ | async).data" class="no-data-splash">{{'order_history.no_data' | translate}}</div>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
