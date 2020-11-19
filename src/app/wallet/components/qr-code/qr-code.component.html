@@ -3,7 +3,7 @@
     <div class="content-container">
       <span class="field-title">{{'qr_code.address_short' | translate: { crypto: currentWallet?.cryptocurrency | uppercase } }}</span>
       <div class="qr">
-        <img [class.loading]="!(address$ | async)"
+        <img [class.loading]="!(address$ | async).length"
              [src]="(address$ | async) | safe: 'base64-svg'"
              alt="qr code">
       </div>
@@ -22,7 +22,7 @@
         {{ 'qr_code.tag_short' | translate : { crypto: currentWallet?.cryptocurrency | uppercase} }}
       </span>
       <div class="qr">
-        <img [class.loading]="!(tag$ | async)"
+        <img [class.loading]="!(tag$ | async).length"
              [src]="(tag$ | async) | safe: 'base64-svg'"
              alt="tag">
       </div>

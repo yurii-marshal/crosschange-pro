@@ -118,7 +118,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(`profile/security/address`);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
