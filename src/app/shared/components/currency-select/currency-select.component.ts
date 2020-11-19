@@ -5,8 +5,8 @@ import {
   OnInit, SimpleChanges, ViewChild
 } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { debounceTime, map, take } from 'rxjs/operators';
-import { ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { debounceTime, map, take, takeUntil } from 'rxjs/operators';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ICurrency } from '../../interfaces/currency.interface';
 import { ExchangeService } from '../../services/exchange.service';
 import { validate } from './CurrencySelectValidator';
@@ -23,37 +23,45 @@ import { ICurrencySelectValue } from './ICurrencySelectValue';
       useExisting: forwardRef(() => CurrencySelectComponent),
       multi: true
     },
-    { provide: NG_VALIDATORS, useValue: validate, multi: true }
+    {provide: NG_VALIDATORS, useValue: validate, multi: true}
   ]
 })
 export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
   @ViewChild('input') input;
   @ViewChild('mobileInput') mobileInput;
-  @Input() disabled;
-  public keyUp = new Subject<KeyboardEvent>();
+  @Input() disabledCondition;
+  @Input() secondSelected;
+  currencies: ICurrency[] = [];
+  public keyUp = new Subject<[KeyboardEvent, string]>();
+  public change = new Subject<[Event, string]>();
   opened = false;
-  currencies: ICurrency[];
   currenciesFiltered$: BehaviorSubject<ICurrency[]> = new BehaviorSubject<ICurrency[]>([]);
   selected$: BehaviorSubject<ICurrency> = new BehaviorSubject<ICurrency>(null);
+  amountForm: FormGroup = new FormGroup({
+    amount: new FormControl(''),
+  });
   onDestroy$: Subject<void> = new Subject();
   value: {
-    currency: ICurrency,
+    currency: ICurrency;
     amount: number | string;
   };
   searchValue = '';
-  onChange = (value: ICurrencySelectValue) => {};
-  onTouched = () => {};
-
-  @HostListener('document:click', ['$event.target']) onClick(target): void {
-    if (!this.elRef.nativeElement.contains(target)) {
-      this.opened = false;
-    }
+  onChange = (value: ICurrencySelectValue) => {
+  }
+  onTouched = () => {
   }
 
   constructor(
     private exchange: ExchangeService,
     private elRef: ElementRef
-  ) { }
+  ) {
+  }
+
+  @HostListener('document:click', ['$event.target']) onClick(target): void {
+    if (this.elRef && this.elRef.nativeElement && !this.elRef.nativeElement.contains(target)) {
+      this.opened = false;
+    }
+  }
 
   ngOnInit(): void {
     this.exchange.getCurrencies()
@@ -63,24 +71,31 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       this.currenciesFiltered$.next(v);
       this.currencies = v;
     });
+
     this.keyUp.pipe(
-      map(event => {
+      takeUntil(this.onDestroy$),
+      map(([event, type]) => {
         const target: HTMLInputElement = event.target as HTMLInputElement;
-        return target.value;
+        return [target.value, type];
       }),
-      debounceTime(300),
-    ).subscribe(v => {
-      this.input.nativeElement.value = v;
-      this.mobileInput.nativeElement.value = v;
-      this.onChange({
-        currency: this.selected$.getValue(),
-        amount: v + ''
-      });
+      debounceTime(1000),
+    ).subscribe(([v, type]) => {
+      this.onInput(type, v);
+    });
+
+    this.change.pipe(
+      takeUntil(this.onDestroy$),
+      map(([event, type]) => {
+        const target: HTMLInputElement = event.target as HTMLInputElement;
+        return [target.value, type];
+      }),
+    ).subscribe(([v, type]) => {
+      this.onInput(type, v);
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes && changes.disabled && changes.disabled.currentValue) {
+    if (changes && changes.disabledCondition && changes.disabledCondition.currentValue) {
       this.opened = false;
     }
   }
@@ -91,6 +106,18 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
 
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
+  }
+
+  private onInput(type: string, value: number | string): void {
+    if (type === 'desktop') {
+      this.mobileInput.nativeElement.value = value;
+    } else {
+      this.input.nativeElement.value = value;
+    }
+    this.onChange({
+      currency: this.selected$.getValue(),
+      amount: value + ''
+    });
   }
 
   setCurrency(currency: ICurrency): void {
@@ -106,8 +133,12 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
       return;
     }
     this.selected$.next(value.currency);
-    this.input.nativeElement.value = value.amount;
-    this.mobileInput.nativeElement.value = value.amount;
+    if (this.input) {
+      this.input.nativeElement.value = value.amount;
+    }
+    if (this.mobileInput) {
+      this.mobileInput.nativeElement.value = value.amount;
+    }
     this.value = {
       currency: value.currency,
       amount: value.amount
@@ -115,7 +146,7 @@ export class CurrencySelectComponent implements OnInit, OnChanges, OnDestroy, Co
   }
 
   onCloseDropdown(): void {
-    if (this.opened || this.disabled) {
+    if (this.opened || this.disabledCondition) {
       return;
     }
     this.currenciesFiltered$.next(this.currencies);

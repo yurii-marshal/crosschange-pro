@@ -1,4 +1,4 @@
 export interface IChartData {
-  name: string;
-  value: number;
+  axis: any[];
+  points: number[];
 }

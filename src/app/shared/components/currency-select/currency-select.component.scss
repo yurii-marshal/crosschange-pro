@@ -5,16 +5,20 @@
   position: relative;
 }
 
+.left {
+  display: flex;
+}
+
 .switcher {
   position: relative;
   box-shadow: 0 2px 8px rgba(143, 149, 158, 0.25);
   border-radius: 8px;
-  min-height: 80px;
+  max-height: 80px;
   display: flex;
   align-items: center;
   background: $color-white-100;
   box-sizing: border-box;
-  padding: 12px 20px 8px 20px;
+  padding: 22px 37px 22px 20px;
   cursor: pointer;
   z-index: 3;
 
@@ -24,6 +28,7 @@
 
   & > .fx-row {
     align-items: center;
+    justify-content: space-between;
     width: 100%;
   }
 
@@ -31,13 +36,8 @@
     width: 24px;
     min-width: 24px;
     height: 24px;
-    border-radius: 100%;
-    background-color: rgba(134, 134, 155, 0.5);
-    &:hover {
-      background-color: $color-grey-60;
-    }
     path {
-      fill: $color-white-100;
+      fill: $color-grey-100;
     }
   }
   .icon-trigger {
@@ -53,12 +53,14 @@
     display: none;
   }
   .coin-title {
+    margin-right: 15px;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 24px;
     color: $color-grey-40;
     display: block;
+    white-space: nowrap;
   }
   .coin-icon {
     margin-right: 12px;
@@ -75,6 +77,11 @@
       background-color: $color-grey-10;
     }
   }
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
 }
 
 .input-mobile {

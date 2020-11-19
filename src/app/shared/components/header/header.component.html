@@ -11,7 +11,7 @@
         <a class="menu-trigger" [routerLink]="[item.link]">
           {{item.label | translate}}
         </a>
-        <div *ngIf="i === 1" class="menu wallet" [class.closed]="!item.active">
+        <div *ngIf="i === 3" class="menu wallet" [class.closed]="!item.active">
           <div class="menu-container">
             <div class="menu-item" routerLink="/wallet/balance">
               <mat-icon class="icon" svgIcon="icon_wallet"></mat-icon>
@@ -27,8 +27,6 @@
     </ul>
   </div>
   <div class="right">
-    <button mat-button class="exchange-btn" routerLink="/trade">{{'header.exchange' | translate}}</button>
-
     <button [appPopover]="refNotesPopover" (click)="refNotesPopover.toggle()" class="notifications-btn" mat-icon-button>
       <mat-icon class="icon notes"
                 [svgIcon]="!(notifications$ | async).length ? 'icon_notification' : 'icon_notification_new'"></mat-icon>
