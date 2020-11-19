@@ -1,8 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CoinsService } from '../../../shared/services/coins.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, pairwise, startWith, switchMap, take, takeUntil, tap, } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
+import {
+  catchError,
+  distinctUntilChanged,
+  filter,
+  map,
+  pairwise,
+  startWith,
+  switchMap,
+  take,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { IExchangeData } from '../../../shared/interfaces/exchange-data.interface';
 import { WalletService } from '../../../wallet/services/wallet.service';
 import { ExchangeService, IChartPeriods } from '../../../shared/services/exchange.service';
@@ -19,15 +30,27 @@ import { ActivatedRoute } from '@angular/router';
 import { PaymentMethods } from 'src/app/buy-crypto/enums/PaymentMethods';
 import { TranslateService } from '@ngx-translate/core';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { ActiveLink } from 'src/app/buy-crypto/enums/ActiveLink';
+import { CurrencyTypePipe } from 'src/app/shared/pipes/currency-type.pipe';
+import { ICurrency } from 'src/app/shared/interfaces/currency.interface';
+import { CurrenciesTypes } from 'src/app/buy-crypto/enums/CurrenciesTypes';
+
+export interface IExchange {
+  from: string;
+  to: string;
+}
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CurrencyTypePipe]
 })
 export class MainComponent implements OnInit, OnDestroy {
   public PaymentMethods = PaymentMethods;
+  public ActiveLink = ActiveLink;
+  public CurrenciesTypes = CurrenciesTypes;
   form: FormGroup;
   onDestroy$ = new Subject<void>();
   exchangeInfo$: BehaviorSubject<IExchangeData> = new BehaviorSubject<IExchangeData>(null);
@@ -46,7 +69,7 @@ export class MainComponent implements OnInit, OnDestroy {
   inputsEnabled = true;
   maxDisabled = false;
   activeLink: string;
-  activePaymentMethod: string;
+  activePaymentMethod: string = PaymentMethods.SPOT_WALLET;
 
   targetControlName;
   updateControlName;
@@ -59,7 +82,8 @@ export class MainComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private helper: ExchangeHelperService,
     private route: ActivatedRoute,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private currencyTypePipe: CurrencyTypePipe
   ) {
   }
 
@@ -73,11 +97,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.route.queryParams.pipe(
       takeUntil(this.onDestroy$),
-      map(params => params.tab)
-    ).subscribe(value => {
-      this.activeLink = value || 'buy';
-      this.setPaymentMethodValidators();
-    });
+      map(params => {
+        this.activeLink = params.tab || ActiveLink.BUY;
+        this.setPaymentMethodValidators();
+      }),
+      switchMap(() => this.exchange.getCurrencies().pipe(take(1)))
+    ).subscribe((currencies) => this.formPreSet(currencies));
 
     this.form.get('paymentMethod').valueChanges.pipe(
       takeUntil(this.onDestroy$)
@@ -129,34 +154,35 @@ export class MainComponent implements OnInit, OnDestroy {
         map(([from, to]) => [from.currency, to.currency]),
         switchMap(([fromCurrency, toCurrency]) => {
           return combineLatest([
-            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]),
+            this.coins.getRate(fromCurrency.key, toCurrency.key, this.periodSteps[this.chartPeriod]).pipe(catchError(() => of(null))),
             this.exchange.getChartData(
               fromCurrency.key,
               toCurrency.key,
               this.chartPeriod,
-              this.periodSteps[this.chartPeriod])
+              this.periodSteps[this.chartPeriod]).pipe(catchError(() => of(null)))
           ]);
-        })
+        }),
+        filter(([rateInfo, chartData]) => rateInfo && chartData)
       )
       .subscribe(([rateInfo, chartData]) => {
         this.exchangeInfo$.next(rateInfo);
         this.setChartInfo(chartData);
       });
+  }
 
-    this.exchange.getCurrencies()
-      .pipe(take(1))
-      .subscribe((currencies) => {
-        this.form.patchValue({
-          fromCurrency: {
-            currency: currencies[0],
-            amount: ''
-          },
-          toCurrency: {
-            currency: currencies[1],
-            amount: ''
-          }
-        });
-      });
+  formPreSet(currencies: ICurrency[]): void {
+    this.form.patchValue({
+      fromCurrency: {
+        currency: this.currencyTypePipe.transform(currencies, this.setActiveTab().from)[0],
+        amount: ''
+      },
+      toCurrency: {
+        currency: this.setActiveTab().from === this.setActiveTab().to ?
+          this.currencyTypePipe.transform(currencies, this.setActiveTab().to)[1] :
+          this.currencyTypePipe.transform(currencies, this.setActiveTab().to)[0],
+        amount: ''
+      }
+    });
   }
 
   getWallets(): void {
@@ -203,7 +229,7 @@ export class MainComponent implements OnInit, OnDestroy {
         ]),
       fee: new FormControl(),
       rate: new FormControl(null, Validators.required),
-      paymentMethod: new FormControl(null, Validators.required),
+      paymentMethod: new FormControl(PaymentMethods.SPOT_WALLET, Validators.required),
       valid: new FormControl(false, [this.exchangeValidValidator])
     });
   }
@@ -214,9 +240,27 @@ export class MainComponent implements OnInit, OnDestroy {
       toCurrency: {currency: undefined, amount: ''},
       fee: undefined,
       rate: 0,
-      paymentMethod: undefined,
+      paymentMethod: PaymentMethods.SPOT_WALLET,
       valid: false
     });
+    this.option.series = [{
+      data: [],
+      type: 'line',
+      symbol: 'none',
+      areaStyle: {},
+      lineStyle: {
+        color: '#22CF63'
+      }
+    }];
+    this.option.yAxis.min = 0;
+    this.option.xAxis.data = [];
+    if (this.chartInstance) {
+      this.chartInstance.setOption({
+        series: this.option.series,
+        xAxis: this.option.xAxis,
+        yAxis: this.option.yAxis,
+      });
+    }
   }
 
   swapCurrencies(): void {
@@ -279,8 +323,28 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
+  setActiveTab(): IExchange {
+    switch (this.activeLink) {
+      case ActiveLink.BUY:
+        return {
+          from: CurrenciesTypes.FIAT,
+          to: CurrenciesTypes.CRYPTO
+        };
+      case ActiveLink.SELL:
+        return {
+          from: CurrenciesTypes.CRYPTO,
+          to: CurrenciesTypes.FIAT
+        };
+      case ActiveLink.EXCHANGE:
+        return {
+          from: CurrenciesTypes.CRYPTO,
+          to: CurrenciesTypes.CRYPTO
+        };
+    }
+  }
+
   setPaymentMethodValidators(): void {
-    this.activeLink === 'buy' ?
+    this.activeLink === ActiveLink.BUY ?
       this.form.get('paymentMethod').enable() :
       this.form.get('paymentMethod').disable();
   }
