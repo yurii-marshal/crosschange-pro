@@ -52,7 +52,7 @@ export class WalletService extends ApiService {
   }
 
   @Cacheable({
-    maxAge: 5 * 60 * 1000,
+    maxAge: 5 * 60 * 1000, // 5min
   })
   getCryptoPairs(): Observable<any> {
     return super.get('exchanges/pair-list');

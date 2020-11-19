@@ -68,6 +68,10 @@ const icons: string[] = [
   'icon_trash',
   'icon_caret_up',
   'icon_caret_down',
+  'icon_play',
+  'icon_resize_up',
+  'icon_resize_down',
+  'icon_draggable',
 ];
 
 @Injectable({
