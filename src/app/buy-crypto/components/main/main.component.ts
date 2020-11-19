@@ -73,6 +73,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   targetControlName;
   updateControlName;
+  isMobile;
 
   constructor(
     private coins: CoinsService,
@@ -111,8 +112,10 @@ export class MainComponent implements OnInit, OnDestroy {
     this.mediaBreakpointsService.device
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((device) => {
+        this.isMobile = device === Devices.MOBILE;
         if (device === Devices.MOBILE) {
           this.option.xAxis.axisLabel.rotate = 45;
+          this.option.grid.left = '16px';
         } else {
           this.option.xAxis.axisLabel.rotate = 0;
         }
@@ -383,22 +386,22 @@ export class MainComponent implements OnInit, OnDestroy {
       let key;
       switch (this.chartPeriod) {
         case IChartPeriods.DAY:
-          this.chartInstance.setOption({ grid: { left: '30px' } });
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '30px' : '0px' } });
           this.option.xAxis.data[i] = v + ':00';
           this.chartInstance.setOption({
             xAxis: this.option.xAxis
           });
           return;
         case IChartPeriods.WEEK:
-          this.chartInstance.setOption({ grid: { left: '50px' } });
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '50px' : '0px' } });
           key = `weekdays_abbrs.${(v + '').toLowerCase()}`;
           break;
         case IChartPeriods.YEAR:
-          this.chartInstance.setOption({ grid: { left: '50px' } });
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '50px' : '0px' } });
           key = `months_abbrs.${(v + '').toLowerCase()}`;
           break;
         default:
-          this.chartInstance.setOption({ grid: { left: '30px' } });
+          this.chartInstance.setOption({ grid: { left: !this.isMobile ? '50px' : '0px' } });
           this.option.xAxis.data[i] = v;
           this.chartInstance.setOption({
             xAxis: this.option.xAxis

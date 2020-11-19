@@ -12,6 +12,7 @@ export class MenuMobileComponent implements OnInit {
   @Output() closeMenu: EventEmitter<void> = new EventEmitter<void>();
 
   menuItems = [
+    {label: 'menu_mobile.buy_crypto', active: false, link: '/buy-crypto'},
     {label: 'menu_mobile.markets', active: false, link: '/markets'},
     {
       label: 'menu_mobile.wallet',
@@ -24,7 +25,6 @@ export class MenuMobileComponent implements OnInit {
     },
     {label: 'menu_mobile.exchange', active: false, link: '/trade'},
     {label: 'menu_mobile.history', active: false, link: '/history'},
-    {label: '', active: false, link: ''},
   ];
 
   constructor(
@@ -53,6 +53,7 @@ export class MenuMobileComponent implements OnInit {
 }
 
 _([
+  'menu_mobile.buy_crypto',
   'menu_mobile.markets',
   'menu_mobile.wallet',
   'menu_mobile.spot_wallet',
