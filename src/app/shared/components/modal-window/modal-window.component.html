@@ -1,5 +1,5 @@
 <div class="header fx-row fx-h-align-space-between fx-v-align-center">
-  <div class="label">{{headerText}}</div>
+  <div class="label">{{headerText | translate}}</div>
   <div class="controls fx-row fx-h-align-space-between fx-v-align-center">
     <button *ngIf="draggableWindow" class="control-btn" [disableRipple]="true" mat-icon-button (click)="dragWindow()">
       <mat-icon [svgIcon]="'icon_draggable'" class="previous-page"></mat-icon>

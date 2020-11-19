@@ -5,13 +5,12 @@
 
     <div class="fx-row">
       <div class="window-container left"
-           appResizable
            cdkDropList
            [cdkDropListData]="leftContainer"
            (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.orderbook' | translate">
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.orderbook'">
             <div class="orderbook-table-container"></div>
             ORDERBOOK WORKS
           </app-modal-window>
@@ -19,19 +18,18 @@
       </div>
 
       <div class="window-container center"
-           appResizable
            cdkDropList
            [cdkDropListData]="centralContainer"
            (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.chart' | translate">
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.chart'">
             <div class="chart-container"></div>
             CHART WORKS
           </app-modal-window>
         </div>
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.exchange' | translate">
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.exchange'">
             <div class="exhange-table-container"></div>
             EXCHANGE WORKS
           </app-modal-window>
@@ -39,14 +37,12 @@
       </div>
 
       <div class="window-container right"
-           appResizable
-           [resizableGrabXWidth]="0"
            cdkDropList
            [cdkDropListData]="rightContainer"
            (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.market_trades' | translate">
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.market_trades'">
             <div class="market-trades-container"></div>
             MARKET TRADES WORKS
           </app-modal-window>
@@ -54,12 +50,12 @@
       </div>
     </div>
 
-    <div class="window-container bottom" appResizable [resizableGrabXWidth]="0">
+    <div class="window-container bottom">
       <div class="drag-item">
         <app-modal-window
           [draggableWindow]="false"
           [resizableWindow]="false"
-          [headerText]="'trade_page.orders_and_history' | translate"
+          [headerText]="'trade_page.orders_and_history'"
         >
           <div class="orders-and-history-container"></div>
           ORDERS & HISTORY WORKS
