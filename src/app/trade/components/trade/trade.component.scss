@@ -1,0 +1,28 @@
+@import "../../../../assets/styles/variables";
+
+.trading-container {
+  .trade-windows {
+    background-color: $color-grey-20;
+
+    .window-container {
+      .drag-item {
+      }
+
+      &.left {
+        width: 25%;
+      }
+
+      &.center {
+        width: 50%;
+      }
+
+      &.right {
+        width: 25%;
+      }
+
+      &.bottom {
+        width: 100%;
+      }
+    }
+  }
+}

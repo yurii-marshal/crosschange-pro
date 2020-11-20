@@ -1,1 +1,67 @@
-<p>trade works!</p>
+<div [class]="['trading-container', theme]">
+  <app-trade-header [theme]="theme"></app-trade-header>
+
+  <div class="trade-windows" cdkDropListGroup>
+
+    <div class="fx-row">
+      <div class="window-container left"
+           cdkDropList
+           [cdkDropListData]="leftContainer"
+           (cdkDropListDropped)="drop($event)"
+      >
+        <div class="drag-item" cdkDrag>
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.orderbook'">
+            <div class="orderbook-table-container"></div>
+            ORDERBOOK WORKS
+          </app-modal-window>
+        </div>
+      </div>
+
+      <div class="window-container center"
+           cdkDropList
+           [cdkDropListData]="centralContainer"
+           (cdkDropListDropped)="drop($event)"
+      >
+        <div class="drag-item" cdkDrag>
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.chart'">
+            <div class="chart-container"></div>
+            CHART WORKS
+          </app-modal-window>
+        </div>
+        <div class="drag-item" cdkDrag>
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.exchange'">
+            <div class="exhange-table-container"></div>
+            EXCHANGE WORKS
+          </app-modal-window>
+        </div>
+      </div>
+
+      <div class="window-container right"
+           cdkDropList
+           [cdkDropListData]="rightContainer"
+           (cdkDropListDropped)="drop($event)"
+      >
+        <div class="drag-item" cdkDrag>
+          <app-modal-window cdkDragHandle [headerText]="'trade_page.market_trades'">
+            <div class="market-trades-container"></div>
+            MARKET TRADES WORKS
+          </app-modal-window>
+        </div>
+      </div>
+    </div>
+
+    <div class="window-container bottom">
+      <div class="drag-item">
+        <app-modal-window
+          [draggableWindow]="false"
+          [resizableWindow]="false"
+          [headerText]="'trade_page.orders_and_history'"
+        >
+          <app-order-history-container></app-order-history-container>
+        </app-modal-window>
+      </div>
+    </div>
+
+  </div>
+
+</div>

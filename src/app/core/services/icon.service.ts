@@ -10,6 +10,7 @@ const icons: string[] = [
   'icon_bth',
   'icon_bch',
   'icon_bsv',
+  'icon_ceur',
   'icon_dash',
   'icon_eth',
   'icon_ltc',
@@ -38,6 +39,8 @@ const icons: string[] = [
   'icon_menu',
   'icon_meter',
   'icon_wallet',
+  'icon_kuailian_bank',
+  'icon_credit_card',
   'icon_close',
   'icon_close_dark',
   'icon_arrow_down',
@@ -51,6 +54,8 @@ const icons: string[] = [
   'icon_sort',
   'icon_chevron_up',
   'icon_chevron_down',
+  'icon_chevron_up_dark',
+  'icon_chevron_down_dark',
   'icon_direction',
   'icon_triangle_up',
   'icon_arrows',
@@ -63,6 +68,11 @@ const icons: string[] = [
   'icon_trash',
   'icon_caret_up',
   'icon_caret_down',
+  'icon_play',
+  'icon_resize_up',
+  'icon_resize_down',
+  'icon_draggable',
+  'icon_calendar',
 ];
 
 @Injectable({

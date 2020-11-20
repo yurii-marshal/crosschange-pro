@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
-import { TradeComponent } from './components/trade/trade.component';
-import { TradeHeaderComponent } from './components/trade-header/trade-header.component';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from '../angular-material.module';
@@ -14,6 +12,8 @@ import { OpenOrdersComponent } from './components/orders-history/open-orders/ope
 import { TradeHistoryComponent } from './components/orders-history/trade-history/trade-history.component';
 import { FoundsComponent } from './components/orders-history/founds/founds.component';
 import { PeriodPickerComponent } from './components/orders-history/period-picker/period-picker.component';
+import { TradeComponent } from './components/trade/trade.component';
+import { TradeHeaderComponent } from './components/trade-header/trade-header.component';
 
 export const routes: Routes = [
   {
