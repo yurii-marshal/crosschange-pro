@@ -72,6 +72,7 @@ const icons: string[] = [
   'icon_resize_up',
   'icon_resize_down',
   'icon_draggable',
+  'icon_calendar',
 ];
 
 @Injectable({

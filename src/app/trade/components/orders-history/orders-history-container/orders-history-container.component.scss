@@ -1,0 +1,59 @@
+@import "../../../../../assets/styles/variables";
+
+.orders-history {
+  &__content-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 12px;
+  }
+
+  &__content-tabs {
+    display: flex;
+    min-height: 236px;
+  }
+
+  &__hide-pairs {
+    display: flex;
+    align-items: center;
+    height: 44px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: normal;
+    color: $color-grey-80;
+    cursor: pointer;
+  }
+
+  &__hide-checkbox {
+    display: flex;
+    align-items: center;
+    margin-right: 6px;
+  }
+}
+
+::ng-deep .mat-tab-label {
+  min-width: max-content !important;
+  padding: 12px !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  font-weight: normal !important;
+  color: $color-trading-dark !important;
+  opacity: 1 !important;
+
+  &:first-child {
+    padding-left: 0 !important;
+  }
+}
+
+::ng-deep .mat-tab-header {
+  height: 44px;
+  border-bottom: none;
+}
+
+::ng-deep mat-ink-bar {
+  display: none;
+}
+
+::ng-deep .mat-tab-label-active {
+  color: $color-brand !important;
+}

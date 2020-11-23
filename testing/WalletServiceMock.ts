@@ -11,10 +11,7 @@ import {
 import { IApiResponse } from 'shared-kuailian-lib';
 import { share } from 'rxjs/operators';
 import { IUserBalance } from '../src/app/wallet/services/wallet.service';
-<<<<<<< HEAD
-=======
 
->>>>>>> 11bd23b56f31f143f5c0142d2e991053cae7ab9c
 export const mockDataBalanceTypes = {
   fiat: {
     eur: [

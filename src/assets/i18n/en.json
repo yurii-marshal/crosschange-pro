@@ -166,6 +166,19 @@
     "title": "notifications",
     "view_all": "View all"
   },
+  "order_history": {
+    "action": "",
+    "amount": "Amount",
+    "average": "Average",
+    "date": "Date",
+    "executed": "Executed",
+    "no_data": "You have no open orders",
+    "pair": "Pair",
+    "side": "Side",
+    "total": "Total",
+    "trigger_condition": "Trigger Condition",
+    "type": "Type"
+  },
   "profile_page": {
     "action": "Action",
     "actions": "Actions",
@@ -262,13 +275,18 @@
     "chart": "Chart",
     "cross": "Cross",
     "exchange": "Exchange",
+    "founds": "Founds",
+    "hide_pairs": "Hide other pairs",
     "isolated": "Isolated",
     "last_price": "Last Price",
     "market_trades": "Market Trades",
+    "open_orders": "Open Orders",
+    "order_history": "Order History",
     "orderbook": "Orderbook",
     "orders_and_history": "Orders & History",
     "pair": "Pair",
-    "spot_tutorial": "Spot Tutorial"
+    "spot_tutorial": "Spot Tutorial",
+    "trade_history": "Trade History"
   },
   "wallet_page": {
     "available": "Available",

@@ -1,9 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MarketsService } from '../../../home/services/markets.service';
-import { take } from 'rxjs/operators';
 
 export enum IThemes {
   Light = 'theme-light',
@@ -17,6 +14,7 @@ export enum IThemes {
   styleUrls: ['./trade.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class TradeComponent implements OnInit {
   theme = IThemes.Light;
 

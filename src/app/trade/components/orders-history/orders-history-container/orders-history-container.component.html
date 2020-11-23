@@ -1,0 +1,27 @@
+<div class="orders-history">
+  <div class="orders-history__content-block">
+    <div class="orders-history__content-header">
+      <div class="orders-history__content-tabs">
+        <mat-tab-group class="mat-tab-group">
+          <mat-tab label="{{ 'trade_page.open_orders' | translate }} (0)">
+            <app-open-orders></app-open-orders>
+          </mat-tab>
+          <mat-tab label="{{ 'trade_page.order_history' | translate }}">
+            <app-order-history></app-order-history>
+          </mat-tab>
+          <mat-tab label="{{ 'trade_page.trade_history' | translate }}">
+            <app-trade-history></app-trade-history>
+          </mat-tab>
+          <mat-tab label="{{ 'trade_page.founds' | translate }}">
+            <app-founds></app-founds>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="orders-history__hide-pairs">
+        <mat-checkbox class="orders-history__hide-checkbox" [formControl]="hideOtherPairs">
+          {{'trade_page.hide_pairs' | translate}}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+</div>

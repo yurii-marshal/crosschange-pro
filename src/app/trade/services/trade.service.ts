@@ -5,6 +5,7 @@ import { ITradeCoinType, ITradePair } from '../../core/interfaces/trade-pair.int
 import { map, share } from 'rxjs/operators';
 import { Cacheable } from 'ngx-cacheable';
 import { HttpClient } from '@angular/common/http';
+import { IOrderHistoryData } from '../../core/interfaces/order-history.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,10 @@ export class TradeService extends ApiService {
         }),
         share(),
       );
+  }
+
+  getOrderHistory(): Observable<IApiResponse<IOrderHistoryData>> {
+    return this.http.get('./assets/json/orderHistoryDataSourceMock.json').pipe(share()) as Observable<IApiResponse<IOrderHistoryData>>;
   }
 
 }
