@@ -166,19 +166,6 @@
     "title": "notifications",
     "view_all": "View all"
   },
-  "order_history": {
-    "action": "",
-    "amount": "Amount",
-    "average": "Average",
-    "date": "Date",
-    "executed": "Executed",
-    "no_data": "You have no open orders",
-    "pair": "Pair",
-    "side": "Side",
-    "total": "Total",
-    "trigger_condition": "Trigger Condition",
-    "type": "Type"
-  },
   "profile_page": {
     "action": "Action",
     "actions": "Actions",
