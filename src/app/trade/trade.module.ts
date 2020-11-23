@@ -17,7 +17,7 @@ import { TradeHeaderComponent } from './components/trade-header/trade-header.com
 
 export const routes: Routes = [
   {
-    path: ':pair',
+    path: '',
     canActivate: [ AuthGuard ],
     component: TradeComponent,
     children: [],
