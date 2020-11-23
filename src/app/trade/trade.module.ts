@@ -11,7 +11,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export const routes: Routes = [
   {
-    path: ':pair',
+    path: '',
     canActivate: [ AuthGuard ],
     component: TradeComponent,
     children: [],

@@ -21,7 +21,7 @@
 </div>
 
 <div class="widget-hover">
-  <button routerLink="/trade/{{widgetInfo.pair}}" class="widget__trade-btn">
+  <button routerLink="/trade" [queryParams]="{pair: widgetInfo?.exchange_type}" class="widget__trade-btn">
     {{'crypto_widget.trade' | translate}}
   </button>
 </div>
