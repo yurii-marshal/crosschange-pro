@@ -50,26 +50,15 @@
     "total_balance": "Total Balance"
   },
   "exchange": {
-    "1m": "",
-    "1w": "",
-    "1y": "",
-    "24h": "",
-    "balance": "",
     "cancel": "Cancel",
     "complete": "Transaction completed successfully!",
-    "current_rate": "",
     "done": "Done",
-    "exchange": "",
     "exchange_rate": "Exchange rate",
     "fee": "Fee",
     "for": "For",
     "get": "You will get",
     "got": "You got",
-    "max": "",
-    "processing": "Processing",
-    "title": "",
-    "today_change": "",
-    "you_will_get": ""
+    "processing": "Processing"
   },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
