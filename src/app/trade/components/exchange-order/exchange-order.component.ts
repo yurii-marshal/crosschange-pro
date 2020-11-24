@@ -32,7 +32,7 @@ export class ExchangeOrderComponent implements OnInit, OnDestroy {
 
   user: boolean;
   currentPair: string;
-  triggerOrder = true;
+  triggerOrder: boolean;
 
   totalAmountBuy = 0;
   totalAmountSell = 0;
@@ -75,7 +75,8 @@ export class ExchangeOrderComponent implements OnInit, OnDestroy {
   get marketForm(): FormGroup {
     return this.fb.group({
       limit: ['', [Validators.required]],
-      amountType: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      amountType: ['amount', [Validators.required]],
       ratio: [0],
     });
   }
@@ -100,7 +101,7 @@ export class ExchangeOrderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentPair = this.route.snapshot.queryParams.pair;
-    this.user = this.sessionService.isAuthenticated;
+    this.user = !this.sessionService.isAuthenticated;
 
     this.stopLimitBuyForm = this.stopLimitForm;
     this.marketBuyForm = this.marketForm;
@@ -132,5 +133,6 @@ export class ExchangeOrderComponent implements OnInit, OnDestroy {
 }
 
 _([
-  'exchange_order.orderbook',
+  'exchange_order.amount',
+  'exchange_order.total',
 ]);
