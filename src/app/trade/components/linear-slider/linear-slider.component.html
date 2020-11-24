@@ -1,0 +1,11 @@
+<mat-slider
+  class="example-margin"
+  [disabled]="disabled"
+  [max]="max"
+  [min]="min"
+  [step]="step"
+  [thumbLabel]="thumbLabel"
+  [tickInterval]="tickInterval"
+  (change)="ratio$.next($event.value)"
+>
+</mat-slider>

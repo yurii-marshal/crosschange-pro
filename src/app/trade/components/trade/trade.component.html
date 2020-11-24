@@ -28,10 +28,9 @@
             CHART WORKS
           </app-modal-window>
         </div>
-        <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.exchange'">
-            <div class="exhange-table-container"></div>
-            EXCHANGE WORKS
+        <div class="drag-item">
+          <app-modal-window [headerText]="'trade_page.exchange'">
+            <app-exchange-order></app-exchange-order>
           </app-modal-window>
         </div>
       </div>
