@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../auth-module/guards/auth/auth.guard';
 import { TradeComponent } from './components/trade/trade.component';
 import { TradeHeaderComponent } from './components/trade-header/trade-header.component';
 import { SharedModule } from '../shared/shared.module';
@@ -12,7 +11,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 export const routes: Routes = [
   {
     path: '',
-    canActivate: [ AuthGuard ],
     component: TradeComponent,
     children: [],
     data: {
