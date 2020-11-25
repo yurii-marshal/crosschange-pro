@@ -10,7 +10,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: ':pair',
     component: TradeComponent,
     children: [],
     data: {

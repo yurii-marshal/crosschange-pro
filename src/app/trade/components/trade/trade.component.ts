@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MarketsService } from '../../../home/services/markets.service';
-import { take } from 'rxjs/operators';
 
 export enum IThemes {
   Light = 'theme-light',
@@ -24,17 +21,10 @@ export class TradeComponent implements OnInit {
   centralContainer: string[] = [];
   rightContainer: string[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private marketService: MarketsService,
-  ) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    if (!this.route.snapshot.queryParams.pair) {
-      this.navigateDefault();
-    }
   }
 
   drop(event: CdkDragDrop<string[]>): void {
@@ -46,14 +36,6 @@ export class TradeComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
     }
-  }
-
-  private navigateDefault(): void {
-    // TODO: get default pair if params are empty
-    this.marketService.getPairs()
-      .pipe(take(1))
-      .subscribe(pairs =>
-        this.router.navigate([window.location.pathname], {queryParams: {pair: pairs[0] ? pairs[0].exchange_type : ''}}));
   }
 
 }
