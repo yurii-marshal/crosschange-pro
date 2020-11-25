@@ -26,23 +26,19 @@
 
   .mat-slider-ticks-container {
     height: 10px !important;
-    left: -2px !important;
+    left: -12% !important;
     top: -4px !important;
     overflow: visible;
+    width: 124% !important;
   }
 
   .mat-slider-ticks {
     position: relative;
     opacity: 1 !important;
     height: 10px !important;
-    width: 10px !important;
-    border: 1px solid $color-white-100 !important;
-    background-color: $color-grey-20 !important;
-    background-image: none !important;
-    border-radius: 50% !important;
-    mask-repeat: repeat-y;
-    //background-image: repeating-linear-gradient(to right, $color-grey-20, $color-grey-20 8px, transparent 0, transparent) !important;
-    //background-size: 25% 8px !important;
+    width: 100% !important;
+    background: url("../../../../assets/icons/icon_circle.svg") repeat-x !important;
+    background-size: 20% 10px !important;
   }
 
   .mat-slider-track-background {
@@ -54,14 +50,7 @@
     right: 4px !important;
   }
   .mat-slider-wrapper::after {
-    opacity: 1 !important;
-    height: 8px !important;
-    width: 8px !important;
-    background-color: $color-grey-20 !important;
-    border-radius: 50% !important;
-    border: 1px solid $color-white-100 !important;
-    right: -4px !important;
-    top: -4px !important;
+    opacity: 0 !important;
   }
 
   .mat-slider-thumb {
