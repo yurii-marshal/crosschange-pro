@@ -51,7 +51,7 @@
           <span class="property">{{currentPair | splitString: '/': 0}}</span>
         </div>
 
-        <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+        <app-linear-slider [classList]="['buy']" formControlName="ratio"></app-linear-slider>
 
         <div class="input-container">
           <span class="title">{{'exchange_order.total' | translate}}</span>
@@ -84,7 +84,7 @@
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+        <app-linear-slider [classList]="['buy']" formControlName="ratio"></app-linear-slider>
       </form>
 
       <form *ngSwitchCase="IExchangeOrder.Limit" [formGroup]="limitBuyForm">
@@ -100,7 +100,7 @@
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+        <app-linear-slider [classList]="['buy']" formControlName="ratio"></app-linear-slider>
       </form>
 
       <ng-container *ngIf="triggerOrder">
@@ -123,7 +123,7 @@
             <span class="property">{{currentPair | splitString: '/': 0}}</span>
           </div>
 
-          <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+          <app-linear-slider [classList]="['buy']" formControlName="ratio"></app-linear-slider>
 
           <div class="input-container">
             <span class="title">{{'exchange_order.total' | translate}}</span>
@@ -170,7 +170,7 @@
           <span class="property">{{currentPair | splitString: '/': 0}}</span>
         </div>
 
-        <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+        <app-linear-slider [classList]="['sell']" formControlName="ratio"></app-linear-slider>
 
         <div class="input-container">
           <span class="title">{{'exchange_order.total' | translate}}</span>
@@ -203,7 +203,7 @@
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+        <app-linear-slider [classList]="['sell']" formControlName="ratio"></app-linear-slider>
       </form>
 
       <form *ngSwitchCase="IExchangeOrder.Limit" [formGroup]="limitSellForm">
@@ -219,7 +219,7 @@
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+        <app-linear-slider [classList]="['sell']" formControlName="ratio"></app-linear-slider>
       </form>
 
       <ng-container *ngIf="triggerOrder">
@@ -242,7 +242,7 @@
             <span class="property">{{currentPair | splitString: '/': 0}}</span>
           </div>
 
-          <app-linear-slider [classList]="[ITradeType.Buy]" formControlName="ratio"></app-linear-slider>
+          <app-linear-slider [classList]="['sell']" formControlName="ratio"></app-linear-slider>
 
           <div class="input-container">
             <span class="title">{{'exchange_order.total' | translate}}</span>

@@ -316,7 +316,7 @@
     margin-right: 23px;
     font-size: 14px;
     line-height: 20px;
-    color: $color-trading-red-100;
+    color: $color-trading-red;
     background: transparent;
     border: none;
     outline: none;
@@ -395,7 +395,7 @@
         }
 
         &--deleted {
-          color: $color-trading-red-100;
+          color: $color-trading-red;
         }
       }
     }

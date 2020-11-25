@@ -101,7 +101,7 @@ export class ExchangeOrderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentPair = this.route.snapshot.queryParams.pair;
-    this.user = !this.sessionService.isAuthenticated;
+    this.user = this.sessionService.isAuthenticated;
 
     this.stopLimitBuyForm = this.stopLimitForm;
     this.marketBuyForm = this.marketForm;

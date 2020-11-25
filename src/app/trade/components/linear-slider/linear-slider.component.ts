@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, forwardRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-linear-slider',
@@ -16,7 +16,9 @@ import { map } from 'rxjs/operators';
     }
   ]
 })
-export class LinearSliderComponent implements OnInit {
+export class LinearSliderComponent implements OnInit, OnDestroy {
+  @Input() classList: string[];
+
   disabled = false;
   max = 100;
   min = 0;
@@ -25,6 +27,8 @@ export class LinearSliderComponent implements OnInit {
   tickInterval = 1;
 
   ratio$: ReplaySubject<number> = new ReplaySubject(0);
+
+  onDestroy$: Subject<void> = new Subject<void>();
 
   onChange = (ratio: number) => {
   }
@@ -36,7 +40,15 @@ export class LinearSliderComponent implements OnInit {
 
   ngOnInit(): void {
     this.ratio$.asObservable()
-      .pipe(map((val: number) => this.writeValue(val)));
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((val: number) => {
+        this.writeValue(val);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   registerOnChange(fn: (ratio: number) => void): void {
