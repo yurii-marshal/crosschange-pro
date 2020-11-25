@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-
-export enum IThemes {
-  Light = 'theme-light',
-  Dark = 'theme-dark',
-  Professional = 'theme-professional',
-}
+import { IThemes } from '../../services/theme-settings.interface';
+import { Observable } from 'rxjs';
+import { ThemeSettingsService } from '../../services/theme-settings.service';
 
 @Component({
   selector: 'app-trade',
@@ -15,16 +12,17 @@ export enum IThemes {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeComponent implements OnInit {
-  theme = IThemes.Light;
+  theme$: Observable<IThemes>;
 
   leftContainer: string[] = [];
   centralContainer: string[] = [];
   rightContainer: string[] = [];
 
-  constructor() {
+  constructor(private themeSettingsService: ThemeSettingsService) {
   }
 
   ngOnInit(): void {
+    this.theme$ = this.themeSettingsService.currentTheme$.asObservable();
   }
 
   drop(event: CdkDragDrop<string[]>): void {

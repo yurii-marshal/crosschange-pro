@@ -1,5 +1,5 @@
-<div [class]="['trading-container', theme]">
-  <app-trade-header [theme]="theme"></app-trade-header>
+<div class="trading-container {{theme$ | async}}">
+  <app-trade-header [theme$]="theme$"></app-trade-header>
 
   <div class="trade-windows" cdkDropListGroup>
 
@@ -10,7 +10,7 @@
            (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.orderbook'">
+          <app-modal-window cdkDragHandle [theme$]="theme$" [headerText]="'trade_page.orderbook'">
             <div class="orderbook-table-container"></div>
             ORDERBOOK WORKS
           </app-modal-window>
@@ -23,13 +23,13 @@
            (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.chart'">
+          <app-modal-window cdkDragHandle [theme$]="theme$" [headerText]="'trade_page.chart'">
             <div class="chart-container"></div>
             CHART WORKS
           </app-modal-window>
         </div>
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.exchange'">
+          <app-modal-window cdkDragHandle [theme$]="theme$" [headerText]="'trade_page.exchange'">
             <div class="exhange-table-container"></div>
             EXCHANGE WORKS
           </app-modal-window>
@@ -42,7 +42,7 @@
            (cdkDropListDropped)="drop($event)"
       >
         <div class="drag-item" cdkDrag>
-          <app-modal-window cdkDragHandle [headerText]="'trade_page.market_trades'">
+          <app-modal-window cdkDragHandle [theme$]="theme$" [headerText]="'trade_page.market_trades'">
             <div class="market-trades-container"></div>
             MARKET TRADES WORKS
           </app-modal-window>
@@ -53,6 +53,7 @@
     <div class="window-container bottom">
       <div class="drag-item">
         <app-modal-window
+          [theme$]="theme$"
           [draggableWindow]="false"
           [resizableWindow]="false"
           [headerText]="'trade_page.orders_and_history'"

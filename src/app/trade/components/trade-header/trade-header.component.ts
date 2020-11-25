@@ -5,8 +5,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TradeService } from '../../services/trade.service';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-import { IThemes } from '../trade/trade.component';
 import { ITradeCoinType, ITradePair } from '../../../core/interfaces/trade-pair.interface';
+import { ThemeSettingsService } from '../../services/theme-settings.service';
+import { IThemes } from '../../services/theme-settings.interface';
 
 @Component({
   selector: 'app-trade-header',
@@ -15,8 +16,7 @@ import { ITradeCoinType, ITradePair } from '../../../core/interfaces/trade-pair.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeHeaderComponent implements OnInit {
-  @Input() theme: string;
-
+  @Input() theme$: Observable<IThemes>;
   isTradeTypeSelectorOpened = false;
   activeLink$: BehaviorSubject<ITradeCoinType> = new BehaviorSubject(ITradeCoinType.All);
 
@@ -30,10 +30,12 @@ export class TradeHeaderComponent implements OnInit {
   ];
 
   ActiveLinkType = ITradeCoinType;
+  isDark: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private tradeService: TradeService,
+    private themeSettingsService: ThemeSettingsService,
   ) {
   }
 
@@ -59,7 +61,8 @@ export class TradeHeaderComponent implements OnInit {
   }
 
   playSpotTutorial(): void {
-    this.theme = IThemes.Dark;
+    this.isDark = this.themeSettingsService.currentTheme$.getValue() === IThemes.Dark;
+    this.themeSettingsService.currentTheme$.next(this.isDark ? IThemes.Light : IThemes.Dark);
   }
 
 }
