@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { IThemes } from './theme-settings.interface';
+import { ILayout, ITheme } from './theme-settings.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeSettingsService {
-  currentTheme$: BehaviorSubject<IThemes> = new BehaviorSubject<IThemes>(IThemes.Light);
+  currentTheme$: BehaviorSubject<ITheme> = new BehaviorSubject<ITheme>(ITheme.Light);
+  currentLayout$: BehaviorSubject<ILayout> = new BehaviorSubject<ILayout>(ILayout.Classic);
 
-  constructor() { }
+  constructor() {
+  }
 }

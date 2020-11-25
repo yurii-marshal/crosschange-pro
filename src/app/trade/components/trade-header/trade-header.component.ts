@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
 import { ITradeCoinType, ITradePair } from '../../../core/interfaces/trade-pair.interface';
 import { ThemeSettingsService } from '../../services/theme-settings.service';
-import { IThemes } from '../../services/theme-settings.interface';
+import { ITheme, IThemeOptions } from '../../services/theme-settings.interface';
 
 @Component({
   selector: 'app-trade-header',
@@ -16,7 +16,8 @@ import { IThemes } from '../../services/theme-settings.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeHeaderComponent implements OnInit {
-  @Input() theme$: Observable<IThemes>;
+  @Input() theme: Observable<ITheme>;
+
   isTradeTypeSelectorOpened = false;
   activeLink$: BehaviorSubject<ITradeCoinType> = new BehaviorSubject(ITradeCoinType.All);
 
@@ -30,6 +31,7 @@ export class TradeHeaderComponent implements OnInit {
   ];
 
   ActiveLinkType = ITradeCoinType;
+  // TODO: remove when settings control is implemented
   isDark: boolean;
 
   constructor(
@@ -61,8 +63,9 @@ export class TradeHeaderComponent implements OnInit {
   }
 
   playSpotTutorial(): void {
-    this.isDark = this.themeSettingsService.currentTheme$.getValue() === IThemes.Dark;
-    this.themeSettingsService.currentTheme$.next(this.isDark ? IThemes.Light : IThemes.Dark);
+    // TODO: remove when settings control is implemented
+    this.isDark = this.themeSettingsService.currentTheme$.getValue() === ITheme.Dark;
+    this.themeSettingsService.currentTheme$.next(this.isDark ? ITheme.Light : ITheme.Dark);
   }
 
 }

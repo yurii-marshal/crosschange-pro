@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 import { Observable } from 'rxjs';
-import { IThemes } from '../../../trade/services/theme-settings.interface';
+import { ITheme } from '../../../trade/services/theme-settings.interface';
 
 @Component({
   selector: 'app-modal-window',
@@ -10,7 +9,7 @@ import { IThemes } from '../../../trade/services/theme-settings.interface';
 })
 export class ModalWindowComponent {
   @Input() headerText;
-  @Input() theme$: Observable<IThemes>;
+  @Input() theme: Observable<ITheme>;
   @Input() draggableWindow = true;
   @Input() resizableWindow = true;
 
