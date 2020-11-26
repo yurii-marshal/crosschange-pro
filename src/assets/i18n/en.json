@@ -44,21 +44,6 @@
     "wait": "We are processing your exchange transaction. Please wait.",
     "you_will_get": "You will get"
   },
-  "exchange_order": {
-    "amount": "Amount",
-    "buy": "Buy",
-    "limit": "Limit",
-    "login": "Log In",
-    "market": "Market",
-    "or": "or",
-    "price": "Price",
-    "register_now": "Register Now",
-    "sell": "Sell",
-    "stop": "Stop",
-    "stop_limit": "Stop Limit",
-    "total": "Total",
-    "trigger_order": "Trigger Order"
-  },
   "footer": {
     "3rd_party": "3RD PARTY PARTNERS",
     "commission": "Commission",
@@ -149,6 +134,23 @@
   "notifications": {
     "title": "notifications",
     "view_all": "View all"
+  },
+  "place_order": {
+    "amount": "Amount",
+    "buy": "Buy",
+    "limit": "Limit",
+    "login": "Log In",
+    "market": "Market",
+    "max_amount": "Max Amount",
+    "min_amount": "Min Amount",
+    "or": "or",
+    "price": "Price",
+    "register_now": "Register Now",
+    "sell": "Sell",
+    "stop": "Stop",
+    "stop_limit": "Stop Limit",
+    "total": "Total",
+    "trigger_order": "Trigger Order"
   },
   "profile_page": {
     "action": "Action",

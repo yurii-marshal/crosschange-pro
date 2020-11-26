@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
     }
   ]
 })
-export class LinearSliderComponent implements OnInit, OnDestroy {
+export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() classList: string[];
 
   disabled = false;

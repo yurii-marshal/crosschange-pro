@@ -54,7 +54,7 @@ export class TradeService extends ApiService {
     return this.http.get('./assets/json/orderHistoryDataSourceMock.json').pipe(share()) as Observable<IApiResponse<IOrderHistoryData>>;
   }
 
-  exchangeOrder(body): Observable<any> {
+  placeOrder(body): Observable<any> {
     return of(true);
   }
 

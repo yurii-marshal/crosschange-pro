@@ -65,5 +65,8 @@
 
   .mat-slider-thumb-label {
     display: none !important;
+    .mat-slider-thumb-label-text {
+      font-size: 14px !important;
+    }
   }
 }

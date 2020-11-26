@@ -14,7 +14,7 @@ import { FoundsComponent } from './components/orders-history/founds/founds.compo
 import { PeriodPickerComponent } from './components/orders-history/period-picker/period-picker.component';
 import { TradeComponent } from './components/trade/trade.component';
 import { TradeHeaderComponent } from './components/trade-header/trade-header.component';
-import { ExchangeOrderComponent } from './components/exchange-order/exchange-order.component';
+import { PlaceOrderComponent } from './components/place-order/place-order.component';
 import { LinearSliderComponent } from './components/linear-slider/linear-slider.component';
 import { MatSliderModule } from '@angular/material/slider';
 
@@ -40,7 +40,7 @@ export const routes: Routes = [
     TradeHistoryComponent,
     FoundsComponent,
     PeriodPickerComponent,
-    ExchangeOrderComponent,
+    PlaceOrderComponent,
     LinearSliderComponent,
   ],
   imports: [
