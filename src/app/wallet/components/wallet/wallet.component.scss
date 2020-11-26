@@ -242,8 +242,8 @@ app-paginator {
 
     &.delete {
       width: 66px;
-      border: 1px solid $color-trading-red-100;
-      color: $color-trading-red-100;
+      border: 1px solid $color-trading-red;
+      color: $color-trading-red;
     }
 
     &[disabled] {

@@ -1,0 +1,72 @@
+@import "../../../../assets/styles/variables";
+
+::ng-deep mat-slider {
+  width: 100%;
+  padding: 0 !important;
+
+  &.buy {
+    .mat-slider-thumb {
+      border: 2px solid $color-trading-green;
+    }
+
+    .mat-slider-track-fill {
+      background-color: $color-trading-green !important;
+    }
+  }
+
+  &.sell {
+    .mat-slider-thumb {
+      border: 2px solid $color-trading-red;
+    }
+
+    .mat-slider-track-fill {
+      background-color: $color-trading-red !important;
+    }
+  }
+
+  .mat-slider-ticks-container {
+    height: 10px !important;
+    left: -12% !important;
+    top: -4px !important;
+    overflow: visible;
+    width: 124% !important;
+  }
+
+  .mat-slider-ticks {
+    position: relative;
+    opacity: 1 !important;
+    height: 10px !important;
+    width: 100% !important;
+    background: url("../../../../assets/icons/icon_circle.svg") repeat-x !important;
+    background-size: 20% 10px !important;
+  }
+
+  .mat-slider-track-background {
+    background-color: $color-grey-20 !important;
+  }
+
+  .mat-slider-wrapper {
+    left: 4px !important;
+    right: 4px !important;
+  }
+  .mat-slider-wrapper::after {
+    opacity: 0 !important;
+  }
+
+  .mat-slider-thumb {
+    width: 12px;
+    height: 12px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    background-color: $color-white-100 !important;
+    transform: none !important;
+  }
+
+  .mat-slider-thumb-label {
+    display: none !important;
+    .mat-slider-thumb-label-text {
+      font-size: 14px !important;
+    }
+  }
+}

@@ -1,0 +1,208 @@
+<div class="trade-order-container">
+  <div class="tabs-container fx-row">
+    <div [class.active]="activeTab === IPlaceOrder.StopLimit" class="tab"
+         (click)="switchTab(IPlaceOrder.StopLimit)">
+      <div class="label">{{'place_order.stop_limit' | translate}}</div>
+      <div [hidden]="activeTab === IPlaceOrder.Market" class="divide"></div>
+    </div>
+    <div [class.active]="activeTab === IPlaceOrder.Market" class="tab"
+         (click)="switchTab(IPlaceOrder.Market)">
+      <div class="label">{{'place_order.market' | translate}}</div>
+      <div [hidden]="activeTab === IPlaceOrder.Limit" class="divide"></div>
+    </div>
+    <div [class.active]="activeTab === IPlaceOrder.Limit" class="tab"
+         (click)="switchTab(IPlaceOrder.Limit)">
+      <div class="label">{{'place_order.limit' | translate}}</div>
+      <div *ngIf="triggerOrder"
+           [hidden]="activeTab === IPlaceOrder.TriggerOrder"
+           class="divide"></div>
+    </div>
+    <div *ngIf="triggerOrder"
+         [class.active]="activeTab === IPlaceOrder.TriggerOrder" class="tab"
+         (click)="switchTab(IPlaceOrder.TriggerOrder)">
+      <div class="label">{{'place_order.trigger_order' | translate}}</div>
+    </div>
+  </div>
+
+  <div class="place-order-container fx-row fx-h-align-space-between">
+    <div class="buy form-block">
+
+      <div class="header fx-row fx-h-align-space-between">
+        <div class="label">{{'place_order.buy' | translate}} {{currentPair | splitString: '/': 0}}</div>
+        <div class="value">{{totalAmountBuy | number: '1.8-8'}} {{currentPair | splitString: '/': 1}}</div>
+      </div>
+
+      <form [formGroup]="buyForm">
+
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.TriggerOrder">
+          <span class="title">{{'place_order.stop' | translate}}</span>
+          <input class="input stop" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.Market">
+          <span class="title">{{'place_order.limit' | translate}}</span>
+          <input class="input stop" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.Limit || activeTab === IPlaceOrder.TriggerOrder">
+          <span class="title">{{'place_order.price' | translate}}</span>
+          <input class="input price" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <div class="input-container">
+          <span class="title fx-row fx-v-align-center" *ngIf="activeTab === IPlaceOrder.Market">
+            <mat-select class="amount-type-select"
+                        [(ngModel)]="amountTypeBuy"
+                        [ngModelOptions]="{standalone: true}"
+                        [panelClass]="'amount'" disableOptionCentering>
+              <mat-option *ngFor="let item of amountTypes" [value]="item">
+                {{('place_order.' + item) | translate }}
+              </mat-option>
+            </mat-select>
+            <div class="divide"></div>
+          </span>
+
+          <span class="title" *ngIf="activeTab !== IPlaceOrder.Market">{{'place_order.amount' | translate}}</span>
+
+          <app-popover-template #refAmountBuyTooltip
+                                [placement]="'top-right'"
+                                [panelClass]="'amount-tooltip-panel'">
+            <div class="error-tooltip" *ngIf="buyForm.get('amount').errors && !buyForm.get('amount').errors.required">
+              <span *ngIf="buyForm.get('amount').errors?.max">
+                {{'place_order.max_amount' | translate}} {{totalAmountBuy}}
+              </span>
+              <span *ngIf="buyForm.get('amount').errors?.min">
+                {{'place_order.min_amount' | translate}} {{0}}</span>
+            </div>
+          </app-popover-template>
+
+          <input [appPopover]="refAmountBuyTooltip"
+                 appOnlyNumbers
+                 class="input amount-type"
+                 (focus)="refAmountBuyTooltip.open()"
+                 (blur)="refAmountBuyTooltip.close()"
+                 [min]="0"
+                 [max]="totalAmountBuy"
+                 formControlName="amount"
+                 type="text">
+
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <app-linear-slider (ngModelChange)="rangeChange$.next($event)" [classList]="['buy']"></app-linear-slider>
+
+        <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
+          <span class="title">{{'place_order.total' | translate}}</span>
+          <input class="input amount" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+      </form>
+
+      <button (click)="placeOrderBuy$.next()"
+              [class.sign-in]="!user" mat-raised-button class="control buy">
+        <span *ngIf="!user">
+          <span class="highlighted">{{('place_order.login' | translate) + ' '}}</span>
+          <span>{{'place_order.or' | translate}}</span>
+          <span class="highlighted">{{' ' + ('place_order.register_now' | translate)}}</span>
+        </span>
+        <span *ngIf="user">{{'place_order.buy' | translate}} {{currentPair | splitString: '/': 0}}</span>
+      </button>
+    </div>
+
+    <div class="sell form-block">
+
+      <div class="header fx-row fx-h-align-space-between">
+        <div class="label">{{'place_order.sell' | translate}} {{currentPair | splitString: '/': 0}}</div>
+        <div class="value">{{totalAmountSell | number: '1.8-8'}} {{currentPair | splitString: '/': 1}}</div>
+      </div>
+
+      <form [formGroup]="sellForm">
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.TriggerOrder">
+          <span class="title">{{'place_order.stop' | translate}}</span>
+          <input class="input stop" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.Market">
+          <span class="title">{{'place_order.limit' | translate}}</span>
+          <input class="input stop" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.Limit || activeTab === IPlaceOrder.TriggerOrder">
+          <span class="title">{{'place_order.price' | translate}}</span>
+          <input class="input price" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <div class="input-container">
+          <span class="title fx-row fx-v-align-center" *ngIf="activeTab === IPlaceOrder.Market">
+            <mat-select class="amount-type-select"
+                        [(ngModel)]="amountTypeSell"
+                        [ngModelOptions]="{standalone: true}"
+                        [panelClass]="'amount'" disableOptionCentering>
+              <mat-option *ngFor="let item of amountTypes" [value]="item">
+                {{('place_order.' + item) | translate }}
+              </mat-option>
+            </mat-select>
+            <div class="divide"></div>
+          </span>
+
+          <span class="title" *ngIf="activeTab !== IPlaceOrder.Market">{{'place_order.amount' | translate}}</span>
+
+          <app-popover-template #refAmountSellTooltip
+                                [placement]="'top-right'"
+                                [panelClass]="'amount-tooltip-panel'">
+            <div class="error-tooltip" *ngIf="sellForm.get('amount').errors && !sellForm.get('amount').errors.required">
+              <span *ngIf="sellForm.get('amount').errors?.max">
+                {{'place_order.max_amount' | translate}} {{totalAmountBuy}}
+              </span>
+              <span *ngIf="sellForm.get('amount').errors?.min">
+                {{'place_order.min_amount' | translate}} {{0}}</span>
+            </div>
+          </app-popover-template>
+
+          <input [appPopover]="refAmountSellTooltip"
+                 appOnlyNumbers
+                 class="input amount-type"
+                 (focus)="refAmountSellTooltip.open()"
+                 (blur)="refAmountSellTooltip.close()"
+                 [min]="0"
+                 [max]="totalAmountSell"
+                 formControlName="amount"
+                 type="text">
+
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
+        <app-linear-slider [classList]="['sell']"></app-linear-slider>
+
+        <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
+          <span class="title">{{'place_order.total' | translate}}</span>
+          <input class="input amount" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+      </form>
+
+      <button (click)="placeOrderSell$.next()"
+              [class.sign-in]="!user" mat-raised-button class="control sell">
+        <span *ngIf="!user">
+          <span class="highlighted">{{('place_order.login' | translate) + ' '}}</span>
+          <span>{{'place_order.or' | translate}}</span>
+          <span class="highlighted">{{' ' + ('place_order.register_now' | translate)}}</span>
+        </span>
+        <span *ngIf="user">{{'place_order.sell' | translate}} {{currentPair | splitString: '/': 0}}</span>
+      </button>
+    </div>
+  </div>
+
+</div>

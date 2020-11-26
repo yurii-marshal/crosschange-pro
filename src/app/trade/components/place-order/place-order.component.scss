@@ -1,0 +1,247 @@
+@import "../../../../assets/styles/variables";
+
+.trade-order-container {
+  padding: 12px 12px 20px;
+
+  .tabs-container {
+    height: 28px;
+
+    .tab {
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      background-color: $color-grey-10;
+
+      &:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      .divide {
+        position: absolute;
+        right: 0;
+        content: '';
+        height: 64%;
+        width: 1px;
+        background-color: $color-grey-30;
+      }
+
+      &.active {
+        background: rgba(21, 21, 240, 0.05);
+
+        .label {
+          border-right: none;
+          color: $color-brand;
+        }
+
+        .divide {
+          background-color: transparent;
+        }
+      }
+
+      .label {
+        font-weight: 400;
+        height: 18px;
+        margin: 0 20px 2px;
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-grey-100;
+      }
+    }
+  }
+
+  .place-order-container {
+    .form-block {
+      flex: 0.5;
+
+      &.buy {
+        padding-right: 16px;
+      }
+
+      &.sell {
+        padding-left: 16px;
+      }
+
+      .header {
+        padding: 16px 0 5px;
+        font-size: 16px;
+        line-height: 24px;
+        color: $color-brand-dark;
+
+        .value {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+
+      .input-container {
+        position: relative;
+        font-size: 14px;
+        line-height: 20px;
+        color: $color-grey-60;
+
+        .title {
+          position: absolute;
+          left: 12px;
+          top: 50%;
+          transform: translateY(calc(-50% - 2px));
+
+          ::ng-deep mat-select {
+            width: 70px;
+
+            .mat-select-value-text {
+              color: $color-grey-60;
+            }
+          }
+
+          .divide {
+            margin-left: 5px;
+            height: 24px;
+            width: 1px;
+            background-color: $color-grey-30;
+          }
+        }
+
+        .input {
+          width: 100%;
+          height: 40px;
+          padding: 0 60px 0 94px;
+          text-align: right;
+          border: 1px solid $color-grey-20;
+          box-sizing: border-box;
+          border-radius: 4px;
+          color: $color-brand-dark;
+          margin-bottom: 4px;
+          font-size: 14px;
+
+          &.ng-touched.ng-invalid {
+            border: 1px solid $color-trading-red;
+          }
+        }
+
+        .property {
+          top: 50%;
+          transform: translateY(calc(-50% - 2px));
+          position: absolute;
+          right: 12px;
+        }
+      }
+
+      ::ng-deep app-linear-slider mat-slider {
+        margin-bottom: 4px;
+      }
+
+      .control {
+        margin-top: 12px;
+        width: 100%;
+        height: 48px;
+        border-radius: 4px;
+        font-size: 16px;
+        line-height: 24px;
+        color: #FAFBFC;
+        transition: all 0.1s cubic-bezier(.25, .8, .25, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+
+        &.buy {
+          background-color: $color-trading-green;
+        }
+
+        &.sell {
+          background-color: $color-trading-red;
+        }
+
+        &.sign-in {
+          box-shadow: none;
+          border: 1px solid $color-brand;
+          color: $color-grey-40;
+          background-color: $color-white-100;
+        }
+
+        .highlighted {
+          font-size: 16px;
+          line-height: 24px;
+          color: $color-brand;
+        }
+
+        &:hover {
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25),
+          0 3px 3px rgba(0, 0, 0, 0.22);
+        }
+
+        &:active {
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .cdk-overlay-pane {
+  margin-left: 4px !important;
+  margin-top: 32px !important;
+
+  .mat-select-panel.amount {
+    min-width: 87px !important;
+    border: 0.5px solid $color-grey-20;
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+
+    mat-option {
+      height: 23px;
+      font-size: 12px;
+      line-height: 16px;
+      padding: 12px;
+      border-bottom: 1px solid $color-grey-10;
+
+      &.mat-active {
+        background: #f0effe !important;
+      }
+
+      .mat-option-text {
+        color: $color-brand-dark !important;
+      }
+    }
+  }
+}
+
+::ng-deep .amount-tooltip-panel {
+  margin-right: 14px;
+  margin-bottom: -3px;
+
+  .error-tooltip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    min-width: 120px;
+    padding: 0 8px;
+    background-color: $color-white-100;
+    filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25));
+    border-radius: 2px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 62px;
+      width: 0;
+      height: 0;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-top: 3px solid #FFFFFF;
+    }
+
+    span {
+      font-size: 14px;
+      line-height: 20px;
+      color: $color-trading-red;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { ApiService, IApiResponse } from 'shared-kuailian-lib';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ITradeCoinType, ITradePair } from '../../core/interfaces/trade-pair.interface';
 import { map, share } from 'rxjs/operators';
 import { Cacheable } from 'ngx-cacheable';
@@ -52,6 +52,10 @@ export class TradeService extends ApiService {
 
   getOrderHistory(): Observable<IApiResponse<IOrderHistoryData>> {
     return this.http.get('./assets/json/orderHistoryDataSourceMock.json').pipe(share()) as Observable<IApiResponse<IOrderHistoryData>>;
+  }
+
+  placeOrder(body): Observable<any> {
+    return of(true);
   }
 
 }
