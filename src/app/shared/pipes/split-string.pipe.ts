@@ -6,6 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SplitStringPipe implements PipeTransform {
 
   transform(value: string, splitter: string, partIndex: number): string {
+    if (!value) {
+      return '';
+    }
+
     if (!splitter || typeof partIndex !== 'number' || !value.split(splitter)[partIndex]) {
       return value;
     }

@@ -25,50 +25,38 @@
   </div>
 
   <div class="place-order-container fx-row fx-h-align-space-between">
-    <div [ngSwitch]="activeTab" class="buy form-block">
+    <div class="buy form-block">
 
       <div class="header fx-row fx-h-align-space-between">
         <div class="label">{{'place_order.buy' | translate}} {{currentPair | splitString: '/': 0}}</div>
         <div class="value">{{totalAmountBuy | number: '1.8-8'}} {{currentPair | splitString: '/': 1}}</div>
       </div>
 
-      <form *ngSwitchCase="IPlaceOrder.StopLimit">
-        <div class="input-container">
+      <form [formGroup]="buyForm">
+
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.TriggerOrder">
           <span class="title">{{'place_order.stop' | translate}}</span>
           <input class="input stop" type="text">
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <div class="input-container">
-          <span class="title">{{'place_order.limit' | translate}}</span>
-          <input class="input limit" type="text">
-          <span class="property">{{currentPair | splitString: '/': 1}}</span>
-        </div>
-
-        <div class="input-container">
-          <span class="title">{{'place_order.amount' | translate}}</span>
-          <input class="input amount" type="text">
-          <span class="property">{{currentPair | splitString: '/': 0}}</span>
-        </div>
-
-        <app-linear-slider [classList]="['buy']"></app-linear-slider>
-
-        <div class="input-container">
-          <span class="title">{{'place_order.total' | translate}}</span>
-          <input class="input amount" type="text">
-          <span class="property">{{currentPair | splitString: '/': 1}}</span>
-        </div>
-      </form>
-
-      <form *ngSwitchCase="IPlaceOrder.Market" [formGroup]="buyForm">
-        <div class="input-container">
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.Market">
           <span class="title">{{'place_order.limit' | translate}}</span>
           <input class="input stop" type="text">
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.Limit || activeTab === IPlaceOrder.TriggerOrder">
+          <span class="title">{{'place_order.price' | translate}}</span>
+          <input class="input price" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
         <div class="input-container">
-          <span class="title fx-row fx-v-align-center">
+          <span class="title fx-row fx-v-align-center" *ngIf="activeTab === IPlaceOrder.Market">
             <mat-select class="amount-type-select"
                         [(ngModel)]="amountTypeBuy"
                         [ngModelOptions]="{standalone: true}"
@@ -79,6 +67,8 @@
             </mat-select>
             <div class="divide"></div>
           </span>
+
+          <span class="title" *ngIf="activeTab !== IPlaceOrder.Market">{{'place_order.amount' | translate}}</span>
 
           <app-popover-template #refAmountBuyTooltip
                                 [placement]="'top-right'"
@@ -106,53 +96,13 @@
         </div>
 
         <app-linear-slider (ngModelChange)="rangeChange$.next($event)" [classList]="['buy']"></app-linear-slider>
-      </form>
 
-      <form *ngSwitchCase="IPlaceOrder.Limit">
-        <div class="input-container">
-          <span class="title">{{'place_order.price' | translate}}</span>
-          <input class="input price" type="text">
-          <span class="property">{{currentPair | splitString: '/': 1}}</span>
-        </div>
-
-        <div class="input-container">
-          <span class="title">{{'place_order.amount' | translate}}</span>
+        <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
+          <span class="title">{{'place_order.total' | translate}}</span>
           <input class="input amount" type="text">
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
-
-        <app-linear-slider [classList]="['buy']"></app-linear-slider>
       </form>
-
-      <ng-container *ngIf="triggerOrder">
-        <form *ngSwitchCase="IPlaceOrder.TriggerOrder">
-          <div class="input-container">
-            <span class="title">{{'place_order.stop' | translate}}</span>
-            <input class="input stop" type="text">
-            <span class="property">{{currentPair | splitString: '/': 1}}</span>
-          </div>
-
-          <div class="input-container">
-            <span class="title">{{'place_order.price' | translate}}</span>
-            <input class="input price" type="text">
-            <span class="property">{{currentPair | splitString: '/': 1}}</span>
-          </div>
-
-          <div class="input-container">
-            <span class="title">{{'place_order.amount' | translate}}</span>
-            <input class="input amount" type="text">
-            <span class="property">{{currentPair | splitString: '/': 0}}</span>
-          </div>
-
-          <app-linear-slider [classList]="['buy']"></app-linear-slider>
-
-          <div class="input-container">
-            <span class="title">{{'place_order.total' | translate}}</span>
-            <input class="input amount" type="text">
-            <span class="property">{{currentPair | splitString: '/': 1}}</span>
-          </div>
-        </form>
-      </ng-container>
 
       <button (click)="placeOrderBuy$.next()"
               [class.sign-in]="!user" mat-raised-button class="control buy">
@@ -165,50 +115,37 @@
       </button>
     </div>
 
-    <div [ngSwitch]="activeTab" class="sell form-block">
+    <div class="sell form-block">
 
       <div class="header fx-row fx-h-align-space-between">
         <div class="label">{{'place_order.sell' | translate}} {{currentPair | splitString: '/': 0}}</div>
         <div class="value">{{totalAmountSell | number: '1.8-8'}} {{currentPair | splitString: '/': 1}}</div>
       </div>
 
-      <form *ngSwitchCase="IPlaceOrder.StopLimit">
-        <div class="input-container">
+      <form [formGroup]="sellForm">
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.TriggerOrder">
           <span class="title">{{'place_order.stop' | translate}}</span>
           <input class="input stop" type="text">
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <div class="input-container">
-          <span class="title">{{'place_order.limit' | translate}}</span>
-          <input class="input limit" type="text">
-          <span class="property">{{currentPair | splitString: '/': 1}}</span>
-        </div>
-
-        <div class="input-container">
-          <span class="title">{{'place_order.amount' | translate}}</span>
-          <input class="input amount" type="text">
-          <span class="property">{{currentPair | splitString: '/': 0}}</span>
-        </div>
-
-        <app-linear-slider [classList]="['sell']"></app-linear-slider>
-
-        <div class="input-container">
-          <span class="title">{{'place_order.total' | translate}}</span>
-          <input class="input amount" type="text">
-          <span class="property">{{currentPair | splitString: '/': 1}}</span>
-        </div>
-      </form>
-
-      <form *ngSwitchCase="IPlaceOrder.Market" [formGroup]="sellForm">
-        <div class="input-container">
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.StopLimit || activeTab === IPlaceOrder.Market">
           <span class="title">{{'place_order.limit' | translate}}</span>
           <input class="input stop" type="text">
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
+        <div class="input-container"
+             *ngIf="activeTab === IPlaceOrder.Limit || activeTab === IPlaceOrder.TriggerOrder">
+          <span class="title">{{'place_order.price' | translate}}</span>
+          <input class="input price" type="text">
+          <span class="property">{{currentPair | splitString: '/': 1}}</span>
+        </div>
+
         <div class="input-container">
-          <span class="title fx-row fx-v-align-center">
+          <span class="title fx-row fx-v-align-center" *ngIf="activeTab === IPlaceOrder.Market">
             <mat-select class="amount-type-select"
                         [(ngModel)]="amountTypeSell"
                         [ngModelOptions]="{standalone: true}"
@@ -219,6 +156,8 @@
             </mat-select>
             <div class="divide"></div>
           </span>
+
+          <span class="title" *ngIf="activeTab !== IPlaceOrder.Market">{{'place_order.amount' | translate}}</span>
 
           <app-popover-template #refAmountSellTooltip
                                 [placement]="'top-right'"
@@ -246,53 +185,13 @@
         </div>
 
         <app-linear-slider [classList]="['sell']"></app-linear-slider>
-      </form>
 
-      <form *ngSwitchCase="IPlaceOrder.Limit">
-        <div class="input-container">
-          <span class="title">{{'place_order.price' | translate}}</span>
-          <input class="input price" type="text">
-          <span class="property">{{currentPair | splitString: '/': 1}}</span>
-        </div>
-
-        <div class="input-container">
-          <span class="title">{{'place_order.amount' | translate}}</span>
+        <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
+          <span class="title">{{'place_order.total' | translate}}</span>
           <input class="input amount" type="text">
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
-
-        <app-linear-slider (ngModelChange)="rangeChange$.next($event)" [classList]="['sell']"></app-linear-slider>
       </form>
-
-      <ng-container *ngIf="triggerOrder">
-        <form *ngSwitchCase="IPlaceOrder.TriggerOrder">
-          <div class="input-container">
-            <span class="title">{{'place_order.stop' | translate}}</span>
-            <input class="input stop" type="text">
-            <span class="property">{{currentPair | splitString: '/': 1}}</span>
-          </div>
-
-          <div class="input-container">
-            <span class="title">{{'place_order.price' | translate}}</span>
-            <input class="input price" type="text">
-            <span class="property">{{currentPair | splitString: '/': 1}}</span>
-          </div>
-
-          <div class="input-container">
-            <span class="title">{{'place_order.amount' | translate}}</span>
-            <input class="input amount" type="text">
-            <span class="property">{{currentPair | splitString: '/': 0}}</span>
-          </div>
-
-          <app-linear-slider [classList]="['sell']"></app-linear-slider>
-
-          <div class="input-container">
-            <span class="title">{{'place_order.total' | translate}}</span>
-            <input class="input amount" type="text">
-            <span class="property">{{currentPair | splitString: '/': 1}}</span>
-          </div>
-        </form>
-      </ng-container>
 
       <button (click)="placeOrderSell$.next()"
               [class.sign-in]="!user" mat-raised-button class="control sell">
