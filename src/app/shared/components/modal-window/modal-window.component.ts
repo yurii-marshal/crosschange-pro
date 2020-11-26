@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ThemeSettingsService } from '../../../trade/services/theme-settings.service';
 
 @Component({
   selector: 'app-modal-window',
   templateUrl: './modal-window.component.html',
   styleUrls: ['./modal-window.component.scss']
 })
-export class ModalWindowComponent {
+export class ModalWindowComponent implements OnInit {
   @Input() headerText;
   @Input() draggableWindow = true;
   @Input() resizableWindow = true;
@@ -16,7 +16,10 @@ export class ModalWindowComponent {
 
   fullScreen = false;
 
-  constructor() {
+  constructor(public themeSettingsService: ThemeSettingsService) {
+  }
+
+  ngOnInit(): void {
   }
 
   dragWindow(): void {

@@ -1,4 +1,4 @@
-<div class="header fx-row fx-h-align-space-between fx-v-align-center">
+<div class="header fx-row fx-h-align-space-between fx-v-align-center {{(themeSettingsService.themeOptions$ | async).name}}">
   <div class="label">{{headerText | translate}}</div>
   <div class="controls fx-row fx-h-align-space-between fx-v-align-center">
     <button *ngIf="draggableWindow" class="control-btn" [disableRipple]="true" mat-icon-button (click)="dragWindow()">
@@ -11,6 +11,6 @@
   </div>
 </div>
 
-<div class="content">
+<div class="content {{(themeSettingsService.themeOptions$ | async).name}}">
   <ng-content></ng-content>
 </div>

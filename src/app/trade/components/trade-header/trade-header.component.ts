@@ -1,12 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { TradeService } from '../../services/trade.service';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap } from 'rxjs/operators';
-import { IThemes } from '../trade/trade.component';
 import { ITradeCoinType, ITradePair } from '../../../core/interfaces/trade-pair.interface';
+import { ThemeSettingsService } from '../../services/theme-settings.service';
+import { ITheme } from '../../services/theme-settings.interface';
 
 @Component({
   selector: 'app-trade-header',
@@ -15,8 +16,6 @@ import { ITradeCoinType, ITradePair } from '../../../core/interfaces/trade-pair.
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeHeaderComponent implements OnInit {
-  @Input() theme: string;
-
   isTradeTypeSelectorOpened = false;
   activeLink$: BehaviorSubject<ITradeCoinType> = new BehaviorSubject(ITradeCoinType.All);
 
@@ -30,10 +29,13 @@ export class TradeHeaderComponent implements OnInit {
   ];
 
   ActiveLinkType = ITradeCoinType;
+  // TODO: remove when settings control is implemented
+  isDark: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private tradeService: TradeService,
+    public themeSettingsService: ThemeSettingsService,
   ) {
   }
 
@@ -59,7 +61,17 @@ export class TradeHeaderComponent implements OnInit {
   }
 
   playSpotTutorial(): void {
-    this.theme = IThemes.Dark;
+    // TODO: remove when settings control is implemented
+    this.isDark = this.themeSettingsService.themeOptions$.getValue().name === ITheme.Dark;
+    this.themeSettingsService.setThemeOptions(
+      this.isDark ? {
+        name: ITheme.Light,
+        layout: this.themeSettingsService.themeOptions$.getValue().layout,
+      } : {
+        name: ITheme.Dark,
+        layout: this.themeSettingsService.themeOptions$.getValue().layout,
+      }
+    );
   }
 
 }

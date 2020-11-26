@@ -1,5 +1,9 @@
 @import "../../../../assets/styles/variables";
 
+.theme-dark :host {
+  background-color: #0A1726;
+}
+
 .trade-header {
   padding: 12px;
   background-color: $color-white-100;
