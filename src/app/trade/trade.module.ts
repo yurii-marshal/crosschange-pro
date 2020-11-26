@@ -20,7 +20,7 @@ import { MatSliderModule } from '@angular/material/slider';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: ':pair',
     canActivate: [ AuthGuard ],
     component: TradeComponent,
     children: [],

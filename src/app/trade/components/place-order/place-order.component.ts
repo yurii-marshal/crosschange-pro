@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TradeService } from '../../services/trade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from 'shared-kuailian-lib';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
@@ -37,7 +37,10 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   buyForm: FormGroup;
   sellForm: FormGroup;
 
-  rangeChange$: Subject<{ range: number, form: string }> = new Subject<{ range: number, form: string }>();
+  rangeChangeBuy: number;
+  rangeChangeSell: number;
+  rangeChangeBuy$: Subject<number> = new Subject<number>();
+  rangeChangeSell$: Subject<number> = new Subject<number>();
 
   onDestroy$: Subject<void> = new Subject<void>();
 
@@ -51,6 +54,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private tradeService: TradeService,
     private sessionService: SessionService,
     private fb: FormBuilder,
@@ -58,7 +62,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.currentPair = this.route.snapshot.queryParams.pair;
+    this.currentPair = this.router.url.split('/').pop();
     this.user = this.sessionService.isAuthenticated;
 
     this.buyForm = this.fb.group({
@@ -68,6 +72,38 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     this.sellForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0), Validators.max(this.totalAmountSell)]],
     });
+
+    this.buyForm.get('amount').valueChanges
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(),
+      )
+      .subscribe((v: number) => {
+        this.rangeChangeBuy = this.totalAmountBuy > 0 ? (v / this.totalAmountBuy) * 100 : 100;
+      });
+
+    this.sellForm.get('amount').valueChanges
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(),
+      )
+      .subscribe((v: number) => {
+        this.rangeChangeSell = this.totalAmountSell > 0 ? (v / this.totalAmountSell) * 100 : 100;
+      });
+
+    this.rangeChangeBuy$.asObservable()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((v: number) => {
+        const partition = v > 0 ? this.totalAmountBuy * (v / 100) : 0;
+        this.buyForm.get('amount').patchValue(partition);
+      });
+
+    this.rangeChangeSell$.asObservable()
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((v: number) => {
+        const partition = v > 0 ? this.totalAmountSell * (v / 100) : 0;
+        this.sellForm.get('amount').patchValue(partition);
+      });
 
     this.placeOrderBuy$.asObservable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.tradeService.placeOrder({})
@@ -82,22 +118,6 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         .subscribe(() => {
         });
     });
-
-    this.sellForm.get('amount').valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((v) => {
-        console.log(v);
-      });
-
-    this.buyForm.get('amount').valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-      });
-
-    this.rangeChange$.asObservable()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-      });
   }
 
   ngOnDestroy(): void {

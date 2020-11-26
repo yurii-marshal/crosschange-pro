@@ -19,14 +19,25 @@ import { takeUntil } from 'rxjs/operators';
 export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAccessor {
   @Input() classList: string[];
 
+  ratio: number;
+
+  get value(): any {
+    return this.ratio;
+  }
+
+  set value(v: any) {
+    if (v !== this.ratio) {
+      this.ratio = v;
+      this.onChange(v);
+    }
+  }
+
   disabled = false;
   max = 100;
   min = 0;
   step = 1;
   thumbLabel = true;
   tickInterval = 1;
-
-  ratio$: ReplaySubject<number> = new ReplaySubject(0);
 
   onDestroy$: Subject<void> = new Subject<void>();
 
@@ -39,11 +50,6 @@ export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAcc
   }
 
   ngOnInit(): void {
-    this.ratio$.asObservable()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((val: number) => {
-        this.writeValue(val);
-      });
   }
 
   ngOnDestroy(): void {
@@ -64,6 +70,7 @@ export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAcc
       return;
     }
 
+    this.ratio = ratio;
     this.onChange(ratio);
   }
 

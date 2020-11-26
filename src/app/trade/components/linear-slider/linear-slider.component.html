@@ -6,6 +6,6 @@
   [step]="step"
   [thumbLabel]="thumbLabel"
   [tickInterval]="tickInterval"
-  (change)="ratio$.next($event.value)"
+  [(ngModel)]="value"
 >
 </mat-slider>

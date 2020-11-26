@@ -7,6 +7,36 @@ import { Cacheable } from 'ngx-cacheable';
 import { HttpClient } from '@angular/common/http';
 import { IOrderHistoryData } from '../../core/interfaces/order-history.interface';
 
+const orderHistoryDataSourceMock = {
+  next: '',
+  previous: '',
+  results: [
+    {
+      date: '2011-08-12T20:17:46.384Z',
+      pair: 'XRP / ETH',
+      type: 'Stop Loss Limit',
+      side: 'Sell',
+      average: 0.0003591,
+      executed: 30,
+      amount: 0,
+      total: 0.0003591,
+      trigger_condition: 0.0003591
+    },
+    {
+      date: '2011-08-14T20:17:46.384Z',
+      pair: 'XRP / ETH',
+      type: 'Stop Loss Limit',
+      side: 'Buy',
+      average: 0.0003591,
+      executed: 30,
+      amount: 0,
+      total: 0.0003591,
+      trigger_condition: 0.0003591
+    }
+  ],
+  count: 2,
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -51,7 +81,9 @@ export class TradeService extends ApiService {
   }
 
   getOrderHistory(): Observable<IApiResponse<IOrderHistoryData>> {
-    return this.http.get('./assets/json/orderHistoryDataSourceMock.json').pipe(share()) as Observable<IApiResponse<IOrderHistoryData>>;
+    // return this.http.get('./assets/json/orderHistoryDataSourceMock.json')
+    return of(orderHistoryDataSourceMock)
+      .pipe(share()) as Observable<IApiResponse<IOrderHistoryData>>;
   }
 
   placeOrder(body): Observable<any> {
