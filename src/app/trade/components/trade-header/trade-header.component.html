@@ -1,4 +1,4 @@
-<div class="trade-header fx-row fx-h-align-space-between fx-v-align-center {{theme | async}}">
+<div class="trade-header fx-row fx-h-align-space-between fx-v-align-center {{(themeSettingsService.themeOptions$ | async).name}}">
   <div class="fx-row">
     <div (click)="toggleTradeSelector(refTradePopover)"
          [appPopover]="refTradePopover"
@@ -27,7 +27,7 @@
       scrollStrategy="close"
       (backdropClicked)="isTradeTypeSelectorOpened = false; refTradePopover.close();"
     >
-      <div class="trade-popup {{theme | async}}">
+      <div class="trade-popup {{(themeSettingsService.themeOptions$ | async).name}}">
         <div class="tabs">
           <nav mat-tab-nav-bar class="mat-tab-group">
             <a mat-tab-link

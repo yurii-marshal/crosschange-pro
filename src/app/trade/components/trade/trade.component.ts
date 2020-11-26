@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
-import { ILayout, ITheme } from '../../services/theme-settings.interface';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ThemeSettingsService } from '../../services/theme-settings.service';
 
 @Component({
@@ -12,21 +11,18 @@ import { ThemeSettingsService } from '../../services/theme-settings.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TradeComponent implements OnInit, OnDestroy {
-  theme$: Observable<ITheme>;
-  layout$: Observable<ILayout>;
-
   leftContainer: string[] = [];
   centralContainer: string[] = [];
   rightContainer: string[] = [];
 
   onDestroy$: Subject<void> = new Subject<void>();
 
-  constructor(private themeSettingsService: ThemeSettingsService) {
+  constructor(
+    public themeSettingsService: ThemeSettingsService,
+  ) {
   }
 
   ngOnInit(): void {
-    this.theme$ = this.themeSettingsService.currentTheme$.asObservable();
-    this.layout$ = this.themeSettingsService.currentLayout$.asObservable();
   }
 
   ngOnDestroy(): void {

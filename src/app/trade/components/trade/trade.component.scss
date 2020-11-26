@@ -5,7 +5,17 @@
     background-color: $color-grey-20;
 
     .window-container {
+
+      &:not(:last-child) {
+        margin-right: 4px;
+      }
+
       .drag-item {
+        margin-top: 4px;
+
+        &:last-child {
+
+        }
       }
 
       &.left {
@@ -23,6 +33,10 @@
       &.bottom {
         width: 100%;
       }
+    }
+
+    &.theme-dark {
+      background-color: #000000;
     }
   }
 }
