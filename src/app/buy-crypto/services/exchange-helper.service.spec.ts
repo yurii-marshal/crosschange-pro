@@ -18,9 +18,9 @@ describe('ExchangeHelperService', () => {
     });
     service = TestBed.inject(ExchangeHelperService);
     form = new FormGroup({
-      f: new FormControl({currency: 1, amount: 1}),
-      t: new FormControl({currency: 1, amount: 1}),
-      fromCurrency: new FormControl({currency: 1, amount: 1}),
+      f: new FormControl({ currency: 1, amount: 1 }),
+      t: new FormControl({ currency: 1, amount: 1 }),
+      fromCurrency: new FormControl({ currency: 1, amount: 1 }),
     });
   });
 
@@ -31,19 +31,19 @@ describe('ExchangeHelperService', () => {
   it('should convertFilter', fakeAsync(() => {
     expect(service.convertFilter(form, 'f', 't')).toEqual(true);
 
-    form.get('f').setValue({currency: 1, amount: 0});
+    form.get('f').setValue({ currency: 1, amount: 0 });
     expect(service.convertFilter(form, 'f', 't')).toEqual(true);
 
-    form.get('t').setValue({currency: 1, amount: 0});
+    form.get('t').setValue({ currency: 1, amount: 0 });
     expect(service.convertFilter(form, 'f', 't')).toEqual(false);
 
-    form.get('t').setValue({currency: 0, amount: 0});
+    form.get('t').setValue({ currency: 0, amount: 0 });
     expect(service.convertFilter(form, 'f', 't')).toEqual(false);
 
-    form.get('t').setValue({currency: 0, amount: 1});
-    expect(service.convertFilter(form, 'f', 't')).toEqual(true);
+    form.get('t').setValue({ currency: 0, amount: 1 });
+    expect(service.convertFilter(form, 'f', 't')).toEqual(false);
 
-    form.get('t').setValue({currency: 1, amount: 1});
+    form.get('t').setValue({ currency: 1, amount: 1 });
     expect(service.convertFilter(form, 'f', 't')).toEqual(true);
   }));
 

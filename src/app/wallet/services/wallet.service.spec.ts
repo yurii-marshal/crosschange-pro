@@ -12,9 +12,7 @@ import { IApiResponse } from 'shared-kuailian-lib';
 import { DepositService } from './deposit.service';
 import { TransactionStatus, TransactionType } from '../../shared/interfaces/transaction-item.interface';
 
-
-// TODO: change xdescribe to describe after switching to api in service
-xdescribe('WalletService', () => {
+describe('WalletService', () => {
   let depositService: DepositService;
   let walletService: WalletService;
   let httpMock: HttpTestingController;
@@ -131,7 +129,7 @@ xdescribe('WalletService', () => {
       done();
     });
 
-    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/transactions/`);
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });
@@ -175,13 +173,13 @@ xdescribe('WalletService', () => {
         expect(res2).toEqual(secondMock);
         done();
       });
-      const secondRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+      const secondRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/transactions/`);
       expect(secondRequest.request.method).toEqual('GET');
       secondRequest.flush(secondMock);
 
     });
 
-    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/transactions/`);
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/spot-wallets/transactions/`);
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });

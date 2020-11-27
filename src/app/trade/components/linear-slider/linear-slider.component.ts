@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, forwardRef, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-linear-slider',
@@ -16,21 +15,11 @@ import { takeUntil } from 'rxjs/operators';
     }
   ]
 })
-export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class LinearSliderComponent implements ControlValueAccessor {
   @Input() classList: string[];
+  percentageCss = 'val-0';
 
-  ratio: number;
-
-  get value(): any {
-    return this.ratio;
-  }
-
-  set value(v: any) {
-    if (v !== this.ratio) {
-      this.ratio = v;
-      this.onChange(v);
-    }
-  }
+  ratio$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   disabled = false;
   max = 100;
@@ -39,22 +28,12 @@ export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAcc
   thumbLabel = true;
   tickInterval = 1;
 
-  onDestroy$: Subject<void> = new Subject<void>();
-
   onChange = (ratio: number) => {
   }
   onTouched = () => {
   }
 
   constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   registerOnChange(fn: (ratio: number) => void): void {
@@ -70,8 +49,28 @@ export class LinearSliderComponent implements OnInit, OnDestroy, ControlValueAcc
       return;
     }
 
-    this.ratio = ratio;
-    this.onChange(ratio);
+    this.changeCssPercentage(ratio);
+    this.ratio$.next(ratio);
   }
 
+  onChangeVal(e): void {
+    this.changeCssPercentage(e.value);
+    this.ratio$.next(e.value);
+    this.onChange(e.value);
+  }
+
+  private changeCssPercentage(val: number): void {
+    if (val >= 0 && val < 25) {
+      val = 0;
+    } else if (val >= 25 && val < 50) {
+      val = 25;
+    } else if (val >= 50 && val < 75) {
+      val = 50;
+    } else if (val >= 75 && val < 100) {
+      val = 75;
+    } else {
+      val = 100;
+    }
+    this.percentageCss = 'val-' + val;
+  }
 }

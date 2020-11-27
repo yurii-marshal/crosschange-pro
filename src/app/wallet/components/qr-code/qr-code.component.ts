@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { IWallet } from '../../../shared/interfaces/wallet.interface';
 import { QrCodeService } from 'shared-kuailian-lib';
-import { Observable, of } from 'rxjs';
+import { Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-qr-code',
@@ -10,11 +11,9 @@ import { Observable, of } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit {
-  address$: Observable<string> = of('');
-  tag$: Observable<string> = of('') ;
+  address$: Subject<string> = new Subject(); // subjects are used to prevent blinking on load
+  tag$: Subject<string> = new Subject();
   currentWallet: IWallet;
-  addressLoaded = false;
-  tagLoaded = false;
 
   @Input() set wallet(value: IWallet) {
     this.currentWallet = value;
@@ -25,24 +24,30 @@ export class QrCodeComponent implements OnInit {
 
   constructor(
     private qrCodeService: QrCodeService,
-  ) {}
+  ) {
+  }
 
   setAddress(): void {
-    this.addressLoaded = false;
-    this.address$ = this.currentWallet && this.currentWallet.cryptocurrency
-      ? this.qrCodeService.generateQRFromString(this.currentWallet.address)
-      : of('');
+    if (this.currentWallet && this.currentWallet.cryptocurrency) {
+      this.qrCodeService.generateQRFromString(this.currentWallet.address).pipe(take(1)).subscribe(v => {
+        this.address$.next(v);
+      });
+    } else {
+      this.address$.next('');
+    }
   }
 
   setTag(): void {
-    this.tagLoaded = false;
-    this.tag$ = this.currentWallet && this.currentWallet.destination_tag
-      ? this.qrCodeService.generateQRFromString(this.currentWallet.destination_tag)
-      : of('');
+    if (this.currentWallet && this.currentWallet.destination_tag) {
+      this.qrCodeService.generateQRFromString(this.currentWallet.destination_tag).pipe(take(1)).subscribe(v => {
+        this.tag$.next(v);
+      });
+    } else {
+      this.tag$.next('');
+    }
   }
 
   ngOnInit(): void {
   }
-
 
 }

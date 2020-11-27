@@ -1,0 +1,161 @@
+<div class="content-container">
+  <h1> {{'buy_crypto.title' | translate}} </h1>
+
+  <div class="tabs-container">
+    <div class="wrapper">
+      <div class="tabs-content">
+        <nav mat-tab-nav-bar class="mat-tab-group">
+          <a mat-tab-link
+             [disableRipple]="true"
+             [active]="activeLink === ActiveLink.BUY"
+             (click)="resetForm()"
+             [routerLink]="['.']"
+             [queryParams]="{tab: ActiveLink.BUY}">
+            {{ 'buy_crypto.tab_buy' | translate }}
+          </a>
+          <a mat-tab-link
+             [disableRipple]="true"
+             [active]="activeLink === ActiveLink.SELL"
+             (click)="resetForm()"
+             [routerLink]="['.']"
+             [queryParams]="{tab: ActiveLink.SELL}">
+            {{ 'buy_crypto.tab_sell' | translate }}
+          </a>
+          <a mat-tab-link
+             [disableRipple]="true"
+             [active]="activeLink === ActiveLink.EXCHANGE"
+             (click)="resetForm()"
+             [routerLink]="['.']"
+             [queryParams]="{tab: ActiveLink.EXCHANGE}">
+            {{ 'buy_crypto.tab_exchange' | translate }}
+          </a>
+        </nav>
+
+        <div class="divider"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fx-row">
+    <div class="left">
+      <form [formGroup]="form">
+        <div class="form-field">
+          <label>{{'buy_crypto.for' | translate}}</label>
+          <app-currency-select formControlName="fromCurrency"
+                               [currencyType]="setActiveTab().from"
+                               [secondSelected]="form.get('toCurrency').value"
+                               [disabledCondition]="!inputsEnabled"></app-currency-select>
+          <div class="max">
+            <span class="max-label">{{'buy_crypto.max' | translate}}:</span>
+            <span class="max-balance" (click)="setFromMaxValue()">
+              {{form.get('fromCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}
+            </span>
+          </div>
+        </div>
+        <mat-icon class="direction" svgIcon="icon_direction" (click)="swapCurrencies()" *ngIf="activeLink === ActiveLink.EXCHANGE"></mat-icon>
+        <div class="form-field">
+          <label>{{'buy_crypto.you_will_get' | translate}}</label>
+          <app-currency-select formControlName="toCurrency"
+                               [currencyType]="setActiveTab().to"
+                               [secondSelected]="form.get('fromCurrency').value"
+                               [disabledCondition]="!inputsEnabled"></app-currency-select>
+          <div class="max">
+            <span class="max-label">{{'buy_crypto.balance' | translate}}:</span>
+            <span>
+              {{form.get('toCurrency').valueChanges | async | selectedWalletBalance:(wallets$ | async) | number:'1.1-8'}}
+            </span>
+          </div>
+        </div>
+        <div class="form-field" *ngIf="activeLink === 'buy'">
+          <label>{{'buy_crypto.payment_method' | translate}}</label>
+          <div class="payment-methods">
+            <input class="payment-method" value="{{PaymentMethods.SPOT_WALLET}}" type="radio" name="paymentMethod" id="spot-wallet" formControlName="paymentMethod">
+            <input class="payment-method" value="{{PaymentMethods.STAKING_BANK}}" type="radio" name="paymentMethod" id="staking-bank" formControlName="paymentMethod" [attr.disabled]="true">
+            <input class="payment-method" value="{{PaymentMethods.CREDIT_CARD}}" type="radio" name="paymentMethod" id="credit-card" formControlName="paymentMethod" [attr.disabled]="true">
+            <label for="spot-wallet"
+                   class="payment-method__block"
+                   [ngClass]="{'payment-method__block--active': activePaymentMethod === PaymentMethods.SPOT_WALLET}">
+              <mat-icon [svgIcon]="'icon_wallet'"></mat-icon>
+              <span class="payment-method__label">{{'buy_crypto.spot_wallet' | translate}}</span>
+            </label>
+            <label for="staking-bank"
+                   class="payment-method__block"
+                   [ngClass]="{'payment-method__block--active': activePaymentMethod === PaymentMethods.STAKING_BANK}"
+                   [attr.disabled]="true">
+              <mat-icon [svgIcon]="'icon_kuailian_bank'"></mat-icon>
+              <span class="payment-method__label">{{'buy_crypto.coming_soon' | translate}}</span>
+            </label>
+            <label for="credit-card"
+                   class="payment-method__block"
+                   [ngClass]="{'payment-method__block--active': activePaymentMethod === PaymentMethods.CREDIT_CARD}"
+                   [attr.disabled]="true">
+              <mat-icon [svgIcon]="'icon_credit_card'"></mat-icon>
+              <span class="payment-method__label">{{'buy_crypto.coming_soon' | translate}}</span>
+            </label>
+          </div>
+        </div>
+      </form>
+      <button mat-raised-button color="primary" (click)="openDialog()" [disabled]="!form.valid || !inputsEnabled">
+        <ng-container [ngSwitch]="activeLink">
+          <ng-container *ngSwitchCase="'buy'">
+            {{ 'buy_crypto.buy' | translate }} {{ form.get('toCurrency').value?.currency?.key }}
+          </ng-container>
+          <ng-container *ngSwitchCase="'sell'">
+            {{ 'buy_crypto.sell' | translate }} {{ form.get('fromCurrency').value?.currency?.key }}
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            {{ 'buy_crypto.exchange' | translate }}
+          </ng-container>
+        </ng-container>
+      </button>
+      <div class="fee" *ngIf="form.get('fee').value">
+        {{'buy_crypto.fee' | translate}}: {{form.get('fee').value}}
+        {{form.get('fromCurrency').valueChanges | async | selectedWalletKey:(wallets$ | async)}}
+      </div>
+    </div>
+    <div class="right">
+      <div class="buttons fx-row fx-column-xs fx-h-align-start-xs">
+        <div class="controls">
+          <mat-button-toggle-group name="period" aria-label="Period" [value]="chartPeriod"
+                                   (change)="onPeriodChange($event)">
+            <mat-button-toggle [value]="chartPeriods.DAY">{{'buy_crypto.24h' | translate}}</mat-button-toggle>
+            <mat-button-toggle [value]="chartPeriods.WEEK">{{'buy_crypto.1w' | translate}}</mat-button-toggle>
+            <mat-button-toggle [value]="chartPeriods.MONTH">{{'buy_crypto.1m' | translate}}</mat-button-toggle>
+            <mat-button-toggle [value]="chartPeriods.YEAR">{{'buy_crypto.1y' | translate}}</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="status">
+          <div class="status-item">
+            <label>{{'buy_crypto.current_rate' | translate}}</label>
+            <span>{{(exchangeInfo$ | async)?.last || 0 | number: '1.4-8'}}</span>
+          </div>
+          <div class="status-item today-change">
+            <label>{{'buy_crypto.today_change' | translate}}</label>
+            <div [class.positive]="+(exchangeInfo$ | async)?.change_percent_24 > 0"
+                 [class.negative]="+(exchangeInfo$ | async)?.change_percent_24 < 0">
+              <ng-container *ngIf="exchangeInfo$ | async as info">
+                <span>
+                  {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 > 0 ? '+' : ''}}
+                  {{(info.last / (+info.change_percent_24 + 100)) * +info.change_percent_24 | number:'1.4-8'}}
+                </span>
+                <span>({{info.change_percent_24 > 0 ? '+' : ''}}{{info.change_percent_24 | number:'1.2-2'}}%)</span>
+                <mat-icon *ngIf="+info.change_percent_24 !== 0" svgIcon="icon_triangle_up"></mat-icon>
+              </ng-container>
+              <ng-container *ngIf="(exchangeInfo$ | async) === null">
+                <span>0.0000</span>
+              </ng-container>
+            </div>
+            <div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <div echarts [options]="option" class="chart" (chartInit)="onChartInit($event)" [autoResize]="true"></div>
+      </div>
+    </div>
+  </div>
+
+</div>

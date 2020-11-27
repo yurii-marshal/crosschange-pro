@@ -40,15 +40,27 @@ describe('ExchangeService', () => {
     httpRequest.flush(currenciesMock);
   });
 
-  // TODO: SET xit to it when charts implemented
-  xit('should send get chart data request', (done) => {
-    const mock = [ { name: '', value: 0 } ];
+  it('should send get chart data request', (done) => {
+    const mock = { points: [], axis: []};
     service.getChartData('btc', 'btc', IChartPeriods.DAY).subscribe(res => {
       expect(res).toEqual(mock);
       done();
     });
 
-    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/exchanges/graph/`);
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/exchanges/graph/?pair=BTCBTC&period=24h`);
+    expect(httpRequest.request.method).toEqual('GET');
+    httpRequest.flush(mock);
+  });
+
+
+  it('should send get chart data request with step', (done) => {
+    const mock = { points: [], axis: []};
+    service.getChartData('btc', 'btc', IChartPeriods.DAY, 30).subscribe(res => {
+      expect(res).toEqual(mock);
+      done();
+    });
+
+    const httpRequest = httpMock.expectOne(`${environment.projectApiUrl}/api/v1/exchanges/graph/?pair=BTCBTC&period=24h&step=30`);
     expect(httpRequest.request.method).toEqual('GET');
     httpRequest.flush(mock);
   });

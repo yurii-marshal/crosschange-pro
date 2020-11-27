@@ -95,11 +95,7 @@
           <span class="property">{{currentPair | splitString: ',': 1}}</span>
         </div>
 
-        <app-linear-slider [(ngModel)]="rangeChangeBuy"
-                           (ngModelChange)="rangeChangeBuy$.next($event)"
-                           [ngModelOptions]="{standalone: true}"
-                           [classList]="['buy']"
-        ></app-linear-slider>
+        <app-linear-slider formControlName="amountSlider" [classList]="['buy']"></app-linear-slider>
 
         <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
           <span class="title">{{'place_order.total' | translate}}</span>
@@ -188,11 +184,7 @@
           <span class="property">{{currentPair | splitString: ',': 1}}</span>
         </div>
 
-        <app-linear-slider [(ngModel)]="rangeChangeSell"
-                           (ngModelChange)="rangeChangeSell$.next($event)"
-                           [ngModelOptions]="{standalone: true}"
-                           [classList]="['sell']"
-        ></app-linear-slider>
+        <app-linear-slider formControlName="amountSlider" [classList]="['sell']"></app-linear-slider>
 
         <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
           <span class="title">{{'place_order.total' | translate}}</span>

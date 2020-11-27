@@ -17,7 +17,7 @@ import { WalletService } from 'src/app/wallet/services/wallet.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { Component } from '@angular/core';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
 import { FakeMatIconRegistry } from '@angular/material/icon/testing';
 import { PaginatorComponent } from 'src/app/shared/components/paginator/paginator.component';
 import { cryptoList, walletBalanceMock, walletListMock, WalletServiceMock } from 'testing/WalletServiceMock';

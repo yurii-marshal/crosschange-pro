@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TradeService } from '../../services/trade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -31,7 +31,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   currentPair: string;
   triggerOrder: boolean;
 
-  totalAmountBuy = 0;
+  totalAmountBuy = 1000;
   totalAmountSell = 0;
 
   buyForm: FormGroup;
@@ -58,6 +58,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     private tradeService: TradeService,
     private sessionService: SessionService,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -67,10 +68,12 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
     this.buyForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0), Validators.max(this.totalAmountBuy)]],
+      amountSlider: [],
     });
 
     this.sellForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0), Validators.max(this.totalAmountSell)]],
+      amountSlider: [],
     });
 
     this.buyForm.get('amount').valueChanges
@@ -79,31 +82,48 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
       )
       .subscribe((v: number) => {
-        this.rangeChangeBuy = this.totalAmountBuy > 0 ? (v / this.totalAmountBuy) * 100 : 100;
+        const val = this.totalAmountBuy > 0 ? (v / this.totalAmountBuy) * 100 : 100;
+        this.buyForm.get('amountSlider').patchValue(val, {emitEvent: false});
       });
 
-    this.sellForm.get('amount').valueChanges
+    this.buyForm.get('amountSlider').valueChanges
       .pipe(
         takeUntil(this.onDestroy$),
         distinctUntilChanged(),
       )
       .subscribe((v: number) => {
-        this.rangeChangeSell = this.totalAmountSell > 0 ? (v / this.totalAmountSell) * 100 : 100;
+        const val = v > 0 ? this.totalAmountBuy * (v / 100) : 0;
+        this.buyForm.get('amount').patchValue(val, {emitEvent: false});
       });
 
-    this.rangeChangeBuy$.asObservable()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((v: number) => {
-        const partition = v > 0 ? this.totalAmountBuy * (v / 100) : 0;
-        this.buyForm.get('amount').patchValue(partition);
-      });
-
-    this.rangeChangeSell$.asObservable()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((v: number) => {
-        const partition = v > 0 ? this.totalAmountSell * (v / 100) : 0;
-        this.sellForm.get('amount').patchValue(partition);
-      });
+    // this.sellForm.get('amount').valueChanges
+    //   .pipe(
+    //     takeUntil(this.onDestroy$),
+    //     distinctUntilChanged(),
+    //   )
+    //   .subscribe((v: number) => {
+    //     this.rangeChangeSell = this.totalAmountSell > 0 ? (v / this.totalAmountSell) * 100 : 100;
+    //   });
+    //
+    // this.buyForm.get('amountSlider').valueChanges
+    //   .pipe(
+    //     takeUntil(this.onDestroy$),
+    //     distinctUntilChanged(),
+    //   )
+    //   .subscribe((v: number) => {
+    //     const partition = v > 0 ? this.totalAmountBuy * (v / 100) : 0;
+    //     this.buyForm.get('amount').patchValue(partition, {emitEvent: false});
+    //   });
+    //
+    // this.sellForm.get('amountSlider').valueChanges
+    //   .pipe(
+    //     takeUntil(this.onDestroy$),
+    //     distinctUntilChanged(),
+    //   )
+    //   .subscribe((v: number) => {
+    //     const partition = v > 0 ? this.totalAmountSell * (v / 100) : 0;
+    //     this.sellForm.get('amount').patchValue(partition, {emitEvent: false});
+    //   });
 
     this.placeOrderBuy$.asObservable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.tradeService.placeOrder({})

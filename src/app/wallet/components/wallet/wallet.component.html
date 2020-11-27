@@ -2,7 +2,9 @@
   <div class="total-balance__header">{{'wallet_page.wallet_list' | translate}}</div>
   <div class="total-balance__amount">
     <div class="fx-row fx-v-align-baseline total-balance__amount-container">
-      {{(walletBalance$ | async)?.total_balance || 0 | number: '1.8-8' | toggleSecretText: (hideNumbers$ | async)}}
+      <div class="total-balance__amount-value">
+        {{(walletBalance$ | async)?.total_balance || 0 | number: '1.8-8' | toggleSecretText: (hideNumbers$ | async)}}
+      </div>
       <div class="total-balance__amount-currency">
         <span class="total-balance__amount-currency--black">
           {{'wallet_page.btc' | translate}}
@@ -20,6 +22,7 @@
 </div>
 
 <div class="balances">
+
   <div class="balance">
     <div class="balance-info">
       <div class="balance-info__name">{{'wallet_page.fiat_balance' | translate}}</div>
@@ -79,9 +82,7 @@
 
           <!-- Action column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef>
-              {{ 'wallet_page.action' | translate }}
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
               <a>{{ 'wallet_page.deposit' | translate }}</a>
               <a>{{ 'wallet_page.withdraw' | translate }}</a>
@@ -110,11 +111,12 @@
       </div>
     </div>
   </div>
+
   <div class="balance">
     <div class="balance-info">
       <div class="balance-info__name">{{'wallet_page.cc_euro_account_balance' | translate}}</div>
-      <div class="balance-info__table">
-        <mat-table mat-table [dataSource]="euroAccountBalanceSource" class="single-table">
+      <div class="balance-info__table euro-balance">
+        <mat-table mat-table [dataSource]="euroAccountBalanceSource | async" class="single-table">
           <!-- Coin column -->
           <ng-container matColumnDef="cryptocurrency">
             <mat-header-cell *matHeaderCellDef>
@@ -169,9 +171,7 @@
 
           <!-- Action column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef>
-              {{ 'wallet_page.action' | translate }}
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
               <a>{{ 'wallet_page.deposit' | translate }}</a>
               <a>{{ 'wallet_page.withdraw' | translate }}</a>
@@ -200,12 +200,19 @@
       </div>
     </div>
   </div>
+
   <div class="balance">
     <div class="balance-info">
-      <div class="balance-info__table with-controls">
+      <div class="balance-info__name">{{'wallet_page.crypto_balance' | translate}}</div>
+      <div class="balance-info__table main" [class.with-controls]="(cryptoBalanceSource | async)?.data?.length > cryptoBalanceCount">
         <div class="mat-table__search">
-          <mat-icon [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
-          <input type="text" class="mat-table__search-input" [formControl]="searchInputControl">
+          <mat-icon *ngIf="!searchInputControl.value" [svgIcon]="'icon_search'" class="mat-table__search-icon"></mat-icon>
+          <input [class.value]="searchInputControl.value" type="text"
+                 class="mat-table__search-input" [formControl]="searchInputControl">
+          <mat-icon *ngIf="searchInputControl.value" [svgIcon]="'icon_close_dark'"
+                    (click)="searchInputControl.patchValue('')"
+                    class="mat-table__search-remove-icon"></mat-icon>
+
           <button class="hide-balance-btn" (click)="toggleLowBalance()">
             {{((hideLowBalance$ | async) ? 'wallet_page.show_all_balance_assets' : 'wallet_page.hide_low_balance_assets') | translate}}
           </button>
@@ -265,9 +272,7 @@
 
           <!-- Action column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef>
-              {{ 'wallet_page.action' | translate }}
-            </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
 
               <a>{{ 'wallet_page.deposit' | translate }}</a>
@@ -299,8 +304,9 @@
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <div class="no-data-splash" *ngIf="!(cryptoBalanceSource | async)?.data?.length">{{'wallet_page.no_data_available' | translate}}</div>
-        <app-paginator [count]="cryptoBalanceCount" class="paginator"></app-paginator>
+        <app-paginator *ngIf="(cryptoBalanceSource | async)?.data?.length > cryptoBalanceCount" [count]="cryptoBalanceCount" class="paginator"></app-paginator>
       </div>
     </div>
   </div>
+
 </div>

@@ -23,11 +23,13 @@ import { CoinSelectComponent } from './components/coin-select/coin-select.compon
 import { LayoutModule } from '@angular/cdk/layout';
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { CurrencySelectedPipe } from './pipes/currency-selected.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 import { AddressSelectComponent } from './components/address-select/address-select.component';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { AddWithdrawAddressDialogComponent } from './components/add-withdraw-address-dialog/add-withdraw-address-dialog.component';
 import { OnlyNumbersDirective } from './directives/only-numbers.directive';
+import { CurrencyTypePipe } from './pipes/currency-type.pipe';
 import { ModalWindowComponent } from './components/modal-window/modal-window.component';
 import { SplitStringPipe } from './pipes/split-string.pipe';
 
@@ -53,6 +55,8 @@ const pipes = [
   ToggleSecretTextPipe,
   SplitStringPipe,
   SafePipe,
+  CurrencySelectedPipe,
+  CurrencyTypePipe,
 ];
 
 @NgModule({

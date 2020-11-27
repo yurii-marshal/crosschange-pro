@@ -44,6 +44,7 @@ export class MarketsComponent implements OnInit, OnDestroy {
 
   count = 0;
 
+  matSelectOpened: boolean;
   activeLink: string;
   isFiat: boolean;
   loaders: {[key: string]: boolean} = {};
@@ -109,6 +110,11 @@ export class MarketsComponent implements OnInit, OnDestroy {
       this.count = result.count;
       this.dataSource$.next(new MatTableDataSource(result.results));
     });
+  }
+
+  // TODO: Refactor. Try to avoid
+  toggleMatSelect(event): void {
+    this.matSelectOpened = event;
   }
 
   setFavourite(element): void {

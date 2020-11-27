@@ -43,7 +43,7 @@ describe('FooterComponent', () => {
   });
 
   it('should have copyright', () => {
-    const copyright = compiled.querySelector('.copyright');
+    const copyright = compiled.querySelector('.left li:nth-of-type(2)');
     expect(copyright.textContent).toEqual('footer.copyright');
   });
 });

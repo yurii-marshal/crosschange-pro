@@ -18,10 +18,11 @@ export class HeaderComponent implements OnInit {
   notifications$: Observable<Notification[]>;
 
   menuItems = [
+    {active: false, label: 'header.buy_crypto', link: '/buy-crypto'},
+    {active: false, label: 'header.exchange', link: '.'},
     {active: false, label: 'header.markets', link: '/markets'},
-    {active: false, label: 'header.wallet', link: '.'},
-    {active: false, label: 'header.exchange', link: '/exchange'},
-    {active: false, label: 'header.history', link: '/history'},
+    {active: false, label: 'header.wallets', link: '.'},
+    {active: false, label: 'header.orders', link: '.'},
   ];
 
   userSubmenu: boolean;
@@ -61,8 +62,9 @@ export class HeaderComponent implements OnInit {
 }
 
 _([
+  'header.buy_crypto',
   'header.markets',
-  'header.wallet',
+  'header.wallets',
   'header.exchange',
-  'header.history',
+  'header.orders',
 ]);

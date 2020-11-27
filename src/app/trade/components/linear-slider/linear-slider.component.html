@@ -1,11 +1,14 @@
-<mat-slider
-  [ngClass]="classList"
-  [disabled]="disabled"
-  [max]="max"
-  [min]="min"
-  [step]="step"
-  [thumbLabel]="thumbLabel"
-  [tickInterval]="tickInterval"
-  [(ngModel)]="value"
->
-</mat-slider>
+<div [class]="percentageCss">
+  <mat-slider
+    [ngClass]="classList"
+    [disabled]="disabled"
+    [max]="max"
+    [min]="min"
+    [step]="step"
+    [thumbLabel]="thumbLabel"
+    [tickInterval]="tickInterval"
+    [value]="ratio$ | async"
+    (input)="onChangeVal($event)"
+  >
+  </mat-slider>
+</div>
