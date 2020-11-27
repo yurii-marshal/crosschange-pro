@@ -166,29 +166,6 @@
     "title": "notifications",
     "view_all": "View all"
   },
-  "order_history": {
-    "all": "",
-    "amount": "",
-    "average": "",
-    "cancel": "",
-    "canceled": "",
-    "date": "",
-    "executed": "",
-    "expired": "",
-    "filled": "",
-    "no_data": "",
-    "pair": "",
-    "partially_filled": "",
-    "side": "",
-    "total": "",
-    "trigger_condition": "",
-    "type": ""
-  },
-  "period_picker": {
-    "day": "Day",
-    "month": "Month",
-    "week": "Week"
-  },
   "place_order": {
     "amount": "Amount",
     "buy": "Buy",
