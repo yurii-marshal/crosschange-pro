@@ -164,7 +164,7 @@
                                 [panelClass]="'amount-tooltip-panel'">
             <div class="error-tooltip" *ngIf="sellForm.get('amount').errors && !sellForm.get('amount').errors.required">
               <span *ngIf="sellForm.get('amount').errors?.max">
-                {{'place_order.max_amount' | translate}} {{totalAmountBuy}}
+                {{'place_order.max_amount' | translate}} {{totalAmountSell}}
               </span>
               <span *ngIf="sellForm.get('amount').errors?.min">
                 {{'place_order.min_amount' | translate}} {{0}}</span>

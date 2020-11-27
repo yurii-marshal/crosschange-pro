@@ -45,12 +45,8 @@ export class LinearSliderComponent implements ControlValueAccessor {
   }
 
   writeValue(ratio: number): void {
-    if (!ratio) {
-      return;
-    }
-
-    this.changeCssPercentage(ratio);
-    this.ratio$.next(ratio);
+    this.changeCssPercentage(ratio || 0);
+    this.ratio$.next(ratio || 0);
   }
 
   onChangeVal(e): void {

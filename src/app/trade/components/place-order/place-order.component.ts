@@ -76,54 +76,8 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
       amountSlider: [],
     });
 
-    this.buyForm.get('amount').valueChanges
-      .pipe(
-        takeUntil(this.onDestroy$),
-        distinctUntilChanged(),
-      )
-      .subscribe((v: number) => {
-        const val = this.totalAmountBuy > 0 ? (v / this.totalAmountBuy) * 100 : 100;
-        this.buyForm.get('amountSlider').patchValue(val, {emitEvent: false});
-      });
-
-    this.buyForm.get('amountSlider').valueChanges
-      .pipe(
-        takeUntil(this.onDestroy$),
-        distinctUntilChanged(),
-      )
-      .subscribe((v: number) => {
-        const val = v > 0 ? this.totalAmountBuy * (v / 100) : 0;
-        this.buyForm.get('amount').patchValue(val, {emitEvent: false});
-      });
-
-    // this.sellForm.get('amount').valueChanges
-    //   .pipe(
-    //     takeUntil(this.onDestroy$),
-    //     distinctUntilChanged(),
-    //   )
-    //   .subscribe((v: number) => {
-    //     this.rangeChangeSell = this.totalAmountSell > 0 ? (v / this.totalAmountSell) * 100 : 100;
-    //   });
-    //
-    // this.buyForm.get('amountSlider').valueChanges
-    //   .pipe(
-    //     takeUntil(this.onDestroy$),
-    //     distinctUntilChanged(),
-    //   )
-    //   .subscribe((v: number) => {
-    //     const partition = v > 0 ? this.totalAmountBuy * (v / 100) : 0;
-    //     this.buyForm.get('amount').patchValue(partition, {emitEvent: false});
-    //   });
-    //
-    // this.sellForm.get('amountSlider').valueChanges
-    //   .pipe(
-    //     takeUntil(this.onDestroy$),
-    //     distinctUntilChanged(),
-    //   )
-    //   .subscribe((v: number) => {
-    //     const partition = v > 0 ? this.totalAmountSell * (v / 100) : 0;
-    //     this.sellForm.get('amount').patchValue(partition, {emitEvent: false});
-    //   });
+    this.setAmountListener(this.buyForm, 'buy');
+    this.setAmountListener(this.sellForm, 'sell');
 
     this.placeOrderBuy$.asObservable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.tradeService.placeOrder({})
@@ -138,6 +92,36 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         .subscribe(() => {
         });
     });
+  }
+
+  private setAmountListener(form, type: 'buy' | 'sell'): void {
+    form.get('amount').valueChanges
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(),
+      )
+      .subscribe((v: number) => {
+        const total = type === 'buy' ? this.totalAmountBuy : this.totalAmountSell;
+        let val;
+
+        if (!v) {
+          val = 0;
+        } else {
+          val = total > 0 ? (v / total) * 100 : 100;
+        }
+
+        form.get('amountSlider').patchValue(val, {emitEvent: false});
+      });
+    form.get('amountSlider').valueChanges
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(),
+      )
+      .subscribe((v: number) => {
+        const total = type === 'buy' ? this.totalAmountBuy : this.totalAmountSell;
+        const val = v > 0 ? total * (v / 100) : 0;
+        form.get('amount').patchValue(val, {emitEvent: false});
+      });
   }
 
   ngOnDestroy(): void {
