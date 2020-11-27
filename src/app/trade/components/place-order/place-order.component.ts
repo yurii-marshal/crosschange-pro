@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TradeService } from '../../services/trade.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from 'shared-kuailian-lib';
-import { takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { marker as _ } from '@biesbjerg/ngx-translate-extract-marker';
 
@@ -31,13 +31,16 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   currentPair: string;
   triggerOrder: boolean;
 
-  totalAmountBuy = 0;
+  totalAmountBuy = 1000;
   totalAmountSell = 0;
 
   buyForm: FormGroup;
   sellForm: FormGroup;
 
-  rangeChange$: Subject<{ range: number, form: string }> = new Subject<{ range: number, form: string }>();
+  rangeChangeBuy: number;
+  rangeChangeSell: number;
+  rangeChangeBuy$: Subject<number> = new Subject<number>();
+  rangeChangeSell$: Subject<number> = new Subject<number>();
 
   onDestroy$: Subject<void> = new Subject<void>();
 
@@ -51,23 +54,30 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private tradeService: TradeService,
     private sessionService: SessionService,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
   ngOnInit(): void {
-    this.currentPair = this.route.snapshot.queryParams.pair;
+    this.currentPair = this.router.url.split('/').pop();
     this.user = this.sessionService.isAuthenticated;
 
     this.buyForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0), Validators.max(this.totalAmountBuy)]],
+      amountSlider: [],
     });
 
     this.sellForm = this.fb.group({
       amount: ['', [Validators.required, Validators.min(0), Validators.max(this.totalAmountSell)]],
+      amountSlider: [],
     });
+
+    this.setAmountListener(this.buyForm, 'buy');
+    this.setAmountListener(this.sellForm, 'sell');
 
     this.placeOrderBuy$.asObservable().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.tradeService.placeOrder({})
@@ -82,21 +92,35 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
         .subscribe(() => {
         });
     });
+  }
 
-    this.sellForm.get('amount').valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((v) => {
-        console.log(v);
+  private setAmountListener(form, type: 'buy' | 'sell'): void {
+    form.get('amount').valueChanges
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(),
+      )
+      .subscribe((v: number) => {
+        const total = type === 'buy' ? this.totalAmountBuy : this.totalAmountSell;
+        let val;
+
+        if (!v) {
+          val = 0;
+        } else {
+          val = total > 0 ? (v / total) * 100 : 100;
+        }
+
+        form.get('amountSlider').patchValue(val, {emitEvent: false});
       });
-
-    this.buyForm.get('amount').valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
-      });
-
-    this.rangeChange$.asObservable()
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe(() => {
+    form.get('amountSlider').valueChanges
+      .pipe(
+        takeUntil(this.onDestroy$),
+        distinctUntilChanged(),
+      )
+      .subscribe((v: number) => {
+        const total = type === 'buy' ? this.totalAmountBuy : this.totalAmountSell;
+        const val = v > 0 ? total * (v / 100) : 0;
+        form.get('amount').patchValue(val, {emitEvent: false});
       });
   }
 

@@ -8,6 +8,9 @@
   /*visibility: hidden;*/
   display: none;
 }
+.loading.loaded {
+  display: block;
+}
 .mat-stroked-button {
   color: $color-brand;
   border: none;

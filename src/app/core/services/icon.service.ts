@@ -74,6 +74,8 @@ const icons: string[] = [
   'icon_draggable',
   'icon_calendar',
   'icon_circle',
+  'icon_circle_green',
+  'icon_circle_red',
 ];
 
 @Injectable({

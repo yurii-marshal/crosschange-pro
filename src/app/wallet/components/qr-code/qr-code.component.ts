@@ -24,7 +24,8 @@ export class QrCodeComponent implements OnInit {
 
   constructor(
     private qrCodeService: QrCodeService,
-  ) {}
+  ) {
+  }
 
   setAddress(): void {
     if (this.currentWallet && this.currentWallet.cryptocurrency) {
@@ -48,6 +49,5 @@ export class QrCodeComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 
 }
