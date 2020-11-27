@@ -95,7 +95,7 @@
           <span class="property">{{currentPair | splitString: '/': 1}}</span>
         </div>
 
-        <app-linear-slider (ngModelChange)="rangeChange$.next($event)" [classList]="['buy']"></app-linear-slider>
+        <app-linear-slider [classList]="['buy']"></app-linear-slider>
 
         <div class="input-container" *ngIf="activeTab !== IPlaceOrder.Market">
           <span class="title">{{'place_order.total' | translate}}</span>
